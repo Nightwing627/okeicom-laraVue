@@ -17,14 +17,14 @@ https://readouble.com/laravel/8.x/ja/installation.html サーバ要件　より�
 >XML PHP拡張
 
 ## 構築手順
-* .env.exampleをコピーして.env作成
+* .env.exampleをコピーして.env作成<br>
 cp .env.example .env
 * .envのDB_XXXを環境に合わせて変更
-* 開発用Webサーバ起動
+* 開発用Webサーバ起動<br>
 (ビルトインサーバを使う場合)php artisan serve
-* 初回とpackage.json変更時のみ npmインストール
+* 初回とpackage.json変更時のみ npmインストール<br>
 npm install
-* Vueのビルド
+* Vueのビルド<br>
 npm run dev
-* 開発時にJSの変更のたびにトランスパイルしたい場合
+* 開発時にJSの変更のたびにトランスパイルしたい場合<br>
 npm run watch-poll
