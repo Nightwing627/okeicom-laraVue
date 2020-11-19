@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ManageCollection as ManageResource;
+use App\Http\Resources\ManageResource;
 use App\Models\Manage;
 use Illuminate\Http\Request;
 
@@ -13,12 +13,12 @@ class ManageController extends Controller
      * 管理者一覧
      *
      * @param Request $request
-     * @return ManageResource
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
         $manages = $query = Manage::all();
-        return new ManageResource($manages);
+        return ManageResource::collection($manages);
     }
 
     /**
@@ -36,11 +36,12 @@ class ManageController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return ManageResource
      */
-    public function show($id)
+    public function show(int $id)
     {
-        //
+        $manage = Manage::query()->find($id);
+        return new ManageResource($manage);
     }
 
     /**
