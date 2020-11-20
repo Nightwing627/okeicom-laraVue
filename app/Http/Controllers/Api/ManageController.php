@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Manage\StoreRequest;
 use App\Http\Resources\ManageResource;
+use App\Http\Resources\SuccessResource;
 use App\Models\Manage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ManageController extends Controller
 {
@@ -22,14 +25,21 @@ class ManageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 管理者の登録
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreRequest $request
+     * @return SuccessResource
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $Manage = new Manage();
+        $Manage->fill([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'authority' => $request->authority,
+        ])->save();
+        return new SuccessResource(null);
     }
 
     /**

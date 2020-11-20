@@ -19,4 +19,5 @@ use App\Http\Controllers\Api\ManageController;
 Route::prefix('manages')->group(function () {
     Route::get('/', [ManageController::class, 'index']);
     Route::get('/show/{id}', [ManageController::class, 'show']);
+    Route::post('store', [ManageController::class, 'store']);
 });
