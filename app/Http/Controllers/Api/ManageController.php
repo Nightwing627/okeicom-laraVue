@@ -75,13 +75,14 @@ class ManageController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 管理者の削除
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return SuccessResource
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        Manage::query()->find($id)->delete();
+        return new SuccessResource(null);
     }
 }
