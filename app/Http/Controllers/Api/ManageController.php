@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Manage\StoreRequest;
+use App\Http\Requests\Api\Manage\UpdateRequest;
 use App\Http\Resources\ManageResource;
 use App\Http\Resources\SuccessResource;
 use App\Models\Manage;
@@ -32,8 +33,8 @@ class ManageController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $Manage = new Manage();
-        $Manage->fill([
+        $manage = new Manage();
+        $manage->fill([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -55,15 +56,22 @@ class ManageController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 管理者の更新
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UpdateRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return SuccessResource
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, int $id)
     {
-        //
+        $manage = Manage::query()->find($id);
+        $manage->fill([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'authority' => $request->authority,
+        ])->save();
+        return new SuccessResource(null);
     }
 
     /**
