@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\Admin\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('top');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// 管理者認証
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 });
