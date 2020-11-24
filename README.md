@@ -17,6 +17,8 @@ https://readouble.com/laravel/8.x/ja/installation.html サーバ要件　より�
 >XML PHP拡張
 
 ## 構築手順
+* composerインストール<br>
+composer install
 * .env.exampleをコピーして.env作成<br>
 cp .env.example .env
 * .envのDB_XXXを環境に合わせて変更
