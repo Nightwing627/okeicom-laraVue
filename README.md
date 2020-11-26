@@ -1,32 +1,39 @@
 # おけい.com
-## 前提
-https://readouble.com/laravel/8.x/ja/installation.html サーバ要件　より抜粋
 
->Laravelフレームワークを動作させるには多少のシステム要件があります。Laravel Homestead仮想マシンでは、要求がすべて満たされています。そのため、Laravelのローカル開発環境としてHomesteadを活用されることを強く推奨します。
->しかし、Homesteadを使用しない場合は、以下の要件を満たす必要があります。
-
->PHP >= 7.3
->BCMath PHP拡張
->Ctype PHP拡張
->Fileinfo PHP拡張
->JSON PHP拡張
->Mbstring PHP拡張
->OpenSSL PHP拡張
->PDO PHP拡張
->Tokenizer PHP拡張
->XML PHP拡張
-
-## 構築手順
-* composerインストール<br>
-composer install
+## 構築手順(Docker)
+* git clone後、プロジェクトフォルダにCD
+* コンテナのビルド<br>
+docker-compose build
+* コンテナ起動<br>
+docker-compose up -d
+* PHPコンテナに接続<br>
+docker exec -it php bash
 * .env.exampleをコピーして.env作成<br>
 cp .env.example .env
-* .envのDB_XXXを環境に合わせて変更
-* 開発用Webサーバ起動<br>
-(ビルトインサーバを使う場合)php artisan serve
-* 初回とpackage.json変更時のみ npmインストール<br>
+* composerインストール<br>
+composer install
+* アプリケーションキーの生成<br>
+php artisan key:generate
+* .envの編集（DBの設定）<br>
+DB_HOST=mysql<br>
+DB_PORT=3306<br>
+DB_DATABASE=homestead<br>
+DB_USERNAME=homestead<br>
+DB_PASSWORD=secret<br>
+※パスワードリセットメールを使用する場合は以下も設定(メールサーバに合わせて変更してください)<br>
+MAIL_MAILER=smtp<br>
+MAIL_HOST=smtp.mailtrap.io<br>
+MAIL_PORT=2525<br>
+MAIL_USERNAME=xxx<br>
+MAIL_PASSWORD=yyy<br>
+MAIL_ENCRYPTION=tls<br>
+MAIL_FROM_ADDRESS=test@test.com<br>
+MAIL_FROM_NAME="${APP_NAME}"<br>
+* DBのマイグレーション<br>
+php artisan migrate
+* npmインストール<br>
 npm install
-* Vueのビルド<br>
+* Vue/Sassのビルド<br>
 npm run dev
 * 開発時にJSの変更のたびにトランスパイルしたい場合<br>
 npm run watch-poll
