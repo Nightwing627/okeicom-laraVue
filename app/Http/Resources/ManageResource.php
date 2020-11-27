@@ -18,7 +18,6 @@ class ManageResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'authority' => $this->authority,
         ];
     }
 }

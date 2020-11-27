@@ -20,7 +20,6 @@ class Manage extends Authenticatable
         'name',
         'email',
         'password',
-        'authority'
     ];
 
     /**

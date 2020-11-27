@@ -38,7 +38,6 @@ class ManageController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'authority' => $request->authority,
         ])->save();
         return new SuccessResource(null);
     }
@@ -69,7 +68,6 @@ class ManageController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'authority' => $request->authority,
         ])->save();
         return new SuccessResource(null);
     }

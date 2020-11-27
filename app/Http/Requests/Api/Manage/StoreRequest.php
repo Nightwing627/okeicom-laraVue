@@ -27,7 +27,6 @@ class StoreRequest extends AbstractApiFormRequest
             'name' => ['required', 'string', 'max:100'],
             'email' =>['required', 'string', 'max:255', 'email', 'unique:App\Models\Manage'],
             'password' => ['required', 'string', 'regex:/^[!-~]+$/', 'min:6'],
-            'authority' => ['required', 'numeric'],
         ];
     }
 
@@ -42,7 +41,6 @@ class StoreRequest extends AbstractApiFormRequest
             'name' => '管理者名',
             'email' => 'メールアドレス',
             'password' => 'パスワード',
-            'authority' => '管理者権限',
         ];
     }
 }
