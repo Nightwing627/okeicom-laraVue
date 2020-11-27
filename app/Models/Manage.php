@@ -34,15 +34,6 @@ class Manage extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    /**
      * 日付を変形する属性
      *
      * @var array
