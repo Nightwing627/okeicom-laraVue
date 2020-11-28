@@ -69,6 +69,6 @@ class LoginController extends Controller
      */
     public function loggedOut(Request $request)
     {
-        return redirect(route('top'));
+        return redirect(route('home'));
     }
 }
