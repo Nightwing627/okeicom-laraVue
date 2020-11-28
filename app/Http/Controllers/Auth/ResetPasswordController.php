@@ -26,5 +26,15 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/password-reset/complete';
+
+    /**
+     * パスワードリセット完了画面
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function complete()
+    {
+        return view('auth.passwords.complete');
+    }
 }

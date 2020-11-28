@@ -31,6 +31,7 @@ Route::get('password-reset', [UserForgotPassword::class, 'showLinkRequestForm'])
 Route::post('password-email', [UserForgotPassword::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password-reset/new/{token}', [UserResetPassword::class, 'showResetForm'])->name('password.reset');
 Route::post('password-reset/new', [UserResetPassword::class, 'reset'])->name('password.update');
+Route::get('password-reset/complete', [UserResetPassword::class, 'complete'])->name('password.complete');
 
 // 管理者認証
 Route::prefix('admin')->name('admin.')->group(function () {
