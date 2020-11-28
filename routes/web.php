@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\Admin\ResetPasswordController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,13 @@ Route::get('/', function () {
     return view('welcome');
 })->name('top');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// ユーザー認証
+Auth::routes([
+    'register' => false,
+    'reset'    => true,
+    'verify'   => false
+]);
 
 // 管理者認証
 Route::prefix('admin')->name('admin.')->group(function () {
