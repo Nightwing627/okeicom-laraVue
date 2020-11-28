@@ -1,11 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ManageController;
-use App\Http\Controllers\Auth\Admin\LoginController;
-use App\Http\Controllers\Auth\Admin\ForgotPasswordController;
-use App\Http\Controllers\Auth\Admin\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +16,6 @@ use App\Http\Controllers\Auth\Admin\ResetPasswordController;
 
 // 管理者認証
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::post('login', [ LoginController::class, 'login' ] )->name( 'login' );
-    Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-    Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
     Route::middleware('auth:sanctum')->group(function () {
         // 認証済みルート

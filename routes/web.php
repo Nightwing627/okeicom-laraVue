@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController as UserLogin;
+use App\Http\Controllers\Auth\Admin\LoginController as AdminLogin;
 use App\Http\Controllers\Auth\ForgotPasswordController as UserForgotPassword;
 use App\Http\Controllers\Auth\ResetPasswordController as UserResetPassword;
 use App\Http\Controllers\Auth\Admin\ResetPasswordController as AdminResetPassword;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +31,9 @@ Route::post('password-reset/new', [UserResetPassword::class, 'reset'])->name('pa
 Route::get('password-reset/complete', [UserResetPassword::class, 'complete'])->name('password.complete');
 
 // 管理者認証
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('owner-admin')->name('admin.')->group(function () {
+    Route::get('login', [AdminLogin::class, 'showLoginForm'])->name('login');
+    Route::post('login', [AdminLogin::class, 'login']);
+    Route::post('logout', [UserLogin::class, 'logout'])->name('logout');
     Route::get('password/reset/{token}', [AdminResetPassword::class, 'showResetForm'])->name('password.reset');
 });
