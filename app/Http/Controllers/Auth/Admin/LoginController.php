@@ -41,6 +41,14 @@ class LoginController extends Controller
     }
 
     /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function showLoginForm()
+    {
+        return view('auth.admin.login');
+    }
+
+    /**
      * Guardの認証方法を指定
      *
      * @return mixed
