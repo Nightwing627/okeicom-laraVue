@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController as UserLogin;
 use App\Http\Controllers\Auth\Admin\LoginController as AdminLogin;
 use App\Http\Controllers\Auth\ForgotPasswordController as UserForgotPassword;
+use App\Http\Controllers\Auth\RegisterController as UserRegister;
 use App\Http\Controllers\Auth\ResetPasswordController as UserResetPassword;
 use App\Http\Controllers\Auth\Admin\ResetPasswordController as AdminResetPassword;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,12 @@ Route::post('password-email', [UserForgotPassword::class, 'sendResetLinkEmail'])
 Route::get('password-reset/new/{token}', [UserResetPassword::class, 'showResetForm'])->name('password.reset');
 Route::post('password-reset/new', [UserResetPassword::class, 'reset'])->name('password.update');
 Route::get('password-reset/complete', [UserResetPassword::class, 'complete'])->name('password.complete');
+Route::get('sign-up', [UserRegister::class, 'showEmailVerifyForm'])->name('email.verify');
+Route::post('email-send', [UserRegister::class, 'emailVerify'])->name('email.verify.send');
+Route::get('email-send/complete', [UserRegister::class, 'completeEmailSend'])->name('email.send.complete');
+Route::get('sign-up/register/{token}', [UserRegister::class, 'showRegistrationForm'])->name('sign-up.show');
+Route::post('sign-up/register/{token}', [UserRegister::class, 'register'])->name('sign-up.store');
+Route::get('sign-up/complete', [UserRegister::class, 'completeRegister'])->name('sign-up.complete');
 
 // 管理者認証
 Route::prefix('owner-admin')->name('admin.')->group(function () {

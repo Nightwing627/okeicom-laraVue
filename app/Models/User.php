@@ -12,6 +12,13 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
 
+    const STATUS_STUDENT = 0;
+    const STATUS_TEACHER = 1;
+    const SEX_UNKNOWN = 0;
+    const SEX_MALE = 1;
+    const SEX_FEMALE = 2;
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,6 +28,25 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'account',
+        'status',
+        'sex',
+        'age',
+        'country_id',
+        'prefecture_id',
+        'language_id',
+        'img',
+        'profile',
+        'mailing',
+        'bank_type',
+        'bank_id',
+        'credit_id',
+        'category1_id',
+        'category2_id',
+        'category3_id',
+        'category4_id',
+        'category5_id',
+        'withdraw_reason',
     ];
 
     /**
@@ -50,4 +76,31 @@ class User extends Authenticatable
     protected $dates = [
         'deleted_at',
     ];
+
+    /**
+     * 現在の状態名称リストを連想配列で取得
+     *
+     * @return array
+     */
+    public static function getArrayStatuses()
+    {
+        return [
+            self::STATUS_STUDENT => __('UserStatusStudent'),
+            self::STATUS_TEACHER => __('UserStatusTeacher'),
+        ];
+    }
+
+    /**
+     * 性別の名称リストを連想配列で取得
+     *
+     * @return array
+     */
+    public static function getArraySexes()
+    {
+        return [
+            self::SEX_UNKNOWN => __('UserSexUnknown'),
+            self::SEX_MALE => __('UserSexMale'),
+            self::SEX_FEMALE => __('UserSexFemale'),
+        ];
+    }
 }
