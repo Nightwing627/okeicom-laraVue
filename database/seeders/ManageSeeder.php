@@ -6,7 +6,7 @@ use App\Models\Manage;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class ManageTableSeeder extends Seeder
+class ManageSeeder extends Seeder
 {
     /**
      * Run the database seeds.
