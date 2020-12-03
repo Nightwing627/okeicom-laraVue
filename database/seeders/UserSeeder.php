@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'ユーザー1',
                 'email' => 'user1@example.com',
-                'password' => 'secret1',
+                'password' => 'secret01',
                 'account' => 'user1',
                 'status' => 0,
                 'profile' => 'ユーザー1のプロフィール',
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'ユーザー2',
                 'email' => 'user2@example.com',
-                'password' => 'secret2',
+                'password' => 'secret02',
                 'account' => 'user2',
                 'status' => 0,
                 'profile' => 'ユーザー2のプロフィール',
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'ユーザー3',
                 'email' => 'user3@example.com',
-                'password' => 'secret3',
+                'password' => 'secret03',
                 'account' => 'user3',
                 'status' => 1,
                 'profile' => 'ユーザー3のプロフィール',
