@@ -40,5 +40,5 @@ Route::get('sign-up/complete', [UserRegister::class, 'completeRegister'])->name(
 Route::prefix('owner-admin')->name('admin.')->group(function () {
     Route::get('login', [AdminLogin::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminLogin::class, 'login']);
-    Route::post('logout', [UserLogin::class, 'logout'])->name('logout');
+    Route::post('logout', [AdminLogin::class, 'logout'])->name('logout');
 });
