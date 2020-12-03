@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Notifications\AdminPasswordResetNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -41,15 +40,4 @@ class Manage extends Authenticatable
     protected $dates = [
         'deleted_at',
     ];
-
-    /**
-     * Override to send for password reset notification.
-     *
-     * @param [type] $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new AdminPasswordResetNotification($token));
-    }
 }
