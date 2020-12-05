@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Manage;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class ManageSeeder extends Seeder
@@ -15,7 +16,9 @@ class ManageSeeder extends Seeder
      */
     public function run()
     {
-        $init_manages = [
+        DB::table('manages')->truncate();
+
+        $datas = [
             [
                 'name' => '管理者1',
                 'email' => 'manage1@example.com',
@@ -33,11 +36,11 @@ class ManageSeeder extends Seeder
             ],
         ];
 
-        foreach($init_manages as $init_manage) {
+        foreach($datas as $data) {
             $manage = new Manage();
-            $manage->name = $init_manage['name'];
-            $manage->email = $init_manage['email'];
-            $manage->password = Hash::make($init_manage['password']);
+            $manage->name = $data['name'];
+            $manage->email = $data['email'];
+            $manage->password = Hash::make($data['password']);
             $manage->save();
         }
     }
