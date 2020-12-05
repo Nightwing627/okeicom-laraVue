@@ -32,7 +32,7 @@ class EmailVerify extends Mailable
     public function build()
     {
         return $this
-            ->subject('【' . env('APP_NAME') . '】仮登録が完了しました')
+            ->subject('【' . Config('app.name') . '】仮登録が完了しました')
             ->view('auth.email.verify')
             ->with(['token' => $this->email_verification->url_token,]);
     }
