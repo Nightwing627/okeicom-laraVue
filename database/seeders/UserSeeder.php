@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -15,7 +16,9 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $init_users = [
+        DB::table('users')->truncate();
+
+        $datas = [
             [
                 'name' => 'ユーザー1',
                 'email' => 'user1@example.com',
@@ -45,15 +48,15 @@ class UserSeeder extends Seeder
             ],
         ];
 
-        foreach($init_users as $init_user) {
+        foreach($datas as $data) {
             $manage = new User();
-            $manage->name = $init_user['name'];
-            $manage->email = $init_user['email'];
-            $manage->password = Hash::make($init_user['password']);
-            $manage->account = $init_user['account'];
-            $manage->status = $init_user['status'];
-            $manage->profile = $init_user['profile'];
-            $manage->mailing = $init_user['mailing'];
+            $manage->name = $data['name'];
+            $manage->email = $data['email'];
+            $manage->password = Hash::make($data['password']);
+            $manage->account = $data['account'];
+            $manage->status = $data['status'];
+            $manage->profile = $data['profile'];
+            $manage->mailing = $data['mailing'];
             $manage->save();
         }
     }
