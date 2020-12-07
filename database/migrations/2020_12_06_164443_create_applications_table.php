@@ -21,8 +21,8 @@ class CreateApplicationsTable extends Migration
             $table->unsignedTinyInteger('status');
             $table->unsignedInteger('cancel_id')->nullable();
             $table->unsignedInteger('price');
-            $table->unsignedInteger('coupon_price');
-            $table->unsignedInteger('cancel_price');
+            $table->unsignedInteger('coupon_price')->nullable();
+            $table->unsignedInteger('cancel_price')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
