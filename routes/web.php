@@ -58,4 +58,7 @@ Route::prefix('mypage/t')->name('mypage.t.')->middleware(['auth', 'teacher'])->g
     Route::post('courses/update', [TeacherController::class, 'coursesUpdate'])->name('courses.update');
     Route::get('lessons/create/{courses_id}', [TeacherController::class, 'lessonsCreate'])->name('lessons.create');
     Route::post('lessons/store', [TeacherController::class, 'lessonsStore'])->name('lessons.store');
+    Route::get('lesson-participation', [TeacherController::class, 'lessonsParticipation'])->name('lessons.participation');
+    Route::get('lesson-participation/{lessons_id}', [TeacherController::class, 'lessonParticipationUsers'])->name('lessons.participation.users');
+    Route::get('cancel-requests', [TeacherController::class, 'cancelRequests'])->name('cancel-requests');
 });

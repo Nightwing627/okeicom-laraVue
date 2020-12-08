@@ -120,4 +120,36 @@ class TeacherController extends Controller
         return redirect(route('mypage.t.courses.detail', ['courses_id' => $request->courses_id]));
     }
 
+    /**
+     * レッスン参加状況画面表示
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function lessonsParticipation(Request $request)
+    {
+        return view('teachers.lesson-participation');
+    }
+
+    /**
+     * レッスン参加ユーザ一覧表示
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function lessonParticipationUsers(Request $request)
+    {
+        return view('teachers.lesson-participation-users');
+    }
+
+    /**
+     * キャンセルリクエスト一覧表示
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function cancelRequests(Request $request)
+    {
+        return view('teachers.cancel-requests');
+    }
 }
