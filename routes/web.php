@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\Admin\LoginController as AdminLogin;
 use App\Http\Controllers\Auth\ForgotPasswordController as UserForgotPassword;
 use App\Http\Controllers\Auth\RegisterController as UserRegister;
 use App\Http\Controllers\Auth\ResetPasswordController as UserResetPassword;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,12 @@ Route::prefix('owner-admin')->name('admin.')->group(function () {
     Route::get('login', [AdminLogin::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminLogin::class, 'login']);
     Route::post('logout', [AdminLogin::class, 'logout'])->name('logout');
+});
+
+// レッスン
+Route::prefix('lessons')->name('lessons.')->group(function () {
+    Route::get('/', [LessonController::class, 'index'])->name('index');
+    Route::get('categories', [LessonController::class, 'category'])->name('categories');
 });
 
 // 講師管理画面
