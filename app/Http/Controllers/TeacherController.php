@@ -65,7 +65,7 @@ class TeacherController extends Controller
      * @param UpdateRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function coursesUpdate(UpdateRequest $request)
+    public function updateCourses(UpdateRequest $request)
     {
         $course = Course::query()->find($request->courses_id);
         if($request->has('save')) {
@@ -85,7 +85,7 @@ class TeacherController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function lessonsCreate(Request $request)
+    public function createLessons(Request $request)
     {
         $courses_id = $request->courses_id;
         $types = $this->lesson->getArrayTypes();
@@ -98,7 +98,7 @@ class TeacherController extends Controller
      * @param StoreRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function lessonsStore(StoreRequest $request)
+    public function storeLessons(StoreRequest $request)
     {
         $lesson = new Lesson();
         $lesson->fill([
