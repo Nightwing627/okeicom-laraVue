@@ -55,7 +55,10 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
 Route::prefix('mypage/t')->name('mypage.t.')->middleware(['auth', 'teacher'])->group(function () {
     Route::get('courses', [TeacherController::class, 'course'])->name('courses');
     Route::get('courses/detail/{courses_id}', [TeacherController::class, 'coursesDetail'])->name('courses.detail');
-    Route::post('courses/update', [TeacherController::class, 'coursesUpdate'])->name('courses.update');
-    Route::get('lessons/create/{courses_id}', [TeacherController::class, 'lessonsCreate'])->name('lessons.create');
-    Route::post('lessons/store', [TeacherController::class, 'lessonsStore'])->name('lessons.store');
+    Route::post('courses/update', [TeacherController::class, 'updateCourses'])->name('courses.update');
+    Route::get('lessons/create/{courses_id}', [TeacherController::class, 'createLessons'])->name('lessons.create');
+    Route::post('lessons/store', [TeacherController::class, 'storeLessons'])->name('lessons.store');
+    Route::get('lesson-participation', [TeacherController::class, 'lessonsParticipation'])->name('lessons.participation');
+    Route::get('lesson-participation/{lessons_id}', [TeacherController::class, 'lessonParticipationUsers'])->name('lessons.participation.users');
+    Route::get('cancel-requests', [TeacherController::class, 'cancelRequests'])->name('cancel-requests');
 });
