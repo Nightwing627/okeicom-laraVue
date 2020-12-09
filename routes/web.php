@@ -50,6 +50,20 @@ Route::prefix('owner-admin')->name('admin.')->group(function () {
 Route::prefix('lessons')->name('lessons.')->group(function () {
     Route::get('/', [LessonController::class, 'index'])->name('index');
     Route::get('categories', [LessonController::class, 'category'])->name('categories');
+    Route::middleware('auth')->group(function () {
+        Route::get('{id}/application', [LessonController::class, 'application'])->name('application');
+        Route::get('detail/credit-payment', [LessonController::class, 'paymentCredit'])->name('credit-payment');
+        Route::get('detail/application/error', [LessonController::class, 'errorApplication'])->name('application.error');
+        Route::get('detail/application/complete', [LessonController::class, 'completeApplication'])->name('application.complete');
+        Route::get('detail/cancel', [LessonController::class, 'cancel'])->name('cancel');
+        Route::post('detail/cancel', [LessonController::class, 'doCancel'])->name('cancel.do');
+        Route::get('detail/cancel/complete', [LessonController::class, 'completeCancel'])->name('cancel.complete');
+        Route::get('evaluation', [LessonController::class, 'createEvaluation'])->name('evaluation.create');
+        Route::post('evaluation', [LessonController::class, 'storeEvaluation'])->name('evaluation.update');
+        Route::get('evaluation/complete', [LessonController::class, 'completeEvaluation'])->name('evaluation.complete');
+    });
+    // ※ detail/{id} のルートは、detail/*** の各ルートの一番下に書くこと
+    Route::get('detail/{id}', [LessonController::class, 'detail'])->name('detail');
 });
 
 // 講師管理画面
