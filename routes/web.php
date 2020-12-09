@@ -5,7 +5,9 @@ use App\Http\Controllers\Auth\Admin\LoginController as AdminLogin;
 use App\Http\Controllers\Auth\ForgotPasswordController as UserForgotPassword;
 use App\Http\Controllers\Auth\RegisterController as UserRegister;
 use App\Http\Controllers\Auth\ResetPasswordController as UserResetPassword;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
@@ -111,3 +113,19 @@ Route::prefix('mypage/u')->name('mypage.u.')->middleware(['auth', 'student'])->g
     Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
     Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
 });
+
+// 静的ページ
+Route::name('pages.')->group(function () {
+    Route::get('news', [PageController::class, 'news' ])->name('news');
+    Route::get('news/detail/{id}', [PageController::class, 'newsDetail'])->name('news.detail');
+    Route::get('company', [PageController::class, 'company'])->name('company');
+    Route::get('terms-service', [PageController::class, 'termsService'])->name('terms-service');
+    Route::get('terms-point', [PageController::class, 'termsPoint'])->name('terms-point');
+    Route::get('terms-user', [PageController::class, 'termsUser'])->name('terms-user');
+    Route::get('terms-teacher', [PageController::class, 'termsTeacher'])->name('terms-teacher');
+    Route::get('tokushoho', [PageController::class, 'tokushoho'])->name('tokushoho');
+    Route::get('faq', [PageController::class, 'faq'])->name('faq');
+});
+// 問い合わせ
+Route::get('contact', [ContactController::class, 'contact'])->name('contact');
+Route::post('contact', [ContactController::class, 'doContact'])->name('contact.do');
