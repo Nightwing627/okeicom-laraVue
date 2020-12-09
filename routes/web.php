@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\Admin\LoginController as AdminLogin;
 use App\Http\Controllers\Auth\ForgotPasswordController as UserForgotPassword;
 use App\Http\Controllers\Auth\RegisterController as UserRegister;
 use App\Http\Controllers\Auth\ResetPasswordController as UserResetPassword;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PageController;
@@ -42,10 +43,22 @@ Route::post('sign-up/register/{token}', [UserRegister::class, 'register'])->name
 Route::get('sign-up/complete', [UserRegister::class, 'completeRegister'])->name('sign-up.complete');
 
 // 管理者認証
-Route::prefix('owner-admin')->name('admin.')->group(function () {
-    Route::get('login', [AdminLogin::class, 'showLoginForm'])->name('login');
-    Route::post('login', [AdminLogin::class, 'login']);
+Route::prefix('owner-admin')->name('admins.')->group(function () {
+    Route::middleware('guest')->group(function () {
+        Route::get('login', [AdminLogin::class, 'showLoginForm'])->name('login');
+        Route::post('login', [AdminLogin::class, 'login']);
+    });
     Route::post('logout', [AdminLogin::class, 'logout'])->name('logout');
+
+    Route::middleware('auth:admin')->group(function () {
+        // 認証後ページ
+        // ユーザ
+        Route::get('users', [AdminController::class, 'indexUsers'])->name('users.index');
+        Route::get('users/add', [AdminController::class, 'createUsers'])->name('users.create');
+        Route::post('users/store', [AdminController::class, 'storeUsers'])->name('users.store');
+        Route::get('users/edit', [AdminController::class, 'editUsers'])->name('users.edit');
+        Route::post('users/update', [AdminController::class, 'updateUsers'])->name('users.update');
+    });
 });
 
 // レッスン
