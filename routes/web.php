@@ -66,6 +66,12 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
     Route::get('detail/{id}', [LessonController::class, 'detail'])->name('detail');
 });
 
+// 講師一覧
+Route::prefix('teachers')->name('teachers.')->group(function () {
+    Route::get('/', [TeacherController::class, 'index'])->name('index');
+    Route::get('category', [TeacherController::class, 'category'])->name('category');
+    Route::get('detail/{id}', [TeacherController::class, 'detail'])->name('detail');
+});
 // 講師管理画面
 Route::prefix('mypage/t')->name('mypage.t.')->middleware(['auth', 'teacher'])->group(function () {
     Route::get('courses', [TeacherController::class, 'course'])->name('courses');

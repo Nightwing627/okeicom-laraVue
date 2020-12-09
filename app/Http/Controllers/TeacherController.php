@@ -32,6 +32,39 @@ class TeacherController extends Controller
     }
 
     /**
+     * 講師一覧
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function index(Request $request)
+    {
+        return view('teachers.index');
+    }
+
+    /**
+     * カテゴリー一覧
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function category(Request $request)
+    {
+        return view('teachers.category');
+    }
+
+    /**
+     * 講師詳細
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function detail(Request $request)
+    {
+        return view('teachers.detail');
+    }
+
+    /**
      * コース一覧
      *
      * @param Request $request
