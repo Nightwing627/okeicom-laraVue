@@ -25,6 +25,12 @@ class UpdateRequest extends FormRequest
     {
         return [
             'courses_id' => ['required', 'numeric'],
+            'img1' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
+            'img2' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
+            'img3' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
+            'img4' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
+            'img5' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
+            'categories' => ['required', 'array', 'max:3'],
             'title' => ['required', 'string', 'max:255'],
             'detail' =>['nullable', 'string', 'max:255'],
         ];
@@ -39,8 +45,24 @@ class UpdateRequest extends FormRequest
     {
         return [
             'courses_id' => 'コースID',
+            'img1' => '画像１',
+            'img2' => '画像２',
+            'img3' => '画像３',
+            'img4' => '画像４',
+            'img5' => '画像５',
+            'categories' => 'カテゴリー',
             'title' => 'タイトル',
             'detail' => '詳細',
+        ];
+    }
+
+    /**
+     * @return array|string[]
+     */
+    public function messages()
+    {
+        return [
+            'categories.max' => 'カテゴリーは最大3つまで指定できます。',
         ];
     }
 }

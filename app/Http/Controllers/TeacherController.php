@@ -102,11 +102,13 @@ class TeacherController extends Controller
     {
         $course = Course::query()->find($request->courses_id);
         if($request->has('save')) {
-            $course->fill([
-                'title' => $request->title,
-                'detail' => $request->detail,
-            ])->save();
+            $course->title = $request->title;
+            $course->detail = $request->detail;
+            $course->saveCategories($request);
+            $course->saveImgs($request);
+            $course->save();
         } elseif ($request->has('delete')) {
+            $course->deleteImgs();
             $course->delete();
         }
         return redirect(route('mypage.t.courses'));
