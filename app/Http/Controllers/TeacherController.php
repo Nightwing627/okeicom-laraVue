@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\User;
+use App\Http\Requests\Course\StoreRequest as CourseStoreRequest;
 use App\Http\Requests\Course\UpdateRequest;
 use App\Http\Requests\Lesson\StoreRequest;
 use Illuminate\Http\Request;
@@ -78,6 +79,36 @@ class TeacherController extends Controller
     }
 
     /**
+     * コース作成ページ
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function createCourse(Request $request)
+    {
+        $categories = $this->category->getAll();
+        return view('teachers.course-create', compact('categories'));
+    }
+
+    /**
+     * コースの登録処理
+     *
+     * @param CourseStoreRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function storeCourse(CourseStoreRequest $request)
+    {
+        $course = new Course();
+        $course->user_id = Auth::user()->id;
+        $course->title = $request->title;
+        $course->detail = $request->detail;
+        $course->saveCategories($request);
+        $course->saveImgs($request);
+        $course->save();
+        return redirect(route('mypage.t.courses'));
+    }
+
+    /**
      * コース詳細
      *
      * @param Request $request
@@ -93,7 +124,7 @@ class TeacherController extends Controller
     }
 
     /**
-     * コースの保存/削除
+     * コースの更新/削除
      *
      * @param UpdateRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
