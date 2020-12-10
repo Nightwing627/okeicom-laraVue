@@ -6,10 +6,12 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\User;
-use App\Http\Requests\Course\UpdateRequest;
-use App\Http\Requests\Lesson\StoreRequest;
+use App\Http\Requests\Course\StoreRequest as CourseStoreRequest;
+use App\Http\Requests\Course\UpdateRequest as CourseUpdateRequest;
+use App\Http\Requests\Lesson\StoreRequest as LessonStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
@@ -78,6 +80,36 @@ class TeacherController extends Controller
     }
 
     /**
+     * コース作成ページ
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function createCourse(Request $request)
+    {
+        $categories = $this->category->getAll();
+        return view('teachers.course-create', compact('categories'));
+    }
+
+    /**
+     * コースの登録処理
+     *
+     * @param CourseStoreRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function storeCourse(CourseStoreRequest $request)
+    {
+        $course = new Course();
+        $course->user_id = Auth::user()->id;
+        $course->title = $request->title;
+        $course->detail = $request->detail;
+        $course->saveCategories($request);
+        $course->saveImgs($request);
+        $course->save();
+        return redirect(route('mypage.t.courses'));
+    }
+
+    /**
      * コース詳細
      *
      * @param Request $request
@@ -93,21 +125,28 @@ class TeacherController extends Controller
     }
 
     /**
-     * コースの保存/削除
+     * コースの更新/削除
      *
-     * @param UpdateRequest $request
+     * @param CourseUpdateRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function updateCourses(UpdateRequest $request)
+    public function updateCourses(CourseUpdateRequest $request)
     {
         $course = Course::query()->find($request->courses_id);
         if($request->has('save')) {
-            $course->fill([
-                'title' => $request->title,
-                'detail' => $request->detail,
-            ])->save();
+            // 更新
+            $course->title = $request->title;
+            $course->detail = $request->detail;
+            $course->saveCategories($request);
+            $course->saveImgs($request);
+            $course->save();
         } elseif ($request->has('delete')) {
-            $course->delete();
+            // 削除
+            DB::transaction(function () use ($course) {
+                $course->deleteImgs();
+                $this->lesson->deleteByCoursesId($course->id);
+                $course->delete();
+            });
         }
         return redirect(route('mypage.t.courses'));
     }
@@ -128,10 +167,10 @@ class TeacherController extends Controller
     /**
      * レッスンの登録
      *
-     * @param StoreRequest $request
+     * @param LessonStoreRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function storeLessons(StoreRequest $request)
+    public function storeLessons(LessonStoreRequest $request)
     {
         $lesson = new Lesson();
         $lesson->fill([

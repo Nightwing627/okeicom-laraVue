@@ -7,6 +7,11 @@
             @if ($common_cancel_count > 0)
                 未処理のキャンセルリクエストが{{ $common_cancel_count }}件あります。
             @endif
+            <div>
+                <a class="" href="{{ route('mypage.t.courses.create') }}">
+                    コースを追加する
+                </a>
+            </div>
             <h2>コース一覧</h2>
             @foreach($courses as $course)
                 <a href="{{ route('mypage.t.courses.detail', ['courses_id' => $course->id]) }}">

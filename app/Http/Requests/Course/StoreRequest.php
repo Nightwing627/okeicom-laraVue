@@ -4,7 +4,7 @@ namespace App\Http\Requests\Course;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,6 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'courses_id' => ['required', 'numeric'],
             'img1' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
             'img2' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
             'img3' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
@@ -44,7 +43,6 @@ class UpdateRequest extends FormRequest
     public function attributes()
     {
         return [
-            'courses_id' => 'コースID',
             'img1' => '画像１',
             'img2' => '画像２',
             'img3' => '画像３',

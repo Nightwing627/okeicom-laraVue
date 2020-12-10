@@ -90,6 +90,8 @@ Route::prefix('teachers')->name('teachers.')->group(function () {
 // 講師管理画面
 Route::prefix('mypage/t')->name('mypage.t.')->middleware(['auth', 'teacher'])->group(function () {
     Route::get('courses', [TeacherController::class, 'course'])->name('courses');
+    Route::get('courses/add', [TeacherController::class, 'createCourse'])->name('courses.create');
+    Route::post('courses/store', [TeacherController::class, 'storeCourse'])->name('courses.store');
     Route::get('courses/detail/{courses_id}', [TeacherController::class, 'coursesDetail'])->name('courses.detail');
     Route::post('courses/update', [TeacherController::class, 'updateCourses'])->name('courses.update');
     Route::get('lessons/create/{courses_id}', [TeacherController::class, 'createLessons'])->name('lessons.create');

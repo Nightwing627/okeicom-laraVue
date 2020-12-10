@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use app\Models\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 class Course extends Model
 {
@@ -43,6 +43,135 @@ class Course extends Model
             return "";
         } else {
             return Category::query()->find($this['category1_id'])['name'];
+        }
+    }
+
+    /**
+     * 画像1の公開パスを取得
+     * @return string
+     */
+    public function getPublicPathImg1Attribute()
+    {
+        return '/storage/courses/' . $this->img1;
+    }
+    /**
+     * 画像2の公開パスを取得
+     * @return string
+     */
+    public function getPublicPathImg2Attribute()
+    {
+        return '/storage/courses/' . $this->img2;
+    }
+    /**
+     * 画像3の公開パスを取得
+     * @return string
+     */
+    public function getPublicPathImg3Attribute()
+    {
+        return '/storage/courses/' . $this->img3;
+    }
+    /**
+     * 画像4の公開パスを取得
+     * @return string
+     */
+    public function getPublicPathImg4Attribute()
+    {
+        return '/storage/courses/' . $this->img4;
+    }
+    /**
+     * 画像5の公開パスを取得
+     * @return string
+     */
+    public function getPublicPathImg5Attribute()
+    {
+        return '/storage/courses/' . $this->img5;
+    }
+
+    /**
+     * 設定されているカテゴリーを配列で取得する
+     * @return array
+     */
+    public function getArrayConfiguredCategoriesAttribute()
+    {
+        return [
+            $this->category1_id,
+            $this->category2_id,
+            $this->category3_id,
+        ];
+    }
+
+    /**
+     * 画像保存判定。作成or削除or変更なし
+     */
+    public function saveImgs($request)
+    {
+        // 画像1
+        if ($request->hasFile('img1')) {
+            $this->img1 = basename(Storage::putFile(Config::get('const.image_path.course'), $request->file('img1')));
+        } elseif($request->img1_del == 1) {
+            Storage::delete(Config::get('const.image_path.course') . '/' . $this->img1);
+            $this->img1 = null;
+        }
+        // 画像2
+        if ($request->hasFile('img2')) {
+            $this->img2 = basename(Storage::putFile(Config::get('const.image_path.course'), $request->file('img2')));
+        } elseif($request->img2_del == 1) {
+            Storage::delete(Config::get('const.image_path.course') . '/' . $this->img2);
+            $this->img2 = null;
+        }
+        // 画像3
+        if ($request->hasFile('img3')) {
+            $this->img3 = basename(Storage::putFile(Config::get('const.image_path.course'), $request->file('img3')));
+        } elseif($request->img3_del == 1) {
+            Storage::delete(Config::get('const.image_path.course') . '/' . $this->img3);
+            $this->img3 = null;
+        }
+        // 画像4
+        if ($request->hasFile('img4')) {
+            $this->img4 = basename(Storage::putFile(Config::get('const.image_path.course'), $request->file('img4')));
+        } elseif($request->img4_del == 1) {
+            Storage::delete(Config::get('const.image_path.course') . '/' . $this->img4);
+            $this->img4 = null;
+        }
+        // 画像5
+        if ($request->hasFile('img5')) {
+            $this->img5 = basename(Storage::putFile(Config::get('const.image_path.course'), $request->file('img5')));
+        } elseif($request->img5_del == 1) {
+            Storage::delete(Config::get('const.image_path.course') . '/' . $this->img5);
+            $this->img5 = null;
+        }
+    }
+
+    /**
+     * カテゴリーの保存
+     *
+     * @param array $data
+     */
+    public function saveCategories($request) {
+        $this->category1_id = array_key_exists(0, $request->categories) ? (int)$request->categories[0] : null;
+        $this->category2_id = array_key_exists(1, $request->categories) ? (int)$request->categories[1] : null;
+        $this->category3_id = array_key_exists(2, $request->categories) ? (int)$request->categories[2] : null;
+    }
+
+    /**
+     * 画像削除
+     */
+    public function deleteImgs()
+    {
+        if ($this->img1) {
+            Storage::delete(Config::get('const.image_path.course') . '/' . $this->img1);
+        }
+        if ($this->img2) {
+            Storage::delete(Config::get('const.image_path.course') . '/' . $this->img2);
+        }
+        if ($this->img3) {
+            Storage::delete(Config::get('const.image_path.course') . '/' . $this->img3);
+        }
+        if ($this->img4) {
+            Storage::delete(Config::get('const.image_path.course') . '/' . $this->img4);
+        }
+        if ($this->img5) {
+            Storage::delete(Config::get('const.image_path.course') . '/' . $this->img5);
         }
     }
 
