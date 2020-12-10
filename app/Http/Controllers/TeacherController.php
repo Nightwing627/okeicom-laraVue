@@ -11,6 +11,7 @@ use App\Http\Requests\Course\UpdateRequest as CourseUpdateRequest;
 use App\Http\Requests\Lesson\StoreRequest as LessonStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
@@ -133,14 +134,19 @@ class TeacherController extends Controller
     {
         $course = Course::query()->find($request->courses_id);
         if($request->has('save')) {
+            // 更新
             $course->title = $request->title;
             $course->detail = $request->detail;
             $course->saveCategories($request);
             $course->saveImgs($request);
             $course->save();
         } elseif ($request->has('delete')) {
-            $course->deleteImgs();
-            $course->delete();
+            // 削除
+            DB::transaction(function () use ($course) {
+                $course->deleteImgs();
+                $this->lesson->deleteByCoursesId($course->id);
+                $course->delete();
+            });
         }
         return redirect(route('mypage.t.courses'));
     }

@@ -195,4 +195,14 @@ class Lesson extends Model
             ->orderBy('lessons.number')
             ->get();
     }
+
+    /**
+     * 指定コースのレッスンを削除
+     *
+     * @param int $courses_id
+     * @return mixed
+     */
+    public function deleteByCoursesId(int $courses_id) {
+        return self::query()->where('course_id', $courses_id)->delete();
+    }
 }
