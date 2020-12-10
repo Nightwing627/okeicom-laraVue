@@ -7,8 +7,8 @@ use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\User;
 use App\Http\Requests\Course\StoreRequest as CourseStoreRequest;
-use App\Http\Requests\Course\UpdateRequest;
-use App\Http\Requests\Lesson\StoreRequest;
+use App\Http\Requests\Course\UpdateRequest as CourseUpdateRequest;
+use App\Http\Requests\Lesson\StoreRequest as LessonStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -126,10 +126,10 @@ class TeacherController extends Controller
     /**
      * コースの更新/削除
      *
-     * @param UpdateRequest $request
+     * @param CourseUpdateRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function updateCourses(UpdateRequest $request)
+    public function updateCourses(CourseUpdateRequest $request)
     {
         $course = Course::query()->find($request->courses_id);
         if($request->has('save')) {
@@ -161,10 +161,10 @@ class TeacherController extends Controller
     /**
      * レッスンの登録
      *
-     * @param StoreRequest $request
+     * @param LessonStoreRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function storeLessons(StoreRequest $request)
+    public function storeLessons(LessonStoreRequest $request)
     {
         $lesson = new Lesson();
         $lesson->fill([
