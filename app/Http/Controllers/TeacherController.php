@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Lesson;
@@ -15,18 +16,21 @@ use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
+    private $application;
     private $course;
     private $category;
     private $lesson;
     private $user;
 
     public function __construct(
+        Application $application,
         Course $course,
         Category $category,
         Lesson $lesson,
         User $user
     )
     {
+        $this->application = $application;
         $this->course = $course;
         $this->category = $category;
         $this->lesson = $lesson;
@@ -200,7 +204,9 @@ class TeacherController extends Controller
      */
     public function lessonsParticipation(Request $request)
     {
-        return view('teachers.lesson-participation');
+        $lessons = $this->lesson->findByUsersIdGetApplicationCnt(Auth::user()->id);
+
+        return view('teachers.lesson-participation', compact('lessons'));
     }
 
     /**
@@ -211,7 +217,9 @@ class TeacherController extends Controller
      */
     public function lessonParticipationUsers(Request $request)
     {
-        return view('teachers.lesson-participation-users');
+        $users = $this->user->findByLessonsId($request->lessons_id, Auth::user()->id);
+
+        return view('teachers.lesson-participation-users', compact('users'));
     }
 
     /**
