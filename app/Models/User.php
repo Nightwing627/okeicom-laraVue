@@ -78,6 +78,29 @@ class User extends Authenticatable
     ];
 
     /**
+     * 性別の名称を取得
+     *
+     * @param $value
+     * @return array
+     */
+    public function getSexNameAttribute()
+    {
+        $sex_name = '';
+        switch ($this['sex']) {
+            case self::SEX_UNKNOWN:
+                $sex_name = __('UserSexUnknown');
+                break;
+            case self::SEX_MALE:
+                $sex_name =  __('UserSexMale');
+                break;
+            case self::SEX_FEMALE:
+                $sex_name =  __('UserSexFemale');
+                break;
+        }
+        return $sex_name;
+    }
+
+    /**
      * 現在の状態名称リストを連想配列で取得
      *
      * @return array
@@ -102,5 +125,27 @@ class User extends Authenticatable
             self::SEX_MALE => __('UserSexMale'),
             self::SEX_FEMALE => __('UserSexFemale'),
         ];
+    }
+
+    /**
+     * 指定レッスンの参加者一覧取得
+     *
+     * @param int $users_id
+     * @return array|\Illuminate\Database\Concerns\BuildsQueries[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function findByLessonsId(int $lessons_id, int $users_id)
+    {
+        return self::query()
+            ->select([
+                'users.*',
+                'prefectures.name as prefectures_name',
+            ])
+            ->join('applications', 'users.id', '=', 'applications.user_id')
+            ->join('lessons', 'applications.lesson_id', '=', 'lessons.id')
+            ->leftJoin('prefectures', 'users.prefecture_id', '=', 'prefectures.id')
+            ->where('lessons.user_id', $users_id)
+            ->where('applications.lesson_id', $lessons_id)
+            ->orderBy('applications.created_at', 'desc')
+            ->get();
     }
 }

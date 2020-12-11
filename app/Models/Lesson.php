@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use app\Models\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class Lesson extends Model
 {
@@ -204,5 +206,36 @@ class Lesson extends Model
      */
     public function deleteByCoursesId(int $courses_id) {
         return self::query()->where('course_id', $courses_id)->delete();
+    }
+
+    /**
+     * 指定ユーザのレッスン一覧取得。参加者人数を取得
+     *
+     * @param int $users_id
+     * @return array|\Illuminate\Database\Concerns\BuildsQueries[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function findByUsersIdGetApplicationCnt(int $users_id)
+    {
+        // レッスン別に参加人数を取得
+        $applications = Application::query()
+            ->select(
+               'applications.lesson_id',
+                DB::raw('count(*) as count')
+            )
+            ->join('lessons', 'applications.lesson_id', '=', 'lessons.id')
+            ->where('lessons.user_id', $users_id)
+            ->groupBy('applications.lesson_id');
+
+        return self::query()
+            ->select([
+                'lessons.*',
+                'applications.count as application_cnt'
+            ])
+            ->joinSub($applications, 'applications', function ($join) {
+                $join->on('lessons.id', '=', 'applications.lesson_id');
+            })
+            ->where('lessons.user_id', $users_id)
+            ->orderBy('lessons.date', 'desc')
+            ->get();
     }
 }
