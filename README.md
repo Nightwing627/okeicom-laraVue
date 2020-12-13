@@ -31,6 +31,8 @@ MAIL_FROM_ADDRESS=test@test.com<br>
 MAIL_FROM_NAME="${APP_NAME}"<br>
 * DBのマイグレーション<br>
 php artisan migrate
+* 画像保存フォルダへのシンボリックリンク作成<br>
+php artisan storage:link
 * npmインストール<br>
 npm install
 * Vue/Sassのビルド<br>
