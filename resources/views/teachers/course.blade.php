@@ -5,7 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             @if ($common_cancel_count > 0)
-                未処理のキャンセルリクエストが{{ $common_cancel_count }}件あります。
+                <a class="" href="{{ route('mypage.t.cancel-requests') }}">
+                   未処理のキャンセルリクエストが{{ $common_cancel_count }}件あります。
+                </a>
             @endif
             <div>
                 <a class="" href="{{ route('mypage.t.courses.create') }}">

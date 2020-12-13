@@ -99,6 +99,7 @@ Route::prefix('mypage/t')->name('mypage.t.')->middleware(['auth', 'teacher'])->g
     Route::get('lesson-participation', [TeacherController::class, 'lessonsParticipation'])->name('lessons.participation');
     Route::get('lesson-participation/{lessons_id}', [TeacherController::class, 'lessonParticipationUsers'])->name('lessons.participation.users');
     Route::get('cancel-requests', [TeacherController::class, 'cancelRequests'])->name('cancel-requests');
+    Route::post('cancel-requests', [TeacherController::class, 'doCancel'])->name('cancel.do');
 });
 
 // 受講者管理画面
