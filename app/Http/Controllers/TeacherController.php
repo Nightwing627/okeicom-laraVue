@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
+use App\Models\Cancel;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\User;
 use App\Http\Requests\Course\StoreRequest as CourseStoreRequest;
 use App\Http\Requests\Course\UpdateRequest as CourseUpdateRequest;
+use App\Http\Requests\Lesson\CancelRequest as LessonCancelRequest;
 use App\Http\Requests\Lesson\StoreRequest as LessonStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +21,7 @@ class TeacherController extends Controller
     private $application;
     private $course;
     private $category;
+    private $cancel;
     private $lesson;
     private $user;
 
@@ -26,6 +29,7 @@ class TeacherController extends Controller
         Application $application,
         Course $course,
         Category $category,
+        Cancel $cancel,
         Lesson $lesson,
         User $user
     )
@@ -33,6 +37,7 @@ class TeacherController extends Controller
         $this->application = $application;
         $this->course = $course;
         $this->category = $category;
+        $this->cancel = $cancel;
         $this->lesson = $lesson;
         $this->user = $user;
     }
@@ -230,6 +235,33 @@ class TeacherController extends Controller
      */
     public function cancelRequests(Request $request)
     {
-        return view('teachers.cancel-requests');
+        $cancels = $this->cancel->findByUsersId(Auth::user()->id);
+
+        return view('teachers.cancel-requests', compact('cancels'));
+    }
+
+    /**
+     * キャンセル実行
+     *
+     * @param LessonCancelRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function doCancel(LessonCancelRequest $request)
+    {
+        DB::transaction(function () use ($request) {
+            if ($request->has('save')) {
+                // 承認
+                foreach ($request->cancels as $id) {
+                    $this->cancel->approvalCancel($id);
+                }
+            } else {
+                // 拒否
+                foreach ($request->cancels as $id) {
+                    $this->cancel->rejectionCancel($id);
+                }
+            }
+        });
+
+        return redirect(route('mypage.t.cancel-requests'));
     }
 }
