@@ -20,6 +20,16 @@
     "Detail": "詳細",
     "Date": "日付",
     "Price": "金額",
+
+    "Menu Attendance Lesson": "受講レッスン",
+    "Menu Messages": "メッセージ",
+    "Menu Profile": "プロフィール",
+    "Menu CreditCard": "クレジットカード情報",
+    "Menu Bank": "銀行口座情報",
+    "Menu Trade": "入出金管理",
+    "Menu Search Lesson": "レッスンを探す",
+    "Menu Search Teacher": "講師を探す",
+
     "Cancel rate": "キャンセル手数料率",
     "Course URL": "URL",
     "Course Image": "画像",
