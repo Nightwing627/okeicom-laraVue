@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lesson;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
+    private $lesson;
+
+    public function __construct(
+        Lesson $lesson
+    )
+    {
+        $this->lesson = $lesson;
+    }
+
     /**
      * 受講者ダッシュボード
      *
@@ -18,14 +28,17 @@ class StudentController extends Controller
     }
 
     /**
-     * 受講者ダッシュボード
+     * 受講予定・受講済みレッスン一覧
      *
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function attendanceLessons(Request $request)
     {
-        return view('students.attendance-lessons');
+        $applications_status = $request->query('applications_status') == 1 ? 1 : 0;
+        $lessons = $this->lesson->findByAuthUsersId($applications_status);
+
+        return view('students.attendance-lessons', compact('lessons', 'applications_status'));
     }
 
     /**

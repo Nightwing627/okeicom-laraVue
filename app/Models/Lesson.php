@@ -6,6 +6,7 @@ use app\Models\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
@@ -196,6 +197,34 @@ class Lesson extends Model
             ->where('lessons.course_id', $courses_id)
             ->orderBy('lessons.number')
             ->get();
+    }
+
+    /**
+     * ログインユーザの受講レッスン一覧取得
+     *
+     * @param $applications_status
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function findByAuthUsersId(int $applications_status)
+    {
+        return self::query()
+            ->select([
+               'lessons.*',
+               'categories1.name as category1_name',
+               'categories2.name as category2_name',
+               'categories3.name as category3_name',
+               'users.img as user_img',
+            ])
+            ->join('courses', 'lessons.course_id', '=', 'courses.id')
+            ->join('applications', 'lessons.id', '=', 'applications.lesson_id')
+            ->join('users', 'lessons.user_id', '=', 'users.id')
+            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->where('applications.user_id', Auth::user()->id)
+            ->where('applications.status', $applications_status)
+            ->orderBy($applications_status == 1 ? 'applications.created_at' : 'lessons.created_at', 'desc')
+            ->paginate(Config::get('const.paginate.attendanceLesson'));
     }
 
     /**
