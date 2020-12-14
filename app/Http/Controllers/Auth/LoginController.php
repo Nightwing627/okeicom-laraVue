@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Jenssegers\Agent\Agent;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -36,5 +37,20 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * ログイン後のリダイレクト先。スマホかどうかで分岐
+     *
+     * @var string
+     */
+    public function redirectTo()
+    {
+        $agent = new Agent();
+        if($agent->isMobile()) {
+            return route('mypage.u.index');
+        } else {
+            return $this->redirectTo;
+        }
     }
 }
