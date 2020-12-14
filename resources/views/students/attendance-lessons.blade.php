@@ -18,7 +18,9 @@
                     {{ $lesson->separate_hyphen_time }}
                     {{ $lesson->separate_comma_price }}
                 </p>
-                <p>{{ $lesson->title }}</p>
+                <a class="" href="{{ route('lessons.detail', ['id' => $lesson->id]) }}">
+                    {{ $lesson->title }}
+                </a>
                 <p>{{ $lesson->detail }}</p>
                 <p>{{ $lesson->category1_name }} {{ $lesson->category2_name }} {{ $lesson->category3_name }}</p>
                 <p>{{ $lesson->user_name }}</p>
