@@ -4,7 +4,27 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h2>受講レッスン一覧</h2>
+            <a class="" href="{{ route('mypage.u.attendance-lessons', ['applications_status' => 0]) }}">
+                @if($applications_status == 1)@else●@endif 受講予定
+            </a>
+            <a class="" href="{{ route('mypage.u.attendance-lessons', ['applications_status' => 1]) }}">
+                @if($applications_status == 1)●@endif 受講済み
+            </a>
+
+            @foreach($lessons as $lesson)
+                <p>
+                    {{ $lesson->kanji_number }}
+                    {{ $lesson->add_week_date }}
+                    {{ $lesson->separate_hyphen_time }}
+                    {{ $lesson->separate_comma_price }}
+                </p>
+                <p>{{ $lesson->title }}</p>
+                <p>{{ $lesson->detail }}</p>
+                <p>{{ $lesson->category1_name }} {{ $lesson->category2_name }} {{ $lesson->category3_name }}</p>
+                <p>{{ $lesson->user_name }}</p>
+                <hr>
+            @endforeach
+            {{ $lessons->links('vendor.pagination.simple-tailwind') }}
         </div>
     </div>
 </div>
