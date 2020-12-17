@@ -108,7 +108,8 @@ Route::prefix('mypage/u')->name('mypage.u.')->middleware(['auth', 'student'])->g
     Route::get('attendance-lessons', [StudentController::class, 'attendanceLessons'])->name('attendance-lessons');
     // メッセージ
     Route::get('messages', [StudentController::class, 'messages'])->name('messages');
-    Route::get('messages/{user_receive_id}', [StudentController::class, 'messageDetail'])->name('messages.detail');
+    Route::post('messages', [StudentController::class, 'sendMessages'])->name('messages.send');
+    Route::get('messages/{partner_users_id}', [StudentController::class, 'messageDetail'])->name('messages.detail');
     // プロフィール
     Route::get('profile', [StudentController::class, 'profile'])->name('profile');
     Route::get('profile/password', [StudentController::class, 'editPassword'])->name('profile.password.edit');

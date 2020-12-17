@@ -13,6 +13,11 @@ return [
     // 画像保存フォルダ名(storage/appからの相対パス)
     'image_path' => [
         // コース
-        'course' => 'public/courses'
+        'course' => 'public/courses',
+    ],
+    // ファイル保存フォルダ名(storage/appからの相対パス)
+    'file_path' => [
+        // メッセージ
+        'message' => 'public/messages',
     ]
 ];
