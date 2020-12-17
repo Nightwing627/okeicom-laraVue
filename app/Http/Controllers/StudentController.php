@@ -2,18 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Message\SendRequest as MessageSendRequest;
 use App\Models\Lesson;
+use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Jenssegers\Agent\Agent;
 
 class StudentController extends Controller
 {
     private $lesson;
+    private $message;
 
     public function __construct(
-        Lesson $lesson
+        Lesson $lesson,
+        Message $message
     )
     {
         $this->lesson = $lesson;
+        $this->message = $message;
     }
 
     /**
@@ -49,7 +57,23 @@ class StudentController extends Controller
      */
     public function messages(Request $request)
     {
-        return view('students.messages');
+        $partner_users = $this->message->getUsersWithLatestMessage();
+        if ($request->query('partner_users_id')) {
+            $partner_users_id = $request->query('partner_users_id');
+        } else {
+            $partner_users_id = $partner_users->isEmpty() ? 0 : $partner_users[0]->users_id;
+        }
+        $message_details = $this->message->getConversation($partner_users_id);
+
+        // 既読に更新(PC)
+        $agent = new Agent();
+        if(!$agent->isMobile()) {
+            DB::transaction(function () use ($message_details) {
+                $this->message->saveRead($message_details);
+            });
+        }
+
+        return view('students.messages', compact('partner_users', 'message_details'));
     }
 
     /**
@@ -60,7 +84,38 @@ class StudentController extends Controller
      */
     public function messageDetail(Request $request)
     {
-        return view('students.message-detail');
+        $partner_users_id = $request->partner_users_id;
+        $message_details = $this->message->getConversation($partner_users_id);
+
+        // 既読に更新(スマホ)
+        DB::transaction(function () use ($message_details) {
+            $this->message->saveRead($message_details);
+        });
+
+        return view('students.message-detail', compact('message_details', 'partner_users_id'));
+    }
+
+    /**
+     * メッセージ送信処理
+     *
+     * @param MessageSendRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function sendMessages(MessageSendRequest $request)
+    {
+        $message = new Message();
+        $message->user_send_id = Auth::user()->id;
+        $message->user_receive_id = $request->partner_users_id;
+        $message->message_detail = $request->message_detail;
+        $message->saveImgs($request);
+        $message->save();
+
+        $agent = new Agent();
+        if($agent->isMobile()) {
+            return redirect(route('mypage.u.messages.detail', ['partner_users_id' => $message->user_receive_id ]));
+        } else {
+            return redirect(route('mypage.u.messages', ['partner_users_id' => $message->user_receive_id]));
+        }
     }
 
     /**
