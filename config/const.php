@@ -14,6 +14,8 @@ return [
     'image_path' => [
         // コース
         'course' => 'public/courses',
+        // プロフィール
+        'profile' => 'public/profile',
     ],
     // ファイル保存フォルダ名(storage/appからの相対パス)
     'file_path' => [

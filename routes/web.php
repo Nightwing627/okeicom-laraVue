@@ -112,6 +112,7 @@ Route::prefix('mypage/u')->name('mypage.u.')->middleware(['auth', 'student'])->g
     Route::get('messages/{partner_users_id}', [StudentController::class, 'messageDetail'])->name('messages.detail');
     // プロフィール
     Route::get('profile', [StudentController::class, 'profile'])->name('profile');
+    Route::post('profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');
     Route::get('profile/password', [StudentController::class, 'editPassword'])->name('profile.password.edit');
     Route::post('profile/password', [StudentController::class, 'updatePassword'])->name('profile.password.update');
     // 退会

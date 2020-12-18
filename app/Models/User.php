@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -125,6 +127,27 @@ class User extends Authenticatable
             self::SEX_MALE => __('UserSexMale'),
             self::SEX_FEMALE => __('UserSexFemale'),
         ];
+    }
+
+    /**
+     * プロフィール画像保存処理
+     */
+    public function saveImgs($request)
+    {
+        if ($request->hasFile('img')) {
+            if ($request->file('img')->isValid()) {
+                $this->img = basename(Storage::putFile(Config::get('const.image_path.profile'), $request->file('img')));
+            }
+        }
+    }
+
+    /**
+     * プロフィール画像の公開パスを取得
+     * @return string
+     */
+    public function getPublicPathImgAttribute()
+    {
+        return '/storage/profile/' . $this->img;
     }
 
     /**
