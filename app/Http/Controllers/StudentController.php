@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Message\SendRequest as MessageSendRequest;
+use App\Http\Requests\User\UpdateRequest as UserUpdateRequest;
 use App\Models\Lesson;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -119,14 +121,34 @@ class StudentController extends Controller
     }
 
     /**
-     * プロフィール
+     * プロフィール編集ページ
      *
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function profile(Request $request)
     {
-        return view('students.profile');
+        $user = User::query()->find(Auth::user()->id);
+        $sexes = User::getArraySexes();
+
+        return view('students.profile', compact('user', 'sexes'));
+    }
+
+    /**
+     * プロフィール更新処理
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function updateProfile(UserUpdateRequest $request)
+    {
+        $user = User::query()->find(Auth::user()->id);
+        $user->name = $request->name;
+        $user->profile = $request->profile;
+        $user->saveImgs($request);
+        $user->save();
+
+        return redirect(route('mypage.u.profile'));
     }
 
     /**
