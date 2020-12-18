@@ -8,6 +8,8 @@
     "Account": "アカウント名",
     "Name": "名前",
     "E-Mail Address": "メールアドレス",
+    "Old Password": "旧パスワード",
+    "New Password": "新パスワード",
     "Password": "パスワード",
     "Confirm Password": "パスワード確認用",
     "Profile": "プロフィール",
