@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Application extends Model
 {
@@ -16,4 +17,27 @@ class Application extends Model
     const STATUS_CANCEL_TEACHER = 3;    // 講師キャンセル（退会時も）
     const STATUS_CANCEL_ADMIN = 3;      // 運営キャンセル
 
+    /**
+     * 退会による申込状態の更新
+     */
+    public function updateStatusByWithdraw() {
+        // (受講者)正常な申込をキャンセルに
+        Application::query()
+            ->select(['applications.*'])
+            ->where('applications.user_id', Auth::user()->id)
+            ->where('applications.status', self::STATUS_NORMAL)
+            ->update([
+                'applications.status' => self::STATUS_CANCEL_STUDENT
+            ]);
+
+        // (講師)自身の開始前レッスンをキャンセルに
+        Application::query()
+            ->select(['applications.*'])
+            ->join('lessons', 'applications.lesson_id', 'lessons.id')
+            ->where('lessons.user_id', Auth::user()->id)
+            ->where('applications.status', self::STATUS_NORMAL)
+            ->update([
+                'applications.status' => self::STATUS_CANCEL_STUDENT
+            ]);
+    }
 }
