@@ -103,33 +103,36 @@ Route::prefix('mypage/t')->name('mypage.t.')->middleware(['auth', 'teacher'])->g
 });
 
 // 受講者管理画面
-Route::prefix('mypage/u')->name('mypage.u.')->middleware(['auth', 'student'])->group(function () {
-    Route::get('/', [StudentController::class, 'index'])->name('index');
-    Route::get('attendance-lessons', [StudentController::class, 'attendanceLessons'])->name('attendance-lessons');
-    // メッセージ
-    Route::get('messages', [StudentController::class, 'messages'])->name('messages');
-    Route::post('messages', [StudentController::class, 'sendMessages'])->name('messages.send');
-    Route::get('messages/{partner_users_id}', [StudentController::class, 'messageDetail'])->name('messages.detail');
-    // プロフィール
-    Route::get('profile', [StudentController::class, 'profile'])->name('profile');
-    Route::post('profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');
-    Route::get('profile/password', [StudentController::class, 'editPassword'])->name('profile.password.edit');
-    Route::post('profile/password', [StudentController::class, 'updatePassword'])->name('profile.password.update');
-    // 退会
-    Route::get('withdrawal', [StudentController::class, 'createWithdrawal'])->name('withdrawal.create');
-    Route::post('withdrawal', [StudentController::class, 'storeWithdrawal'])->name('withdrawal.store');
+Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
     Route::get('withdrawal/complete', [StudentController::class, 'completeWithdrawal'])->name('withdrawal.complete');
-    // クレジットカード
-    Route::get('creditcards', [StudentController::class, 'creditcards'])->name('creditcards');
-    Route::get('creditcards/add', [StudentController::class, 'createCreditcards'])->name('creditcards.create');
-    Route::post('creditcards/store', [StudentController::class, 'storeCreditcards'])->name('creditcards.store');
-    Route::get('creditcards/edit', [StudentController::class, 'editCreditcards'])->name('creditcards.edit');
-    Route::post('creditcards/update', [StudentController::class, 'updateCreditcards'])->name('creditcards.update');
-    // 入出金
-    Route::get('trade', [StudentController::class, 'trade'])->name('trade');
-    Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
-    Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
-    Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
+
+    Route::middleware(['auth', 'student'])->group(function () {
+        Route::get('/', [StudentController::class, 'index'])->name('index');
+        Route::get('attendance-lessons', [StudentController::class, 'attendanceLessons'])->name('attendance-lessons');
+        // メッセージ
+        Route::get('messages', [StudentController::class, 'messages'])->name('messages');
+        Route::post('messages', [StudentController::class, 'sendMessages'])->name('messages.send');
+        Route::get('messages/{partner_users_id}', [StudentController::class, 'messageDetail'])->name('messages.detail');
+        // プロフィール
+        Route::get('profile', [StudentController::class, 'profile'])->name('profile');
+        Route::post('profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');
+        Route::get('profile/password', [StudentController::class, 'editPassword'])->name('profile.password.edit');
+        Route::post('profile/password', [StudentController::class, 'updatePassword'])->name('profile.password.update');
+        // 退会
+        Route::get('withdrawal', [StudentController::class, 'createWithdrawal'])->name('withdrawal.create');
+        Route::post('withdrawal', [StudentController::class, 'storeWithdrawal'])->name('withdrawal.store');
+        // クレジットカード
+        Route::get('creditcards', [StudentController::class, 'creditcards'])->name('creditcards');
+        Route::get('creditcards/add', [StudentController::class, 'createCreditcards'])->name('creditcards.create');
+        Route::post('creditcards/store', [StudentController::class, 'storeCreditcards'])->name('creditcards.store');
+        Route::get('creditcards/edit', [StudentController::class, 'editCreditcards'])->name('creditcards.edit');
+        Route::post('creditcards/update', [StudentController::class, 'updateCreditcards'])->name('creditcards.update');
+        // 入出金
+        Route::get('trade', [StudentController::class, 'trade'])->name('trade');
+        Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
+        Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
+        Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
+    });
 });
 
 // 静的ページ

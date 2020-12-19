@@ -267,4 +267,16 @@ class Lesson extends Model
             ->orderBy('lessons.date', 'desc')
             ->get();
     }
+
+    /**
+     * 退会によるレッスン状態の更新
+     */
+    public function updateStatusByWithdraw() {
+        self::query()
+            ->where('lessons.user_id', Auth::user()->id)
+            ->where('lessons.status', self::STATUS_PLANS)
+            ->update([
+               'lessons.status' => self::STATUS_CANCEL_TEACHER
+            ]);
+    }
 }

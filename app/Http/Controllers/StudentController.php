@@ -8,6 +8,7 @@ use App\Http\Requests\User\PasswordUpdateRequest as UserPasswordUpdateRequest;
 use App\Models\Lesson;
 use App\Models\Message;
 use App\Models\User;
+use App\Models\Withdraw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,16 +20,19 @@ class StudentController extends Controller
     private $lesson;
     private $message;
     private $user;
+    private $withdraw;
 
     public function __construct(
         Lesson $lesson,
         Message $message,
-        User $user
+        User $user,
+        Withdraw $withdraw
     )
     {
         $this->lesson = $lesson;
         $this->message = $message;
         $this->user = $user;
+        $this->withdraw = $withdraw;
     }
 
     /**
@@ -202,7 +206,16 @@ class StudentController extends Controller
      */
     public function storeWithdrawal(Request $request)
     {
-        return redirect(route('withdrawal.complete'));
+        DB::transaction(function () {
+            $this->withdraw->executeWithdraw();
+        });
+
+        // ログアウト
+        Auth::guard()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect(route('mypage.u.withdrawal.complete'));
     }
 
     /**

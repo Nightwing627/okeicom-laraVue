@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +20,6 @@ class User extends Authenticatable
     const SEX_UNKNOWN = 0;
     const SEX_MALE = 1;
     const SEX_FEMALE = 2;
-
 
     /**
      * The attributes that are mass assignable.
@@ -170,5 +170,15 @@ class User extends Authenticatable
             ->where('applications.lesson_id', $lessons_id)
             ->orderBy('applications.created_at', 'desc')
             ->get();
+    }
+
+    /**
+     * ログイン中のユーザ削除
+     *
+     * @return bool|mixed|null
+     * @throws \Exception
+     */
+    public function deleteLoggedUser() {
+        return self::query()->find(Auth::user()->id)->delete();
     }
 }
