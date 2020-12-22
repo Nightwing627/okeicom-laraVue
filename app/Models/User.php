@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
@@ -147,7 +148,38 @@ class User extends Authenticatable
      */
     public function getPublicPathImgAttribute()
     {
-        return '/storage/profile/' . $this->img;
+        return $this->createProfilePublicPath($this->img);
+    }
+
+    /**
+     * プロフィール画像の公開パスを生成
+     *
+     * @param string $img
+     * @return string
+     */
+    public function createProfilePublicPath($img)
+    {
+        if ($img) {
+            return '/storage/profile/' . $img;
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * 講師の評価値を取得するクエリを取得
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getTeachersPointQuery()
+    {
+        // 講師別の評価値を集計
+        return Evaluation::query()
+             ->select(
+                 'evaluations.user_teacher_id',
+                 DB::raw('sum(evaluations.point) as sum_point')
+             )
+             ->groupBy('evaluations.user_teacher_id');
     }
 
     /**
@@ -180,5 +212,76 @@ class User extends Authenticatable
      */
     public function deleteLoggedUser() {
         return self::query()->find(Auth::user()->id)->delete();
+    }
+
+    /**
+     * 高評価の講師を取得
+     *
+     * @param int $users_id
+     * @return array|\Illuminate\Database\Concerns\BuildsQueries[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getPopularTeachers()
+    {
+        // 講師別の評価値を集計
+        $evaluations = $this->getTeachersPointQuery();
+
+        return self::query()
+            ->select([
+                'users.*',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'evaluations.sum_point as evaluations_sum_point',
+            ])
+            ->leftJoin('categories as categories1', 'users.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'users.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'users.category3_id', '=', 'categories3.id')
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            ->whereExists(function ($query) {
+                $query->select(DB::raw(1))
+                      ->from('lessons')
+                      ->whereRaw('lessons.user_id = users.id');
+            })
+            ->orderByDesc('evaluations.sum_point')
+            ->orderBy('users.created_at')
+            ->limit(Config::get('const.top_thumbnail_count'))
+            ->get();
+    }
+
+    /**
+     * 新着講師を取得
+     *
+     * @param int $users_id
+     * @return array|\Illuminate\Database\Concerns\BuildsQueries[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getNewArrivalTeachers()
+    {
+        // 講師別の評価値を集計
+        $evaluations = $this->getTeachersPointQuery();
+
+        return self::query()
+            ->select([
+                'users.*',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'evaluations.sum_point as evaluations_sum_point',
+            ])
+            ->leftJoin('categories as categories1', 'users.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'users.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'users.category3_id', '=', 'categories3.id')
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+               $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            ->whereExists(function ($query) {
+               $query->select(DB::raw(1))
+                     ->from('lessons')
+                     ->whereRaw('lessons.user_id = users.id');
+            })
+            ->orderByDesc('users.created_at')
+            ->limit(Config::get('const.top_thumbnail_count'))
+            ->get();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use app\Models\Application;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -110,6 +110,27 @@ class Lesson extends Model
     public function getSeparateCommaPriceAttribute()
     {
         return '¥' . number_format($this->price);
+    }
+
+    /**
+     * レッスンの講師プロフィール画像を取得
+     *
+     * @return string
+     */
+    public function getPublicPathUsersImgAttribute()
+    {
+        $user = new User();
+        return $user->createProfilePublicPath($this->users_img);
+    }
+
+    /**
+     * コース画像1の公開パスを取得
+     * @return string
+     */
+    public function getPublicPathCourseImg1Attribute()
+    {
+        $course = new Course();
+        return $course->createCoursePublicPath($this->courses_img1);
     }
 
     /**
@@ -278,5 +299,177 @@ class Lesson extends Model
             ->update([
                'lessons.status' => self::STATUS_CANCEL_TEACHER
             ]);
+    }
+
+    /**
+     * 本日のレッスンを取得
+     *
+     * @return array|\Illuminate\Database\Concerns\BuildsQueries[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getTodays()
+    {
+        // 講師別の評価値を集計
+        $user = new User();
+        $evaluations = $user->getTeachersPointQuery();
+
+        return self::query()
+            ->select([
+                'lessons.*',
+                'courses.img1 as courses_img1',
+                'courses.img2 as courses_img2',
+                'courses.img3 as courses_img3',
+                'courses.img4 as courses_img4',
+                'courses.img5 as courses_img5',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'users.img as users_img',
+                'evaluations.sum_point as evaluations_sum_point',
+            ])
+            ->join('courses', 'lessons.course_id', '=', 'courses.id')
+            ->join('users', 'lessons.user_id', '=', 'users.id')
+            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            ->whereDate('lessons.date', Carbon::now()->toDateString())
+            ->orderBy('lessons.start')
+            ->orderBy('lessons.finish')
+            ->orderBy('lessons.created_at')
+            ->limit(Config::get('const.top_thumbnail_count'))
+            ->get();
+    }
+
+    /**
+     * 人気のレッスンを取得
+     *
+     * @return array|\Illuminate\Database\Concerns\BuildsQueries[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getPopular()
+    {
+        // 講師別の評価値を集計
+        $user = new User();
+        $evaluations = $user->getTeachersPointQuery();
+
+        // レッスン別に参加人数を取得
+        $applications = Application::query()
+            ->select(
+               'applications.lesson_id',
+               DB::raw('count(*) as count')
+            )
+            ->join('lessons', 'applications.lesson_id', '=', 'lessons.id')
+            ->groupBy('applications.lesson_id');
+
+        return self::query()
+            ->select([
+                'lessons.*',
+                'courses.img1 as courses_img1',
+                'courses.img2 as courses_img2',
+                'courses.img3 as courses_img3',
+                'courses.img4 as courses_img4',
+                'courses.img5 as courses_img5',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'users.img as users_img',
+                'evaluations.sum_point as evaluations_sum_point',
+            ])
+            ->join('courses', 'lessons.course_id', '=', 'courses.id')
+            ->join('users', 'lessons.user_id', '=', 'users.id')
+            ->leftJoinSub($applications, 'applications', function ($join) {
+                $join->on('lessons.id', '=', 'applications.lesson_id');
+            })
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->where('lessons.status', self::STATUS_PLANS)
+            ->orderBy('applications.count', 'desc')
+            ->orderBy('lessons.created_at')
+            ->limit(Config::get('const.top_thumbnail_count'))
+            ->get();
+    }
+
+    /**
+     * 高評価のレッスンを取得
+     *
+     * @return array|\Illuminate\Database\Concerns\BuildsQueries[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getHighlyRated()
+    {
+        // 講師別の評価値を集計
+        $user = new User();
+        $evaluations = $user->getTeachersPointQuery();
+
+        return self::query()
+            ->select([
+                'lessons.*',
+                'courses.img1 as courses_img1',
+                'courses.img2 as courses_img2',
+                'courses.img3 as courses_img3',
+                'courses.img4 as courses_img4',
+                'courses.img5 as courses_img5',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'users.img as users_img',
+                'evaluations.sum_point as evaluations_sum_point',
+            ])
+            ->join('courses', 'lessons.course_id', '=', 'courses.id')
+            ->join('users', 'lessons.user_id', '=', 'users.id')
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+               $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
+            })
+            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->where('lessons.status', self::STATUS_PLANS)
+            ->orderBy('evaluations.sum_point', 'desc')
+            ->orderBy('lessons.created_at')
+            ->limit(Config::get('const.top_thumbnail_count'))
+            ->get();
+    }
+
+    /**
+     * 新着レッスンを取得
+     *
+     * @return array|\Illuminate\Database\Concerns\BuildsQueries[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getNewArrival()
+    {
+        // 講師別の評価値を集計
+        $user = new User();
+        $evaluations = $user->getTeachersPointQuery();
+
+        return self::query()
+            ->select([
+                'lessons.*',
+                'courses.img1 as courses_img1',
+                'courses.img2 as courses_img2',
+                'courses.img3 as courses_img3',
+                'courses.img4 as courses_img4',
+                'courses.img5 as courses_img5',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'users.img as users_img',
+                'evaluations.sum_point as evaluations_sum_point',
+            ])
+            ->join('courses', 'lessons.course_id', '=', 'courses.id')
+            ->join('users', 'lessons.user_id', '=', 'users.id')
+            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
+            })
+            ->where('lessons.status', self::STATUS_PLANS)
+            ->orderBy('lessons.created_at', 'desc')
+            ->limit(Config::get('const.top_thumbnail_count'))
+            ->get();
     }
 }
