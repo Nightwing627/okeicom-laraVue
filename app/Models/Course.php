@@ -93,9 +93,13 @@ class Course extends Model
      * @param string $img
      * @return string
      */
-    public function createCoursePublicPath(string $img)
+    public function createCoursePublicPath($img)
     {
-        return '/storage/courses/' . $img;
+        if ($img) {
+            return '/storage/courses/' . $img;
+        } else {
+            return '';
+        }
     }
 
     /**
