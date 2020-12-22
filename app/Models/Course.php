@@ -52,7 +52,7 @@ class Course extends Model
      */
     public function getPublicPathImg1Attribute()
     {
-        return '/storage/courses/' . $this->img1;
+        return $this->createCoursePublicPath($this->img1);
     }
     /**
      * 画像2の公開パスを取得
@@ -60,7 +60,7 @@ class Course extends Model
      */
     public function getPublicPathImg2Attribute()
     {
-        return '/storage/courses/' . $this->img2;
+        return $this->createCoursePublicPath($this->img2);
     }
     /**
      * 画像3の公開パスを取得
@@ -68,7 +68,7 @@ class Course extends Model
      */
     public function getPublicPathImg3Attribute()
     {
-        return '/storage/courses/' . $this->img3;
+        return $this->createCoursePublicPath($this->img3);
     }
     /**
      * 画像4の公開パスを取得
@@ -76,7 +76,7 @@ class Course extends Model
      */
     public function getPublicPathImg4Attribute()
     {
-        return '/storage/courses/' . $this->img4;
+        return $this->createCoursePublicPath($this->img4);
     }
     /**
      * 画像5の公開パスを取得
@@ -84,7 +84,18 @@ class Course extends Model
      */
     public function getPublicPathImg5Attribute()
     {
-        return '/storage/courses/' . $this->img5;
+        return $this->createCoursePublicPath($this->img5);
+    }
+
+    /**
+     * コース画像の公開パスを生成
+     *
+     * @param string $img
+     * @return string
+     */
+    public function createCoursePublicPath(string $img)
+    {
+        return '/storage/courses/' . $img;
     }
 
     /**
