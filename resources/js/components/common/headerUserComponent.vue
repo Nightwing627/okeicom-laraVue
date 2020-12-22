@@ -1,3 +1,4 @@
+<template>
 	<modal-search v-show="searchShow" @from-child="closeSearch">
 		<form action="">
 			<div class="l-modal--search__input">
@@ -29,8 +30,8 @@
 		<div class="l-flex">
 			<div class="header__left l-flex l-v__center">
 				<div class="header__logo">
-					<img class="sp-only" src="/public/img/okeicom-logo-square.png" alt="">
-					<img class="pc-only" src="/public/img/okeicom-logo-side.png">
+					<img class="sp-only" src="/img/okeicom-logo-square.png">
+					<img class="pc-only" src="/img/okeicom-logo-side.png">
 				</div>
 				<nav class="header__menu pc-only">
 					<ul class="l-flex">
@@ -55,14 +56,14 @@
 					</li>
 					<li>
 						<a @click="openDrawer">
-							<img src="/public/img/icon-header-menu-bold-pink.png" alt="ハンバーガーメニューアイコン">
+							<img src="/img/icon-header-menu-bold-pink.png" alt="ハンバーガーメニューアイコン">
 							<span>メニュー</span>
 						</a>
 					</li>
 					<li class="menu-profile">
 						<a class="c-img--shadow" @click.prevent="toggleMenuUser">
 							<div class="c-img--cover c-img--round">
-								<img src="/public/img/screen-top.jpg" alt="メニューアイコン">
+								<img src="/img/screen-top.jpg" alt="メニューアイコン">
 							</div>
 						</a>
 					</li>
@@ -81,14 +82,14 @@
 					<ul class="l-flex">
 						<li>
 							<a href="">
-								<img src="/public/img/icon-chat-pink.png" alt="チャットアイコン">
+								<img src="/img/icon-chat-pink.png" alt="チャットアイコン">
 								<span>チャット</span>
 							</a>
 						</li>
 						<li class="menu-profile">
 							<a class="c-img--shadow" @click.prevent="toggleMenuUser">
 								<div class="c-img--cover c-img--round">
-									<img src="/public/img/screen-top.jpg" alt="メニューアイコン">
+									<img src="/img/screen-top.jpg" alt="メニューアイコン">
 								</div>
 							</a>
 						</li>
@@ -96,5 +97,50 @@
 				</div>
 			</div>
 		</div>
-		<?php require_once($_SERVER['DOCUMENT_ROOT'] . '/resources/views/common/nav.php'); ?>
+		<nav-component></nav-component>
 	</header>
+</template>
+
+<script>
+	import NavComponent from './../../components/common/nav.vue'
+	export default {
+		components: {
+			'nav-component': NavComponent,
+		},
+		data() {
+			return {
+				drawerActive: false,
+				searchShow: false,
+				isMenuUser: false,
+			}
+		},
+		created: function() {
+		    // 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
+		},
+		computed: {},
+		methods: {
+
+			// 検索画面を開く
+			openSearch: function() {
+				this.searchShow = !this.searchShow
+			},
+			// 検索画面を閉じる
+			closeSearch: function() {
+				this.searchShow = false
+			},
+			// ドロワーを開く
+			openDrawer: function() {
+				this.drawerActive = true
+			},
+			// ドロワーを閉じる
+			closeDrawer: function() {
+				this.drawerActive = false
+			},
+			// ユーザーメニューを開く
+			toggleMenuUser: function() {
+				this.isMenuUser = !this.isMenuUser
+			},
+		},
+		watch: {},
+	}
+</script>

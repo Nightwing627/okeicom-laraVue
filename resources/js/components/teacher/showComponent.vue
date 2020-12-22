@@ -52,8 +52,8 @@
 					<div class="c-contentList__box" v-for="i in 10">
 						<a class="c-contentList__box__inner" href="">
 							<div class="c-contentList__box__img">
-								<div class="c-img--cover">
-									<img src="/public/img/screen-top.jpg">
+								<div class="c-img--cover c-img--round">
+									<img src="/img/screen-top.jpg">
 								</div>
 							</div>
 							<div class="c-contentList__box__info">
@@ -82,7 +82,7 @@
 							<div class="l-content--review--img u-mr20_pc u-mr10_sp">
 								<div class="c-img--shadow">
 									<div class="c-img--cover c-img--round">
-										<img src="/public/img/screen-top.jpg">
+										<img src="/img/screen-top.jpg">
 									</div>
 								</div>
 							</div>
@@ -90,7 +90,7 @@
 								<p class="u-mb5">TANAKA ATSUSHI</p>
 								<div class="c-text--evaluation">
 									<div class="star u-mr10">
-										<img src="/public/img/icon-star.png">
+										<img src="/img/icon-star.png">
 										<span class="evaluation">4</span>
 									</div>
 									<span class="u-color--gray u-text--small">2020-12-13 23:00</span>

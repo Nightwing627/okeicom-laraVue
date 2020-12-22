@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -46,6 +46,41 @@
                 </a>
             </div>
         </div>
+    </div>
+</div>
+@endsection --}}
+
+
+@extends('layouts.user')
+
+<!-- タイトル・メタディスクリプション -->
+@section('title', 'ダッシュボード')
+@section('description', '受講者ダッシュボード')
+
+<!-- CSS -->
+@push('css')
+<link rel="stylesheet" href="{{ asset('/css/foundation/single/dashboard.css') }}">
+@endpush
+
+<!-- 本文 -->
+@section('content')
+<div class="dashboard">
+    <div class="dashboard-content">
+        <div class="dashboard-content-list"><a href="">受講レッスン</a></div>
+        <div class="dashboard-content-list"><a href="">メッセージ</a></div>
+        <div class="dashboard-content-list"><a href="">プロフィール</a></div>
+        <div class="dashboard-content-list"><a href="">クレジットカード情報</a></div>
+        <div class="dashboard-content-list"><a href="">銀行口座情報</a></div>
+        <div class="dashboard-content-list"><a href="">入出金管理</a></div>
+    </div>
+    <div class="dashboard-content">
+        <div class="dashboard-content-list"><a href="">お知らせ</a></div>
+        <div class="dashboard-content-list"><a href="">運営にお問い合わせ</a></div>
+    </div>
+    <div class="dashboard-content">
+        <div class="dashboard-content-list"><a href="">レッスンを探す</a></div>
+        <div class="dashboard-content-list"><a href="">講師を探す</a></div>
+        <div class="dashboard-content-list"><a href="">ログアウト</a></div>
     </div>
 </div>
 @endsection

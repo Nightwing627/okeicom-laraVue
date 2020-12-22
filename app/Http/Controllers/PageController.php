@@ -38,10 +38,10 @@ class PageController extends Controller
      * @param Request $request
      * @return Factory|View
      */
-    public function company(Request $request)
-    {
-        return view('pages.company');
-    }
+    // public function company(Request $request)
+    // {
+    //     return view('pages.company');
+    // }
 
     /**
      * サービス規約ページ
@@ -99,13 +99,57 @@ class PageController extends Controller
     }
 
     /**
-     * よくある質問ページ
+     * 受講者よくある質問ページ
      *
      * @param Request $request
      * @return Factory|View
      */
-    public function faq(Request $request)
+    public function faqUser(Request $request)
     {
-        return view('pages.faq');
+        return view('pages.faq-user');
+    }
+
+    /**
+     * 講師よくある質問ページ
+     *
+     * @param Request $request
+     * @return Factory|View
+     */
+    public function faqTeacher(Request $request)
+    {
+        return view('pages.faq-teacher');
+    }
+
+    /**
+     * 流れ
+     *
+     * @param Request $request
+     * @return Factory|View
+     */
+    public function flow(Request $request)
+    {
+        return view('pages.flow');
+    }
+
+    /**
+     * 受講者キャンセルポリシー
+     *
+     * @param Request $request
+     * @return Factory|View
+     */
+    public function cancelUser(Request $request)
+    {
+        return view('pages.cancel-user');
+    }
+
+    /**
+     * 講師キャンセルポリシー
+     *
+     * @param Request $request
+     * @return Factory|View
+     */
+    public function cancelTeacher(Request $request)
+    {
+        return view('pages.cancel-teacher');
     }
 }

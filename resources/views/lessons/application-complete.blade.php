@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
     <div class="container">
@@ -8,4 +8,35 @@
             </div>
         </div>
     </div>
+@endsection
+ --}}
+
+@extends('layouts.single')
+
+<!-- タイトル・メタディスクリプション -->
+@section('title', 'クレジットカード決済 | おけいcom')
+@section('description', 'おけいcomのクレジットカード決済ページです。')
+
+<!-- CSS -->
+@push('css')
+<link rel="stylesheet" href="{{ asset('/css/foundation/single/lessonApplication.css') }}">
+@endpush
+
+<!-- 本文 -->
+@section('content')
+<div class="l-wrap--single">
+	<div class="l-wrap--title">
+		<h1 class="c-headline--screen">レッスン購入完了</h1>
+	</div>
+	<div class="l-wrap--body">
+		<div class="l-wrap--main l-wrap--detail">
+			<div class="l-content--detail">
+				<div class="l-content--detail__inner">
+					<p class="u-text--sentence u-mb20">購入が完了しました！</p>
+					<a href="" class="u-text--link">購入済みレッスン一覧へ</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection

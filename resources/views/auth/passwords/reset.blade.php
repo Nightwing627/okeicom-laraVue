@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -57,6 +57,49 @@
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection --}}
+
+
+
+
+
+@extends('layouts.single')
+
+<!-- タイトル・メタディスクリプション -->
+@section('title', 'パスワードリセット | おけいcom')
+@section('description', 'パスワードリセット')
+
+<!-- CSS -->
+@push('css')
+@endpush
+
+<!-- 本文 -->
+@section('content')
+<div class="l-wrap--single login">
+    <div class="l-wrap--title">
+        <h1 class="c-headline--screen u-textAlign__center">パスワード再登録</h1>
+    </div>
+    <div class="l-wrap--body">
+        <div class="l-wrap--main l-wrap--detail">
+            <div class="l-content--detail">
+                <div class="l-content--detail__inner">
+                    <div class="l-content--input">
+                        <p class="l-content--input__headline">新パスワード</p>
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                    </div>
+                    <div class="l-content--input">
+                        <p class="l-content--input__headline">確認用 新パスワード</p>
+                        <!-- 確認用パスワードを入力したい -->
+                    </div>
+                    <div class="l-button--submit">
+                        <button class="c-button--square__pink"　type="submit">パスワードを再登録</button>
+                        {{-- <input class="c-button--square__pink" type="subit" name="" value="パスワードを再登録"> --}}
+                    </div>
                 </div>
             </div>
         </div>

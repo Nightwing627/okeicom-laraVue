@@ -2,22 +2,26 @@ import { createApp } from 'vue'
 import App from './components/App.vue'
 // 共通
 import HeaderComponent from './components/common/headerComponent.vue'
+import HeaderUserComponent from './components/common/headerUserComponent.vue'
 import SidebarComponent from './components/common/sidebarComponent.vue'
-import DatepickerLite from "vue3-datepicker";
+import DatepickerLite from "vue3-datepicker"
 // 検索
 import SearchComponent from './components/search/indexComponent.vue'
 
 // レッスン：一覧
-import lessonIndexComponent from './components/lesson/indexComponent.vue'
+import LessonIndexComponent from './components/lesson/indexComponent.vue'
 // レッスン：詳細
-import lessonShowComponent from './components/lesson/showComponent.vue'
-// レッスン：予約
-import lessonApplicationComponent from './components/lesson/applicationComponent.vue'
+import LessonShowComponent from './components/lesson/showComponent.vue'
 
 // 講師：一覧
-import teacherIndexComponent from './components/teacher/indexComponent.vue'
+import TeacherIndexComponent from './components/teacher/indexComponent.vue'
 // 講師：詳細
-import teacherShowComponent from './components/teacher/showComponent.vue'
+import TeacherShowComponent from './components/teacher/showComponent.vue'
+
+// 固定ページ：受講者よくある質問
+import PageFaqUserComponent from './components/page/faqUserComponent.vue'
+// 固定ページ：講師よくある質問
+import PageFaqTeacherComponent from './components/page/faqTeacherComponent.vue'
 
 // レッスン：一覧
 createApp({
@@ -25,6 +29,7 @@ createApp({
 		App,
 		// 共通
 		'header-component': HeaderComponent,
+		'header-user-component': HeaderUserComponent,
 		'sidebar-component': SidebarComponent,
 		'vue-datapicker-lite': DatepickerLite,
 
@@ -32,14 +37,19 @@ createApp({
 		'search-component': SearchComponent,
 
 		// レッスン：一覧
-		'lesson-index-component': lessonIndexComponent,
+		'lesson-index-component': LessonIndexComponent,
 		// レッスン：詳細
-		'lesson-show-component': lessonShowComponent,
+		'lesson-show-component': LessonShowComponent,
 
 		// 講師：一覧
-		'teacher-index-component': teacherIndexComponent,
+		'teacher-index-component': TeacherIndexComponent,
 		// 講師：詳細
-		'teacher-show-component': teacherShowComponent,
+		'teacher-show-component': TeacherShowComponent,
+
+		// 受講者よくある質問
+		'page-faq-user-component': PageFaqUserComponent,
+		// 講師よくある質問
+		'page-faq-teacher-component': PageFaqTeacherComponent,
 	}
 }).mount('#app')
 

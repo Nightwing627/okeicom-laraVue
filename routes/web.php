@@ -71,6 +71,7 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
     Route::middleware('auth')->group(function () {
         // レッスン：予約
         Route::get('{id}/application', [LessonController::class, 'application'])->name('application');
+        // 決済画面
         Route::get('detail/credit-payment', [LessonController::class, 'paymentCredit'])->name('credit-payment');
         Route::get('detail/application/error', [LessonController::class, 'errorApplication'])->name('application.error');
         Route::get('detail/application/complete', [LessonController::class, 'completeApplication'])->name('application.complete');
@@ -144,13 +145,19 @@ Route::name('pages.')->group(function () {
     Route::get('news', [PageController::class, 'news' ])->name('news');
     Route::get('news', [PageController::class, 'news' ])->name('news');
     Route::get('news/detail/{id}', [PageController::class, 'newsDetail'])->name('news.detail');
-    Route::get('company', [PageController::class, 'company'])->name('company');
-    Route::get('terms-service', [PageController::class, 'termsService'])->name('terms-service');
-    Route::get('terms-point', [PageController::class, 'termsPoint'])->name('terms-point');
+
+    // Route::get('company', [PageController::class, 'company'])->name('company');
+    // Route::get('terms-service', [PageController::class, 'termsService'])->name('terms-service');
+    // Route::get('terms-point', [PageController::class, 'termsPoint'])->name('terms-point');
     Route::get('terms-user', [PageController::class, 'termsUser'])->name('terms-user');
     Route::get('terms-teacher', [PageController::class, 'termsTeacher'])->name('terms-teacher');
     Route::get('tokushoho', [PageController::class, 'tokushoho'])->name('tokushoho');
-    Route::get('faq', [PageController::class, 'faq'])->name('faq');
+    Route::get('faq-user', [PageController::class, 'faqUser'])->name('faq-user');
+    Route::get('faq-teacher', [PageController::class, 'faqTeacher'])->name('faq-teacher');
+    // キャンセルポリシー
+    Route::get('cancel-user', [PageController::class, 'cancelUser'])->name('cancel-user');
+    Route::get('cancel-teacher', [PageController::class, 'cancelTeacher'])->name('cancel-teacher');
+    Route::get('flow', [PageController::class, 'flow'])->name('flow');
 });
 // 検索
 Route::get('search', [SearchController::class, 'index'])->name('index');
