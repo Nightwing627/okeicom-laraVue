@@ -11,8 +11,13 @@ import SearchComponent from './components/search/indexComponent.vue'
 import lessonIndexComponent from './components/lesson/indexComponent.vue'
 // レッスン：詳細
 import lessonShowComponent from './components/lesson/showComponent.vue'
-// 講師：詳細
+// レッスン：予約
+import lessonApplicationComponent from './components/lesson/applicationComponent.vue'
+
+// 講師：一覧
 import teacherIndexComponent from './components/teacher/indexComponent.vue'
+// 講師：詳細
+import teacherShowComponent from './components/teacher/showComponent.vue'
 
 // レッスン：一覧
 createApp({
@@ -31,10 +36,13 @@ createApp({
 		// レッスン：詳細
 		'lesson-show-component': lessonShowComponent,
 
-		// teacherIndexComponent
+		// 講師：一覧
 		'teacher-index-component': teacherIndexComponent,
+		// 講師：詳細
+		'teacher-show-component': teacherShowComponent,
 	}
 }).mount('#app')
+
 
 // サンプル
 // Vue.component('header-component', require('./components/common/headerComponent.vue').default);

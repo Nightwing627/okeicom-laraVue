@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
+<!-- タイトル・メタディスクリプション -->
+@section('title', '講師詳細 | おけいcom')
+@section('description', 'おけいcomの講師詳細ページ概要です。')
+
+<!-- CSS -->
+@push('css')
+<link rel="stylesheet" href="{{ asset('/css/foundation/single/teacherDetail.css') }}">
+@endpush
+
+<!-- 本文 -->
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h2>講師詳細</h2>
-        </div>
-    </div>
-</div>
+    <teacher-show-component></teacher-show-component>
 @endsection
