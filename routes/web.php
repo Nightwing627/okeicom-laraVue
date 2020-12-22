@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController as UserRegister;
 use App\Http\Controllers\Auth\ResetPasswordController as UserResetPassword;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\StudentController;
@@ -23,7 +24,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // ユーザー認証
@@ -63,9 +63,13 @@ Route::prefix('owner-admin')->name('admins.')->group(function () {
 
 // レッスン
 Route::prefix('lessons')->name('lessons.')->group(function () {
+    // レッスン：一覧
     Route::get('/', [LessonController::class, 'index'])->name('index');
+    // レッスン：カテゴリー別
     Route::get('categories', [LessonController::class, 'category'])->name('categories');
+    // レッスン：ログインが必須なページ
     Route::middleware('auth')->group(function () {
+        // レッスン：予約
         Route::get('{id}/application', [LessonController::class, 'application'])->name('application');
         Route::get('detail/credit-payment', [LessonController::class, 'paymentCredit'])->name('credit-payment');
         Route::get('detail/application/error', [LessonController::class, 'errorApplication'])->name('application.error');
@@ -77,7 +81,7 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
         Route::post('evaluation', [LessonController::class, 'storeEvaluation'])->name('evaluation.update');
         Route::get('evaluation/complete', [LessonController::class, 'completeEvaluation'])->name('evaluation.complete');
     });
-    // ※ detail/{id} のルートは、detail/*** の各ルートの一番下に書くこと
+    // レッスン：詳細（※ detail/{id} のルートは、detail/*** の各ルートの一番下に書くこと）
     Route::get('detail/{id}', [LessonController::class, 'detail'])->name('detail');
 });
 
@@ -138,6 +142,7 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
 // 静的ページ
 Route::name('pages.')->group(function () {
     Route::get('news', [PageController::class, 'news' ])->name('news');
+    Route::get('news', [PageController::class, 'news' ])->name('news');
     Route::get('news/detail/{id}', [PageController::class, 'newsDetail'])->name('news.detail');
     Route::get('company', [PageController::class, 'company'])->name('company');
     Route::get('terms-service', [PageController::class, 'termsService'])->name('terms-service');
@@ -147,6 +152,9 @@ Route::name('pages.')->group(function () {
     Route::get('tokushoho', [PageController::class, 'tokushoho'])->name('tokushoho');
     Route::get('faq', [PageController::class, 'faq'])->name('faq');
 });
+// 検索
+Route::get('search', [SearchController::class, 'index'])->name('index');
+
 // 問い合わせ
 Route::get('contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('contact', [ContactController::class, 'doContact'])->name('contact.do');
