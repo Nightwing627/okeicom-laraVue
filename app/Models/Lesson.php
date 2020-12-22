@@ -82,6 +82,16 @@ class Lesson extends Model
     }
 
     /**
+     * 日付を月日フォーマット
+     *
+     * @return string
+     */
+    public function getFormatedMdDateAttribute()
+    {
+        return $this->date->format("n月j日");
+    }
+
+    /**
      * 日付に曜日を付加するフォーマット
      *
      * @return string
@@ -131,6 +141,15 @@ class Lesson extends Model
     {
         $course = new Course();
         return $course->createCoursePublicPath($this->courses_img1);
+    }
+
+    /**
+     * 講師の評価値を少数第一までにフォーマット
+     * @return string
+     */
+    public function getRoundAvgPointAttribute()
+    {
+        return round($this->evaluations_avg_point, 1);
     }
 
     /**
@@ -324,7 +343,7 @@ class Lesson extends Model
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
                 'users.img as users_img',
-                'evaluations.sum_point as evaluations_sum_point',
+                'evaluations.avg_point as evaluations_avg_point',
             ])
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
             ->join('users', 'lessons.user_id', '=', 'users.id')
@@ -374,7 +393,7 @@ class Lesson extends Model
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
                 'users.img as users_img',
-                'evaluations.sum_point as evaluations_sum_point',
+                'evaluations.avg_point as evaluations_avg_point',
             ])
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
             ->join('users', 'lessons.user_id', '=', 'users.id')
@@ -417,7 +436,7 @@ class Lesson extends Model
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
                 'users.img as users_img',
-                'evaluations.sum_point as evaluations_sum_point',
+                'evaluations.avg_point as evaluations_avg_point',
             ])
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
             ->join('users', 'lessons.user_id', '=', 'users.id')
@@ -428,7 +447,7 @@ class Lesson extends Model
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
             ->where('lessons.status', self::STATUS_PLANS)
-            ->orderBy('evaluations.sum_point', 'desc')
+            ->orderBy('evaluations.avg_point', 'desc')
             ->orderBy('lessons.created_at')
             ->limit(Config::get('const.top_thumbnail_count'))
             ->get();
@@ -457,7 +476,7 @@ class Lesson extends Model
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
                 'users.img as users_img',
-                'evaluations.sum_point as evaluations_sum_point',
+                'evaluations.avg_point as evaluations_avg_point',
             ])
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
             ->join('users', 'lessons.user_id', '=', 'users.id')

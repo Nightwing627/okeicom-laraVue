@@ -104,6 +104,15 @@ class User extends Authenticatable
     }
 
     /**
+     * 講師の評価値を少数第一までにフォーマット
+     * @return string
+     */
+    public function getRoundAvgPointAttribute()
+    {
+        return round($this->evaluations_avg_point, 1);
+    }
+
+    /**
      * 現在の状態名称リストを連想配列で取得
      *
      * @return array
@@ -177,7 +186,7 @@ class User extends Authenticatable
         return Evaluation::query()
              ->select(
                  'evaluations.user_teacher_id',
-                 DB::raw('sum(evaluations.point) as sum_point')
+                 DB::raw('avg(evaluations.point) as avg_point')
              )
              ->groupBy('evaluations.user_teacher_id');
     }
@@ -231,7 +240,7 @@ class User extends Authenticatable
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
-                'evaluations.sum_point as evaluations_sum_point',
+                'evaluations.avg_point as evaluations_avg_point',
             ])
             ->leftJoin('categories as categories1', 'users.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'users.category2_id', '=', 'categories2.id')
@@ -244,7 +253,7 @@ class User extends Authenticatable
                       ->from('lessons')
                       ->whereRaw('lessons.user_id = users.id');
             })
-            ->orderByDesc('evaluations.sum_point')
+            ->orderByDesc('evaluations.avg_point')
             ->orderBy('users.created_at')
             ->limit(Config::get('const.top_thumbnail_count'))
             ->get();
@@ -267,7 +276,7 @@ class User extends Authenticatable
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
-                'evaluations.sum_point as evaluations_sum_point',
+                'evaluations.avg_point as evaluations_avg_point',
             ])
             ->leftJoin('categories as categories1', 'users.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'users.category2_id', '=', 'categories2.id')
