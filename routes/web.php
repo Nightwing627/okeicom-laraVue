@@ -58,6 +58,8 @@ Route::prefix('owner-admin')->name('admins.')->group(function () {
         Route::post('users/store', [AdminController::class, 'storeUsers'])->name('users.store');
         Route::get('users/edit', [AdminController::class, 'editUsers'])->name('users.edit');
         Route::post('users/update', [AdminController::class, 'updateUsers'])->name('users.update');
+        // 出勤リクエスト
+        Route::get('withdraw/request', [AdminController::class, 'requestWithdraws'])->name('withdraws.request');
     });
 });
 

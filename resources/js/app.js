@@ -1,10 +1,12 @@
 import { createApp } from 'vue'
 import App from './components/App.vue'
+
 // 共通
 import HeaderComponent from './components/common/headerComponent.vue'
 import HeaderUserComponent from './components/common/headerUserComponent.vue'
 import SidebarComponent from './components/common/sidebarComponent.vue'
 import DatepickerLite from "vue3-datepicker"
+
 // 検索
 import SearchComponent from './components/search/indexComponent.vue'
 
@@ -22,6 +24,9 @@ import TeacherShowComponent from './components/teacher/showComponent.vue'
 import PageFaqUserComponent from './components/page/faqUserComponent.vue'
 // 固定ページ：講師よくある質問
 import PageFaqTeacherComponent from './components/page/faqTeacherComponent.vue'
+
+// 受講者管理画面：受講済みレッスン一覧
+import UserLessonComponent from './components/user/lessonComponent.vue'
 
 // レッスン：一覧
 createApp({
@@ -50,6 +55,9 @@ createApp({
 		'page-faq-user-component': PageFaqUserComponent,
 		// 講師よくある質問
 		'page-faq-teacher-component': PageFaqTeacherComponent,
+
+		// 受講者管理画面：受講済みレッスン一覧
+		'user-lesson-component' : UserLessonComponent,
 	}
 }).mount('#app')
 

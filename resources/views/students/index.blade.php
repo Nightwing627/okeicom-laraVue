@@ -66,6 +66,9 @@
 @section('content')
 <div class="dashboard">
     <div class="dashboard-content">
+        <div class="dashboard-content-list"><a href="">講師管理画面と切り替える</a></div>
+    </div>
+    <div class="dashboard-content">
         <div class="dashboard-content-list"><a href="">受講レッスン</a></div>
         <div class="dashboard-content-list"><a href="">メッセージ</a></div>
         <div class="dashboard-content-list"><a href="">プロフィール</a></div>

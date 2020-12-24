@@ -8,11 +8,13 @@
 		<main>
 			<div class="l-wrap--body">
 				<div class="l-wrap l-flex">
-					@include("../common/sidebar-user")
+					@unless(Request::is('mypage/u'))
+						@include("../common/sidebar-user")
+					@endunless
 					<div class="l-wrap--main">
 						<div class="l-wrap--title">
-							<p class="u-color--grayNavy u-text--small">>ユーザー管理画面</p>
-							<h1 class="c-headline--screen">>@yield('title')</h1>
+							<p class="u-color--grayNavy u-text--small">ユーザー管理画面</p>
+							<h1 class="c-headline--screen">@yield('title')</h1>
 						</div>
 						<div class="l-wrap--main--inner">
 							@yield('content')

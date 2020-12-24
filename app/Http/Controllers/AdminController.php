@@ -63,4 +63,16 @@ class AdminController extends Controller
         return redirect(route('admins.users.index'));
     }
 
+    /**
+     * 出金リクエスト
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function requestWithdraws(Request $request)
+    {
+        return view('admins.withdraws-request');
+    }
 }
+
+
