@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAeE,oCAA+C,CAejD,QAAS,CAEL,OAAO,CAAE,eAAe,EAX1B,oCAAiD,CAcnD,QAAS,CAEL,OAAO,CAAE,eAAe,EAI5B,GAAI,CACF,IAAI,CAAE,CAAC,CACP,oBACQ,CACN,OAAO,CAAE,EAAE,CACX,OAAO,CAAE,KAAK",
-"sources": ["u-hidden.scss"],
-"names": [],
-"file": "u-hidden.css"
-}

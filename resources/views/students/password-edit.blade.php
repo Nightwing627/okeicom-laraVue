@@ -1,4 +1,51 @@
-@extends('layouts.app')
+@extends('layouts.user')
+
+<!-- タイトル・メタディスクリプション -->
+@section('title', 'プロフィール')
+@section('description', 'プロフィール')
+
+<!-- CSS -->
+@push('css')
+<link rel="stylesheet" href="{{ asset('/css/foundation/single/teacher.css') }}">
+@endpush
+
+<!-- 本文 -->
+@section('content')
+    <div class="c-list--table">
+        <div class="c-list--tr">
+            <div class="c-list--th">
+                <p class="main">旧パスワード</p>
+            </div>
+            <div class="c-list--td">
+                <input type="" name="" class="c-input--fixed" disabled value="aaaa">
+            </div>
+        </div>
+        <div class="c-list--tr">
+            <div class="c-list--th">
+                <p class="main">新パスワード</p>
+                <p class="sub">英数字6文字以上です。</p>
+            </div>
+            <div class="c-list--td">
+                <input type="" name="" class="c-input--fixed" disabled value="aaaa">
+            </div>
+        </div>
+        <div class="c-list--tr">
+            <div class="c-list--th">
+                <p class="main">新パスワード確認用</p>
+            </div>
+            <div class="c-list--td">
+                <input type="" name="" class="c-input--fixed" disabled value="aaaa">
+            </div>
+        </div>
+    </div>
+    <div class="l-button--submit">
+        <input type="subit" name="" value="変更内容を保存する" class="c-button--square__pink">
+    </div>
+@endsection
+
+
+
+{{-- @extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -56,3 +103,4 @@
     </div>
 </div>
 @endsection
+ --}}

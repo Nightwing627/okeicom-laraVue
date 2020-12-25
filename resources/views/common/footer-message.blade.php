@@ -1,4 +1,6 @@
-<script src="/public/js/vue.js"></script>
+
+<script src="{{ mix('js/app.js') }}"></script>
+{{-- <script src="/public/js/vue.js"></script>
 <script src="/public/js/ofi.js"></script>
 <script src="https://unpkg.com/vuejs-datepicker"></script>
 <script>
@@ -104,4 +106,4 @@
 			},
 		}
 	})
-</script>
+</script> --}}

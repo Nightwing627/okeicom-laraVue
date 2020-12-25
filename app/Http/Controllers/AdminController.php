@@ -60,7 +60,41 @@ class AdminController extends Controller
      */
     public function updateUsers(Request $request)
     {
-        return redirect(route('admins.users.index'));
+        return redirect(route('admins.users-update'));
+    }
+
+    /**
+     * コース：一覧
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function indexCourses(Request $request)
+    {
+        return view('admins.courses-index');
+    }
+
+
+    /**
+     * コース；詳細
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function showCourses(Request $request)
+    {
+        return view('admins.courses-show');
+    }
+
+    /**
+     * メッセージ一覧
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function indexMessages(Request $request)
+    {
+        return view('admins.messages-index');
     }
 
     /**
@@ -72,6 +106,61 @@ class AdminController extends Controller
     public function requestWithdraws(Request $request)
     {
         return view('admins.withdraws-request');
+    }
+
+    /**
+     * 出金履歴
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function historyWithdraws(Request $request)
+    {
+        return view('admins.withdraws-history');
+    }
+
+    /**
+     * 取引(確定前)：一覧
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function indexDealsBefore(Request $request)
+    {
+        return view('admins.deals-before-index');
+    }
+
+    /**
+     * 取引(確定後)：一覧
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function indexDealsAfter(Request $request)
+    {
+        return view('admins.deals-after-index');
+    }
+
+    /**
+     * お知らせ：一覧
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function indexNews(Request $request)
+    {
+        return view('admins.news-index');
+    }
+
+    /**
+     * お知らせ：追加
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function createNews(Request $request)
+    {
+        return view('admins.news-create');
     }
 }
 

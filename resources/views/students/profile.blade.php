@@ -1,3 +1,23 @@
+@extends('layouts.user')
+
+<!-- タイトル・メタディスクリプション -->
+@section('title', 'プロフィール')
+@section('description', 'プロフィール')
+
+<!-- CSS -->
+@push('css')
+<link rel="stylesheet" href="{{ asset('/css/foundation/single/teacher.css') }}">
+@endpush
+
+<!-- 本文 -->
+@section('content')
+    <user-profile-component></user-profile-component>
+@endsection
+
+
+
+{{-- 
+
 @extends('layouts.app')
 
 @section('content')
@@ -81,8 +101,10 @@
                         </button>
                     </div>
                 </div>
+
             </form>
         </div>
     </div>
 </div>
 @endsection
+ --}}

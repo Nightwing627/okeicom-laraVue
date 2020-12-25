@@ -11,7 +11,7 @@
 			<a class="c-contentList__box__inner" href="">
 				<div class="c-contentList__box__img">
 					<div class="c-img--cover">
-						<img src="/public/img/screen-top.jpg">
+						<img src="/img/screen-top.jpg">
 					</div>
 				</div>
 				<div class="c-contentList__box__info">
@@ -38,7 +38,7 @@
 			<a class="c-contentList__box__inner" href="">
 				<div class="c-contentList__box__img">
 					<div class="c-img--cover">
-						<img src="/public/img/screen-top.jpg">
+						<img src="/img/screen-top.jpg">
 					</div>
 				</div>
 				<div class="c-contentList__box__info">

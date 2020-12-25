@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
     <div class="container">
@@ -9,4 +9,19 @@
             </div>
         </div>
     </div>
+@endsection --}}
+
+@extends('layouts.owner')
+
+<!-- タイトル・メタディスクリプション -->
+@section('title', 'ユーザー新規追加 | おけいcom')
+@section('description', 'ユーザー追加')
+
+<!-- CSS -->
+@push('css')
+@endpush
+
+<!-- 本文 -->
+@section('content')
+	<admin-user-create-component></admin-user-create-component>
 @endsection

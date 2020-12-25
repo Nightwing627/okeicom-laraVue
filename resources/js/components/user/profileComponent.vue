@@ -1,0 +1,173 @@
+<template>
+	<div class="c-list--table">
+	    <div class="c-list--tr">
+	        <div class="c-list--th">
+	            <p class="main">プロフィール画像</p>
+	        </div>
+	        <div class="c-list--td">
+	            <div class="c-img--preview u-ml0_pc">
+	                <div class="c-img--preview--image c-img--cover">
+	                    <img :src="data.image">
+	                </div>
+	                <span class="c-img--preview--button">
+	                    <div class="c-img--preview--button--inner">
+	                        <img src="/img/icon-camera-black.png">
+	                        <input type="file" ref="file" @change="setImage"/>
+	                    </div>
+	                </span>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="c-list--tr">
+	        <div class="c-list--th">
+	            <p class="main">アカウント名</p>
+	            <p class="sub">アカウント名は変更できません。</p>
+	        </div>
+	        <div class="c-list--td">
+	            <input type="" name="" class="c-input--fixed" disabled value="aaaa">
+	        </div>
+	    </div>
+	    <div class="c-list--tr">
+	        <div class="c-list--th">
+	            <p class="main">ユーザーネーム</p>
+	            <p class="sub">サイトに表示する名前です。<br>20文字以内です。</p>
+	        </div>
+	        <div class="c-list--td">
+	            <input type="" name="" value="中澤　寛">
+	        </div>
+	    </div>
+	    <div class="c-list--tr">
+	        <div class="c-list--th">
+	            <p class="main">パスワード</p>
+	        </div>
+	        <div class="c-list--td">
+	            <a href="" class="u-text--link">パスワードを変更する</a>
+	        </div>
+	    </div>
+	    <div class="c-list--tr">
+	        <div class="c-list--th">
+	            <p class="main">性別</p>
+	            <p class="sub">性別は変更できません。</p>
+	        </div>
+	        <div class="c-list--td">
+	            <input type="" name="" class="c-input--fixed" disabled value="男性">
+	        </div>
+	    </div>
+	    <div class="c-list--tr">
+	        <div class="c-list--th">
+	            <p class="main">国籍</p>
+	        </div>
+	        <div class="c-list--td">
+	            <input type="" name="" value="日本">
+	        </div>
+	    </div>
+	    <div class="c-list--tr">
+	        <div class="c-list--th">
+	            <p class="main">言語</p>
+	        </div>
+	        <div class="c-list--td">
+	            <input type="" name="" value="日本語">
+	        </div>
+	    </div>
+	    <div class="c-list--tr">
+	        <div class="c-list--th">
+	            <p class="main">都道府県</p>
+	        </div>
+	        <div class="c-list--td">
+	            <div class="c-selectBox">
+	                <select>
+	                    <option>東京</option>
+	                    <option>北海道</option>
+	                    <option>北海道</option>
+	                </select>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="c-list--tr">
+	        <div class="c-list--th">
+	            <p class="main">カテゴリー</p>
+	        </div>
+	        <div class="c-list--td">
+	            <div class="c-selectBox u-mb5">
+	                <select>
+	                    <option>カテゴリー1</option>
+	                    <option>カテゴリー2</option>
+	                    <option>カテゴリー3</option>
+	                </select>
+	            </div>
+	            <div class="c-selectBox u-mb5">
+	                <select>
+	                    <option>カテゴリー1</option>
+	                    <option>カテゴリー2</option>
+	                    <option>カテゴリー3</option>
+	                </select>
+	            </div>
+	            <div class="c-selectBox u-mb5">
+	                <select>
+	                    <option>カテゴリー1</option>
+	                    <option>カテゴリー2</option>
+	                    <option>カテゴリー3</option>
+	                </select>
+	            </div>
+	            <div class="c-selectBox u-mb5">
+	                <select>
+	                    <option>カテゴリー1</option>
+	                    <option>カテゴリー2</option>
+	                    <option>カテゴリー3</option>
+	                </select>
+	            </div>
+	            <div class="c-selectBox">
+	                <select>
+	                    <option>カテゴリー1</option>
+	                    <option>カテゴリー2</option>
+	                    <option>カテゴリー3</option>
+	                </select>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="c-list--tr">
+	        <div class="c-list--th">
+	            <p class="main">プロフィール</p>
+	            <p class="sub">1000文字以内です。</p>
+	        </div>
+	        <div class="c-list--td">
+	            <textarea value="あああ"></textarea>
+	        </div>
+	    </div>
+	</div>
+	<div class="l-button--submit">
+		<input type="subit" name="" value="変更内容を保存する" class="c-button--square__pink">
+	</div>
+</template>
+<script>
+	export default {
+        components: {
+        },
+		data() {
+			return {
+				data: {
+					image: "/img/sample-human.png",
+					name: "",
+				},
+			}
+		},
+		created: function() {
+			// 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
+
+		},
+		computed: {},
+		methods: {
+			// 新規登録の画像の反映
+			setImage(e) {
+				const files = this.$refs.file;
+				const fileImg = files.files[0];
+				if (fileImg.type.startsWith("image/")) {
+					this.data.image = window.URL.createObjectURL(fileImg);
+					this.data.name = fileImg.name;
+					this.data.type = fileImg.type;
+				}
+			},
+		},
+		watch: {},
+	}
+</script>

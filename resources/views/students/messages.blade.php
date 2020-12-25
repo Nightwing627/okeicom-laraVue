@@ -1,3 +1,58 @@
+@extends('layouts.user')
+
+<!-- タイトル・メタディスクリプション -->
+@section('title', 'メッセージ一覧')
+@section('description', 'メッセージ一覧')
+
+<!-- CSS -->
+@push('css')
+<link rel="stylesheet" href="{{ asset('/css/foundation/single/userMessage.css') }}">
+@endpush
+
+<!-- 本文 -->
+@section('content')
+    <div class="message-sidebar">
+        <?php for($i=0; $i < 5; $i++): ?>
+            <div class="message-sidebar-list-box l-flex l-v__center">
+                <div class="u-w40"><span class="u-color--red">未読</span></div>
+                <div class="u-w55">
+                    <div class="message-sidebar-list-box-img">
+                        <div class="c-img--cover">
+                            <img src="/img/screen-top.jpg">
+                        </div>
+                    </div>
+                </div>
+                <div class="u-wflex1">
+                    <p class="u-text--big">名前名前名前</p>
+                    <p class="u-color--gray u-mt5">本文本文本文本文本文本文本文本…</p>
+                </div>
+            </div>
+            <div class="message-sidebar-list-box l-flex l-v__center">
+                <div class="u-w40"><span class="u-color--gray">既読</span></div>
+                <div class="u-w55">
+                    <div class="message-sidebar-list-box-img">
+                        <div class="c-img--cover">
+                            <img src="/img/screen-top.jpg">
+                        </div>
+                    </div>
+                </div>
+                <div class="u-wflex1">
+                    <p class="u-text--big">名前名前名前</p>
+                    <p class="u-color--gray u-mt5">本文本文本文本文本文本文本文本…</p>
+                </div>
+            </div>
+        <?php endfor; ?>
+    </div>
+@endsection
+
+
+
+
+
+
+
+
+{{-- 
 @extends('layouts.app')
 
 @section('content')
@@ -104,3 +159,4 @@
     </div>
 </div>
 @endsection
+ --}}

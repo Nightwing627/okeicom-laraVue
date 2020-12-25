@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -74,3 +74,22 @@
     </div>
 </div>
 @endsection
+ --}}
+
+
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@include("../common/head")
+<link rel="stylesheet" href="{{ asset('/css/foundation/single/userMessage.css') }}">
+<body>
+    <div id="app" class="login-user l-message">
+        <header-user-component></header-user-component>
+        <main>
+            <div class="l-wrap--body">
+                <user-message-component></user-message-component>
+            </div>
+        </main>
+    </div>
+    @include("../common/footer-message")
+</body>
+</html>
