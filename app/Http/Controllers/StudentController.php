@@ -7,6 +7,7 @@ use App\Http\Requests\User\UpdateRequest as UserUpdateRequest;
 use App\Http\Requests\User\PasswordUpdateRequest as UserPasswordUpdateRequest;
 use App\Models\Lesson;
 use App\Models\Message;
+use App\Models\Payment;
 use App\Models\User;
 use App\Models\Withdraw;
 use Illuminate\Http\Request;
@@ -19,18 +20,21 @@ class StudentController extends Controller
 {
     private $lesson;
     private $message;
+    private $payment;
     private $user;
     private $withdraw;
 
     public function __construct(
         Lesson $lesson,
         Message $message,
+        Payment $payment,
         User $user,
         Withdraw $withdraw
     )
     {
         $this->lesson = $lesson;
         $this->message = $message;
+        $this->payment = $payment;
         $this->user = $user;
         $this->withdraw = $withdraw;
     }
@@ -292,7 +296,11 @@ class StudentController extends Controller
      */
     public function trade(Request $request)
     {
-        return view('students.trade');
+        $holding_amount = $this->payment->getHoldingAmount();
+        $trade_months = $this->payment->getMonths();
+        $trade_details = $this->payment->getDetail();
+
+        return view('students.trade', compact('holding_amount', 'trade_months', 'trade_details'));
     }
 
     /**
