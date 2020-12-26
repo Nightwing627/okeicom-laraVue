@@ -7,7 +7,11 @@ use App\Models\Cancel;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\Country;
+use App\Models\Language;
+use App\Models\Prefecture;
 use App\Models\User;
+use App\Models\Evaluation;
 use App\Http\Requests\Course\StoreRequest as CourseStoreRequest;
 use App\Http\Requests\Course\UpdateRequest as CourseUpdateRequest;
 use App\Http\Requests\Lesson\CancelRequest as LessonCancelRequest;
@@ -15,7 +19,9 @@ use App\Http\Requests\Lesson\StoreRequest as LessonStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Collection;
+use App\Http\Resources\TeacherResource;
+use Carbon\Carbon;
 class TeacherController extends Controller
 {
     private $application;
@@ -44,24 +50,125 @@ class TeacherController extends Controller
 
     /**
      * 講師一覧
-     *
+     * 基本的に処理はカテゴリーに委譲する。
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
-    {
-        return view('teachers.index');
+    {   
+        return $this->category($request);
     }
-
+    /**
+     * 並び替え
+     *
+     * @param Request $request
+     */
+    public function changeOrder(Request $request)
+    {
+        session(['order' => $request->input("order")]);
+         return redirect(url()->previous());
+    } 
     /**
      * カテゴリー一覧
      *
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function category(Request $request)
+    public function category(Request $request,$category=null)
     {
-        return view('teachers.category');
+        //一覧の表示。変える時はここをかえる
+         $limit=20;
+
+        //カテゴリー取得
+        $categories=Category::all();
+        //講師のみ
+        $query=User::where('status',User::STATUS_TEACHER);
+
+        //性別があれば性別で絞込
+        if($request->input("sex")){
+             $query->where("sex",$request->input("sex"));
+        }
+        //カテゴリがーあればor検索
+        if($category){
+             $query->where(function($query) use($category){
+                $query->where('category1_id', '=', $category)
+                      ->orWhere('category2_id', '=', $category)
+                      ->orWhere('category3_id', '=', $category)
+                      ->orWhere('category4_id', '=', $category)
+                      ->orWhere('category5_id', '=', $category);
+            });
+        }
+        //並び順取得
+        $order=session('order',0);
+        $users=$query->orderBy("id","desc")->get();
+        $count=$query->count();
+
+        //子要素取得
+        foreach ($users as $key => $user) {
+            $user["count"]=$user->countEvaluations();
+            $user->ave=round($user->averageEvaluationPoint(),1);
+            if($user->category1_id){
+                $user["cat1"]=Category::find($user->category1_id)->name;
+            }
+            if($user->category2_id){
+                $user["cat2"]=Category::find($user->category2_id)->name;
+            }
+            if($user->category3_id){
+                $user["cat3"]=Category::find($user->category3_id)->name;
+            }
+            if($user->category4_id){
+                $user["cat4"]=Category::find($user->category4_id)->name;
+            }
+            if($user->category5_id){
+                $user["cat5"]=Category::find($user->category5_id)->name;
+            }
+            $user->min_price=$user->getMinPrice();
+            $user->min_date=$user->getMinDate();
+            $user->joinCount=$user->getJoinCount();
+
+            $users[$key]=$user;
+        }
+        //ページング処理
+        $page=(int)$request->input("page");
+        if(!$page){
+            $page=1;
+        }
+        $start=$limit*($page-1)+1;
+        $end=$start+$limit;
+        if($end>$count){
+            $end=$count;
+        }
+        $page_cnt=floor($count/$limit)+1;
+        if($count%$limit==0){
+            $page_cnt--;
+        }
+        $selected_category=null;
+
+        //カテゴリーある場合はここで内容取得
+        if($category){
+           $selected_category=Category::find($category); 
+        }
+        
+
+        if($order==1){
+            $users = $users->sortBy('min_date');
+
+        }else if($order==2){
+            
+            $users = $users->sortByDesc('joinCount');
+
+        }else if($order==3){
+            $users = $users->sortByDesc('ave');
+
+        }else if($order==4){
+            $users = $users->sortBy('min_price');
+        }
+        $new_users=new Collection();
+        $new_users=$users->splice( $start-1,$limit);
+
+        //表示
+        return view('teachers.index',["users"=>$new_users,'categories'=>$categories,'count'=>$count,'order'=>$order,'sex'=>$request->input("sex"),'selected_category'=>$selected_category,'page'=>$page,'start'=>$start,'end'=>$end,'page_cnt'=>$page_cnt]);
+
     }
 
     /**
@@ -70,9 +177,86 @@ class TeacherController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function detail(Request $request)
+    public function detail(Request $request,$id)
     {
-        return view('teachers.detail');
+        //取得
+        $user=User::where("id",$id)->where('status',User::STATUS_TEACHER)->first();
+        //無い場合は404としておく
+        if(!$user){
+            abort(404);
+        }
+
+        //子要素取得
+        $user["count"]=$user->countEvaluations();
+        $user["ave"]=$user->averageEvaluationPoint();
+        if($user->category1_id){
+            $user["cat1"]=Category::find($user->category1_id)->name;
+        }
+        if($user->category2_id){
+            $user["cat2"]=Category::find($user->category2_id)->name;
+        }
+        if($user->category3_id){
+            $user["cat3"]=Category::find($user->category3_id)->name;
+        }
+        if($user->category4_id){
+            $user["cat4"]=Category::find($user->category4_id)->name;
+        }
+        if($user->category5_id){
+            $user["cat5"]=Category::find($user->category5_id)->name;
+        }
+        if($user->country_id){
+            $user["country"]=Country::where("id",$user->country_id)->value("name");
+        }
+        if($user->language_id){
+            $user["lang"]=Language::where("id",$user->language_id)->value("name");
+        }
+        if($user->prefecture_id){
+            $user["pref"]=Prefecture::where("id",$user->prefecture_id)->value("name");
+        }
+
+        //レッスン取得
+        $lessons=Lesson::where("user_id",$id)->where("status",Lesson::STATUS_PLANS)->where("public",0)->orderBy("date","asc")->get();
+        foreach ($lessons as $key => $lesson) {
+            $course=Course::find($lesson->course_id);
+            if($course){
+                if($course->category1_id){
+                    $lesson["cat1"]=Category::find($course->category1_id)->name;
+                }
+                if($course->category2_id){
+                    $lesson["cat2"]=Category::find($course->category2_id)->name;
+                }
+                if($course->category3_id){
+                    $lesson["cat3"]=Category::find($course->category3_id)->name;
+                }
+                if($course->category4_id){
+                    $lesson["cat4"]=Category::find($course->category4_id)->name;
+                }
+                if($course->category5_id){
+                    $lesson["cat5"]=Category::find($course->category5_id)->name;
+                } 
+                if($course->img1){
+                    $lesson["img"]=$course->img1;
+                }                
+            }
+            $lesson["price"]=number_format($lesson->price);
+            //日付の整形はバックエンドしておく
+            $lesson["date_format"]=Carbon::parse($lesson["date"])->isoFormat("MM/DD(ddd)");
+            $lesson["start_format"]=Carbon::parse($lesson["start"])->format("H:i");
+            $lesson["finish_format"]=Carbon::parse($lesson["finish"])->format("H:i");
+            $lessons[$key]=$lesson;
+        }
+        //評価取得
+        $evalutions=Evaluation::where("user_teacher_id",$id)->orderBy("id","desc")->get();
+        foreach ($evalutions as $key => $evalution) {
+            $evalution_user=User::find($evalution->user_student_id);
+            if($evalution_user){
+                $evalution["user_name"]=$evalution_user["name"];
+                $evalution["user_img"]=$evalution_user["img"];
+            }
+            $evalution["date"]=substr($evalution["created_at"], 0,10);
+            $evalutions[$key]=$evalution;
+        }
+        return view('teachers.detail',["user"=>$user,"lessons"=>$lessons,"evalutions"=>$evalutions]);
     }
 
     /**

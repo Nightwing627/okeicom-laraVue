@@ -4,32 +4,35 @@
 			<div class="teacherDetail-profile">
 				<div class="teacherDetail-profile-detail">
 					<div class="c-img--shadow">
-						<div class="c-img--cover c-img--round">
-							<img src="/img/screen-top.jpg">
+						<div class="c-img--cover c-img--round" v-if="user.img!=null">
+							<img v-bind:src="'/storage/courses/' + user.img">"
 						</div>
 					</div>
 					
-					<p class="u-text--big u-mb10">タイトル</p>
+					<p class="u-text--big u-mb10">{{ user.name }}</p>
 					<div class="c-text--evaluation u-mb5">
 						<div class="star">
 							<img src="/img/icon-star.png">
-							<span class="evaluation">4.8</span>
+							<span class="evaluation">{{ user.ave }}</span>
 						</div>
-						<p class="review">レビュー 12件</p>
+						<p class="review">レビュー {{ user.count }}件</p>
 					</div>
 					<ul class="c-text--category u-mb5">
-						<li>書道</li>
-						<li>バレエ</li>
+						<li  v-if="user.cat1!=null">{{ user.cat1 }}</li>
+						<li  v-if="user.cat2!=null">{{ user.cat2 }}</li>
+						<li  v-if="user.cat3!=null">{{ user.cat3 }}</li>
+						<li  v-if="user.cat4!=null">{{ user.cat4 }}</li>
+						<li  v-if="user.cat5!=null">{{ user.cat5 }}</li>
 					</ul>
 					<div class="teacherDetail-profile-detail-tab u-mb10">
-						<div class="tabBox"><span>国籍</span>日本</div>
-						<div class="tabBox"><span>言語</span>日本語</div>
-						<div class="tabBox"><span>都道府県</span>東京都</div>
+						<div class="tabBox"><span>国籍</span>{{ user.country }}</div>
+						<div class="tabBox"><span>言語</span>{{ user.lang }}</div>
+						<div class="tabBox"><span>都道府県</span>{{ user.pref }}</div>
 					</div>
 					<a href="" class="c-button--square__pink">メッセージを送る</a>
 				</div>
 				<div class="teacherDetail-profile-text">
-					<p class="u-text--sentence">講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細講師詳細</p>
+					<p class="u-text--sentence">{{ user.profile }}</p>
 				</div>
 			</div>
 		</div>
@@ -49,26 +52,30 @@
 			<div class="l-wrap--main">
 				<!-- tab：レッスン一覧 -->
 				<div class="l-contentList__list__wrap" v-if="isBarTab === '1'">
-					<div class="c-contentList__box" v-for="i in 10">
+					<div class="c-contentList__box" v-for="lesson in lessons">
 						<a class="c-contentList__box__inner" href="">
 							<div class="c-contentList__box__img">
-								<div class="c-img--cover c-img--round">
-									<img src="/img/screen-top.jpg">
-								</div>
+
+								<div class="c-img--cover c-img--round"  v-if="lesson.img!=null">
+										<img v-bind:src="'/storage/courses/' + lesson.img">"
+									</div>
 							</div>
 							<div class="c-contentList__box__info">
 								<div class="number l-flex">
 									<p class="other">
-										<span class="stage">第一回</span>
-										<span class="date">2/12(金) 17:00-20:00</span>
+										<span class="stage">第{{ lesson.number }}回</span>
+										<span class="date">{{ lesson.date_format }} {{ lesson.start_format }}-{{ lesson.finish_format }}</span>
 									</p>
-									<p class="price">￥3,000</p>
+									<p class="price">￥{{ lesson.price }}</p>
 								</div>
-								<p class="title">タイトルタイトルタイトルタイトルタイトルタイトル</p>
-								<p class="detail pc-only">詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細</p>
+								<p class="title">{{ lesson.title }}</p>
+								<p class="detail pc-only">{{ lesson.detail }}</p>
 								<div class="category">
-									<span>書道</span>
-									<span>バレエ</span>
+									<span v-if="lesson.cat1!=null">{{ lesson.cat1 }}</span>
+									<span v-if="lesson.cat2!=null">{{ lesson.cat2 }}</span>
+									<span v-if="lesson.cat3!=null">{{ lesson.cat3 }}</span>
+									<span v-if="lesson.cat4!=null">{{ lesson.cat4 }}</span>
+									<span v-if="lesson.cat5!=null">{{ lesson.cat5 }}</span>
 								</div>
 							</div>
 						</a>
@@ -77,26 +84,27 @@
 
 				<!-- tab：口コミ -->
 				<div class="l-list--review" v-else-if="isBarTab === '2'">
-					<div class="l-content--review" v-for="i in 10">
+					<div class="l-content--review" v-for="evalution in evalutions">
 						<div class="l-content--review--detail l-flex l-start">
 							<div class="l-content--review--img u-mr20_pc u-mr10_sp">
 								<div class="c-img--shadow">
-									<div class="c-img--cover c-img--round">
-										<img src="/img/screen-top.jpg">
+									<div class="c-img--cover c-img--round"  v-if="evalution.user_img!=null">
+										<img v-bind:src="'/storage/courses/' + evalution.user_img">"
 									</div>
+
 								</div>
 							</div>
 							<div class="l-content--review--text">
-								<p class="u-mb5">TANAKA ATSUSHI</p>
+								<p class="u-mb5">{{ evalution.user_name }}</p>
 								<div class="c-text--evaluation">
 									<div class="star u-mr10">
 										<img src="/img/icon-star.png">
-										<span class="evaluation">4</span>
+										<span class="evaluation">{{ evalution.point }}</span>
 									</div>
-									<span class="u-color--gray u-text--small">2020-12-13 23:00</span>
+									<span class="u-color--gray u-text--small">{{ evalution.date }}</span>
 								</div>
 								<div class="c-text--attention bg-gray u-mt15">
-									<p>レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細</p>
+									<p>{{ evalution.comment }}</p>
 								</div>
 							</div>
 						</div>
@@ -131,5 +139,10 @@
 			},
 		},
 		watch: {},
+		props: {
+            user: Array,
+            lessons: Array,
+            evalutions: Array,
+          },
 	}
 </script>

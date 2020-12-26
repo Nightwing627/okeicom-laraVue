@@ -293,4 +293,62 @@ class User extends Authenticatable
             ->limit(Config::get('const.top_thumbnail_count'))
             ->get();
     }
+
+
+        //以下二つは本来べつに作るべきかもしりないが利便性をかんがえuserに作成する
+    /**
+     * レビュー数を取得する
+     *
+     */
+    public function countEvaluations()
+    {
+        return Evaluation::where('user_teacher_id', $this->id)
+            ->count();
+    }
+
+
+
+    /**
+     * 平均ポイントを取得する
+     *
+     */
+    public function averageEvaluationPoint()
+    {
+        return Evaluation::where('user_teacher_id', $this->id)
+            ->avg('point');
+    }
+
+     /**
+     * 属するコースの最安値を取得する
+     *
+     */
+    public function getMinPrice()
+    {
+        return Lesson::where('user_id', $this->id)
+            ->min('price');
+    }
+
+      /**
+     * 属するコースの直近日を取得する
+     *
+     */
+    public function getMinDate()
+    {
+        return Lesson::where('user_id', $this->id)
+            ->min('date');
+    }
+
+    /**
+     * 参加人数を取得するる
+     *
+     */
+    public function getJoinCount()
+    {
+        return Application::where('status', Application::STATUS_NORMAL)->whereIn('lesson_id', function ($query) {
+                return $query->select('id')
+                             ->from('lessons')
+                             ->where('user_id',$this->id);
+            })->count();
+            
+    }
 }
