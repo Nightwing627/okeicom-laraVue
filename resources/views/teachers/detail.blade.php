@@ -11,5 +11,5 @@
 
 <!-- 本文 -->
 @section('content')
-    <teacher-show-component></teacher-show-component>
+    <teacher-show-component :user={{ $user }} :lessons={{ $lessons }} :evalutions={{ $evalutions }}></teacher-show-component>
 @endsection

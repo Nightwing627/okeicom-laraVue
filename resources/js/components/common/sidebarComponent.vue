@@ -2,28 +2,16 @@
 	<div id="sidebar">
 		<div class="headline pc-only"><p>カテゴリー</p></div>
 		<ul class="sidebar__list sp-only" v-if="isActiveCategory">
-			<li class="selected"><a href="">全て</a></li>
-			<li><a href="">家庭教師</a></li>
-			<li><a href="">アート・デザイン</a></li>
-			<li><a href="">語学</a></li>
-			<li><a href="">家庭教師</a></li>
-			<li><a href="">アート・デザイン</a></li>
-			<li><a href="">語学</a></li>
-			<li><a href="">家庭教師</a></li>
-			<li><a href="">アート・デザイン</a></li>
-			<li><a href="">語学</a></li>
+			<li class="selected" v-if="selected_category==''" ><a v-bind:href="link">全て</a></li>
+			<li  v-else ><a v-bind:href="link">全て</a></li>
+			<li v-bind:class="[category.id === selected_category.id ? 'selected': '']" v-for="category in categories"><a v-bind:href="link + category.id" >{{ category.name }}</a></li>
+
 		</ul>
 		<ul class="sidebar__list pc-only">
-			<li class="selected"><a href="">全て</a></li>
-			<li><a href="">家庭教師</a></li>
-			<li><a href="">アート・デザイン</a></li>
-			<li><a href="">語学</a></li>
-			<li><a href="">家庭教師</a></li>
-			<li><a href="">アート・デザイン</a></li>
-			<li><a href="">語学</a></li>
-			<li><a href="">家庭教師</a></li>
-			<li><a href="">アート・デザイン</a></li>
-			<li><a href="">語学</a></li>
+			<li class="selected" v-if="selected_category==''" ><a v-bind:href="link">全て</a></li>
+			<li  v-else ><a v-bind:href="link">全て</a></li>
+			<li v-bind:class="[category.id === selected_category.id ? 'selected': '']"  v-for="category in categories" ><a v-bind:href="link + category.id">{{ category.name }}</a></li>
+
 		</ul>
 		<div class="c-openButton sp-only">
 			<a @click.prevent="toggleActiveCategory">
@@ -46,6 +34,11 @@
 			toggleActiveCategory: function() {
 				this.isActiveCategory = !this.isActiveCategory;
 			},
-		}
+		},
+		props: {
+            categories: Array,
+            selected_category: Array,
+            link: String,
+       },
 	}
 </script>

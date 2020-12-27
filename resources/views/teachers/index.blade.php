@@ -11,5 +11,5 @@
 
 <!-- 本文 -->
 @section('content')
-    <teacher-index-component></teacher-index-component>
+    <teacher-index-component :count={{ $count }} :order={{ $order }}  :page={{ $page }} :start={{ $start }} :end={{ $end }} :page_cnt={{ $page_cnt }}  :users={{ $users }} :categories={{ $categories }} :selected_category={{ $selected_category }}></teacher-index-component>
 @endsection
