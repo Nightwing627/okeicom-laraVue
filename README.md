@@ -35,7 +35,7 @@ php artisan migrate
 php artisan storage:link
 * npmインストール<br>
 npm install
-* Vue/Sassのビルド<br>
+* Vue/Sassのビルド(※ここでコンパイルするのはjsのみ。cssはコンパイル後ファイルをpublicで管理)<br>
 npm run dev
 * 開発時にJSの変更のたびにトランスパイルしたい場合<br>
-npm run watch-poll
+npm run watch
