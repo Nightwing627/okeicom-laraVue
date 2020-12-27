@@ -1,0 +1,2 @@
+.l-scroll{background:#fff}.l-scroll__wrap{padding-bottom:38px}@media screen and (min-width: 896px){.l-scroll__wrap{padding-bottom:61px}}.l-scroll__box{padding-top:38px}@media screen and (min-width: 896px){.l-scroll__box{padding-top:61px}}.l-scroll__list{overflow:scroll;-webkit-overflow-scrolling:touch}@media screen and (max-width: 897px){.l-scroll__list{padding:0 20px}}.l-scroll__list__wrap{flex-wrap:nowrap;white-space:nowrap}
+/*# sourceMappingURL=l-scroll.css.map */

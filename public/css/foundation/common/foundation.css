@@ -1,0 +1,15 @@
+/* 共通 */
+@import url("/public/css/foundation/reset.css");
+@import url("/public/css/foundation/base.css");
+@import url("/public/css/foundation/header.css");
+@import url("/public/css/foundation/footer.css");
+@import url("/public/css/foundation/nav.css");
+@import url("/public/css/foundation/category.css");
+@import url("/public/css/foundation/lead.css");
+@import url("/public/css/foundation/breadcrumbs.css");
+@import url("/public/css/foundation/sidebar.css");
+
+/* ページ別 */
+@import url("/public/css/foundation/searchResult.css");
+@import url("/public/css/foundation/lessonDetail.css");
+@import url("/public/css/foundation/lessonsApplication.css");
