@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+$breakpoint-up: (
+  'sm': 'screen and (min-width: 400px)',
+  'md': 'screen and (min-width: 896px)',
+  'lg': 'screen and (min-width: 1020px)',
+) !default;
+
+$breakpoint-down: (
+  'sm': 'screen and (max-width: 399px)',
+  'md': 'screen and (max-width: 897px)',
+  'lg': 'screen and (max-width: 1020px)',
+) !default;
+
+@mixin mq_up($breakpoint: md) {
+  @media #{map-get($breakpoint-up, $breakpoint)} {
+    @content;
+  }
+}
+
+@mixin mq_down($breakpoint: md) {
+  @media #{map-get($breakpoint-down, $breakpoint)} {
+    @content;
+  }
+}
+
+$colorPink: #ED6C73;
+$colorBlue: #373B50;
+$bgMainColor: #F6F5F7;
+
+
+#breadcrumbs {
+  padding: 10px 0;
+  background: #fff;
+  @include mq_down(md) {
+    .l-allWrapper {
+      padding: 0 20px;
+    }
+  }
+  li {
+    display: inline-block;
+    font-size: 12px;
+    img {
+      vertical-align: middle;
+      width: 13px;
+      height: 13px;
+    }
+    &:after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: no-repeat url(/img/icon-arrow-right-gray.png) center / contain;
+      display: inline-block;
+      padding: 0 10px;
+    }
+    &:last-child::after {
+      display: none;
+    }
+  }
+}
