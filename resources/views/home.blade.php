@@ -23,7 +23,7 @@
                     <a href="{{ route('lessons.index') }}">一覧へ</a>
                 </div>
                 <div class="l-scroll__list">
-                    <div class="l-scroll__list__wrap l-flex">
+                    <div class="l-scroll__list__wrap l-flex l-start">
                         @foreach($today_lessons as $today_lesson)
                         <div class="c-scroll__box">
                             <a class="c-scroll__box__inner" href="{{ route('lessons.detail', ['id' => $today_lesson->id]) }}">
@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="c-scroll__box__teacher l-flex l-v__bottom">
                                     <div class="c-scroll__box__teacher__img">
-                                        <div class="scroll__box__teacher__img__inner c-img--round">
+                                        <div class="scroll__box__teacher__img__inner c-img--round c-img--cover">
                                             <img src="{{ $today_lesson->public_path_users_img }}">
                                         </div>
 
@@ -64,7 +64,7 @@
                     <h2>人気のレッスン</h2>
                 </div>
                 <div class="l-scroll__list">
-                    <div class="l-scroll__list__wrap l-flex">
+                    <div class="l-scroll__list__wrap l-flex l-start">
                         @foreach($popular_lessons as $popular_lesson)
                         <div class="c-scroll__box">
                             <a class="c-scroll__box__inner" href="">
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="c-scroll__box__teacher l-flex l-v__bottom">
                                     <div class="c-scroll__box__teacher__img">
-                                        <div class="scroll__box__teacher__img__inner c-img--round">
+                                        <div class="scroll__box__teacher__img__inner c-img--round c-img--cover">
                                             <img src="{{ $popular_lesson->public_path_users_img }}">
                                         </div>
 
@@ -105,7 +105,7 @@
                     <h2>高評価のレッスン</h2>
                 </div>
                 <div class="l-scroll__list">
-                    <div class="l-scroll__list__wrap l-flex">
+                    <div class="l-scroll__list__wrap l-flex l-start">
                         @foreach($highly_rated_lessons as $highly_rated_lesson)
                         <div class="c-scroll__box">
                             <a class="c-scroll__box__inner" href="">
@@ -114,7 +114,7 @@
                                 </div>
                                 <div class="c-scroll__box__teacher l-flex l-v__bottom">
                                     <div class="c-scroll__box__teacher__img">
-                                        <div class="scroll__box__teacher__img__inner c-img--round">
+                                        <div class="scroll__box__teacher__img__inner c-img--round c-img--cover">
                                             <img src="{{ $highly_rated_lesson->public_path_users_img }}">
                                         </div>
 
@@ -146,7 +146,7 @@
                     <h2>新着レッスン</h2>
                 </div>
                 <div class="l-scroll__list">
-                    <div class="l-scroll__list__wrap l-flex">
+                    <div class="l-scroll__list__wrap l-flex l-start">
                         @foreach($new_arrival_lessons as $new_arrival_lesson)
                         <div class="c-scroll__box">
                             <a class="c-scroll__box__inner" href="">
@@ -155,7 +155,7 @@
                                 </div>
                                 <div class="c-scroll__box__teacher l-flex l-v__bottom">
                                     <div class="c-scroll__box__teacher__img">
-                                        <div class="scroll__box__teacher__img__inner c-img--round">
+                                        <div class="scroll__box__teacher__img__inner c-img--round c-img--cover">
                                             <img src="{{ $new_arrival_lesson->public_path_users_img }}">
                                         </div>
 
@@ -188,7 +188,7 @@
                     <a href="{{ route('teachers.index') }}">一覧へ</a>
                 </div>
                 <div class="l-scroll__list">
-                    <div class="l-scroll__list__wrap l-flex">
+                    <div class="l-scroll__list__wrap l-flex l-start">
                         @foreach($popular_teachers as $popular_teacher)
                         <div class="c-scroll__box c-teacher--box">
                             <a class="c-teacher--box__inner" href="">
@@ -201,11 +201,9 @@
                                     <span class="evaluationNumber">{{ $popular_teacher->round_avg_point }}</span>
                                 </div>
                                 <ul class="c-teacher--box__category l-flex l-center">
-                                    <li><span>アート・デザイン</span></li>
-                                    <li><span>フィットネス</span></li>
-                                    <li><span>家庭教師</span></li>
-                                    <li><span>パソコン</span></li>
-                                    <li><span>その他</span></li>
+                                    @foreach($categories as $category)
+                                        <li><span>{{$category}}</span></li>
+                                    @endforeach
                                 </ul>
                             </a>
                         </div>
@@ -216,10 +214,9 @@
             <div class="l-scroll__box">
                 <div class="c-scroll__title l-flex l-v__center">
                     <h2>新着の講師</h2>
-                    <a href="{{ route('teachers.index') }}">一覧へ</a>
                 </div>
                 <div class="l-scroll__list">
-                    <div class="l-scroll__list__wrap l-flex">
+                    <div class="l-scroll__list__wrap l-flex l-start">
                         @foreach($new_arrival_teachers as $new_arrival_teacher)
                         <div class="c-scroll__box c-teacher--box">
                             <a class="c-teacher--box__inner" href="">

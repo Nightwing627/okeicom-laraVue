@@ -4,8 +4,7 @@
 		<ul class="c-list--question">
 			<li v-for="(body, content) in faq.bodys" :key="content">
 				<div class="question" v-html="body.question"></div>
-				<div class="answer" :class="{ open: body.isAnswerOpen }" v-html="body.answer"><br>
-				</div>
+				<div class="answer" v-html="body.answer" :class="{open: body.isAnswerOpen}"></div>
 				<span class="toggleAnswerPanelButton" :class="{ rotate: body.isAnswerOpen }" @click.stop="toggleStudentAnswer(index, content)"></span>
 			</li>
 		</ul>
