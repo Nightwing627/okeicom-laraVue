@@ -4,6 +4,7 @@ import App from './components/App.vue'
 // 共通
 import HeaderComponent from './components/common/headerComponent.vue'
 import HeaderUserComponent from './components/common/headerUserComponent.vue'
+import HeaderTeacherComponent from './components/common/headerTeacherComponent.vue'
 import SidebarComponent from './components/common/sidebarComponent.vue'
 import DatepickerLite from "vue3-datepicker"
 
@@ -32,6 +33,8 @@ import UserProfileComponent from './components/user/profileComponent.vue'
 
 // 受講者管理画面：受講済みレッスン一覧
 import UserLessonComponent from './components/user/lessonComponent.vue'
+// 受講者管理画面：出金リクエスト
+import UserPaymentComponent from './components/user/paymentComponent.vue'
 
 // 管理者画面：ユーザー編集
 import AdminEditUser from './components/admin/editUserComponent.vue'
@@ -47,6 +50,7 @@ createApp({
 		// 共通
 		'header-component': HeaderComponent,
 		'header-user-component': HeaderUserComponent,
+		'header-teacher-component': HeaderTeacherComponent,
 		'sidebar-component': SidebarComponent,
 		'vue-datapicker-lite': DatepickerLite,
 
@@ -75,6 +79,8 @@ createApp({
 
 		// 受講者管理画面：受講済みレッスン一覧
 		'user-lesson-component' : UserLessonComponent,
+		// 受講者管理画面：出金リクエスト
+		'user-payment-component' : UserPaymentComponent,
 
 		// 管理画面：ユーザー編集
 		'admin-user-edit-component' : AdminEditUser,

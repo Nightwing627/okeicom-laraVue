@@ -1,4 +1,21 @@
-@extends('layouts.app')
+@extends('layouts.user-single')
+
+<!-- タイトル・メタディスクリプション -->
+@section('title', '出金リクエスト')
+@section('description', '出金リクエスト')
+
+<!-- CSS -->
+@push('css')
+<link rel="stylesheet" href="{{ asset('/css/foundation/single/teacher.css') }}">
+@endpush
+
+<!-- 本文 -->
+@section('content')
+	<user-payment-component></user-payment-component>
+@endsection
+
+
+{{-- @extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -8,4 +25,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection --}}
