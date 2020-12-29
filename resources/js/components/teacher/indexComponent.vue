@@ -23,14 +23,9 @@
 							<select class="c-input--gray" onchange="chgOrder()" id="order">
 								<option value="0" selected v-if="order=='0'">新着順</option>
 								<option value="0" v-else>新着順</option>
-								<option value="1" selected v-if="order=='1'">開催日が近い順</option>
-								<option value="1" v-else>開催日が近い順</option>
-								<option value="2" selected v-if="order=='2'">参加者が多い順</option>
-								<option value="2" v-else>参加者が多い順</option>
-								<option value="3" selected v-if="order=='3'">評価が高い順</option>
-								<option value="3" v-else>評価が高い順</option>
-								<option value="4" selected v-if="order=='4'">料金が安い順</option>
-								<option value="4" v-else>料金が安い順</option>
+								<option value="1" selected v-if="order=='1'">評価が高い順</option>
+								<option value="1" v-else>評価が高い順</option>
+
 							</select>
 						</div>
 					</div>
@@ -91,6 +86,7 @@
 					</div>
 				</div>
 				<div class="l-pagenation">
+
 					<ul class="l-pagenation__list">
 						<li v-for="i in page_cnt" v-bind:class="[i === page ? 'selected': '']">
 
@@ -127,7 +123,7 @@
 		methods: {},
 		watch: {},
 		props: {
-            users: Array,
+            users: Object,
             categories: Array,
             count: String,
             pager: String,
