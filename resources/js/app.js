@@ -44,53 +44,51 @@ import AdminCreateUser from './components/admin/createUserComponent.vue'
 import AdminUserShowCourse from './components/admin/showCourseComponent.vue'
 
 // レッスン：一覧
-createApp({
-	components:{
-		App,
-		// 共通
-		'header-component': HeaderComponent,
-		'header-user-component': HeaderUserComponent,
-		'header-teacher-component': HeaderTeacherComponent,
-		'sidebar-component': SidebarComponent,
-		'vue-datapicker-lite': DatepickerLite,
+createApp({ components:{ App,
+    // 共通
+    'header-component': HeaderComponent,
+    'header-user-component': HeaderUserComponent,
+    'header-teacher-component': HeaderTeacherComponent,
+    'sidebar-component': SidebarComponent,
+    'vue-datapicker-lite': DatepickerLite,
 
-		// 検索
-		'search-component': SearchComponent,
+    // 検索
+    'search-component': SearchComponent,
 
-		// レッスン：一覧
-		'lesson-index-component': LessonIndexComponent,
-		// レッスン：詳細
-		'lesson-show-component': LessonShowComponent,
+    // レッスン：一覧
+    'lesson-index-component': LessonIndexComponent,
+    // レッスン：詳細
+    'lesson-show-component': LessonShowComponent,
 
-		// 講師：一覧
-		'teacher-index-component': TeacherIndexComponent,
-		// 講師：詳細
-		'teacher-show-component': TeacherShowComponent,
+    // 講師：一覧
+    'teacher-index-component': TeacherIndexComponent,
+    // 講師：詳細
+    'teacher-show-component': TeacherShowComponent,
 
-		// 受講者よくある質問
-		'page-faq-user-component': PageFaqUserComponent,
-		// 講師よくある質問
-		'page-faq-teacher-component': PageFaqTeacherComponent,
+    // 受講者よくある質問
+    'page-faq-user-component': PageFaqUserComponent,
+    // 講師よくある質問
+    'page-faq-teacher-component': PageFaqTeacherComponent,
 
-		// 共通管理画面：メッセージ
-		'user-message-component' : UserMessageComponent,
-		// 共通管理画面：プロフィール
-		'user-profile-component' : UserProfileComponent,
+    // 共通管理画面：メッセージ
+    'user-message-component' : UserMessageComponent,
+    // 共通管理画面：プロフィール
+    'user-profile-component' : UserProfileComponent,
 
-		// 受講者管理画面：受講済みレッスン一覧
-		'user-lesson-component' : UserLessonComponent,
-		// 受講者管理画面：出金リクエスト
-		'user-payment-component' : UserPaymentComponent,
+    // 受講者管理画面：受講済みレッスン一覧
+    'user-lesson-component' : UserLessonComponent,
+    // 受講者管理画面：出金リクエスト
+    'user-payment-component' : UserPaymentComponent,
 
-		// 管理画面：ユーザー編集
-		'admin-user-edit-component' : AdminEditUser,
-		// 管理画面：ユーザー新規追加
-		'admin-user-create-component' : AdminCreateUser,
-		// 管理画面：コース詳細
-		'admin-user-show-course-component' : AdminUserShowCourse,
-	}
-}).mount('#app')
+    // 管理画面：ユーザー編集
+    'admin-user-edit-component' : AdminEditUser,
+    // 管理画面：ユーザー新規追加
+    'admin-user-create-component' : AdminCreateUser,
+    // 管理画面：コース詳細
+    'admin-user-show-course-component' : AdminUserShowCourse,
+}}).mount('#app')
+
 
 
 // サンプル
-// Vue.component('header-component', require('./components/common/headerComponent.vue').default);
+// Vue.component('header-component', require('./components/common/headerComponent.vue'));

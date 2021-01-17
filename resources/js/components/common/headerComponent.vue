@@ -14,13 +14,15 @@
 		<div class="l-flex">
 			<div class="header__left l-flex l-v__center">
 				<div class="header__logo">
-					<img class="sp-only" src="/img/okeicom-logo-square.png" alt="">
-					<img class="pc-only" src="/img/okeicom-logo-side.png">
+					<a href="/">
+						<img class="sp-only" src="/img/okeicom-logo-square.png">
+						<img class="pc-only" src="/img/okeicom-logo-side.png">
+					</a>
 				</div>
 				<nav class="header__menu pc-only">
 					<ul class="l-flex">
-						<li><a href="">レッスン一覧</a></li>
-						<li><a href="">講師一覧</a></li>
+						<li><a href="/lessons">レッスン一覧</a></li>
+						<li><a href="/teachers">講師一覧</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -33,13 +35,13 @@
 						</a>
 					</li>
 					<li>
-						<a href="">
+						<a href="/sign-up">
 							<img src="/img/icon-header-add-bold.png" alt="登録アイコン">
 							<span>新規登録</span>
 						</a>
 					</li>
 					<li>
-						<a href="">
+						<a href="/login">
 							<img src="/img/icon-header-login-bold.png" alt="ログインアイコン">
 							<span>ログイン</span>
 						</a>
@@ -51,20 +53,20 @@
 						</a>
 					</li>
 				</ul>
-				<div class="header__search pc-only">
-					<form class="l-flex">
-						<div class="header__search__text">
-							<input class="c-input--gray" type="text" name="" placeholder="キーワードを入力">
-						</div>
-						<div class="header__search__submit">
-							<input type="submit" name="" value="検索">
-						</div>
-					</form>
+				<div class="header__search pc-only l-flex">
+                    <form class="l-flex" action="/search" method="GET">
+                        <div class="header__search__text">
+                            <input class="c-input--gray" type="text" name="keyword" placeholder="キーワードを入力">
+                        </div>
+                        <div class="header__search__submit">
+                            <button type="submit">検索</button>
+                        </div>
+                    </form>
 				</div>
 				<div class="header__link pc-only">
 					<ul class="l-flex">
-						<li class="header__link__register"><a href="">会員登録</a></li>
-						<li class="header__link__login"><a href="">ログイン</a></li>
+						<li class="header__link__register"><a href="/sign-up">新規登録</a></li>
+						<li class="header__link__login"><a href="/login">ログイン</a></li>
 					</ul>
 				</div>
 			</div>
@@ -75,28 +77,27 @@
 			</div>
 			<ul class="nav-global__list">
 				<li><a href="/">トップページ</a></li>
-				<li><a href="/lessons.php">レッスン一覧</a></li>
-				<li><a href="/teachers.php">講師一覧</a></li>
+				<li><a href="/lessons/">レッスン一覧</a></li>
+				<li><a href="/teachers/">講師一覧</a></li>
 			</ul>
 			<p class="c-sp-headline nav--title">会社情報</p>
 			<ul class="nav-global__list">
-				<li><a href="/news.php">お知らせ</a></li>
-				<li><a href="/company.php">会社概要</a></li>
-				<li><a href="/contact-us.php">料金決済の流れ</a></li>
-				<li><a href="/contact-us.php">特定商取引法に基づく表記</a></li>
-				<li><a href="/contact-us.php">お問い合わせ</a></li>
+				<li><a href="/news/">お知らせ</a></li>
+				<li><a href="/flow/">料金決済の流れ</a></li>
+				<li><a href="/tokushoho/">特定商取引法に基づく表記</a></li>
+				<li><a href="mailto: chankan77@gmail.com">お問い合わせ</a></li>
 			</ul>
 			<p class="c-sp-headline nav--title">講師向け</p>
 			<ul class="nav-global__list">
-				<li><a href="/terms-service.php">講師規約</a></li>
-				<li><a href="/terms-point.php">講師キャンセルポリシー</a></li>
-				<li><a href="/terms-user.php">講師よくある質問</a></li>
+				<li><a href="/terms-teacher/">講師規約</a></li>
+				<li><a href="/cancel-teacher/">講師キャンセルポリシー</a></li>
+				<li><a href="/faq-teacher/">講師よくある質問</a></li>
 			</ul>
 			<p class="c-sp-headline nav--title">受講者向け</p>
 			<ul class="nav-global__list">
-				<li><a href="/terms-service.php">受講者規約</a></li>
-				<li><a href="/terms-point.php">受講者キャンセルポリシー</a></li>
-				<li><a href="/terms-user.php">受講者よくある質問</a></li>
+				<li><a href="/terms-user/">受講者規約</a></li>
+				<li><a href="/cancel-user/">受講者キャンセルポリシー</a></li>
+				<li><a href="/faq-user/">受講者よくある質問</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -108,7 +109,9 @@
 			return {
 				// 検索窓を表示
 				searchShow: false,
-				drawerActive: false,
+                drawerActive: false,
+                // 検索キーワード
+                keyword: '',
 			}
 		},
 		methods: {
@@ -119,7 +122,7 @@
 			// ドロワーを閉じる
 			closeDrawer: function() {
 				this.drawerActive = false
-			},
+            },
 			// 検索画面を開く
 			openSearch: function() {
 				this.searchShow = !this.searchShow
@@ -127,19 +130,13 @@
 			// 検索画面を閉じる
 			closeSearch: function() {
 				this.searchShow = false
-			},
+            },
 			clickEvent: function() {
 				this.$emit('from-child')
 			},
 			stopEvent: function(){
-			    event.stopPropagation()
+                event.stopPropagation()
 			},
 		},
     }
 </script>
-
-
-
-
-
-

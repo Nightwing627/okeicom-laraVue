@@ -42,14 +42,7 @@
 				<img src="{{ asset('/img/okeicom-logo-square.png') }}">
 			</div>
 		</div>
-		<p class="copyright">@copyright おけい.com 2020</p>
+		<p class="copyright">@copyright おけい.com 2021</p>
 	</div>
 </footer>
 <script src="{{ mix('js/app.js') }}"></script>
-
-{{-- <script src="/public/js/vue.js"></script>
-<script src="/public/js/ofi.js"></script>
-<script src="https://unpkg.com/vuejs-datepicker"></script>
-<script>
-	objectFitImages();
-</script> --}}

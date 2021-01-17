@@ -1,7 +1,9 @@
 {
-"version": 3,
-"mappings": "",
-"sources": [],
-"names": [],
-"file": "lessonCredit.css"
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "lessonCredit.scss"
+    ],
+    "names": [],
+    "file": "lessonCredit.css"
 }

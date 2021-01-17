@@ -139,6 +139,7 @@ $bgMainColor: #F6F5F7;
         margin-right: 18px;
     }
     .header__search__submit {
+        button,
         input[type=submit] {
             width: 62px;
             line-height: 36px;
@@ -161,7 +162,7 @@ $bgMainColor: #F6F5F7;
             position: absolute;
             top: 50%;
             left: 8px;
-            transform: translateY(-50%); 
+            transform: translateY(-50%);
         }
         input[type=text] {
             width: 195px;

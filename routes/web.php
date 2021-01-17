@@ -180,8 +180,9 @@ Route::name('pages.')->group(function () {
     Route::get('cancel-teacher', [PageController::class, 'cancelTeacher'])->name('cancel-teacher');
     Route::get('flow', [PageController::class, 'flow'])->name('flow');
 });
+
 // 検索
-Route::get('search', [SearchController::class, 'index'])->name('index');
+Route::get('search', [SearchController::class, 'index'])->name('search.index');
 
 // 問い合わせ
 Route::get('contact', [ContactController::class, 'contact'])->name('contact');

@@ -39,6 +39,6 @@
             categories: Array,
             selected_category: Array,
             link: String,
-       },
+        },
 	}
 </script>

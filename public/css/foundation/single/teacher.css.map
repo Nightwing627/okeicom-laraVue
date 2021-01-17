@@ -1,7 +1,9 @@
 {
-"version": 3,
-"mappings": "",
-"sources": [],
-"names": [],
-"file": "teacher.css"
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "teacher.scss"
+    ],
+    "names": [],
+    "file": "teacher.css"
 }

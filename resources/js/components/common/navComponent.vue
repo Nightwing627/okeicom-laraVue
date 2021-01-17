@@ -56,5 +56,6 @@
 				this.drawerActive = false
 			},
 		},
-		watch: {},
+        watch: {},
+    }
 </script>

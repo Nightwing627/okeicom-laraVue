@@ -1,2 +1,165 @@
-.l-courseCreate--wrap{margin-top:20px}.l-content--detail:not(:first-child){margin-top:20px}.l-content--detail__inner{padding:20px;background:#fff}@media screen and (min-width: 896px){.l-content--detail__inner{padding:36px;border-bottom:1px solid #F0F0F0}}.l-content--detail__box:not(:last-child){margin-bottom:3em}.l-content--input{margin-bottom:21px}@media screen and (min-width: 896px){.l-content--input{margin-bottom:26px}}.l-content--input input:not([type=file]),.l-content--input textarea,.l-content--input select{width:100%;padding:10px;border-radius:3px;border:1px solid #B4B4B4;resize:none}.l-content--input textarea{height:150px}.l-content--input .imageBox{position:relative;width:200px;height:200px;margin:auto}.l-content--input .imageBox .imageBox-picture{position:relative;width:100%;height:100%}.l-content--input .imageBox .imageBox-icon{cursor:pointer;position:absolute;bottom:-25px;right:-25px;width:50px;height:50px;text-align:center}.l-content--input .imageBox .imageBox-icon__inner{position:relative;width:100%;height:100%}.l-content--input .imageBox input[type=file]{opacity:0;position:absolute;left:0;top:0;bottom:0;right:0}.l-content--input__two{width:49.5%}.l-content--input__headline{font-size:12px;font-weight:700;margin-bottom:5px}.l-content--inputLink{margin-top:30px;padding-top:30px;border-top:1px solid #F0F0F0;text-align:center;font-size:0.9em}.l-content--teacher{padding:20px;background:#fff;border-bottom:1px solid #EFEFEF}.l-content--teacher__img{width:90px}.l-content--review{padding:20px;border-bottom:1px solid #EFEFEF}@media screen and (max-width: 897px){.l-content--review{background:#fff}}.l-content--review .l-content--review--img{width:80px}@media screen and (min-width: 896px){.l-content--review .l-content--review--img{width:120px}}@media screen and (min-width: 896px){.l-content--review .l-content--review--img .c-mig--shadow{padding:5px}}@media screen and (max-width: 897px){.l-content--review .l-content--review--text{flex:1}}@media screen and (min-width: 896px){.l-content--review .l-content--review--text{width:530px}}.l-content--panel{margin-top:1em;padding-top:1em;border-top:1px solid #EFEFEF}
+@charset "UTF-8";
+/* detailのコンテンツ */
+.l-courseCreate--wrap {
+  margin-top: 20px;
+}
+
+.l-content--detail:not(:first-child) {
+  margin-top: 20px;
+}
+
+.l-content--detail__inner {
+  padding: 20px;
+  background: #fff;
+}
+
+@media screen and (min-width: 896px) {
+  .l-content--detail__inner {
+    padding: 36px;
+    border-bottom: 1px solid #F0F0F0;
+  }
+}
+
+.l-content--detail__box:not(:last-child) {
+  margin-bottom: 3em;
+}
+
+/* inputのコンテンツ */
+.l-content--input {
+  margin-bottom: 21px;
+}
+
+@media screen and (min-width: 896px) {
+  .l-content--input {
+    margin-bottom: 26px;
+  }
+}
+
+.l-content--input input:not([type=file]), .l-content--input textarea, .l-content--input select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #B4B4B4;
+  resize: none;
+}
+
+.l-content--input textarea {
+  height: 150px;
+}
+
+.l-content--input .imageBox {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+}
+
+.l-content--input .imageBox .imageBox-picture {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.l-content--input .imageBox .imageBox-icon {
+  cursor: pointer;
+  position: absolute;
+  bottom: -25px;
+  right: -25px;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+}
+
+.l-content--input .imageBox .imageBox-icon__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.l-content--input .imageBox input[type=file] {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.l-content--input__two {
+  width: 49.5%;
+}
+
+.l-content--input__headline {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.l-content--inputLink {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #F0F0F0;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+/* コンテンツ：先生 */
+.l-content--teacher {
+  padding: 20px;
+  background: #fff;
+  border-bottom: 1px solid #EFEFEF;
+}
+
+.l-content--teacher__img {
+  width: 90px;
+}
+
+/* コンテンツ：口コミ */
+.l-content--review {
+  padding: 20px;
+  border-bottom: 1px solid #EFEFEF;
+}
+
+@media screen and (max-width: 897px) {
+  .l-content--review {
+    background: #fff;
+  }
+}
+
+.l-content--review .l-content--review--img {
+  width: 80px;
+}
+
+@media screen and (min-width: 896px) {
+  .l-content--review .l-content--review--img {
+    width: 120px;
+  }
+}
+
+@media screen and (min-width: 896px) {
+  .l-content--review .l-content--review--img .c-mig--shadow {
+    padding: 5px;
+  }
+}
+
+@media screen and (max-width: 897px) {
+  .l-content--review .l-content--review--text {
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+  }
+}
+
+@media screen and (min-width: 896px) {
+  .l-content--review .l-content--review--text {
+    width: 530px;
+  }
+}
+
+/* パネル */
+.l-content--panel {
+  margin-top: 1em;
+  padding-top: 1em;
+  border-top: 1px solid #EFEFEF;
+}
 /*# sourceMappingURL=l-content.css.map */

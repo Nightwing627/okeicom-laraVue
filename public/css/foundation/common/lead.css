@@ -1,2 +1,82 @@
-#lead{padding:24px 0;text-align:center;background:#fff}@media screen and (max-width: 897px){#lead{background:#fff}}@media screen and (min-width: 896px){#lead{padding:68px 0}}@media screen and (max-width: 897px){.lead__wrap{padding:0 20px}}.lead__title{margin-bottom:2em;text-align:center}.lead__title p{font-size:17px;position:relative;display:inline-block;font-weight:700}@media screen and (min-width: 896px){.lead__title p{font-size:20px}}.lead__title p:before,.lead__title p:after{content:"";display:block;width:2px;background:#000;height:25px;position:absolute;bottom:-5px}.lead__title p:before{transform:rotate(-30deg);left:-15px}.lead__title p:after{transform:rotate(30deg);right:-15px}.lead__text{margin-bottom:2em}.lead__img{margin-bottom:2em}.lead__img .lead__img__box{width:50%}@media screen and (min-width: 896px){.lead__img .lead__img__box{width:25%}}
+#lead {
+  padding: 24px 0;
+  text-align: center;
+  background: #fff;
+}
+
+@media screen and (max-width: 897px) {
+  #lead {
+    background: #fff;
+  }
+}
+
+@media screen and (min-width: 896px) {
+  #lead {
+    padding: 68px 0;
+  }
+}
+
+@media screen and (max-width: 897px) {
+  .lead__wrap {
+    padding: 0 20px;
+  }
+}
+
+.lead__title {
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+.lead__title p {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+}
+
+@media screen and (min-width: 896px) {
+  .lead__title p {
+    font-size: 20px;
+  }
+}
+
+.lead__title p:before, .lead__title p:after {
+  content: "";
+  display: block;
+  width: 2px;
+  background: #000;
+  height: 25px;
+  position: absolute;
+  bottom: -5px;
+}
+
+.lead__title p:before {
+  -webkit-transform: rotate(-30deg);
+          transform: rotate(-30deg);
+  left: -15px;
+}
+
+.lead__title p:after {
+  -webkit-transform: rotate(30deg);
+          transform: rotate(30deg);
+  right: -15px;
+}
+
+.lead__text {
+  margin-bottom: 2em;
+}
+
+.lead__img {
+  margin-bottom: 2em;
+}
+
+.lead__img .lead__img__box {
+  width: 50%;
+}
+
+@media screen and (min-width: 896px) {
+  .lead__img .lead__img__box {
+    width: 25%;
+  }
+}
 /*# sourceMappingURL=lead.css.map */

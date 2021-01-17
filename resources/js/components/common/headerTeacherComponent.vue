@@ -2,22 +2,22 @@
 	<header id="header">
 		<div class="menu-user" :class="{'open': isMenuUser}">
 			<div class="menu-user--inner">
-				<div class="menu-user--change">
+				<!-- <div class="menu-user--change">
 					<a href="" class="u-text--link">受講者に切り替える</a>
-				</div>
+				</div> -->
 				<ul class="menu-user--content">
-					<li><a href="">コース一覧</a></li>
-					<li><a href="">レッスン参加状況</a></li>
-					<li><a href="">キャンセル依頼</a></li>
-					<li><a href="">メッセージ</a></li>
-					<li><a href="">プロフィール</a></li>
-					<li><a href="">クレジットカード情報</a></li>
-					<li><a href="">銀行口座情報</a></li>
-					<li><a href="">入出金管理</a></li>
+					<li><a href="/mypage/u/courses/">コース一覧</a></li>
+					<li><a href="/mypage/u/lesson-participation/">レッスン参加状況</a></li>
+					<li><a href="/mypage/u/cancel-requests/">キャンセル依頼</a></li>
+					<li><a href="/mypage/u/messages/">メッセージ</a></li>
+					<li><a href="/mypage/u/profile/">プロフィール</a></li>
+					<!-- <li><a href="">クレジットカード情報</a></li> -->
+					<!-- <li><a href="/mypage/u/bank/">銀行口座情報</a></li> -->
+					<li><a href="/mypage/u/trade/">入出金管理</a></li>
 				</ul>
 				<ul class="menu-user--content">
-					<li><a href="">お知らせ</a></li>
-					<li><a href="">運営にお問い合わせ</a></li>
+					<li><a href="/news/">お知らせ</a></li>
+					<li><a href="mailto:chankan77@gmail.com">運営にお問い合わせ</a></li>
 					<li><a href="">ログアウト</a></li>
 				</ul>
 			</div>
@@ -30,21 +30,21 @@
 				</div>
 				<nav class="header__menu pc-only">
 					<ul class="l-flex">
-						<li><a href="">レッスン一覧</a></li>
-						<li><a href="">講師一覧</a></li>
+						<li><a href="/lessons/">レッスン一覧</a></li>
+						<li><a href="/teachers/">講師一覧</a></li>
 					</ul>
 				</nav>
 			</div>
 			<div class="header__right l-flex l-v__center">
 				<ul class="header__icon l-flex l-v__bottom sp-only">
 					<li>
-						<a>
+						<a class="/mypage/u/courses/">
 							<img src="/img/icon-add-pink.png" alt="検索アイコン">
 							<span>コース</span>
 						</a>
 					</li>
 					<li>
-						<a href="">
+						<a href="/mypage/u/messages">
 							<img src="/img/icon-chat-pink.png" alt="チャットアイコン">
 							<span>チャット</span>
 						</a>
@@ -76,7 +76,7 @@
 				<div class="header__icon pc-only">
 					<ul class="l-flex">
 						<li>
-							<a href="">
+							<a href="/mypage/u/messages">
 								<img src="/img/icon-chat-pink.png" alt="チャットアイコン">
 								<span>チャット</span>
 							</a>
@@ -98,28 +98,28 @@
 			</div>
 			<ul class="nav-global__list">
 				<li><a href="/">トップページ</a></li>
-				<li><a href="/lessons.php">レッスン一覧</a></li>
-				<li><a href="/teachers.php">講師一覧</a></li>
+				<li><a href="/lessons/">レッスン一覧</a></li>
+				<li><a href="/teachers/">講師一覧</a></li>
 			</ul>
 			<p class="c-sp-headline nav--title">会社情報</p>
 			<ul class="nav-global__list">
-				<li><a href="/news.php">お知らせ</a></li>
-				<li><a href="/company.php">会社概要</a></li>
-				<li><a href="/contact-us.php">料金決済の流れ</a></li>
-				<li><a href="/contact-us.php">特定商取引法に基づく表記</a></li>
-				<li><a href="/contact-us.php">お問い合わせ</a></li>
+				<li><a href="/news/">お知らせ</a></li>
+				<!-- <li><a href="/company.php">会社概要</a></li> -->
+				<li><a href="/flow/">料金決済の流れ</a></li>
+				<li><a href="/tokushoho/">特定商取引法に基づく表記</a></li>
+				<li><a href="mailtp:chankan77@gmail.com">お問い合わせ</a></li>
 			</ul>
 			<p class="c-sp-headline nav--title">講師向け</p>
 			<ul class="nav-global__list">
-				<li><a href="/terms-service.php">講師規約</a></li>
-				<li><a href="/terms-point.php">講師キャンセルポリシー</a></li>
-				<li><a href="/terms-user.php">講師よくある質問</a></li>
+				<li><a href="/terms-teacher">講師規約</a></li>
+				<li><a href="/cancel-teacher">講師キャンセルポリシー</a></li>
+				<li><a href="/faq-teacher">講師よくある質問</a></li>
 			</ul>
 			<p class="c-sp-headline nav--title">受講者向け</p>
 			<ul class="nav-global__list">
-				<li><a href="/terms-service.php">受講者規約</a></li>
-				<li><a href="/terms-point.php">受講者キャンセルポリシー</a></li>
-				<li><a href="/terms-user.php">受講者よくある質問</a></li>
+				<li><a href="/terms-student">受講者規約</a></li>
+				<li><a href="/cancel-student">受講者キャンセルポリシー</a></li>
+				<li><a href="/faq-student">受講者よくある質問</a></li>
 			</ul>
 		</nav>
 	</header>

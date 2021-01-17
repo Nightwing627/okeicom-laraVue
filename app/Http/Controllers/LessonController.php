@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Lesson;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\Request;
+use App\Models\Category;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\View\Factory;
 
 class LessonController extends Controller
 {

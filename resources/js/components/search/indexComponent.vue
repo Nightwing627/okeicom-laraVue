@@ -18,7 +18,11 @@
 						<form>
 							<div class="c-searchResult__block__inner l-flex">
 								<div class="searchText">
-									<input type="text" name="">
+									<input
+                                        type="text"
+                                        :value="keyword"
+                                        @input="$emit('input', $event.target.keyword)"
+                                    >
 								</div>
 								<div class="searchDate pc-only">
 									<vue-datapicker-lite></vue-datapicker-lite>
@@ -57,15 +61,15 @@
 						</div>
 					</div>
 					<div class="l-contentList__list__wrap">
-						<div class="c-contentList__box" v-for="i in 10">
-							<a class="c-contentList__box__inner" href="">
+						<div class="c-contentList__box" v-if="lessons.length" v-for="(lesson,index) of lessons" :key="index.id">
+							<a class="c-contentList__box__inner">
 								<div class="c-contentList__box__img">
 									<div class="c-img--cover">
 										<img src="/img/screen-top.jpg">
 									</div>
 								</div>
 								<div class="c-contentList__box__info">
-									<div class="number l-flex">
+									<!-- <div class="number l-flex">
 										<p class="other">
 											<span class="stage">第一回</span>
 											<span class="date">2/12(金) 17:00-20:00</span>
@@ -74,6 +78,19 @@
 									</div>
 									<p class="title">タイトルタイトルタイトルタイトルタイトルタイトル</p>
 									<p class="detail pc-only">詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細</p>
+									<div class="category">
+										<span>書道</span>
+										<span>バレエ</span>
+									</div> -->
+									<div class="number l-flex">
+										<p class="other">
+											<span class="stage">第{{ lesson.number }}回</span>
+											<span class="date">{{ moment(lesson.date).format('M/D') }}({{ moment(lesson.date).format('ddd') }}) {{ moment(lesson.start).format('H:mm') }}-{{ moment(lesson.finish).format('H:mm') }}</span>
+										</p>
+										<p class="price">¥{{ lesson.price.toLocaleString() }}</p>
+									</div>
+									<p class="title">{{ lesson.title }}</p>
+									<p class="detail pc-only">{{ lesson.detail }}</p>
 									<div class="category">
 										<span>書道</span>
 										<span>バレエ</span>
@@ -92,6 +109,7 @@
 								</div>
 							</a>
 						</div>
+						<div class="c-contentList__box" v-if="!lessons.length">レッスンがありません。</div>
 					</div>
 					<div class="l-pagenation">
 						<ul class="l-pagenation__list">
@@ -107,27 +125,59 @@
 </template>
 
 <script>
-	import SidebarComponent from './../../components/common/sidebarComponent.vue'
-	import DatepickerLite from "vue3-datepicker";
+	import SidebarComponent from './../../components/common/sidebarComponent.vue';
+    import DatepickerLite from "vue3-datepicker";
+    import axios from 'axios';
+    import moment from "moment";
+    import 'moment/locale/ja';
 
 	export default {
 		components: {
 			'sidebar-component': SidebarComponent,
 			'vue-datapicker-lite': DatepickerLite,
 		},
+        props:['lessons', 'keyword'],
+        // props: {
+        //     keyword : VueTypes.string,                   // 受け取ったキーワード
+        //     lessons : VueTypes.shape({                   // 受け取ったレッスンの配列
+        //         number : VueTypes.unsignedTinyInteger,
+        //         date   : VueTypes.date,
+        //         price  : VueTypes.unsignedInteger,
+        //         title  : VueTypes.string,
+        //         detail : VueTypes.string,
+        //     }),
+        // },
 		data() {
 			return {
-
-			}
-		},
-		created: function() {
-		    // 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
+                moment: moment,
+            }
 		},
 		computed: {},
-		methods: {},
 		watch: {},
-	}
+        filters: {},
+        setup() {
+            // 時間を出力する
+            function changeToTime(time) {
+                if(!time) return ''
+                return moment(time).format('HH:mm');
+            }
+            // 日付を出力する
+            function changeToDate(date) {
+                if(!date) return ''
+                return moment(date).format('M/DD')
+            }
+            // 3桁毎にカンマをつける
+            function priceNumber(price) {
+                if (!price) return ''
+                return price.toLocaleString()
+            }
+        },
+        updated: function() {
+        },
+		created: function() {
+        },
+        moutend: function() {
+        },
+		methods: {},
+	};
 </script>
-
-
-

@@ -1,2 +1,135 @@
-.c-text--title{font-size:18px;font-weight:700}.c-text--detail{margin-top:10px;line-height:1.6;font-size:13px}.c-text--evaluation{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-align-items:center;-ms-align-items:center;align-items:center}.c-text--evaluation .star img{width:16px}.c-text--evaluation .star .evaluation{font-size:12px;font-weight:700}.c-text--evaluation .review{font-size:12px;margin-left:10px;color:#B4B4B4}.c-text--evaluation .sentence{margin-top:15px;padding:10px;background:#FAFAFA;font-size:12px}.c-text--category{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-align-items:center;-ms-align-items:center;align-items:center}.c-text--category li{margin-bottom:5px;display:inline-block;padding:1px 10px;border:1px solid #ED6C73;color:#ED6C73;border-radius:30px}.c-text--category li:not(:last-child){margin-right:5px}.c-text--sex{display:inline-block;color:#fff;padding:2px 5px;border-radius:3px;font-size:10px;font-weight:400}.c-text--sex.woman{background:#ED6C73}.c-text--sex.man{background:#00ffff}.c-text--attention{padding:10px}.c-text--attention p{line-height:1.4;font-size:.9em}@media screen and (min-width: 896px){.c-text--attention p{line-height:1.6}}.c-text--attention p:not(:last-child){margin-bottom:1em}.c-text--attention.bg-gray{background:#f7f7f7}.c-text--attention.bg-yellow{background:#FFFBE3}
+@charset "UTF-8";
+/* タイトル */
+.c-text--title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* 詳細 */
+.c-text--detail {
+  margin-top: 10px;
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+/*
+    星
+*/
+.c-text--evaluation {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -ms-align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.c-text--evaluation .star img {
+  width: 16px;
+}
+
+.c-text--evaluation .star .evaluation {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.c-text--evaluation .review {
+  font-size: 12px;
+  margin-left: 10px;
+  color: #B4B4B4;
+}
+
+.c-text--evaluation .sentence {
+  margin-top: 15px;
+  padding: 10px;
+  background: #FAFAFA;
+  font-size: 12px;
+}
+
+/*
+    カテゴリー
+*/
+.c-text--category {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -ms-align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.c-text--category li {
+  margin-bottom: 5px;
+  display: inline-block;
+  padding: 1px 10px;
+  border: 1px solid #ED6C73;
+  color: #ED6C73;
+  border-radius: 30px;
+}
+
+.c-text--category li:not(:last-child) {
+  margin-right: 5px;
+}
+
+/*
+    性別
+*/
+.c-text--sex {
+  display: inline-block;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.c-text--sex.woman {
+  background: #ED6C73;
+}
+
+.c-text--sex.man {
+  background: #00ffff;
+}
+
+/*
+    注目
+*/
+.c-text--attention {
+  padding: 10px;
+}
+
+.c-text--attention p {
+  line-height: 1.4;
+  font-size: .9em;
+}
+
+@media screen and (min-width: 896px) {
+  .c-text--attention p {
+    line-height: 1.6;
+  }
+}
+
+.c-text--attention p:not(:last-child) {
+  margin-bottom: 1em;
+}
+
+.c-text--attention.bg-gray {
+  background: #f7f7f7;
+}
+
+.c-text--attention.bg-yellow {
+  background: #FFFBE3;
+}
 /*# sourceMappingURL=c-text.css.map */

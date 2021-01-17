@@ -12,5 +12,9 @@
 
 <!-- 本文 -->
 @section('content')
-	<search-component></search-component>
+    <search-component
+        keyword="{{ $keyword }}"
+        :lessons="{{ $lessons }}"
+    >
+    </search-component>
 @endsection

@@ -1,2 +1,29 @@
-.u-color--red{color:#D51F1F !important}.u-color--gray{color:#9D9D9D !important}.u-color--grayNavy{color:#858C90 !important}.u-color--yellow{color:#EAA524 !important}.u-color--green{color:#5CC964 !important}.u-color--blue{color:#3E89E0 !important}.u-bgColor--white{background:#fff !important}
+.u-color--red {
+  color: #D51F1F !important;
+}
+
+.u-color--gray {
+  color: #9D9D9D !important;
+}
+
+.u-color--grayNavy {
+  color: #858C90 !important;
+}
+
+.u-color--yellow {
+  color: #EAA524 !important;
+}
+
+.u-color--green {
+  color: #5CC964 !important;
+}
+
+.u-color--blue {
+  color: #3E89E0 !important;
+}
+
+/* bg */
+.u-bgColor--white {
+  background: #fff !important;
+}
 /*# sourceMappingURL=u-color.css.map */

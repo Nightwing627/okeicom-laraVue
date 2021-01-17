@@ -180,6 +180,8 @@ class Lesson extends Model
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
+                'categories4.name as category4_name',
+                'categories5.name as category5_name',
                 'users.img as user_img',
             ])
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
@@ -187,6 +189,8 @@ class Lesson extends Model
             ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
             ->orderBy('lessons.created_at', 'desc')
             ->paginate(Config::get('const.paginate.lesson'));
     }
@@ -205,6 +209,8 @@ class Lesson extends Model
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
+                'categories4.name as category4_name',
+                'categories5.name as category5_name',
                 'users.img as user_img',
             ])
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
@@ -212,11 +218,15 @@ class Lesson extends Model
             ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
             ->when($categories_id > 0, function ($query) use ($categories_id) {
                 $query->where(function ($query) use ($categories_id) {
                     $query->orwhere('courses.category1_id', $categories_id)
-                          ->orwhere('courses.category2_id', $categories_id)
-                          ->orwhere('courses.category3_id', $categories_id);
+                        ->orwhere('courses.category2_id', $categories_id)
+                        ->orwhere('courses.category3_id', $categories_id)
+                        ->orwhere('courses.category4_id', $categories_id)
+                        ->orwhere('courses.category5_id', $categories_id);
                 });
             })
             ->orderBy('lessons.created_at', 'desc')
@@ -253,6 +263,8 @@ class Lesson extends Model
                'categories1.name as category1_name',
                'categories2.name as category2_name',
                'categories3.name as category3_name',
+               'categories4.name as category4_name',
+               'categories5.name as category5_name',
                'users.img as user_img',
             ])
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
@@ -261,6 +273,8 @@ class Lesson extends Model
             ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
             ->where('applications.user_id', Auth::user()->id)
             ->where('applications.status', $applications_status)
             ->orderBy($applications_status == 1 ? 'applications.created_at' : 'lessons.created_at', 'desc')
@@ -342,6 +356,8 @@ class Lesson extends Model
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
+                'categories2.name as category4_name',
+                'categories3.name as category5_name',
                 'users.img as users_img',
                 'evaluations.avg_point as evaluations_avg_point',
             ])
@@ -350,6 +366,8 @@ class Lesson extends Model
             ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                 $join->on('users.id', '=', 'evaluations.user_teacher_id');
             })
@@ -392,6 +410,8 @@ class Lesson extends Model
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
+                'categories2.name as category4_name',
+                'categories3.name as category5_name',
                 'users.img as users_img',
                 'evaluations.avg_point as evaluations_avg_point',
             ])
@@ -406,6 +426,8 @@ class Lesson extends Model
             ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
             ->where('lessons.status', self::STATUS_PLANS)
             ->orderBy('applications.count', 'desc')
             ->orderBy('lessons.created_at')
@@ -435,6 +457,8 @@ class Lesson extends Model
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
+                'categories2.name as category4_name',
+                'categories3.name as category5_name',
                 'users.img as users_img',
                 'evaluations.avg_point as evaluations_avg_point',
             ])
@@ -446,6 +470,8 @@ class Lesson extends Model
             ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
             ->where('lessons.status', self::STATUS_PLANS)
             ->orderBy('evaluations.avg_point', 'desc')
             ->orderBy('lessons.created_at')
@@ -475,6 +501,8 @@ class Lesson extends Model
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
+                'categories2.name as category4_name',
+                'categories3.name as category5_name',
                 'users.img as users_img',
                 'evaluations.avg_point as evaluations_avg_point',
             ])
@@ -483,6 +511,8 @@ class Lesson extends Model
             ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                 $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
             })

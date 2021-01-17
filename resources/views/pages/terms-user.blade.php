@@ -17,8 +17,8 @@
 @extends('layouts.common')
 
 <!-- タイトル・メタディスクリプション -->
-@section('title', '講師規約')
-@section('description', '講師規約')
+@section('title', '受講者規約')
+@section('description', '受講者規約')
 
 <!-- CSS -->
 @push('css')

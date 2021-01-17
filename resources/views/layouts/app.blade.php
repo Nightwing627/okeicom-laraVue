@@ -9,7 +9,7 @@
             @unless(Request::is('/'))
                 @include("../common/breadcrumbs")
             @endunless
-            
+
             @yield('content')
 
             @unless(Request::is('/'))

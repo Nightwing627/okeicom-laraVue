@@ -9,20 +9,20 @@
 	<header id="header">
 		<div class="menu-user" :class="{'open': isMenuUser}">
 			<div class="menu-user--inner">
-				<div class="menu-user--change">
+				<!-- <div class="menu-user--change">
 					<a href="" class="u-text--link">講師に切り替える</a>	
-				</div>
+				</div> -->
 				<ul class="menu-user--content">
-					<li><a href="">受講レッスン</a></li>
-					<li><a href="">メッセージ</a></li>
-					<li><a href="">プロフィール</a></li>
-					<li><a href="">クレジットカード情報</a></li>
-					<li><a href="">銀行口座情報</a></li>
-					<li><a href="">入出金管理</a></li>
+					<li><a href="/mypage/u/ttendance-lessons">受講レッスン</a></li>
+					<li><a href="/mypage/u/messages/">メッセージ</a></li>
+					<li><a href="/mypage/u/profile/">プロフィール</a></li>
+					<!-- <li><a href="/mypage/u/">クレジットカード情報</a></li>
+					<li><a href="">銀行口座情報</a></li> -->
+					<li><a href="/mypage/u//trade/">入出金管理</a></li>
 				</ul>
 				<ul class="menu-user--content">
-					<li><a href="">レッスンを探す</a></li>
-					<li><a href="">講師を探す</a></li>
+					<li><a href="/lessons/">レッスンを探す</a></li>
+					<li><a href="/teachers/">講師を探す</a></li>
 					<li><a href="">ログアウト</a></li>
 				</ul>
 			</div>
@@ -35,8 +35,8 @@
 				</div>
 				<nav class="header__menu pc-only">
 					<ul class="l-flex">
-						<li><a href="">レッスン一覧</a></li>
-						<li><a href="">講師一覧</a></li>
+						<li><a href="/lessons/">レッスン一覧</a></li>
+						<li><a href="/teachers/">講師一覧</a></li>
 					</ul>
 				</nav>
 			</div>

@@ -9,7 +9,7 @@
 		<div class="menu-user" :class="{'open': isMenuUser}">
 			<div class="menu-user--inner">
 				<div class="menu-user--change">
-					<a href="" class="u-text--link">講師に切り替える</a>	
+					<a href="" class="u-text--link">講師に切り替える</a>
 				</div>
 				<ul class="menu-user--content">
 					<li><a href="">受講レッスン</a></li>

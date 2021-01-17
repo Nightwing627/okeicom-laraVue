@@ -1,2 +1,35 @@
-#breadcrumbs{padding:10px 0;background:#fff}@media screen and (max-width: 897px){#breadcrumbs .l-allWrapper{padding:0 20px}}#breadcrumbs li{display:inline-block;font-size:12px}#breadcrumbs li img{vertical-align:middle;width:13px;height:13px}#breadcrumbs li:after{content:'';width:8px;height:8px;background:no-repeat url(/img/icon-arrow-right-gray.png) center/contain;display:inline-block;padding:0 10px}#breadcrumbs li:last-child::after{display:none}
+#breadcrumbs {
+  padding: 10px 0;
+  background: #fff;
+}
+
+@media screen and (max-width: 897px) {
+  #breadcrumbs .l-allWrapper {
+    padding: 0 20px;
+  }
+}
+
+#breadcrumbs li {
+  display: inline-block;
+  font-size: 12px;
+}
+
+#breadcrumbs li img {
+  vertical-align: middle;
+  width: 13px;
+  height: 13px;
+}
+
+#breadcrumbs li:after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: no-repeat url(/img/icon-arrow-right-gray.png) center/contain;
+  display: inline-block;
+  padding: 0 10px;
+}
+
+#breadcrumbs li:last-child::after {
+  display: none;
+}
 /*# sourceMappingURL=breadcrumbs.css.map */

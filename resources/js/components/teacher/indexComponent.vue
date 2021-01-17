@@ -36,7 +36,7 @@
 					</div>
 				</div>
 				<div class="l-list--teacher"> 
-					<div class="l-list--teacher__tab three-tab">
+					<!-- <div class="l-list--teacher__tab three-tab">
 						<a v-bind:href="'/teachers'" v-if="selected_category==''">
 							<div class="tab-box selected" v-if="sex==''">全て</div>
 							<div class="tab-box" v-else>全て</div>
@@ -60,9 +60,8 @@
 						<a v-bind:href="'/teachers/category/'+selected_category.id+'?sex=2'" v-else>
 							<div class="tab-box selected" v-if="sex==2">女性</div>
 							<div class="tab-box" v-else>女性</div>
-						</a>			
-						
-					</div>
+						</a>
+					</div> -->
 					<div class="l-content--teacher l-flex" v-for="user in users" >
 						
 						<div class="u-w100"> 

@@ -1,9 +1,9 @@
 <template>
-    <div class="l-screen">
-        <div class="l-screen__title">
-            <div class="l-allWrapper">
-                <h1 class="headline">レッスン一覧</h1>
-            </div>
+    <div class="l-wrap--title">
+        <div class="l-wrap">
+            <h1 class="c-headline--screen">レッスン一覧</h1>
+            <p>{{ lessons.length }}</p>
+            <p>{{ categories.length }}</p>
         </div>
     </div>
     <div class="l-contentList">
@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="l-contentList__list__wrap">
-                        <div class="c-contentList__box" v-for="i in 10">
+						<div class="c-contentList__box" v-if="lessons.length" v-for="(lesson,index) of lessons" :key="index.id">
                             <a class="c-contentList__box__inner" href="">
                                 <div class="c-contentList__box__img">
                                     <div class="c-img--cover">
@@ -85,6 +85,7 @@
         components: {
             'sidebar-component': SidebarComponent,
         },
+        props:['lessons', 'categories'],
         data() {
             return {
 
@@ -97,5 +98,5 @@
         methods: {},
         watch: {},
     }
-    
+
 </script>
