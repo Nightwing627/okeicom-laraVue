@@ -294,6 +294,90 @@ class User extends Authenticatable
             ->get();
     }
 
+    /**
+     * 講師一覧
+     *
+     * @param int $categories_id
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getTeachersList($sex=null,$category_id = null)
+    {
+        // 講師別の評価値を集計
+        $evaluations = $this->getTeachersPointQuery();
+
+       //講師のみ
+        $query=self::query()
+            ->select([
+                'users.*',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'categories4.name as category4_name',
+                'categories5.name as category5_name',
+                'evaluations.avg_point as evaluations_avg_point',
+            ])
+            ->leftJoin('categories as categories1', 'users.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'users.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'users.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'users.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'users.category5_id', '=', 'categories5.id')
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+               $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            ->where('status',User::STATUS_TEACHER);//講師のみ
+
+        //性別があれば性別で絞込
+        if($sex){
+             $query->where("sex",$sex);
+        }
+        //カテゴリがーあればor検索
+        if($category_id){
+             $query->where(function($query) use($category_id){
+                $query->where('category1_id', '=', $category_id)
+                      ->orWhere('category2_id', '=', $category_id)
+                      ->orWhere('category3_id', '=', $category_id)
+                      ->orWhere('category4_id', '=', $category_id)
+                      ->orWhere('category5_id', '=', $category_id);
+            });
+        }
+        //並び順取得
+        $order=session('order',0);
+        $tmp=["id","desc"];
+        if($order==1){
+            $tmp=["evaluations_avg_point","desc"];
+        }
+        return $query->orderBy($tmp[0],$tmp[1])->paginate(Config::get('const.paginate.teacher'));
+    }
+
+    /**
+     * 講師カウント
+     *
+     * @param int $categories_id
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function countTeachersList($sex=null,$category_id = null)
+    {
+       //講師のみ
+        $query=self::where('status',User::STATUS_TEACHER);
+
+        //性別があれば性別で絞込
+        if($sex){
+             $query->where("sex",$sex);
+        }
+        //カテゴリがーあればor検索
+        if($category_id){
+             $query->where(function($query) use($category_id){
+                $query->where('category1_id', '=', $category_id)
+                      ->orWhere('category2_id', '=', $category_id)
+                      ->orWhere('category3_id', '=', $category_id)
+                      ->orWhere('category4_id', '=', $category_id)
+                      ->orWhere('category5_id', '=', $category_id);
+            });
+        }
+
+        return $query->count();
+    }
+
 
         //以下二つは本来べつに作るべきかもしりないが利便性をかんがえuserに作成する
     /**

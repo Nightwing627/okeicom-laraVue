@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/teacher.css') }}">
 @endpush
 
-<!-- 本文 -->
+<!-- 本文 --> 
 @section('content')
-    <teacher-index-component :count={{ $count }} :order={{ $order }}  :page={{ $page }} :start={{ $start }} :end={{ $end }} :page_cnt={{ $page_cnt }}  :users={{ $users }} :categories={{ $categories }} :selected_category={{ $selected_category }}></teacher-index-component>
+    <teacher-index-component :count={{ $count }} :order={{ $order }}  :page={{ $page }} :sex='{{ $sex }}' :start={{ $start }} :end={{ $end }} :page_cnt={{ $page_cnt }}  :users={{ $users }} :categories={{ $categories }} :selected_category={{ $selected_category }}></teacher-index-component>
 @endsection

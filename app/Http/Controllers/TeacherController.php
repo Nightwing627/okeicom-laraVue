@@ -20,8 +20,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
-use App\Http\Resources\TeacherResource;
+
 use Carbon\Carbon;
+
 class TeacherController extends Controller
 {
     private $application;
@@ -76,58 +77,18 @@ class TeacherController extends Controller
      */
     public function category(Request $request,$category=null)
     {
-        //一覧の表示。変える時はここをかえる
-         $limit=20;
+        //一覧の表示数
+        $limit=config('const.paginate.teacher');
 
         //カテゴリー取得
         $categories=Category::all();
-        //講師のみ
-        $query=User::where('status',User::STATUS_TEACHER);
 
-        //性別があれば性別で絞込
-        if($request->input("sex")){
-             $query->where("sex",$request->input("sex"));
-        }
-        //カテゴリがーあればor検索
-        if($category){
-             $query->where(function($query) use($category){
-                $query->where('category1_id', '=', $category)
-                      ->orWhere('category2_id', '=', $category)
-                      ->orWhere('category3_id', '=', $category)
-                      ->orWhere('category4_id', '=', $category)
-                      ->orWhere('category5_id', '=', $category);
-            });
-        }
-        //並び順取得
-        $order=session('order',0);
-        $users=$query->orderBy("id","desc")->get();
-        $count=$query->count();
+        $users=$this->user->getTeachersList($request->input("sex"),$category);
+        $count=$this->user->countTeachersList($request->input("sex"),$category);
 
+//print_r($users);die();
         //子要素取得
-        foreach ($users as $key => $user) {
-            $user["count"]=$user->countEvaluations();
-            $user->ave=round($user->averageEvaluationPoint(),1);
-            if($user->category1_id){
-                $user["cat1"]=Category::find($user->category1_id)->name;
-            }
-            if($user->category2_id){
-                $user["cat2"]=Category::find($user->category2_id)->name;
-            }
-            if($user->category3_id){
-                $user["cat3"]=Category::find($user->category3_id)->name;
-            }
-            if($user->category4_id){
-                $user["cat4"]=Category::find($user->category4_id)->name;
-            }
-            if($user->category5_id){
-                $user["cat5"]=Category::find($user->category5_id)->name;
-            }
-            $user->min_price=$user->getMinPrice();
-            $user->min_date=$user->getMinDate();
-            $user->joinCount=$user->getJoinCount();
 
-            $users[$key]=$user;
-        }
         //ページング処理
         $page=(int)$request->input("page");
         if(!$page){
@@ -148,25 +109,16 @@ class TeacherController extends Controller
         if($category){
            $selected_category=Category::find($category); 
         }
-        
 
-        if($order==1){
-            $users = $users->sortBy('min_date');
+         $order=session('order',0);
 
-        }else if($order==2){
-            
-            $users = $users->sortByDesc('joinCount');
+         $new_users=new Collection();
+         foreach ($users as $key => $value) {
+             $new_users->push($value);
+         }
 
-        }else if($order==3){
-            $users = $users->sortByDesc('ave');
 
-        }else if($order==4){
-            $users = $users->sortBy('min_price');
-        }
-        $new_users=new Collection();
-        $new_users=$users->splice( $start-1,$limit);
-
-        //表示
+        //表示 
         return view('teachers.index',["users"=>$new_users,'categories'=>$categories,'count'=>$count,'order'=>$order,'sex'=>$request->input("sex"),'selected_category'=>$selected_category,'page'=>$page,'start'=>$start,'end'=>$end,'page_cnt'=>$page_cnt]);
 
     }
