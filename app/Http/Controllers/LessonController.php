@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lesson;
 use App\Models\Category;
+use App\Models\Evaluation;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\Factory;
@@ -12,14 +13,17 @@ class LessonController extends Controller
 {
     private $lesson;
     private $category;
+    private $evaluation;
 
     public function __construct(
         Lesson $lesson,
-        Category $category
+        Category $category,
+        Evaluation $evaluation
     )
     {
         $this->lesson = $lesson;
         $this->category = $category;
+        $this->evaluation = $evaluation;
     }
 
     /**
@@ -30,11 +34,15 @@ class LessonController extends Controller
      */
     public function index(Request $request)
     {
-        $params = $request->all();
-        $lessons = $this->lesson->search($params);
+        // [未実装]どの情報を受け取るかをバリデーションの設定を行う（想定外を書き出す → 404ページを返す：アボートメソッド）
+        // リクエストからsortChangeの値をparamsに入れる
+        $params     = $request->sortChange;
+        // 全件検索 / 並び替え機能 / ページネーション機能
+        $lessons    = $this->lesson->search()->DynamicOrderBy($params)->paginate(20);
         $categories = $this->category->getAll(true);
-
-        return view('lessons.index', compact('lessons', 'categories'));
+        $evaluation = $this->evaluation->getAll(true);
+        dd($evaluation);
+        return view('lessons.index', compact('params', 'lessons', 'categories'));
     }
 
     /**
@@ -46,9 +54,8 @@ class LessonController extends Controller
     public function category(Request $request)
     {
         $categories_id = $request->query('categories_id');
-        $lessons = $this->lesson->findByCategoriesId($categories_id);
-        $categories = $this->category->getAll(true);
-
+        $lessons       = $this->lesson->findByCategoriesId($categories_id);
+        $categories    = $this->category->getAll(true);
         return view('lessons.index', compact('lessons', 'categories'));
     }
 

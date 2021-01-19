@@ -2,19 +2,17 @@
     <div class="l-wrap--title">
         <div class="l-wrap">
             <h1 class="c-headline--screen">レッスン一覧</h1>
-            <p>{{ lessons.length }}</p>
-            <p>{{ categories.length }}</p>
         </div>
     </div>
     <div class="l-contentList">
         <div class="l-allWrapper">
             <div class="l-contentList__wrap l-flex">
-                <sidebar-component></sidebar-component>
+                <sidebar-component :categories="categories"></sidebar-component>
                 <div class="l-contentList__list">
                     <div class="l-contentList__list__headline l-flex">
                         <div class="headlineContent info">
                             <h2 class="title">全てのカテゴリーから検索結果一覧を表示</h2>
-                            <p class="number">1,000件中 1-20件を表示</p>
+                            <p class="number">{{ lessons.length.toLocaleString() }}件中 1-20件を表示</p>
                         </div>
                         <div class="headlineContent sort l-flex l-v__center">
                             <span>並び替え</span>
@@ -30,36 +28,39 @@
                         </div>
                     </div>
                     <div class="l-contentList__list__wrap">
-						<div class="c-contentList__box" v-if="lessons.length" v-for="(lesson,index) of lessons" :key="index.id">
-                            <a class="c-contentList__box__inner" href="">
+                        <div class="c-contentList__box" v-for="(lesson, index) of lessons" :key="index.id">
+                            <a class="c-contentList__box__inner" :href="`/lessons/detail/${lesson.id}`">
                                 <div class="c-contentList__box__img">
                                     <div class="c-img--cover">
-                                        <img src="/img/screen-top.jpg">
+                                        <img src="">
                                     </div>
                                 </div>
                                 <div class="c-contentList__box__info">
                                     <div class="number l-flex">
                                         <p class="other">
-                                            <span class="stage">第一回</span>
-                                            <span class="date">2/12(金) 17:00-20:00</span>
+                                            <span class="stage">第{{ lesson.number }}回</span>
+                                            <span class="date">{{ moment(lesson.date).format('M/D') }}({{ moment(lesson.date).format('ddd') }}) {{ moment(lesson.start).format('H:mm') }}-{{ moment(lesson.finish).format('H:mm') }}</span>
                                         </p>
-                                        <p class="price">￥3,000</p>
+                                        <p class="price">{{ lesson.separate_comma_price }}</p>
                                     </div>
-                                    <p class="title">タイトルタイトルタイトルタイトルタイトルタイトル</p>
-                                    <p class="detail pc-only">詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細詳細</p>
+                                    <p class="title">{{ lesson.title }}</p>
+                                    <p class="detail pc-only">{{ lesson.detail }}</p>
                                     <div class="category">
-                                        <span>書道</span>
-                                        <span>バレエ</span>
+                                        <span v-if="lesson.category1_name">{{ lesson.category1_name }}</span>
+                                        <span v-if="lesson.category2_name">{{ lesson.category2_name }}</span>
+                                        <span v-if="lesson.category3_name">{{ lesson.category3_name }}</span>
+                                        <span v-if="lesson.category4_name">{{ lesson.category4_name }}</span>
+                                        <span v-if="lesson.category5_name">{{ lesson.category5_name }}</span>
                                     </div>
                                     <div class="teacher l-flex l-start l-v__center pc-only">
                                         <div class="teacherImg">
                                             <div class="teacherImgInner c-img--round c-img--cover">
-                                                <img src="/img/screen-top.jpg">
+                                                <!-- <img src="{{ lesson.user_img }}"> -->
                                             </div>
                                         </div>
                                         <div class="teacherEvaluation">
                                             <img src="/img/icon-star.png">
-                                            <span class="evaluationNumber">4.8</span>
+                                            <span class="evaluationNumber">{{ lesson.round_avg_point }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -80,23 +81,39 @@
 
 <script>
     import SidebarComponent from './../../components/common/sidebarComponent.vue'
+    import moment from "moment";
+    import 'moment/locale/ja';
 
     export default {
         components: {
             'sidebar-component': SidebarComponent,
         },
-        props:['lessons', 'categories'],
-        data() {
-            return {
-
+        // props:{
+        //     lessons: Array,
+        //     categories: Array
+        // },
+        // props: ['lessons', 'categories', 'paganations'],
+        // props: ['lessons', 'categories', 'info'],
+        props: ['lessons', 'categories', 'info'],
+		data() {
+			return {
+                moment: moment,
+                sampleaaa: this.info,
             }
+		},
+        setup() {
         },
         created: function() {
             // 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
+        },
+        beforeUpdate() {
+            console.log('beforeUpdate')
+        },
+        updated() {
+            console.log('updated')
         },
         computed: {},
         methods: {},
         watch: {},
     }
-
 </script>

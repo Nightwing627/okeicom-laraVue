@@ -9,4 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Evaluation extends Model
 {
     use HasFactory, SoftDeletes;
+    public function index(Request $request) {
+
+    }
 }

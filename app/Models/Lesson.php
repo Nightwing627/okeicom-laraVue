@@ -172,7 +172,7 @@ class Lesson extends Model
      * @param $params
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function search(array $params)
+    public function search()
     {
         return self::query()
             ->select([
@@ -183,18 +183,60 @@ class Lesson extends Model
                 'categories4.name as category4_name',
                 'categories5.name as category5_name',
                 'users.img as user_img',
+                'courses.img1 as course_img',
             ])
+            // 今日の日付以降のレッスンを取得
+            ->where('date', '>=', date("Y-m-d"))
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
             ->join('users', 'lessons.user_id', '=', 'users.id')
             ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
             ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
-            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
-            ->orderBy('lessons.created_at', 'desc')
-            ->paginate(Config::get('const.paginate.lesson'));
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id');
+            // ->orderBy('lessons.created_at', 'desc')
+            // ->paginate(Config::get('const.paginate.lesson'));
     }
 
+    // privateで並び替えの関数を作成する
+    // クエリスコープ
+    // 受け取った値の処理はモデル
+    // "scope"は「こいつはクエリスコープだよ」と宣言しているだけ、呼び出すときは不要
+    public function scopeDynamicOrderBy($query, $params)
+    {
+        // asc・・・昇順（小さいもの順）
+        // desc・・・降順（大きいもの順）
+        if($params == 'newDate') {
+            // 新着順
+            return $query->orderby('lessons.created_at', 'asc');
+        } elseif($params == 'dateLate') {
+            // 開催日が近い順
+            return $query->orderby('lessons.date', 'desc');
+        } elseif($params == 'participantHigh') {
+            // 参加者が多い順
+            return $query->orderby('lessons.created_at', 'desc');
+        } elseif($params == 'evaluationHigh') {
+            // 評価が高い順
+            return $query->orderby('lessons.created_at', 'desc');
+        } elseif($params == 'priceLow') {
+            // 料金が安い順
+            return $query->orderby('lessons.price', 'asc');
+        } else {
+            // その他
+            return $query->orderby('lessons.created_at', 'desc');
+        };
+        // ->paginate(Config::get('const.paginate.lesson'));
+
+
+
+
+            // if($params =)
+            // ->orderBy('lessons.created_at', 'desc');
+    //     return $query->orderby($params);
+    //     // return self::query()
+    //     //     ->orderBy('lessons.created_at', 'desc')
+    //     //     ->paginate(Config::get('const.paginate.lesson'));
+    }
     /**
      * 指定カテゴリのレッスン取得
      *
