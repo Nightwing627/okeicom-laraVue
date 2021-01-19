@@ -109,8 +109,30 @@ class User extends Authenticatable
      */
     public function getRoundAvgPointAttribute()
     {
-        return round($this->evaluations_avg_point, 1);
+        return $this->hasMany('App\Models\Evaluation');
+        // return round($this->evaluations_avg_point, 1);
     }
+
+    /**
+     * 講師ごとの評価を取得
+     * @return string
+     */
+    // public function perUserAvgPoint()
+    // {
+    //     // ユーザー（講師）一覧を取得
+    //     $users = User::all();
+    //     // ユーザーごとの評価を入れる配列を
+    //     $data = [];
+    //     // ユーザーごとの評価を
+    //     foreach ($users as $user) {
+    //         $data[] = [
+    //             'evaluation' => $user->hasMany('App\Models\Evaluation', 'user_teacher_id', 'id')->select('point')->get()->toArray()
+    //         ];
+    //     }
+    //     dd($data);
+    //     // dd($this->hasMany('App\Models\Evaluation', 'user_teacher_id', 'id'));
+    //     // return round($this->evaluations_avg_point, 1);
+    // }
 
     /**
      * 現在の状態名称リストを連想配列で取得
@@ -184,11 +206,11 @@ class User extends Authenticatable
     {
         // 講師別の評価値を集計
         return Evaluation::query()
-             ->select(
-                 'evaluations.user_teacher_id',
-                 DB::raw('avg(evaluations.point) as avg_point')
-             )
-             ->groupBy('evaluations.user_teacher_id');
+            ->select(
+                'evaluations.user_teacher_id',
+                DB::raw('avg(evaluations.point) as avg_point')
+            )
+            ->groupBy('evaluations.user_teacher_id');
     }
 
     /**
@@ -250,8 +272,8 @@ class User extends Authenticatable
             })
             ->whereExists(function ($query) {
                 $query->select(DB::raw(1))
-                      ->from('lessons')
-                      ->whereRaw('lessons.user_id = users.id');
+                    ->from('lessons')
+                    ->whereRaw('lessons.user_id = users.id');
             })
             ->orderByDesc('evaluations.avg_point')
             ->orderBy('users.created_at')
@@ -282,12 +304,12 @@ class User extends Authenticatable
             ->leftJoin('categories as categories2', 'users.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'users.category3_id', '=', 'categories3.id')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
-               $join->on('users.id', '=', 'evaluations.user_teacher_id');
+                $join->on('users.id', '=', 'evaluations.user_teacher_id');
             })
             ->whereExists(function ($query) {
-               $query->select(DB::raw(1))
-                     ->from('lessons')
-                     ->whereRaw('lessons.user_id = users.id');
+                $query->select(DB::raw(1))
+                    ->from('lessons')
+                    ->whereRaw('lessons.user_id = users.id');
             })
             ->orderByDesc('users.created_at')
             ->limit(Config::get('const.top_thumbnail_count'))
@@ -433,6 +455,6 @@ class User extends Authenticatable
                              ->from('lessons')
                              ->where('user_id',$this->id);
             })->count();
-            
+
     }
 }

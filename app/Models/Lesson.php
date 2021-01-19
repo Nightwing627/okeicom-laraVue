@@ -149,7 +149,8 @@ class Lesson extends Model
      */
     public function getRoundAvgPointAttribute()
     {
-        return round($this->evaluations_avg_point, 1);
+        return $this->hasMany('App\Models\Evaluation');
+        // return round($this->evaluations_avg_point, 1);
     }
 
     /**
@@ -174,6 +175,17 @@ class Lesson extends Model
      */
     public function search()
     {
+        // ユーザー（講師）一覧を取得
+        $lessons = Lesson::all();
+        // ユーザーごとの評価を入れる配列を
+        $data = [];
+        // ユーザーごとの評価を
+        foreach ($lessons as $lesson) {
+            $data[] = [
+                $lesson->hasMany('App\Models\Evaluation', 'user_teacher_id', 'id')->select('point')->get()->toArray()
+            ]
+        }
+        dd($data);
         return self::query()
             ->select([
                 'lessons.*',
@@ -198,8 +210,6 @@ class Lesson extends Model
             // ->paginate(Config::get('const.paginate.lesson'));
     }
 
-    // privateで並び替えの関数を作成する
-    // クエリスコープ
     // 受け取った値の処理はモデル
     // "scope"は「こいつはクエリスコープだよ」と宣言しているだけ、呼び出すときは不要
     public function scopeDynamicOrderBy($query, $params)
@@ -237,6 +247,7 @@ class Lesson extends Model
     //     //     ->orderBy('lessons.created_at', 'desc')
     //     //     ->paginate(Config::get('const.paginate.lesson'));
     }
+
     /**
      * 指定カテゴリのレッスン取得
      *
@@ -301,13 +312,13 @@ class Lesson extends Model
     {
         return self::query()
             ->select([
-               'lessons.*',
-               'categories1.name as category1_name',
-               'categories2.name as category2_name',
-               'categories3.name as category3_name',
-               'categories4.name as category4_name',
-               'categories5.name as category5_name',
-               'users.img as user_img',
+                'lessons.*',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'categories4.name as category4_name',
+                'categories5.name as category5_name',
+                'users.img as user_img',
             ])
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
             ->join('applications', 'lessons.id', '=', 'applications.lesson_id')
@@ -344,7 +355,7 @@ class Lesson extends Model
         // レッスン別に参加人数を取得
         $applications = Application::query()
             ->select(
-               'applications.lesson_id',
+                'applications.lesson_id',
                 DB::raw('count(*) as count')
             )
             ->join('lessons', 'applications.lesson_id', '=', 'lessons.id')
@@ -372,7 +383,7 @@ class Lesson extends Model
             ->where('lessons.user_id', Auth::user()->id)
             ->where('lessons.status', self::STATUS_PLANS)
             ->update([
-               'lessons.status' => self::STATUS_CANCEL_TEACHER
+                'lessons.status' => self::STATUS_CANCEL_TEACHER
             ]);
     }
 
@@ -435,8 +446,8 @@ class Lesson extends Model
         // レッスン別に参加人数を取得
         $applications = Application::query()
             ->select(
-               'applications.lesson_id',
-               DB::raw('count(*) as count')
+                'applications.lesson_id',
+                DB::raw('count(*) as count')
             )
             ->join('lessons', 'applications.lesson_id', '=', 'lessons.id')
             ->groupBy('applications.lesson_id');
@@ -507,7 +518,7 @@ class Lesson extends Model
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
             ->join('users', 'lessons.user_id', '=', 'users.id')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
-               $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
+                $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
             })
             ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')

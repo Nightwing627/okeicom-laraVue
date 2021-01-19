@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lesson;
 use App\Models\Category;
 use App\Models\Evaluation;
+use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\Factory;
@@ -13,17 +14,18 @@ class LessonController extends Controller
 {
     private $lesson;
     private $category;
-    private $evaluation;
+    private $Evaluation;
+    private $user;
 
     public function __construct(
         Lesson $lesson,
         Category $category,
-        Evaluation $evaluation
+        User $user
     )
     {
         $this->lesson = $lesson;
         $this->category = $category;
-        $this->evaluation = $evaluation;
+        $this->user = $user;
     }
 
     /**
@@ -36,12 +38,26 @@ class LessonController extends Controller
     {
         // [未実装]どの情報を受け取るかをバリデーションの設定を行う（想定外を書き出す → 404ページを返す：アボートメソッド）
         // リクエストからsortChangeの値をparamsに入れる
-        $params     = $request->sortChange;
+        $params      = $request->sortChange;
         // 全件検索 / 並び替え機能 / ページネーション機能
-        $lessons    = $this->lesson->search()->DynamicOrderBy($params)->paginate(20);
-        $categories = $this->category->getAll(true);
-        $evaluation = $this->evaluation->getAll(true);
-        dd($evaluation);
+        $lessons     = $this->lesson->search()->DynamicOrderBy($params)->paginate(20);
+        $categories  = $this->category->getAll(true);
+
+        // ユーザーIDと紐づく評価を連想配列にして入れる
+        $users = User::all();
+        $data = [];
+        foreach ($users as $user) {
+            $data[] = [
+                'evaluation' => $user->perUserAvgPoint()->select('id', 'point', 'created_at')->get()->toArray()
+            ];
+        }
+        dd($data);
+
+        $avg_point   = $this->userAvgPoint();
+        $target      = Evaluation::find(1)
+                        ->userAvgPoint()
+                        ->where('id', '=', '1')
+                        ->get();
         return view('lessons.index', compact('params', 'lessons', 'categories'));
     }
 
