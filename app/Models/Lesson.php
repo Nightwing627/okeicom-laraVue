@@ -213,7 +213,6 @@ class Lesson extends Model
                 'categories5.name as category5_name',
                 'users.img as user_img',
                 'courses.img1 as course_img',
-                'rating_avg.point_avg as user_point',
             ])
             // 今日の日付以降のレッスンを取得
             ->where('date', '>=', date("Y-m-d"))
