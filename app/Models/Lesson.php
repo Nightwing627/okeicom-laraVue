@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-
 class Lesson extends Model
 {
     use HasFactory, SoftDeletes;
@@ -175,17 +174,35 @@ class Lesson extends Model
      */
     public function search()
     {
+        // 講師ID（user_teacher_id）毎の平均値（points）を取得
+        $rating_avg = Evaluation::selectRaw('user_teacher_id, ROUND(AVG(point), 1) as point_avg')->groupBy('user_teacher_id')->get();
+
         // ユーザー（講師）一覧を取得
         $lessons = Lesson::all();
         // ユーザーごとの評価を入れる配列を
+
         $data = [];
-        // ユーザーごとの評価を
+        // ユーザーごとの評価を配列に入れ直す
         foreach ($lessons as $lesson) {
-            $data[] = [
-                $lesson->hasMany('App\Models\Evaluation', 'user_teacher_id', 'id')->select('point')->get()->toArray()
-            ]
+            $data[] = $lesson->hasMany('App\Models\Evaluation', 'user_teacher_id', 'id')->select('point')->get()->toArray();
+        };
+
+        // 配列の階層を1つ浅くする
+        for($i = 0; $i < count($lessons); $i++) {
+            $points[] = [];
+            for($t = 0; $t < count($data[$i]); $t++) {
+                $points[$i][] += $data[$i][$t]['point'];
+            }
         }
-        dd($data);
+        // 配列ごとに足して、小数点2桁に変更
+        $avg = [];
+        for($i = 0; $i < count($points); $i++) {
+            $avg[$i] = array_sum($points[$i]);
+            if(!empty($avg[$i])) {
+                $avg[$i] = (floor($avg[$i] / count($points[$i]) * 10) / 10);
+            }
+        };
+
         return self::query()
             ->select([
                 'lessons.*',
@@ -196,11 +213,13 @@ class Lesson extends Model
                 'categories5.name as category5_name',
                 'users.img as user_img',
                 'courses.img1 as course_img',
+                'rating_avg.point_avg as user_point',
             ])
             // 今日の日付以降のレッスンを取得
             ->where('date', '>=', date("Y-m-d"))
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
             ->join('users', 'lessons.user_id', '=', 'users.id')
+            ->leftJoin('rating_avg', 'lessons.user_teacher_id', '=', 'rating_avg.user_teacher_id')
             ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')

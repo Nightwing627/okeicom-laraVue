@@ -69,6 +69,7 @@
                                     <div class="number l-flex">
                                         <p class="other">
                                             <span class="stage">第{{ $lesson->number }}回</span>
+                                            <span>{{ $lesson->user_point }}</span>
                                             <span class="date">{{ $lesson->add_week_date }} {{ $lesson->separate_hyphen_time }}</span>
                                         </p>
                                         <p class="price">{{ $lesson->separate_comma_price }}</p>
@@ -100,7 +101,7 @@
                                         </div>
                                         <div class="teacherEvaluation">
                                             <img src="/img/icon-star.png">
-                                            <span class="evaluationNumber">{{ $lesson->round_avg_point}}</span>
+                                            <span class="evaluationNumber">{{-- {{ $lesson->round_avg_point}} --}}</span>
                                         </div>
                                     </div>
                                 </div>

@@ -43,21 +43,6 @@ class LessonController extends Controller
         $lessons     = $this->lesson->search()->DynamicOrderBy($params)->paginate(20);
         $categories  = $this->category->getAll(true);
 
-        // ユーザーIDと紐づく評価を連想配列にして入れる
-        $users = User::all();
-        $data = [];
-        foreach ($users as $user) {
-            $data[] = [
-                'evaluation' => $user->perUserAvgPoint()->select('id', 'point', 'created_at')->get()->toArray()
-            ];
-        }
-        dd($data);
-
-        $avg_point   = $this->userAvgPoint();
-        $target      = Evaluation::find(1)
-                        ->userAvgPoint()
-                        ->where('id', '=', '1')
-                        ->get();
         return view('lessons.index', compact('params', 'lessons', 'categories'));
     }
 
