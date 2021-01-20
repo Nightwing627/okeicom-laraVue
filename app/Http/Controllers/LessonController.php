@@ -36,7 +36,7 @@ class LessonController extends Controller
      */
     public function index(Request $request)
     {
-        // [未実装]どの情報を受け取るかをバリデーションの設定を行う（想定外を書き出す → 404ページを返す：アボートメソッド）
+        // [未実装]どの情報を受け取るかをバリデーションの設定を行う
         // リクエストからsortChangeの値をparamsに入れる
         $params      = $request->sortChange;
         // 全件検索 / 並び替え機能 / ページネーション機能
@@ -68,6 +68,7 @@ class LessonController extends Controller
      */
     public function detail(Request $request)
     {
+
         return view('lessons.detail');
     }
 
