@@ -3,7 +3,11 @@
 @include("../common/head")
 <body>
     <div id="app">
-        <header-component></header-component>
+        @if( Auth::check() )
+            <header-teacher-component></header-teacher-component>
+        @else
+            <header-component></header-component>
+        @endif
 
         <main id="l-main">
             @unless(Request::is('/'))

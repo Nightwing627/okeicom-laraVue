@@ -46,17 +46,6 @@ class SearchController extends Controller
         $lessons       = $this->lesson->findBySearchKeyword($params, $categories_id)->DynamicOrderBy($sort_param)->paginate(20);
         $categories    = $this->category->getAll(true);
 
-        // クエリ生成
-        // $query   = Lesson::query();
-        // // キーワードがあったら
-        // if($keyword) {
-        //     // 検索キーワードを含む（部分一致）レッスンを一覧を取得
-        //     // タイトル及び説明から情報を取得
-        //     $query->where('title', 'like', '%'.$keyword.'%')->orWhere('detail','like','%'.$keyword.'%');
-        // };
-        // // エンコード処理
-        // $lessons = json_encode($query->get());
-        // 検索画面に、「レッスン一覧」と「キーワード」情報を送る
-        return view('searches.index', compact('sort_param', 'params', 'lessons', 'categories'));
+        return view('searches.index', compact('params', 'lessons', 'categories'));
     }
 }

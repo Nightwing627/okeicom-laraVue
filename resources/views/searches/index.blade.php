@@ -43,18 +43,18 @@
                             @endisset
 							<div class="c-searchResult__block__inner l-flex">
 								<div class="searchText">
-                                    @if(isset($params['keyword']))
+                                    @isset($params['keyword'])
                                         <input type="text" name="keyword" value="{{ $params['keyword'] }}">
                                     @else
                                         <input type="text" name="keyword" value="">
-                                    @endif
+                                    @endisset
 								</div>
 								<div class="searchDate pc-only">
-                                    @if(isset($params['select_date']))
+                                    @isset($params['select_date'])
                                         <vuejs-datepicker-component name="select_date" value="{{ $params['select_date'] }}"/></vuejs-datepicker-component>
                                     @else
                                         <vuejs-datepicker-component name="select_date"/></vuejs-datepicker-component>
-                                    @endif
+                                    @endisset
 								</div>
 								<div class="searchSubmit pc-only">
                                     <button type="submit">検索</button>
@@ -71,12 +71,12 @@
             <div class="l-contentList__wrap l-flex">
                 <sidebar-search-component
                     :categories="{{ $categories }}"
-                    categories_id="{{ $params['categories_id'] }}"
+                    categories_id="{{ $params['categories_id'] ?? '' }}"
                 ></sidebar-search-component>
                 <div class="l-contentList__list">
                     <div class="l-contentList__list__headline l-flex">
                         <div class="headlineContent info">
-                            <h2 class="title">全てのカテゴリーから検索結果一覧を表示</h2>
+                            <h2 class="title">レッスン一覧を表示</h2>
                             <p class="number">{{ $lessons->total() ?? '0' }}件中 {{ $lessons->firstItem() ?? '0' }}-{{ $lessons->lastItem() ?? '0' }}件を表示</p>
                         </div>
                         <div class="headlineContent sort l-flex l-v__center">
@@ -84,23 +84,24 @@
                             <div class="c-selectBox">
                                 <form action="{{ route('search.index') }}" method="get">
                                     @isset($params['categories_id'])
-                                    <input type="hidden" name="categories_id" value="{{ $params['categories_id'] }}">
+                                        <input type="hidden" name="categories_id" value="{{ $params['categories_id'] }}">
                                     @endisset
                                     @isset($params['is_target'])
-                                    <input type="hidden" name="is_target" value="{{ $params['is_target'] }}">
+                                        <input type="hidden" name="is_target" value="{{ $params['is_target'] }}">
                                     @endisset
                                     @isset($params['keyword'])
-                                    <input type="hidden" name="keyword" value="{{ $params['keyword'] }}">
+                                        <input type="hidden" name="keyword" value="{{ $params['keyword'] }}">
                                     @endisset
                                     @isset($params['select_date'])
-                                    <input type="hidden" name="keyword" value="{{ $params['select_date'] }}">
+                                        <input type="hidden" name="select_date" value="{{ $params['select_date'] }}">
                                     @endisset
                                     <select name="sort_param" class="c-input--gray" onchange="submit(this.form)">
-                                        <option value="newDate" {{ $sort_param === 'newDate' ? 'selected': '' }}>新着順</option>
-                                        <option value="dateLate" {{ $sort_param === 'dateLate' ? 'selected': '' }}>開催日が近い順</option>
-                                        <option value="participantHigh" {{ $sort_param === 'participantHigh' ? 'selected': '' }}>参加者が多い順</option>
-                                        <option value="evaluationHigh" {{ $sort_param === 'evaluationHigh' ? 'selected': '' }}>評価が高い順</option>
-                                        <option value="priceLow" {{ $sort_param === 'priceLow' ? 'selected': '' }}>料金が安い順</option>
+                                        @if (old('period') == '1ヶ月') selected @endif
+                                        <option value="newDate" {{ isset($params['sort_param']) == 'newDate' ? 'selected': '' }}>新着順</option>
+                                        <option value="dateLate" {{ isset($params['sort_param']) == 'dateLate' ? 'selected': '' }}>開催日が近い順</option>
+                                        <option value="participantHigh" {{ isset($params['sort_param']) == 'participantHigh' ? 'selected': '' }}>参加者が多い順</option>
+                                        <option value="evaluationHigh" {{ isset($params['sort_param']) == 'evaluationHigh' ? 'selected': '' }}>評価が高い順</option>
+                                        <option value="priceLow" {{ isset($params['sort_param']) == 'priceLow' ? 'selected': '' }}>料金が安い順</option>
                                     </select>
                                 </form>
                             </div>

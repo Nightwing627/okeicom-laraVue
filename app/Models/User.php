@@ -114,27 +114,6 @@ class User extends Authenticatable
     }
 
     /**
-     * 講師ごとの評価を取得
-     * @return string
-     */
-    // public function perUserAvgPoint()
-    // {
-    //     // ユーザー（講師）一覧を取得
-    //     $users = User::all();
-    //     // ユーザーごとの評価を入れる配列を
-    //     $data = [];
-    //     // ユーザーごとの評価を
-    //     foreach ($users as $user) {
-    //         $data[] = [
-    //             'evaluation' => $user->hasMany('App\Models\Evaluation', 'user_teacher_id', 'id')->select('point')->get()->toArray()
-    //         ];
-    //     }
-    //     dd($data);
-    //     // dd($this->hasMany('App\Models\Evaluation', 'user_teacher_id', 'id'));
-    //     // return round($this->evaluations_avg_point, 1);
-    // }
-
-    /**
      * 現在の状態名称リストを連想配列で取得
      *
      * @return array
@@ -262,11 +241,15 @@ class User extends Authenticatable
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
+                'categories4.name as category4_name',
+                'categories5.name as category5_name',
                 'evaluations.avg_point as evaluations_avg_point',
             ])
             ->leftJoin('categories as categories1', 'users.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'users.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'users.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'users.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'users.category5_id', '=', 'categories5.id')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                 $join->on('users.id', '=', 'evaluations.user_teacher_id');
             })

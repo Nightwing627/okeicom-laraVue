@@ -196,7 +196,7 @@
                                 <p class="c-teacher--box__name">{{ $popular_teacher->name }}</p>
                                 <div class="c-teacher--box__evaluation l-flex l-center l-v__center">
                                     <img src="{{ asset('/img/icon-star.png') }}">
-                                    <span class="evaluationNumber">{{ $popular_teacher->round_avg_point }}</span>
+                                    <span class="evaluationNumber">{{ $popular_teacher->evaluations_avg_point }}</span>
                                 </div>
                                 <ul class="c-teacher--box__category l-flex l-center">
                                     <li><span>アート・デザイン</span></li>
@@ -226,7 +226,7 @@
                                 <p class="c-teacher--box__name">{{ $new_arrival_teacher->name }}</p>
                                 <div class="c-teacher--box__evaluation l-flex l-center l-v__center">
                                     <img src="{{ asset('/img/icon-star.png') }}">
-                                    <span class="evaluationNumber">{{ $new_arrival_teacher->round_avg_point }}</span>
+                                    <span class="evaluationNumber">{{ $new_arrival_teacher->evaluations_avg_point }}</span>
                                 </div>
                                 <ul class="c-teacher--box__category l-flex l-center">
                                     <li><span>アート・デザイン</span></li>

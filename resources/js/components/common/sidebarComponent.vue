@@ -28,9 +28,11 @@
 
 <script>
     export default {
+        props: ['categories', 'categories_id'],
 		data(){
 			return {
 				isActiveCategory: false,
+                nowCategory: this.categories_id,
 			}
 		},
 		// props: {
@@ -38,7 +40,6 @@
         //     selected_category: Array,
         //     link: String,
         // },
-        props: ['categories'],
         mounted: function () {},
 		methods: {
 			// [SP]　カテゴリー一覧を表示させる

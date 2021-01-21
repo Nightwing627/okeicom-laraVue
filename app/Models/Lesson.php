@@ -207,23 +207,23 @@ class Lesson extends Model
 
     // 受け取った値の処理はモデル
     // "scope"は「こいつはクエリスコープだよ」と宣言しているだけ、呼び出すときは不要
-    public function scopeDynamicOrderBy($query, $sort_param)
+    public function scopeDynamicOrderBy($query, $params)
     {
         // asc・・・昇順（小さいもの順）
         // desc・・・降順（大きいもの順）
-        if($sort_param == 'newDate') {
+        if(isset($params['sort_param']) === 'newDate') {
             // 新着順
             return $query->orderby('lessons.created_at', 'asc');
-        } elseif($sort_param == 'dateLate') {
+        } elseif(isset($params['sort_param']) === 'dateLate') {
             // 開催日が近い順
             return $query->orderby('lessons.date', 'asc');
-        } elseif($sort_param == 'participantHigh') {
+        } elseif(isset($params['sort_param']) === 'participantHigh') {
             // 参加者が多い順
             return $query->orderby('lessons.created_at', 'desc');
-        } elseif($sort_param == 'evaluationHigh') {
+        } elseif(isset($params['sort_param']) === 'evaluationHigh') {
             // 評価が高い順
             return $query->orderby('lessons.created_at', 'desc');
-        } elseif($sort_param == 'priceLow') {
+        } elseif(isset($params['sort_param']) === 'priceLow') {
             // 料金が安い順
             return $query->orderby('lessons.price', 'asc');
         } else {
@@ -249,8 +249,10 @@ class Lesson extends Model
      * @param int $categories_id
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function findByCategoriesId($categories_id = 0)
+    public function findByCategoriesId($params)
     {
+
+        $categories_id = $params['categories_id'];
         $user = new User();
         $evaluations = $user->getTeachersPointQuery();
 
@@ -552,6 +554,8 @@ class Lesson extends Model
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
             ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
             ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
+
+            ->where('lessons.date', '>=', date("Y-m-d"))
             ->where('lessons.status', self::STATUS_PLANS)
             ->orderBy('applications.count', 'desc')
             ->orderBy('lessons.created_at')
@@ -597,6 +601,7 @@ class Lesson extends Model
             ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
             ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
             ->where('lessons.status', self::STATUS_PLANS)
+            ->where('lessons.date', '>=', date("Y-m-d"))
             ->orderBy('evaluations.avg_point', 'desc')
             ->orderBy('lessons.created_at')
             ->limit(Config::get('const.top_thumbnail_count'))
@@ -641,6 +646,7 @@ class Lesson extends Model
                 $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
             })
             ->where('lessons.status', self::STATUS_PLANS)
+            ->where('lessons.date', '>=', date("Y-m-d"))
             ->orderBy('lessons.created_at', 'desc')
             ->limit(Config::get('const.top_thumbnail_count'))
             ->get();

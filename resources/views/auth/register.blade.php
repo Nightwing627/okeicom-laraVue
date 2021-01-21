@@ -169,6 +169,10 @@
                                 <span class="u-color--red">{{ $message }}</span>
                             @enderror
                         </div>
+                        <div class="l-content--input">
+                            <p class="l-content--input__headline">メールアドレス</p>
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email }}" required autocomplete="email" readonly>
+                        </div>
                         <!--
                             メールアドレスは、認証で設定したメールアドレスを使用したいです！そのため、入力不要にしたいです。
                         -->
@@ -178,6 +182,10 @@
                             @error('password')
                                 <span class="u-color--red">{{ $message }}</span>
                             @enderror
+                        </div>
+                        <div class="l-content--input">
+                            <p class="l-content--input__headline">確認用パスワード</p>
+                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                         </div>
                         <div class="l-content--input">
                             <p class="l-content--input__headline">性別</p>
@@ -199,12 +207,12 @@
                         <div class="l-content--input">
                             <p class="l-content--input__headline">言語</p>
                             <input type="" name="" placeholder="言語">
-                        </div> --}}
+                        </div>
                         <div class="l-content--input">
                             <p class="l-content--input__headline">都道府県</p>
                             <input type="" name="" placeholder="都道府県">
                         </div>
-                        {{-- <div class="l-content--input">
+                        <div class="l-content--input">
                             <p class="l-content--input__headline">カテゴリー（最低1つ）</p>
                             <div class="c-selectBox u-mb5">
                                 <select>

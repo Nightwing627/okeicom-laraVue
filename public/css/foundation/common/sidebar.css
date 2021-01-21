@@ -35,7 +35,7 @@
 
 @media screen and (min-width: 896px) {
   .sidebar__list li {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
   }
   .sidebar__list li a {
     position: relative;
