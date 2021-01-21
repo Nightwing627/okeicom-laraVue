@@ -6,7 +6,9 @@ import HeaderComponent from './components/common/headerComponent.vue'
 import HeaderUserComponent from './components/common/headerUserComponent.vue'
 import HeaderTeacherComponent from './components/common/headerTeacherComponent.vue'
 import SidebarComponent from './components/common/sidebarComponent.vue'
+import SidebarSearchComponent from './components/common/sidebarSearchComponent.vue'
 import DatepickerLite from "vue3-datepicker"
+import VuejsDatepickerComponent from "./components/common/VuejsDatepickerComponent.vue"
 
 // 検索
 import SearchComponent from './components/search/indexComponent.vue'
@@ -50,7 +52,9 @@ createApp({ components:{ App,
     'header-user-component': HeaderUserComponent,
     'header-teacher-component': HeaderTeacherComponent,
     'sidebar-component': SidebarComponent,
+    'sidebar-search-component': SidebarSearchComponent,
     'vue-datapicker-lite': DatepickerLite,
+    'vuejs-datepicker-component': VuejsDatepickerComponent,
 
     // 検索
     'search-component': SearchComponent,
@@ -87,7 +91,6 @@ createApp({ components:{ App,
     // 管理画面：コース詳細
     'admin-user-show-course-component' : AdminUserShowCourse,
 }}).mount('#app')
-
 
 
 // サンプル

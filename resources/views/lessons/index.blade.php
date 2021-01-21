@@ -11,20 +11,6 @@
 
 {{-- 本文 --}}
 @section('content')
-    {{--
-    <lesson-index-component
-        :lessons="{{ $lessons }}"
-        :categories="{{ $categories }}"
-        :pagenations="{{ $pagenations }}"
-        :info="{{ $info }}"
-    >
-    <lesson-index-component
-        :lessons="{{ $lessons }}"
-        :categories="{{ $categories }}"
-    >
-    </lesson-index-component>
-    --}}
-
     <div class="l-wrap--title">
         <div class="l-wrap">
             <h1 class="c-headline--screen">レッスン一覧</h1>
@@ -33,24 +19,31 @@
     <div class="l-contentList">
         <div class="l-allWrapper">
             <div class="l-contentList__wrap l-flex">
-                <sidebar-component :categories="{{ $categories }}"></sidebar-component>
+                <sidebar-component
+                    :categories="{{ $categories }}"
+                    categories_id="{{ $params['categories_id'] }}"
+                ></sidebar-component>
                 <div class="l-contentList__list">
                     <div class="l-contentList__list__headline l-flex">
                         <div class="headlineContent info">
                             <h2 class="title">全てのカテゴリーから検索結果一覧を表示</h2>
-                            <p class="number">{{ $lessons->total() ?? '0' }}件中 {{ $lessons->firstItem() }}-{{ $lessons->lastItem() }}件を表示</p>
+                            <p class="number">{{ $lessons->total() ?? '0' }}件中 {{ $lessons->firstItem() ?? '0' }}-{{ $lessons->lastItem() ?? '0' }}件を表示</p>
                         </div>
                         <div class="headlineContent sort l-flex l-v__center">
                             <span>並び替え</span>
                             <div class="c-selectBox">
-                                <form action="{{url('lessons')}}" method="get">
-                                    {{ csrf_field() }}
-                                    <select name="sortChange" class="c-input--gray" onchange="submit(this.form)">
-                                        <option value="newDate" {{$params == 'newDate' ? 'selected': '' }}>新着順</option>
-                                        <option value="dateLate" {{$params == 'dateLate' ? 'selected': '' }}>開催日が近い順</option>
-                                        <option value="participantHigh" {{$params == 'participantHigh' ? 'selected': '' }}>参加者が多い順</option>
-                                        <option value="evaluationHigh" {{$params == 'evaluationHigh' ? 'selected': '' }}>評価が高い順</option>
-                                        <option value="priceLow" {{$params == 'priceLow' ? 'selected': '' }}>料金が安い順</option>
+                                @if( request()->is('*categories*') )
+                                    <form action="{{ route('lessons.categories') }}" method="get">
+                                    <input type="hidden" name="categories_id" value="{{ $categories_id }}">
+                                @else
+                                    <form action="{{ url('lessons') }}" method="get">
+                                @endif
+                                    <select name="sort_param" class="c-input--gray" onchange="submit(this.form)">
+                                        <option value="newDate" {{ $sort_param === 'newDate' ? 'selected': '' }}>新着順</option>
+                                        <option value="dateLate" {{ $sort_param === 'dateLate' ? 'selected': '' }}>開催日が近い順</option>
+                                        <option value="participantHigh" {{ $sort_param === 'participantHigh' ? 'selected': '' }}>参加者が多い順</option>
+                                        <option value="evaluationHigh" {{ $sort_param === 'evaluationHigh' ? 'selected': '' }}>評価が高い順</option>
+                                        <option value="priceLow" {{ $sort_param === 'priceLow' ? 'selected': '' }}>料金が安い順</option>
                                     </select>
                                 </form>
                             </div>

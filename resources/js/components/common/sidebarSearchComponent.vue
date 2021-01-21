@@ -7,7 +7,7 @@
 			<!-- <li v-bind:class="[category.id === selected_category.id ? 'selected': '']" v-for="category in categories">
                 <a v-bind:href="link + category.id" >{{ category.name }}</a>
             </li> -->
-            <li v-for="category in categories"><a :href="'/lessons/categories?categories_id=' + category.id">{{ category.name }}</a></li>
+            <li v-for="category in categories"><a :href="'/search?categories_id=' + category.id">{{ category.name }}</a></li>
 		</ul>
 		<ul class="sidebar__list pc-only">
 			<!-- <li class="selected" v-if="selected_category==''" ><a v-bind:href="link">全て</a></li>
@@ -15,7 +15,8 @@
 			<!-- <li v-bind:class="[category.id === selected_category.id ? 'selected': '']" v-for="category in categories">
                 <a v-bind:href="link + category.id">{{ category.name }}</a>
             </li> -->
-            <li v-for="category in categories" :class="[ category.id == this.nowCategory ? 'selected' : '' ]"><a :href="'/lessons/categories?categories_id=' + category.id">{{ category.name }}</a></li>
+            <!-- <li v-for="category in categories" :class="isSelected(category.id)"><a :href="'/search?categories_id=' + category.id">{{ category.name }}</a></li> -->
+            <li v-for="category in categories" :class="[ category.id == this.nowCategory ? 'selected' : '' ]"><a :href="'/search?categories_id=' + category.id">{{ category.name }}</a></li>
 		</ul>
 		<div class="c-openButton sp-only">
 			<a @click.prevent="toggleActiveCategory">
@@ -28,9 +29,11 @@
 
 <script>
     export default {
+        props: ['categories', 'categories_id'],
 		data(){
 			return {
-				isActiveCategory: false,
+                isActiveCategory: false,
+                nowCategory: this.categories_id,
 			}
 		},
 		// props: {
@@ -38,13 +41,21 @@
         //     selected_category: Array,
         //     link: String,
         // },
-        props: ['categories'],
-        mounted: function () {},
+        mounted: function () {
+            console.log(this.categories)
+        },
 		methods: {
 			// [SP]　カテゴリー一覧を表示させる
 			toggleActiveCategory: function() {
 				this.isActiveCategory = !this.isActiveCategory;
-			},
+            },
+            isSelected: function(category) {
+                if(category === this.nowCategory ) {
+                    return 'selected'
+                } else {
+                    return ''
+                }
+            }
         },
 	}
 </script>

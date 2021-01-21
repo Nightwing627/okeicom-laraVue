@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Lesson;
 use App\Models\Category;
-use App\Models\Evaluation;
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -14,7 +13,6 @@ class LessonController extends Controller
 {
     private $lesson;
     private $category;
-    private $Evaluation;
     private $user;
 
     public function __construct(
@@ -38,12 +36,11 @@ class LessonController extends Controller
     {
         // [未実装]どの情報を受け取るかをバリデーションの設定を行う
         // リクエストからsortChangeの値をparamsに入れる
-        $params      = $request->sortChange;
+        $sort_param = $request->query('sort_param');
         // 全件検索 / 並び替え機能 / ページネーション機能
-        $lessons     = $this->lesson->search()->DynamicOrderBy($params)->paginate(20);
-        $categories  = $this->category->getAll(true);
-
-        return view('lessons.index', compact('params', 'lessons', 'categories'));
+        $lessons    = $this->lesson->search()->DynamicOrderBy($sort_param)->paginate(20);
+        $categories = $this->category->getAll(true);
+        return view('lessons.index', compact('sort_param', 'lessons', 'categories'));
     }
 
     /**
@@ -54,10 +51,14 @@ class LessonController extends Controller
      */
     public function category(Request $request)
     {
-        $categories_id = $request->query('categories_id');
-        $lessons       = $this->lesson->findByCategoriesId($categories_id);
+        //dd($request);
+        // $sort_param    = $request->query('sort_param');
+        // $categories_id = $request->query('categories_id');
+        $sort_param    = $request->sort_data;
+        $categories_id = $request->categories_id;
+        $lessons       = $this->lesson->findByCategoriesId($categories_id)->DynamicOrderBy($sort_param)->paginate(20);
         $categories    = $this->category->getAll(true);
-        return view('lessons.index', compact('lessons', 'categories'));
+        return view('lessons.index', compact('sort_param', 'categories_id', 'lessons', 'categories'));
     }
 
     /**
@@ -68,7 +69,6 @@ class LessonController extends Controller
      */
     public function detail(Request $request)
     {
-
         return view('lessons.detail');
     }
 
