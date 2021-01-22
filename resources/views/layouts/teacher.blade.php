@@ -7,9 +7,7 @@
         <header-teacher-component></header-teacher-component>
         <main>
             <div class="l-wrap--body">
-                
                 <div class="l-wrap l-flex">
-
                     @unless(Request::is('mypage/t'))
                         @include("../common/sidebar-teacher")
                     @endunless

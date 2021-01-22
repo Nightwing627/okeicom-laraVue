@@ -7,7 +7,7 @@
 			<!-- <li v-bind:class="[category.id === selected_category.id ? 'selected': '']" v-for="category in categories">
                 <a v-bind:href="link + category.id" >{{ category.name }}</a>
             </li> -->
-            <li v-for="category in categories"><a :href="'/lessons/categories?categories_id=' + category.id">{{ category.name }}</a></li>
+            <li v-for="category in categories"><a :href="path + '/categories?categories_id=' + category.id">{{ category.name }}</a></li>
 		</ul>
 		<ul class="sidebar__list pc-only">
 			<!-- <li class="selected" v-if="selected_category==''" ><a v-bind:href="link">全て</a></li>
@@ -15,7 +15,9 @@
 			<!-- <li v-bind:class="[category.id === selected_category.id ? 'selected': '']" v-for="category in categories">
                 <a v-bind:href="link + category.id">{{ category.name }}</a>
             </li> -->
-            <li v-for="category in categories" :class="[ category.id == this.nowCategory ? 'selected' : '' ]"><a :href="'/lessons/categories?categories_id=' + category.id">{{ category.name }}</a></li>
+            <li v-for="category in categories" :class="[ category.id == this.nowCategory ? 'selected' : '' ]">
+                <a :href="path + '/categories?categories_id=' + category.id">{{ category.name }}</a>
+            </li>
 		</ul>
 		<div class="c-openButton sp-only">
 			<a @click.prevent="toggleActiveCategory">
@@ -28,7 +30,7 @@
 
 <script>
     export default {
-        props: ['categories', 'categories_id'],
+        props: ['categories', 'categories_id', 'path'],
 		data(){
 			return {
 				isActiveCategory: false,

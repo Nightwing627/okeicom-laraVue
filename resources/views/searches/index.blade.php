@@ -69,10 +69,11 @@
     <div class="l-contentList">
         <div class="l-allWrapper">
             <div class="l-contentList__wrap l-flex">
-                <sidebar-search-component
+                <sidebar-component
                     :categories="{{ $categories }}"
                     categories_id="{{ $params['categories_id'] ?? '' }}"
-                ></sidebar-search-component>
+                    path="{{ '/search' }}"
+                ></sidebar-component>
                 <div class="l-contentList__list">
                     <div class="l-contentList__list__headline l-flex">
                         <div class="headlineContent info">

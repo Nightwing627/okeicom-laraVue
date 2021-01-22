@@ -109,8 +109,9 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
 // 講師一覧
 Route::prefix('teachers')->name('teachers.')->group(function () {
     Route::get('/', [TeacherController::class, 'index'])->name('index');
+    // レッスン：カテゴリー別
+    Route::get('categories', [TeacherController::class, 'index'])->name('index');
     Route::get('/changeOrder', [TeacherController::class, 'changeOrder'])->name('changeOrder');
-    Route::get('category/{category?}', [TeacherController::class, 'category'])->name('category');
     Route::get('detail/{id}', [TeacherController::class, 'detail'])->name('detail');
 });
 // 講師管理画面

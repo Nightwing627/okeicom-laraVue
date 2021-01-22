@@ -100,7 +100,11 @@
 }
 
 .c-text--sex.man {
-  background: #00ffff;
+  background: #373B50;
+}
+
+.c-text--sex.gender {
+  background: #808080;
 }
 
 /*

@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -30,6 +31,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
         'password',
         'account',
         'status',
@@ -81,6 +83,90 @@ class User extends Authenticatable
     ];
 
     /**
+     * 条件検索した講師一覧を取得
+     *
+     * @param $value
+     * @return array
+     */
+    public function searchTeacher($params)
+    {
+        // パラメーターを設定
+        $is_sort       = isset($params['sort_param']) ? $params['sort_param'] : '';
+        $is_categories = isset($params['cateogries_id']) ? $params['cateogries_id'] : '';
+        $is_sex        = isset($params['is_sex']) ? $params['is_sex'] : '';
+        // 評価の計算結果
+        $evaluations   = $this->getTeachersPointQuery();
+        // 条件ユーザー一覧をリターン
+        return self::query()
+                ->ofSortParam($is_sort)
+                ->ofCategoryId($is_categories)
+                ->ofUserSex($is_sex)
+                ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                    $join->on('users.id', '=', 'evaluations.user_teacher_id');
+                })
+                ->select(['users.*', 'evaluations.avg_point as evaluations_avg_point',]);
+    }
+
+    /**
+     * Scopeによる絞り込み：ソート機能
+     *
+     * @param Builder $query
+     * @param [integer] $key
+     * @return Builder
+     */
+    public function scopeOfSortParam(Builder $query, $key)
+    {
+        // desc（3, 2, 1）
+        // asc（1, 2, 3）
+        if (blank($key)) return;
+        if ($key == 'sort_new') {
+            return $query->orderby('users.created_at', 'desc');
+        } elseif($key == 'sort_evaluation') {
+            return $query->orderBy('evaluations.avg_point', 'desc（3');
+        }
+    }
+
+    /**
+     * Scopeによる絞り込み：カテゴリー
+     *
+     * @param Builder $query
+     * @param [integer] $key
+     * @return Builder
+     */
+    public function scopeOfCategoryId(Builder $query, $key)
+    {
+        if (blank($key)) return;
+        return $query->when($key > 0, function ($query) use ($key) {
+            $query->where(function ($query) use ($key) {
+                $query->orwhere('users.category1_id', $key)
+                    ->orwhere('users.category2_id', $key)
+                    ->orwhere('users.category3_id', $key)
+                    ->orwhere('users.category4_id', $key)
+                    ->orwhere('users.category5_id', $key);
+            });
+        });
+    }
+
+    /**
+     * Scopeによる絞り込み：性別
+     *
+     * @param Builder $query
+     * @param [integer] $key
+     * @return Builder
+     */
+    public function scopeOfUserSex(Builder $query, $key)
+    {
+        if (blank($key)) return;
+        if ($key == 1) {
+            return $query->where('users.sex', 'LIKE', '%'.$key.'%');
+        } elseif ($key == 2) {
+            return $query->where('users.sex', 'LIKE', '%'.$key.'%');
+        } else {
+            return $query;
+        }
+    }
+
+    /**
      * 性別の名称を取得
      *
      * @param $value
@@ -109,8 +195,7 @@ class User extends Authenticatable
      */
     public function getRoundAvgPointAttribute()
     {
-        return $this->hasMany('App\Models\Evaluation');
-        // return round($this->evaluations_avg_point, 1);
+        return round($this->evaluations_avg_point, 1);
     }
 
     /**
@@ -327,22 +412,22 @@ class User extends Authenticatable
             ->leftJoin('categories as categories4', 'users.category4_id', '=', 'categories4.id')
             ->leftJoin('categories as categories5', 'users.category5_id', '=', 'categories5.id')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
-               $join->on('users.id', '=', 'evaluations.user_teacher_id');
+                $join->on('users.id', '=', 'evaluations.user_teacher_id');
             })
             ->where('status',User::STATUS_TEACHER);//講師のみ
 
         //性別があれば性別で絞込
         if($sex){
-             $query->where("sex",$sex);
+            $query->where("sex",$sex);
         }
         //カテゴリがーあればor検索
         if($category_id){
-             $query->where(function($query) use($category_id){
+            $query->where(function($query) use($category_id){
                 $query->where('category1_id', '=', $category_id)
-                      ->orWhere('category2_id', '=', $category_id)
-                      ->orWhere('category3_id', '=', $category_id)
-                      ->orWhere('category4_id', '=', $category_id)
-                      ->orWhere('category5_id', '=', $category_id);
+                    ->orWhere('category2_id', '=', $category_id)
+                    ->orWhere('category3_id', '=', $category_id)
+                    ->orWhere('category4_id', '=', $category_id)
+                    ->orWhere('category5_id', '=', $category_id);
             });
         }
         //並び順取得

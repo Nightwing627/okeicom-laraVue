@@ -56,8 +56,11 @@ class TeacherController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
-    {   
-        return $this->category($request);
+    {
+        $categories = $this->category->getAll(true);
+        $params     = $request->all;
+        $teachers   = $this->user->searchTeacher($params)->paginate(20);
+        return view('teachers.index', compact('teachers', 'params', 'categories'));
     }
     /**
      * 並び替え
@@ -67,8 +70,9 @@ class TeacherController extends Controller
     public function changeOrder(Request $request)
     {
         session(['order' => $request->input("order")]);
-         return redirect(url()->previous());
-    } 
+        return redirect(url()->previous());
+    }
+
     /**
      * カテゴリー一覧
      *
@@ -80,14 +84,13 @@ class TeacherController extends Controller
         //一覧の表示数
         $limit=config('const.paginate.teacher');
 
+
+
         //カテゴリー取得
         $categories=Category::all();
 
         $users=$this->user->getTeachersList($request->input("sex"),$category);
         $count=$this->user->countTeachersList($request->input("sex"),$category);
-
-//print_r($users);die();
-        //子要素取得
 
         //ページング処理
         $page=(int)$request->input("page");
@@ -99,26 +102,31 @@ class TeacherController extends Controller
         if($end>$count){
             $end=$count;
         }
-        $page_cnt=floor($count/$limit)+1;
-        if($count%$limit==0){
-            $page_cnt--;
+        if($limit) {
+            $page_cnt=floor($count/$limit)+1;
+            if($count%$limit==0){
+                $page_cnt--;
+            }
+        } else {
+            $page_cnt = 1;
         }
+
         $selected_category=null;
 
         //カテゴリーある場合はここで内容取得
         if($category){
-           $selected_category=Category::find($category); 
+            $selected_category=Category::find($category);
         }
 
-         $order=session('order',0);
+        $order=session('order',0);
 
-         $new_users=new Collection();
-         foreach ($users as $key => $value) {
-             $new_users->push($value);
-         }
+        $new_users=new Collection();
+        foreach ($users as $key => $value) {
+            $new_users->push($value);
+        }
 
 
-        //表示 
+        //表示
         return view('teachers.index',["users"=>$new_users,'categories'=>$categories,'count'=>$count,'order'=>$order,'sex'=>$request->input("sex"),'selected_category'=>$selected_category,'page'=>$page,'start'=>$start,'end'=>$end,'page_cnt'=>$page_cnt]);
 
     }
@@ -185,10 +193,10 @@ class TeacherController extends Controller
                 }
                 if($course->category5_id){
                     $lesson["cat5"]=Category::find($course->category5_id)->name;
-                } 
+                }
                 if($course->img1){
                     $lesson["img"]=$course->img1;
-                }                
+                }
             }
             $lesson["price"]=number_format($lesson->price);
             //日付の整形はバックエンドしておく

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Mail\EmailVerify;
 use App\Providers\RouteServiceProvider;
@@ -190,7 +191,7 @@ class RegisterController extends Controller
             return User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                // 'email_verified_at' => $data['email'],
+                'email_verified_at' => Carbon::now(),
                 'password' => Hash::make($data['password']),
                 'account' => $data['account'],
                 'status' => 0,
