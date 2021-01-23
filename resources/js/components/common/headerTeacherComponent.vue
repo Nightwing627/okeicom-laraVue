@@ -64,12 +64,12 @@
 					</li>
 				</ul>
 				<div class="header__search pc-only">
-					<form class="l-flex">
+					<form class="l-flex" action="/search" method="GET">
 						<div class="header__search__text">
-							<input class="c-input--gray" type="text" name="" placeholder="キーワードを入力">
+							<input class="c-input--gray" type="text" name="keyword" placeholder="キーワードを入力">
 						</div>
 						<div class="header__search__submit">
-							<input type="submit" name="" value="検索">
+                            <button type="submit">検索</button>
 						</div>
 					</form>
 				</div>

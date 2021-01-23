@@ -28,10 +28,25 @@
 			<div class="l-allWrapper">
 				<div class="l-searchResult__wrap l-flex">
 					<div class="c-searchResult__block tab l-flex l-v__center">
-						<ul class="c-tab">
-							<li class="c-tab--button selected"><a>レッスンから選択</a></li>
-							<li class="c-tab--button"><a>先生から検索</a></li>
-						</ul>
+                        <form action="{{ route('search.index') }}" method="get">
+                            <ul class="c-tab">
+                                @isset($params['is_target'])
+                                    <li class="c-tab--button">
+                                        <button type="submit" value="lessons" name="is_target" class="@if($params['is_target'] == 'lessons') selected @endif">レッスンから選択</button>
+                                    </li>
+                                    <li class="c-tab--button">
+                                        <button type="submit" name="is_target" value="teachers" class="@if($params['is_target'] == 'teachers') selected @endif">先生から検索</button>
+                                    </li>
+                                @else
+                                    <li class="c-tab--button">
+                                        <button type="submit" name="is_target" value="lessons">レッスンから選択</button>
+                                    </li>
+                                    <li class="c-tab--button">
+                                        <button type="submit" name="is_target" value="teachers">先生から検索</button>
+                                    </li>
+                                @endisset
+                            </ul>
+                        </form>
 					</div>
 					<div class="c-searchResult__block input l-flex l-v__center">
 						<form action="{{ route('search.index') }}" method="get">
@@ -97,12 +112,19 @@
                                         <input type="hidden" name="select_date" value="{{ $params['select_date'] }}">
                                     @endisset
                                     <select name="sort_param" class="c-input--gray" onchange="submit(this.form)">
-                                        @if (old('period') == '1ヶ月') selected @endif
-                                        <option value="newDate" {{ isset($params['sort_param']) == 'newDate' ? 'selected': '' }}>新着順</option>
-                                        <option value="dateLate" {{ isset($params['sort_param']) == 'dateLate' ? 'selected': '' }}>開催日が近い順</option>
-                                        <option value="participantHigh" {{ isset($params['sort_param']) == 'participantHigh' ? 'selected': '' }}>参加者が多い順</option>
-                                        <option value="evaluationHigh" {{ isset($params['sort_param']) == 'evaluationHigh' ? 'selected': '' }}>評価が高い順</option>
-                                        <option value="priceLow" {{ isset($params['sort_param']) == 'priceLow' ? 'selected': '' }}>料金が安い順</option>
+                                        @isset($params['sort_param'])
+                                            <option value="newDate" @if($params['sort_param'] == 'newDate') selected @endif>新着順</option>
+                                            <option value="dateLate" @if($params['sort_param'] == 'dateLate') selected @endif>開催日が近い順</option>
+                                            <option value="participantHigh" @if($params['sort_param'] == 'participantHigh') selected @endif>参加者が多い順</option>
+                                            <option value="evaluationHigh" @if($params['sort_param'] == 'evaluationHigh') selected @endif>評価が高い順</option>
+                                            <option value="priceLow" @if($params['sort_param'] == 'priceLow') selected @endif>料金が安い順</option>
+                                        @else
+                                            <option value="newDate">新着順</option>
+                                            <option value="dateLate">開催日が近い順</option>
+                                            <option value="participantHigh">参加者が多い順</option>
+                                            <option value="evaluationHigh">評価が高い順</option>
+                                            <option value="priceLow">料金が安い順</option>
+                                        @endisset
                                     </select>
                                 </form>
                             </div>

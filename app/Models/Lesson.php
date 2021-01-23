@@ -222,7 +222,7 @@ class Lesson extends Model
             return $query->orderby('lessons.created_at', 'desc');
         } elseif(isset($params['sort_param']) === 'evaluationHigh') {
             // 評価が高い順
-            return $query->orderby('lessons.created_at', 'desc');
+            return $query->orderby('evaluations_avg_point', 'desc');
         } elseif(isset($params['sort_param']) === 'priceLow') {
             // 料金が安い順
             return $query->orderby('lessons.price', 'asc');

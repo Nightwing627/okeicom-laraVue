@@ -37,6 +37,7 @@
   .sidebar__list li {
     margin-bottom: 12px;
   }
+  .sidebar__list li button,
   .sidebar__list li a {
     position: relative;
     border-radius: 30px;
@@ -45,6 +46,7 @@
     background: #F7F7F7;
     color: #3188FF;
   }
+  .sidebar__list li button:before,
   .sidebar__list li a:before {
     content: '';
     display: block;
@@ -57,10 +59,12 @@
             transform: translateY(-50%);
     background: url(/../img/icon-arrow-right-blue.png) center/contain no-repeat;
   }
+  .sidebar__list li.selected button,
   .sidebar__list li.selected a {
     color: #3C3C3B;
     font-weight: 700;
   }
+  .sidebar__list li.selected button:before,
   .sidebar__list li.selected a:before {
     background: url(/../img/icon-sidebar-arrow-right-black.png) center/contain no-repeat;
   }

@@ -2,9 +2,9 @@
 	<!-- 検索モーダル -->
 	<div class="l-overlay l-modal--search" @click="closeSearch" v-show="searchShow">
 		<div class="l-modal--search__content" @click="stopEvent">
-			<form action="">
+			<form class="l-flex" action="/search" method="GET">
 				<div class="l-modal--search__input">
-					<input class="c-input--gray" type="text">
+					<input class="c-input--gray" type="text" name="keyword">
 				</div>
 			</form>
 		</div>

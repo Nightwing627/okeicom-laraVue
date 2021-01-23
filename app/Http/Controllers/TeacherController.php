@@ -51,14 +51,15 @@ class TeacherController extends Controller
 
     /**
      * 講師一覧
-     * 基本的に処理はカテゴリーに委譲する。
+     * カテゴリー処理も含む
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
         $categories = $this->category->getAll(true);
-        $params     = $request->all;
+        $params     = $request->all();
+        // ddd($params);
         $teachers   = $this->user->searchTeacher($params)->paginate(20);
         return view('teachers.index', compact('teachers', 'params', 'categories'));
     }

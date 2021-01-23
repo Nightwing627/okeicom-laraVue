@@ -119,10 +119,10 @@ class User extends Authenticatable
         // desc（3, 2, 1）
         // asc（1, 2, 3）
         if (blank($key)) return;
-        if ($key == 'sort_new') {
+        if ($key == 'new') {
             return $query->orderby('users.created_at', 'desc');
-        } elseif($key == 'sort_evaluation') {
-            return $query->orderBy('evaluations.avg_point', 'desc（3');
+        } elseif($key == 'evaluation') {
+            return $query->orderBy('evaluations_avg_point', 'desc');
         }
     }
 
@@ -157,10 +157,10 @@ class User extends Authenticatable
     public function scopeOfUserSex(Builder $query, $key)
     {
         if (blank($key)) return;
-        if ($key == 1) {
-            return $query->where('users.sex', 'LIKE', '%'.$key.'%');
-        } elseif ($key == 2) {
-            return $query->where('users.sex', 'LIKE', '%'.$key.'%');
+        if ($key == 'man') {
+            return $query->where('users.sex', 'LIKE', '%1%');
+        } elseif ($key == 'female') {
+            return $query->where('users.sex', 'LIKE', '%2%');
         } else {
             return $query;
         }

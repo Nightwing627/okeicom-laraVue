@@ -59,6 +59,7 @@ $colorBorderColor: #707070;
     @include mq_up(md) {
         li {
             margin-bottom: 12px;
+            button,
             a {
                 position: relative;
                 border-radius: 30px;
@@ -78,6 +79,7 @@ $colorBorderColor: #707070;
                     background: url(/../img/icon-arrow-right-blue.png) center/contain no-repeat;
                 }
             }
+            &.selected button,
             &.selected a {
                 color: #3C3C3B;
                 font-weight: 700;

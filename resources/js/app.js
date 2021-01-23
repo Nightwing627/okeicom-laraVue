@@ -32,6 +32,8 @@ import PageFaqTeacherComponent from './components/page/faqTeacherComponent.vue'
 import UserMessageComponent from './components/user/messageComponent.vue'
 // 共通管理画面：プロフィール
 import UserProfileComponent from './components/user/profileComponent.vue'
+// 共通管理画面：プロフィール
+import UserProfileUploadImgComponent from './components/user/ProfileUploadImgComponent.vue'
 
 // 受講者管理画面：受講済みレッスン一覧
 import UserLessonComponent from './components/user/lessonComponent.vue'
@@ -78,6 +80,8 @@ createApp({ components:{ App,
     'user-message-component' : UserMessageComponent,
     // 共通管理画面：プロフィール
     'user-profile-component' : UserProfileComponent,
+    // 共通管理画面：プロフィール
+    'user-profile-upload-img-component' : UserProfileUploadImgComponent,
 
     // 受講者管理画面：受講済みレッスン一覧
     'user-lesson-component' : UserLessonComponent,

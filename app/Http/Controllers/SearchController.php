@@ -13,7 +13,6 @@ class SearchController extends Controller
 {
     private $lesson;
     private $category;
-    private $Evaluation;
     private $user;
 
     public function __construct(
@@ -28,6 +27,8 @@ class SearchController extends Controller
     }
     public function index(Request $request)
     {
+
+        $params = $request->all();
         // キーワードがある場合、パラーメーターに保存
         if(isset($request->keyword)) { $params['keyword'] = $request->keyword; }
         // カテゴリーがある場合、パラーメーターにカテゴリーを保存
@@ -42,7 +43,10 @@ class SearchController extends Controller
         // dd($params);
         $sort_param    = $request->sort_data;
         $categories_id = $request->categories_id;
-
+        // $is_target     = $request->is_target;
+        // dd($is_target);
+        // if($params['is_target'] == 'lessons') {
+        // } else ($params['is_s'])
         $lessons       = $this->lesson->findBySearchKeyword($params, $categories_id)->DynamicOrderBy($sort_param)->paginate(20);
         $categories    = $this->category->getAll(true);
 

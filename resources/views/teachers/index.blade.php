@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-<!-- タイトル・メタディスクリプション -->
+{{-- タイトル・メタディスクリプション --}}
 @section('title', '講師一覧 | おけいcom')
 @section('description', 'おけいcomの講師一覧ページ概要です。')
 
-<!-- CSS -->
+{{-- CSS --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/teacher.css') }}">
 @endpush
 
-<!-- 本文 -->
+{{-- 本文 --}}
 @section('content')
     <div class="l-wrap--title">
         <div class="l-wrap">
@@ -21,7 +21,7 @@
             <sidebar-component
                 :categories="{{ $categories }}"
                 categories_id="{{ $params['categories_id'] ?? '' }}"
-                path="{{ '/teacher' }}"
+                path="{{ '/teachers' }}"
             >
             </sidebar-component>
             <div class="l-wrap--main">
@@ -34,9 +34,20 @@
                         <span>並び替え</span>
                         <div class="c-selectBox">
                             <form action="{{ url('teachers') }}" method="get">
+                                @isset($params['categories_id'])
+                                    <input type="hidden" name="categories_id" value="{{ $params['categories_id'] }}">
+                                @endisset
+                                @isset($params['is_sex'])
+                                    <input type="hidden" name="is_sex" value="{{ $params['is_sex'] }}">
+                                @endisset
                                 <select name="sort_param" class="c-input--gray" onchange="submit(this.form)">
-                                    <option value="sort_new" {{ isset($params['sort_param'])  == 'sort_new' ? 'selected': '' }}>新着順</option>
-                                    <option value="sort_evaluation" {{ isset($params['sort_param']) == 'sort_evaluation' ? 'selected': '' }}>評価が高い順</option>
+                                    @isset($params['sort_param'])
+                                        <option value="new" @if($params['sort_param'] == 'new') selected @endif>新着順</option>
+                                        <option value="evaluation" @if($params['sort_param'] == 'evaluation') selected @endif>評価が高い順</option>
+                                    @else
+                                        <option value="new">新着順</option>
+                                        <option value="evaluation">評価が高い順</option>
+                                    @endisset
                                 </select>
                             </form>
                         </div>
@@ -44,30 +55,35 @@
                 </div>
                 <div class="l-list--teacher">
                     <div class="l-list--teacher__tab three-tab">
-                        <!-- <a v-bind:href="'/teachers'" v-if="selected_category==''">
-                            <div class="tab-box selected" v-if="sex==''">全て</div>
-                            <div class="tab-box" v-else>全て</div>
-                        </a>
-                        <a v-bind:href="'/teachers/category/'+selected_category.id" v-else>
-                            <div class="tab-box selected" v-if="sex==''">全て</div>
-                            <div class="tab-box" v-else>全て</div>
-                        </a>
-                        <a v-bind:href="'/teachers?sex=1'" v-if="selected_category==''">
-                            <div class="tab-box selected" v-if="sex==1">男性</div>
-                            <div class="tab-box"  v-else>男性</div>
-                        </a>
-                        <a v-bind:href="'/teachers/category/'+selected_category.id+'?sex=1'" v-else>
-                            <div class="tab-box selected" v-if="sex==1">男性</div>
-                            <div class="tab-box"  v-else>男性</div>
-                        </a>
-                        <a v-bind:href="'/teachers?sex=2'" v-if="selected_category==''">
-                            <div class="tab-box selected" v-if="sex==2">女性</div>
-                            <div class="tab-box" v-else>女性</div>
-                        </a>
-                        <a v-bind:href="'/teachers/category/'+selected_category.id+'?sex=2'" v-else>
-                            <div class="tab-box selected" v-if="sex==2">女性</div>
-                            <div class="tab-box" v-else>女性</div>
-                        </a> -->
+                        <form action="{{ url('teachers') }}" method="get">
+                            @isset($params['categories_id'])
+                                <input type="hidden" name="categories_id" value="{{ $params['categories_id'] }}">
+                            @endisset
+                            @isset($params['sort_param'])
+                                <input type="hidden" name="sort_param" value="{{ $params['sort_param'] }}">
+                            @endisset
+                            @isset($params['is_sex'])
+                                <button type="submit" name="is_sex" value="all">
+                                    <div class="tab-box @if($params['is_sex'] == 'all') selected @endif">全て</div>
+                                </button>
+                                <button type="submit" name="is_sex" value="man">
+                                    <div class="tab-box @if($params['is_sex'] == 'man') selected @endif">男性</div>
+                                </button>
+                                <button type="submit" name="is_sex" value="female">
+                                    <div class="tab-box @if($params['is_sex'] == 'female') selected @endif">女性</div>
+                                </button>
+                            @else
+                                <button type="submit" name="is_sex" value="all">
+                                    <div class="tab-box selected">全て</div>
+                                </button>
+                                <button type="submit" name="is_sex" value="man">
+                                    <div class="tab-box">男性</div>
+                                </button>
+                                <button type="submit" name="is_sex" value="female">
+                                    <div class="tab-box">女性</div>
+                                </button>
+                            @endisset
+                        </form>
                     </div>
                     @if($teachers)
                         @foreach($teachers as $teacher)
@@ -137,5 +153,15 @@
             </div>
         </div>
     </div>
-    {{-- <teacher-index-component :count={{ $count }} :order={{ $order }}  :page={{ $page }} :sex='{{ $sex }}' :start={{ $start }} :end={{ $end }} :page_cnt={{ $page_cnt }}  :users={{ $users }} :categories={{ $categories }} :selected_category={{ $selected_category }}></teacher-index-component> --}}
+    {{-- <teacher-index-component
+        :count={{ $count }}
+        :order={{ $order }}
+        :page={{ $page }}
+        :sex='{{ $sex }}'
+        :start={{ $start }}
+        :end={{ $end }}
+        :page_cnt={{ $page_cnt }}
+        :users={{ $users }}
+        :categories={{ $categories }}
+        :selected_category={{ $selected_category }}></teacher-index-component> --}}
 @endsection

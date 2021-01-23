@@ -23,7 +23,8 @@
                     :categories="{{ $categories }}"
                     categories_id="{{ $params['categories_id'] ?? '' }}"
                     path="{{ '/lessons' }}"
-                ></sidebar-component>
+                >
+                </sidebar-component>
                 <div class="l-contentList__list">
                     <div class="l-contentList__list__headline l-flex">
                         <div class="headlineContent info">
@@ -35,10 +36,12 @@
                             <div class="c-selectBox">
                                 @if( request()->is('*categories*') )
                                 <form action="{{ route('lessons.categories') }}" method="get">
-                                    <input type="hidden" name="categories_id" value="{{ $params['categories_id'] }}">
                                 @else
                                 <form action="{{ url('lessons') }}" method="get">
                                 @endif
+                                    @isset($params['categories_id'])
+                                        <input type="hidden" name="categories_id" value="{{ $params['categories_id'] }}">
+                                    @endisset
                                     <select name="sort_param" class="c-input--gray" onchange="submit(this.form)">
                                         <option value="newDate" {{ isset($params['sort_param'])  == 'newDate' ? 'selected': '' }}>新着順</option>
                                         <option value="dateLate" {{ isset($params['sort_param']) == 'dateLate' ? 'selected': '' }}>開催日が近い順</option>
