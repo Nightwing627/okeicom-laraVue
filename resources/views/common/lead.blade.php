@@ -14,7 +14,7 @@
 				<div class="lead__img__box"><img src="{{ asset('/img/screen-top.jpg') }}"></div>
 			</div>
 			<div class="lead__submit">
-				<a class="c-button--round right-arrow-round" href="">新規登録</a>
+				<a class="c-button--round right-arrow-round" href="/sign-up">新規登録</a>
 			</div>
 		</div>
 	</div>

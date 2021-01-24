@@ -87,6 +87,8 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
     Route::get('/', [LessonController::class, 'index'])->name('index');
     // レッスン：カテゴリー別
     Route::get('categories', [LessonController::class, 'category'])->name('categories');
+    // レッスン：詳細（※ detail/{id} のルートは、detail/*** の各ルートの一番下に書くこと）
+    Route::get('detail/{id}', [LessonController::class, 'detail'])->name('detail');
     // レッスン：ログインが必須なページ
     Route::middleware('auth')->group(function () {
         // レッスン：予約
@@ -102,8 +104,6 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
         Route::post('evaluation', [LessonController::class, 'storeEvaluation'])->name('evaluation.update');
         Route::get('evaluation/complete', [LessonController::class, 'completeEvaluation'])->name('evaluation.complete');
     });
-    // レッスン：詳細（※ detail/{id} のルートは、detail/*** の各ルートの一番下に書くこと）
-    Route::get('detail/{id}', [LessonController::class, 'detail'])->name('detail');
 });
 
 // 講師一覧
@@ -164,7 +164,6 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
 
 // 静的ページ
 Route::name('pages.')->group(function () {
-    Route::get('news', [PageController::class, 'news' ])->name('news');
     Route::get('news', [PageController::class, 'news' ])->name('news');
     Route::get('news/detail/{id}', [PageController::class, 'newsDetail'])->name('news.detail');
 

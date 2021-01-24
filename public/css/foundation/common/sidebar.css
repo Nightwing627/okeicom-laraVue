@@ -33,6 +33,13 @@
   font-weight: 700;
 }
 
+@media screen and (max-width: 897px) {
+  #sidebar.other-sidebar {
+    margin-top: 10px;
+    border-top: 1px solid #F0F0F0;
+  }
+}
+
 @media screen and (min-width: 896px) {
   .sidebar__list li {
     margin-bottom: 12px;

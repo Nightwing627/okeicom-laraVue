@@ -1,6 +1,8 @@
 <template>
 	<div id="sidebar">
         <form :action="path">
+
+            <input type="hidden" v-if="target" :value="target" name="is_target">
             <div class="headline pc-only"><p>カテゴリー</p></div>
             <ul class="sidebar__list sp-only" v-if="isActiveCategory">
                 <!-- <li v-if="selected_category==''" class="selected" ><a v-bind:href="link">全て</a></li>
@@ -40,7 +42,7 @@
 
 <script>
     export default {
-        props: ['categories', 'categories_id', 'path'],
+        props: ['categories', 'categories_id', 'path', 'target'],
 		data(){
 			return {
 				isActiveCategory: false,

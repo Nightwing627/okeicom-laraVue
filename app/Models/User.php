@@ -91,9 +91,11 @@ class User extends Authenticatable
     public function searchTeacher($params)
     {
         // パラメーターを設定
-        $is_sort       = isset($params['sort_param']) ? $params['sort_param'] : '';
-        $is_categories = isset($params['cateogries_id']) ? $params['cateogries_id'] : '';
-        $is_sex        = isset($params['is_sex']) ? $params['is_sex'] : '';
+        // null型演算子
+        $is_sort       = $params['sort_param'] ?? '';
+        $is_categories = $params['categories_id'] ?? '';
+        $is_sex        = $params['is_sex'] ?? '';
+        $is_keyword    = $params['keyword'] ?? '';
         // 評価の計算結果
         $evaluations   = $this->getTeachersPointQuery();
         // 条件ユーザー一覧をリターン
@@ -101,6 +103,7 @@ class User extends Authenticatable
                 ->ofSortParam($is_sort)
                 ->ofCategoryId($is_categories)
                 ->ofUserSex($is_sex)
+                ->ofSearchKeyword($is_keyword)
                 ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                     $join->on('users.id', '=', 'evaluations.user_teacher_id');
                 })
@@ -138,13 +141,20 @@ class User extends Authenticatable
         if (blank($key)) return;
         return $query->when($key > 0, function ($query) use ($key) {
             $query->where(function ($query) use ($key) {
-                $query->orwhere('users.category1_id', $key)
-                    ->orwhere('users.category2_id', $key)
-                    ->orwhere('users.category3_id', $key)
-                    ->orwhere('users.category4_id', $key)
-                    ->orwhere('users.category5_id', $key);
+                $query->orwhere('users.category1_id', '=', $key)
+                    ->orwhere('users.category2_id', '=', $key)
+                    ->orwhere('users.category3_id', '=', $key)
+                    ->orwhere('users.category4_id', '=', $key)
+                    ->orwhere('users.category5_id', '=', $key);
             });
         });
+        // return $query->where(function ($query) use ($key) {
+        //     $query->orwhere('users.category1_id', '=', $key)
+        //         ->orwhere('users.category2_id', '=', $key)
+        //         ->orwhere('users.category3_id', '=', $key)
+        //         ->orwhere('users.category4_id', '=', $key)
+        //         ->orwhere('users.category5_id', '=', $key);
+        // });
     }
 
     /**
@@ -167,36 +177,23 @@ class User extends Authenticatable
     }
 
     /**
-     * 性別の名称を取得
+     * Scopeによる絞り込み：性別
      *
-     * @param $value
-     * @return array
+     * @param Builder $query
+     * @param [integer] $key
+     * @return Builder
      */
-    public function getSexNameAttribute()
+    public function scopeOfSearchKeyword(Builder $query, $key)
     {
-        $sex_name = '';
-        switch ($this['sex']) {
-            case self::SEX_UNKNOWN:
-                $sex_name = __('UserSexUnknown');
-                break;
-            case self::SEX_MALE:
-                $sex_name =  __('UserSexMale');
-                break;
-            case self::SEX_FEMALE:
-                $sex_name =  __('UserSexFemale');
-                break;
+        if (blank($key)) return;
+        if (isset($key)) {
+            return $query->where(function ($query) use ($key) {
+                    $query->orwhere('users.name', 'like', '%'.$key.'%')
+                        ->orWhere('users.profile','like','%'.$key.'%');
+            });
         }
-        return $sex_name;
     }
 
-    /**
-     * 講師の評価値を少数第一までにフォーマット
-     * @return string
-     */
-    public function getRoundAvgPointAttribute()
-    {
-        return round($this->evaluations_avg_point, 1);
-    }
 
     /**
      * 現在の状態名称リストを連想配列で取得
@@ -235,6 +232,40 @@ class User extends Authenticatable
                 $this->img = basename(Storage::putFile(Config::get('const.image_path.profile'), $request->file('img')));
             }
         }
+    }
+
+    /* アクセサ get~~~Attribute
+    ------------------------------------------------------------------------------------------------------*/
+    /**
+     * 性別の名称を取得
+     *
+     * @param $value
+     * @return array
+     */
+    public function getSexNameAttribute()
+    {
+        $sex_name = '';
+        switch ($this['sex']) {
+            case self::SEX_UNKNOWN:
+                $sex_name = __('UserSexUnknown');
+                break;
+            case self::SEX_MALE:
+                $sex_name =  __('UserSexMale');
+                break;
+            case self::SEX_FEMALE:
+                $sex_name =  __('UserSexFemale');
+                break;
+        }
+        return $sex_name;
+    }
+
+    /**
+     * 講師の評価値を少数第一までにフォーマット
+     * @return string
+     */
+    public function getRoundAvgPointAttribute()
+    {
+        return round($this->evaluations_avg_point, 1);
     }
 
     /**
@@ -452,16 +483,16 @@ class User extends Authenticatable
 
         //性別があれば性別で絞込
         if($sex){
-             $query->where("sex",$sex);
+            $query->where("sex",$sex);
         }
         //カテゴリがーあればor検索
         if($category_id){
-             $query->where(function($query) use($category_id){
+            $query->where(function($query) use($category_id){
                 $query->where('category1_id', '=', $category_id)
-                      ->orWhere('category2_id', '=', $category_id)
-                      ->orWhere('category3_id', '=', $category_id)
-                      ->orWhere('category4_id', '=', $category_id)
-                      ->orWhere('category5_id', '=', $category_id);
+                    ->orWhere('category2_id', '=', $category_id)
+                    ->orWhere('category3_id', '=', $category_id)
+                    ->orWhere('category4_id', '=', $category_id)
+                    ->orWhere('category5_id', '=', $category_id);
             });
         }
 
@@ -469,7 +500,7 @@ class User extends Authenticatable
     }
 
 
-        //以下二つは本来べつに作るべきかもしりないが利便性をかんがえuserに作成する
+    //以下二つは本来べつに作るべきかもしりないが利便性をかんがえuserに作成する
     /**
      * レビュー数を取得する
      *
@@ -492,7 +523,7 @@ class User extends Authenticatable
             ->avg('point');
     }
 
-     /**
+    /**
      * 属するコースの最安値を取得する
      *
      */
@@ -502,7 +533,7 @@ class User extends Authenticatable
             ->min('price');
     }
 
-      /**
+    /**
      * 属するコースの直近日を取得する
      *
      */
@@ -513,15 +544,15 @@ class User extends Authenticatable
     }
 
     /**
-     * 参加人数を取得するる
+     * 参加人数を取得する
      *
      */
     public function getJoinCount()
     {
         return Application::where('status', Application::STATUS_NORMAL)->whereIn('lesson_id', function ($query) {
                 return $query->select('id')
-                             ->from('lessons')
-                             ->where('user_id',$this->id);
+                            ->from('lessons')
+                            ->where('user_id',$this->id);
             })->count();
 
     }

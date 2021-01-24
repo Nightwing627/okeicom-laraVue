@@ -59,6 +59,10 @@ input::-ms-input-placeholder {
   color: #CBCBCB;
 }
 
+form {
+  width: 100%;
+}
+
 img {
   width: 100%;
   height: auto;

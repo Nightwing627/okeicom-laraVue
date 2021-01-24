@@ -13,13 +13,12 @@ class Lesson extends Model
 {
     use HasFactory, SoftDeletes;
 
-    const STATUS_PLANS = 0;             // 予定済み
+    const STATUS_PLANS = 0;             // 予約済み
     const STATUS_FINISHED = 1;          // 終了済み
-    const STATUS_CANCEL_TEACHER = 2;    // 講師キャンセル
-    const STATUS_CANCEL_ADMIN = 3;      // 運営キャンセル
-    const TYPE_LIVE = 0;
-    const TYPE_MOVIE = 1;
-    const TYPE_DOCUMENT = 2;
+    const STATUS_CANCEL = 2;            // キャンセル済み
+    const TYPE_LIVE = 0;                // LIVE
+    const TYPE_MOVIE = 1;               // MOVIE
+    const TYPE_DOCUMENT = 2;            // PDF（ドキュメント）
 
     /**
      * The attributes that are mass assignable.
@@ -54,103 +53,6 @@ class Lesson extends Model
         'start',
         'finish',
     ];
-
-    /**
-     * レッスン番号を漢字にフォーマット
-     *
-     * @return string
-     */
-    public function getKanjiNumberAttribute()
-    {
-        $kanji_number = ['〇','一','二','三','四','五','六','七','八','九'];
-        $formattedNumber = '';
-        foreach(str_split($this->number) as $value){
-            $formattedNumber .= $kanji_number[(int)$value];
-        }
-        return "第{$formattedNumber}回";
-    }
-
-    /**
-     * 日付を西暦ハイフン区切り時刻なしにフォーマット
-     *
-     * @return string
-     */
-    public function getSeparateHyphenDateAttribute()
-    {
-        return $this->date->format("Y-m-d");
-    }
-
-    /**
-     * 日付を月日フォーマット
-     *
-     * @return string
-     */
-    public function getFormatedMdDateAttribute()
-    {
-        return $this->date->format("n月j日");
-    }
-
-    /**
-     * 日付に曜日を付加するフォーマット
-     *
-     * @return string
-     */
-    public function getAddWeekDateAttribute()
-    {
-        $week = ['日', '月', '火', '水', '木', '金', '土'];
-        return $this->date->format("n/j") . "({$week[$this->date->format("w")]})";
-    }
-
-    /**
-     * 時刻の開始終了をハイフン区切りにフォーマット
-     *
-     * @return string
-     */
-    public function getSeparateHyphenTimeAttribute()
-    {
-        return $this->start->format("H:i") . '-' . $this->finish->format("H:i");
-    }
-
-    /**
-     * 金額をカンマ区切りにフォーマット
-     *
-     * @return string
-     */
-    public function getSeparateCommaPriceAttribute()
-    {
-        return '¥' . number_format($this->price);
-    }
-
-    /**
-     * レッスンの講師プロフィール画像を取得
-     *
-     * @return string
-     */
-    public function getPublicPathUsersImgAttribute()
-    {
-        $user = new User();
-        return $user->createProfilePublicPath($this->users_img);
-    }
-
-    /**
-     * コース画像1の公開パスを取得
-     * @return string
-     */
-    public function getPublicPathCourseImg1Attribute()
-    {
-        $course = new Course();
-        return $course->createCoursePublicPath($this->courses_img1);
-    }
-
-    /**
-     * 講師の評価値を少数第一までにフォーマット
-     * @return string
-     */
-    public function getRoundAvgPointAttribute()
-    {
-        // return $this->hasMany('App\Models\Evaluation');
-        return round($this->evaluations_avg_point, 1);
-    }
 
     /**
      * タイプの名称リストを連想配列で取得
@@ -205,8 +107,7 @@ class Lesson extends Model
             // ->paginate(Config::get('const.paginate.lesson'));
     }
 
-    // 受け取った値の処理はモデル
-    // "scope"は「こいつはクエリスコープだよ」と宣言しているだけ、呼び出すときは不要
+    // スコープ：並び替え
     public function scopeDynamicOrderBy($query, $params)
     {
         // asc・・・昇順（小さいもの順）
@@ -232,15 +133,6 @@ class Lesson extends Model
         };
         // ->paginate(Config::get('const.paginate.lesson'));
 
-
-
-
-            // if($params =)
-            // ->orderBy('lessons.created_at', 'desc');
-    //     return $query->orderby($params);
-    //     // return self::query()
-    //     //     ->orderBy('lessons.created_at', 'desc')
-    //     //     ->paginate(Config::get('const.paginate.lesson'));
     }
 
     /**
@@ -368,10 +260,15 @@ class Lesson extends Model
      */
     public function findByCoursesId(int $courses_id, int $users_id)
     {
+        $user = new User();
+        $evaluations = $user->getTeachersPointQuery();
         return self::query()
             ->where('lessons.user_id', $users_id)
             ->where('lessons.course_id', $courses_id)
             ->orderBy('lessons.number')
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
+            })
             ->get();
     }
 
@@ -651,4 +548,195 @@ class Lesson extends Model
             ->limit(Config::get('const.top_thumbnail_count'))
             ->get();
     }
+
+    /**
+     * レッスン詳細
+     *
+     * @return
+     */
+    public function getShowLesson($id)
+    {
+        // 講師別の評価値を集計
+        $user           = new User();
+        $evaluations    = $user->getTeachersPointQuery();
+
+        // レッスン別の申込数を取得
+        $applicants     = $this->getLessonApplicationQuery();
+
+        return self::query()
+            // レッスン評価
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
+            })
+            // レッスン参加者
+            ->leftJoinSub($applicants, 'applications', function ($join) {
+                $join->on('lessons.id', '=', 'applications.lesson_id');
+            })
+            ->join('courses', 'lessons.course_id', '=', 'courses.id')
+            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
+            ->select([
+                'lessons.*',
+                'evaluations.avg_point AS evaluations_avg_point',
+                'applications.applicants_number AS applicants_number',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'categories2.name as category4_name',
+                'categories3.name as category5_name',
+            ])
+            ->where('lessons.id', '=', $id);
+    }
+
+    /* クエリ get~~~Query
+    ------------------------------------------------------------------------------------------------------*/
+    /**
+     * レッスンの参加者数の合計クエリを取得
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getLessonApplicationQuery()
+    {
+        // レッスン別の申込数を集計
+        return Application::query()
+            // lesson_idごとに、ステータスが0のレコード数を取得
+            ->select('applications.lesson_id', DB::raw('COUNT(applications.status = 0 OR null) AS applicants_number'))
+            // lesson_idごとに、グルーピングする
+            ->groupBy('applications.lesson_id');
+    }
+
+    /* アクセサ get~~~Attribute
+    ------------------------------------------------------------------------------------------------------*/
+    /**
+     * アクセサ：レッスン番号を漢字に
+     *
+     * @return string
+     */
+    public function getKanjiNumberAttribute()
+    {
+        $kanji_number = ['〇','一','二','三','四','五','六','七','八','九'];
+        $formattedNumber = '';
+        foreach(str_split($this->number) as $value){
+            $formattedNumber .= $kanji_number[(int)$value];
+        }
+        return "第{$formattedNumber}回";
+    }
+
+    /**
+     * アクセサ：日付を西暦ハイフン区切り時刻なしに
+     *
+     * @return string
+     */
+    public function getSeparateHyphenDateAttribute()
+    {
+        return $this->date->format("Y-m-d");
+    }
+
+    /**
+     * アクセサ：日付を月日
+     *
+     * @return string
+     */
+    public function getFormatedMdDateAttribute()
+    {
+        return $this->date->format("n月j日");
+    }
+
+    /**
+     * アクセサ：日付に曜日を付加する
+     *
+     * @return string
+     */
+    public function getAddWeekDateAttribute()
+    {
+        $week = ['日', '月', '火', '水', '木', '金', '土'];
+        return $this->date->format("n/j") . "({$week[$this->date->format("w")]})";
+    }
+
+    /**
+     * アクセサ：日付に曜日を付加する
+     *
+     * @return string
+     */
+    public function getWeekAttribute()
+    {
+        $week = ['日', '月', '火', '水', '木', '金', '土'];
+        return "{$week[$this->date->format("w")]}";
+    }
+
+    /**
+     * アクセサ：時刻の開始終了をハイフン区切りに
+     *
+     * @return string
+     */
+    public function getSeparateHyphenTimeAttribute()
+    {
+        return $this->start->format("H:i") . '-' . $this->finish->format("H:i");
+    }
+
+    /**
+     * アクセサ：金額をカンマ区切り
+     *
+     * @return string
+     */
+    public function getSeparateCommaPriceAttribute()
+    {
+        return '¥' . number_format($this->price);
+    }
+
+    /**
+     * アクセサ：キャンセル金額をカンマ区切りで算出
+     *
+     * @return string
+     */
+    public function getCommaCancelPriceAttribute()
+    {
+        return number_format(ceil($this->price * $this->cancel_rate / 100));
+    }
+
+    /**
+     * レッスンの講師プロフィール画像を取得
+     *
+     * @return string
+     */
+    public function getPublicPathUsersImgAttribute()
+    {
+        $user = new User();
+        return $user->createProfilePublicPath($this->users_img);
+    }
+
+    /**
+     * アクセサ：コース画像1の公開パスを取得
+     * @return string
+     */
+    public function getPublicPathCourseImg1Attribute()
+    {
+        $course = new Course();
+        return $course->createCoursePublicPath($this->courses_img1);
+    }
+
+    /**
+     * アクセサ：講師の評価値を少数第一までにフォーマット
+     * @return string
+     */
+    public function getRoundAvgPointAttribute()
+    {
+        // return $this->hasMany('App\Models\Evaluation');
+        return round($this->evaluations_avg_point, 1);
+    }
+
+    /**
+     * アクセサ：日付の出力形式を MM/DD に変換
+     *
+     * @return string
+     */
+    public function getDateSlashAttribute()
+    {
+        // レッスン別の申込数を集計
+        return date('m/d',  strtotime($this->date));
+    }
+
 }

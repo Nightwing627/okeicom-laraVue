@@ -121,54 +121,9 @@
 		</div>
 	</div>
 
-	<div class="l-scroll lessonDetailVersion">
-		<div class="l-allWrapper">
-			<div class="l-scroll__wrap">
-				<div class="l-scroll__box">
-					<div class="c-scroll__title l-flex l-v__center">
-						<h2>関連コース</h2>
-					</div>
-					<div class="l-scroll__list">
-						<div class="l-scroll__list__wrap l-flex">
-							<div class="c-scroll__box" v-for="i in 5">
-								<a class="c-scroll__box__inner" href="">
-									<div class="c-scroll__box__img c-img--cover">
-										<img src="/img/screen-top.jpg">
-									</div>
-									<div class="c-scroll__box__teacher l-flex l-v__bottom">
-										<div class="c-scroll__box__teacher__img">
-											<div class="scroll__box__teacher__img__inner c-img--round c-img--cover">
-												<img src="/img/screen-top.jpg">
-											</div>
-											
-										</div>
-										<div class="c-scroll__box__teacher__evaluation">
-											<img src="/img/icon-star.png">
-											<span class="evaluationNumber">4.8</span>
-										</div>
-									</div>
-									<div class="c-scroll__box__detail l-flex">
-										<span class="number">第一回</span>
-										<span class="price">¥30,000</span>
-									</div>
-									<div class="c-scroll__box__text">
-										<p>【特別】コロナ時代に生き延びるフリーランの仕</p>
-									</div>
-									<p class="c-scroll__box__time">
-										<span class="date">12月1日</span>
-										<time>10:00-12:00</time>
-									</p>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </template>
 <script>
-	
+
 	export default {
 		components: {
 		},

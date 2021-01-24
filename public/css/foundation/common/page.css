@@ -116,10 +116,6 @@
   font-size: 1.1em;
 }
 
-.l-page ul.c-list--question .question {
-  margin-bottom: 1em;
-}
-
 .l-page ul.c-list--question .question:before {
   content: "Q";
   color: #000;
@@ -127,6 +123,7 @@
 }
 
 .l-page ul.c-list--question .answer {
+  margin-top: 1em;
   display: none;
   opacity: 0;
 }

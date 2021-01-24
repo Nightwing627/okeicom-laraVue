@@ -15,20 +15,25 @@ class SearchController extends Controller
     private $category;
     private $user;
 
+    // クラスをインスタンス化するときに必ず実行される関数
     public function __construct(
+        // インスタンス化
         Lesson $lesson,
         Category $category,
         User $user
     )
     {
+        // グローバル化
+        // 依存性注入（DI）
         $this->lesson = $lesson;
         $this->category = $category;
         $this->user = $user;
     }
     public function index(Request $request)
     {
-
-        $params = $request->all();
+        $params     = $request->all();
+        $lessons    = null;
+        $teachers   = null;
         // キーワードがある場合、パラーメーターに保存
         if(isset($request->keyword)) { $params['keyword'] = $request->keyword; }
         // カテゴリーがある場合、パラーメーターにカテゴリーを保存
@@ -43,13 +48,18 @@ class SearchController extends Controller
         // dd($params);
         $sort_param    = $request->sort_data;
         $categories_id = $request->categories_id;
+        if(isset($params['is_target']) && $params['is_target'] == 'teachers') {
+            $teachers = $this->user->searchTeacher($params)->paginate(20);
+        } else {
+            $lessons = $this->lesson->findBySearchKeyword($params, $categories_id)->dynamicOrderBy($sort_param)->paginate(20);
+        }
         // $is_target     = $request->is_target;
         // dd($is_target);
         // if($params['is_target'] == 'lessons') {
         // } else ($params['is_s'])
-        $lessons       = $this->lesson->findBySearchKeyword($params, $categories_id)->DynamicOrderBy($sort_param)->paginate(20);
+
         $categories    = $this->category->getAll(true);
 
-        return view('searches.index', compact('params', 'lessons', 'categories'));
+        return view('searches.index', compact('params', 'lessons', 'teachers', 'categories'));
     }
 }

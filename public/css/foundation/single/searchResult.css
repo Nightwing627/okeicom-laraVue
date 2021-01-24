@@ -62,6 +62,9 @@
 @media screen and (min-width: 896px) {
   .c-searchResult__block.input {
     padding-left: 46px;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
   }
 }
 
@@ -80,7 +83,9 @@
 
 @media screen and (min-width: 896px) {
   .c-searchResult__block .searchText {
-    width: 340px;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
   }
 }
 

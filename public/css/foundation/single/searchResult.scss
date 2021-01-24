@@ -79,6 +79,7 @@ $bgMainColor: #F6F5F7;
     &.input {
         @include mq_up(md) {
             padding-left: 46px;
+            flex: 1;
         }
         form {
             width: 100%;
@@ -94,7 +95,8 @@ $bgMainColor: #F6F5F7;
         width: 100%;
         position: relative;
         @include mq_up(md) {
-            width: 340px;
+            // width: 340px;
+            flex: 1;
         }
         &:before {
             content: "";

@@ -17,6 +17,8 @@ import SearchComponent from './components/search/indexComponent.vue'
 import LessonIndexComponent from './components/lesson/indexComponent.vue'
 // レッスン：詳細
 import LessonShowComponent from './components/lesson/showComponent.vue'
+// レッスン：詳細 - 画像処理
+import DetailImgListComponent from './components/lesson/DetailImgListComponent.vue'
 
 // 講師：一覧
 import TeacherIndexComponent from './components/teacher/indexComponent.vue'
@@ -65,6 +67,8 @@ createApp({ components:{ App,
     'lesson-index-component': LessonIndexComponent,
     // レッスン：詳細
     'lesson-show-component': LessonShowComponent,
+    // レッスン：詳細 - 画像処理
+    'detail-img-list-component': DetailImgListComponent,
 
     // 講師：一覧
     'teacher-index-component': TeacherIndexComponent,

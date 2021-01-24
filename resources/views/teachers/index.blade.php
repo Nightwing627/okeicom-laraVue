@@ -34,20 +34,12 @@
                         <span>並び替え</span>
                         <div class="c-selectBox">
                             <form action="{{ url('teachers') }}" method="get">
-                                @isset($params['categories_id'])
-                                    <input type="hidden" name="categories_id" value="{{ $params['categories_id'] }}">
-                                @endisset
-                                @isset($params['is_sex'])
-                                    <input type="hidden" name="is_sex" value="{{ $params['is_sex'] }}">
-                                @endisset
+                                @foreach ($params as $key => $value)
+                                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                                @endforeach
                                 <select name="sort_param" class="c-input--gray" onchange="submit(this.form)">
-                                    @isset($params['sort_param'])
-                                        <option value="new" @if($params['sort_param'] == 'new') selected @endif>新着順</option>
-                                        <option value="evaluation" @if($params['sort_param'] == 'evaluation') selected @endif>評価が高い順</option>
-                                    @else
-                                        <option value="new">新着順</option>
-                                        <option value="evaluation">評価が高い順</option>
-                                    @endisset
+                                    <option value="new" @if(isset($params['sort_param']) && $params['sort_param'] == 'new') selected @endif>新着順</option>
+                                    <option value="evaluation" @if(isset($params['sort_param']) && $params['sort_param'] == 'evaluation') selected @endif>評価が高い順</option>
                                 </select>
                             </form>
                         </div>
@@ -56,33 +48,19 @@
                 <div class="l-list--teacher">
                     <div class="l-list--teacher__tab three-tab">
                         <form action="{{ url('teachers') }}" method="get">
-                            @isset($params['categories_id'])
-                                <input type="hidden" name="categories_id" value="{{ $params['categories_id'] }}">
-                            @endisset
-                            @isset($params['sort_param'])
-                                <input type="hidden" name="sort_param" value="{{ $params['sort_param'] }}">
-                            @endisset
-                            @isset($params['is_sex'])
-                                <button type="submit" name="is_sex" value="all">
-                                    <div class="tab-box @if($params['is_sex'] == 'all') selected @endif">全て</div>
-                                </button>
-                                <button type="submit" name="is_sex" value="man">
-                                    <div class="tab-box @if($params['is_sex'] == 'man') selected @endif">男性</div>
-                                </button>
-                                <button type="submit" name="is_sex" value="female">
-                                    <div class="tab-box @if($params['is_sex'] == 'female') selected @endif">女性</div>
-                                </button>
-                            @else
-                                <button type="submit" name="is_sex" value="all">
-                                    <div class="tab-box selected">全て</div>
-                                </button>
-                                <button type="submit" name="is_sex" value="man">
-                                    <div class="tab-box">男性</div>
-                                </button>
-                                <button type="submit" name="is_sex" value="female">
-                                    <div class="tab-box">女性</div>
-                                </button>
-                            @endisset
+
+                            @foreach ($params as $key => $value)
+                                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                            @endforeach
+                            <button type="submit" name="is_sex" value="all">
+                                <div class="tab-box @if(isset($params['is_sex']) && $params['is_sex'] == 'all') selected @endif">全て</div>
+                            </button>
+                            <button type="submit" name="is_sex" value="man">
+                                <div class="tab-box @if(isset($params['is_sex']) && $params['is_sex'] == 'man') selected @endif">男性</div>
+                            </button>
+                            <button type="submit" name="is_sex" value="female">
+                                <div class="tab-box @if(isset($params['is_sex']) && $params['is_sex'] == 'female') selected @endif">女性</div>
+                            </button>
                         </form>
                     </div>
                     @if($teachers)

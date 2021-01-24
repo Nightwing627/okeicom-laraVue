@@ -39,15 +39,15 @@
                                 @else
                                 <form action="{{ url('lessons') }}" method="get">
                                 @endif
-                                    @isset($params['categories_id'])
-                                        <input type="hidden" name="categories_id" value="{{ $params['categories_id'] }}">
-                                    @endisset
+                                    @foreach ($params as $key => $value)
+                                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                                    @endforeach
                                     <select name="sort_param" class="c-input--gray" onchange="submit(this.form)">
-                                        <option value="newDate" {{ isset($params['sort_param'])  == 'newDate' ? 'selected': '' }}>新着順</option>
-                                        <option value="dateLate" {{ isset($params['sort_param']) == 'dateLate' ? 'selected': '' }}>開催日が近い順</option>
-                                        <option value="participantHigh" {{ isset($params['sort_param']) == 'participantHigh' ? 'selected': '' }}>参加者が多い順</option>
-                                        <option value="evaluationHigh" {{ isset($params['sort_param']) == 'evaluationHigh' ? 'selected': '' }}>評価が高い順</option>
-                                        <option value="priceLow" {{ isset($params['sort_param']) == 'priceLow' ? 'selected': '' }}>料金が安い順</option>
+                                        <option value="newDate" @if(isset($params['sort_param']) && $params['sort_param'] == 'newDate') selected @endif>新着順</option>
+                                        <option value="dateLate" @if(isset($params['sort_param']) && $params['sort_param'] == 'dateLate') selected @endif>開催日が近い順</option>
+                                        <option value="participantHigh" @if(isset($params['sort_param']) && $params['sort_param'] == 'participantHigh') selected @endif>参加者が多い順</option>
+                                        <option value="evaluationHigh" @if(isset($params['sort_param']) && $params['sort_param'] == 'evaluationHigh') selected @endif>評価が高い順</option>
+                                        <option value="priceLow" @if(isset($params['sort_param']) && $params['sort_param'] == 'priceLow') selected @endif>料金が安い順</option>
                                     </select>
                                 </form>
                             </div>

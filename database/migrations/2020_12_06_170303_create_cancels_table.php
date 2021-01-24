@@ -16,9 +16,9 @@ class CreateCancelsTable extends Migration
         Schema::create('cancels', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('application_id');
-            $table->unsignedTinyInteger('cancel_user');
             $table->unsignedInteger('user_id');
             $table->unsignedTinyInteger('status');
+            $table->dateTime('approval_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
