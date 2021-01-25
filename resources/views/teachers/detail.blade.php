@@ -17,17 +17,16 @@
                 <div class="teacherDetail-profile-detail">
                     <div class="c-img--shadow">
                         <div class="c-img--cover c-img--round">
-                            <img src="">
+                            <img src="{{ asset('/storage/profile/' . $user->img) }}">
                         </div>
                     </div>
                     <p class="u-text--big u-mb10"></p>
                     <div class="c-text--evaluation u-mb5">
                         <div class="star">
                             <img src="/img/icon-star.png">
-                            <span class="evaluation"></span>
+                            <span class="evaluation">{{ $user->round_avg_point }}</span>
                         </div>
-                        <p class="review">レビュー 件</p>
-                        <p>{{ $user->countEvaluations }}</p>
+                        <p class="review">レビュー {{ $user->reviews }}件</p>
                     </div>
                     <ul class="c-text--category u-mb5">
                         @isset($user->category1_id)<li>$user->category1_id</li>@endisset

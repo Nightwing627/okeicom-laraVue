@@ -202,32 +202,24 @@ class User extends Authenticatable
      */
     public function show($id)
     {
-        // 講師のレビュー数を取得
-        $reviews     = $this->countEvaluations();
-        // 講師の評価を取得
-        $evaluations = $this->getTeachersPointQuery();
-        return self::query()
-            // 講師のレビュー数
-            ->leftJoin($reviews, 'evaluations', function ($join) {
-                $join->on('users.id', '=', 'evaluations.user_teacher_id');
-            })
-            // 講師の評価
-            ->leftJoin($evaluations, 'evaluations', function ($join) {
-                $join->on('users.id', '=', 'evaluations.user_teacher_id');
-            })
-            ->where('users.id', '=', $id)
-            ->select([
-                'users.*',
-                'evaluations.reviews as reviews',
-                'evaluations.avg_point as evaluations_avg_point',
-            ]);
+        $teacher_number = Evaluation::query()
+            ->select(
+                'evaluations.user_teacher_id',
+                DB::raw("count('user_teacher_id') as reviews"),
+                DB::raw("avg('user_teacher_id') as avg_point"),
+            )
+            ->groupBy('evaluations.user_teacher_id');
 
-        // $user = self::query()
-        //             ->find($id)
-        //             ->WHERE('users.id', '=', $id)
-        //             ->JOIN('prefectures', 'users.prefecture_id', '=', 'prefectures.id')
-        //             ->get();
-        // dd($user);
+        return self::query()
+                    ->select([
+                        'users.*',
+                        'evaluations.reviews as reviews',
+                        'evaluations.avg_point as evaluations_avg_point',
+                    ])
+                    ->leftJoinSub($teacher_number, 'evaluations', function ($join) {
+                        $join->on('users.id', '=', 'evaluations.user_teacher_id');
+                    })
+                    ->where('users.id', '=', $id);
     }
 
     /**

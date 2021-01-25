@@ -143,7 +143,7 @@ class TeacherController extends Controller
         // ユーザー詳細情報
         // $user = User::find($id);
         $user    = $this->user->show($id)->first();
-        dd($user);
+        // dd($user);
         return view('teachers.detail', compact('user'));
 
         //取得
