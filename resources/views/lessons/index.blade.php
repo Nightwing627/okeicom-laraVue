@@ -59,7 +59,8 @@
                             <a class="c-contentList__box__inner" href="/lessons/detail/{{ $lesson->id }}">
                                 <div class="c-contentList__box__img">
                                     <div class="c-img--cover">
-                                        <img src="{{ $lesson->public_path_course_img1 }}">
+                                        <img src="{{ asset('storage/no-image-course.png') }}">
+                                        {{-- {{ $lesson->public_path_course_img1 }} --}}
                                     </div>
                                 </div>
                                 <div class="c-contentList__box__info">
@@ -93,7 +94,8 @@
                                     <div class="teacher l-flex l-start l-v__center pc-only">
                                         <div class="teacherImg">
                                             <div class="teacherImgInner c-img--round c-img--cover">
-                                                <img src="{{ $lesson->public_path_users_img }}">
+                                                {{-- <img src="{{ $lesson->public_path_users_img }}"> --}}
+                                                <img src="{{ asset('storage/no-image-user.png') }}">
                                             </div>
                                         </div>
                                         <div class="teacherEvaluation">

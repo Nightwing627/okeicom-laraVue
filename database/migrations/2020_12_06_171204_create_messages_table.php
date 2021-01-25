@@ -17,7 +17,7 @@ class CreateMessagesTable extends Migration
             $table->id();
             $table->unsignedInteger('user_send_id');
             $table->unsignedInteger('user_receive_id');
-            $table->string('message_detail');
+            $table->string('message_detail', 1000);
             $table->string('image_url')->nullable();
             $table->timestamps();
             $table->softDeletes();

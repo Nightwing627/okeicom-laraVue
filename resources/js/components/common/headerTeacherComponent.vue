@@ -18,7 +18,9 @@
 				<ul class="menu-user--content">
 					<li><a href="/news/">お知らせ</a></li>
 					<li><a href="mailto:chankan77@gmail.com">運営にお問い合わせ</a></li>
-					<li><a href="">ログアウト</a></li>
+                    <li>
+                        <a v-on:click="axiosLogout">ログアウト</a>
+                    </li>
 				</ul>
 			</div>
 		</div>
@@ -126,9 +128,13 @@
 </template>
 
 <script>
+    import axios from 'axios';
 	export default {
 		components: {
-		},
+        },
+        props: {
+            logout: String,
+        },
 		data() {
 			return {
 				drawerActive: false,
@@ -161,7 +167,25 @@
 			// ユーザーメニューを開く
 			toggleMenuUser: function() {
 				this.isMenuUser = !this.isMenuUser
-			},
+            },
+            axiosLogout() {
+                axios.post(this.logout)
+                .then( function (response) {
+                    location.reload();
+                }.bind(this))
+
+                .catch(function (error) {
+                    console.log(error)
+                    if (error.response) {
+                    if (error.response.status) {
+                        if (error.response.status == 401 || error.response.status == 419) {
+                            var parser = new URL(this.logout)
+                            location.href=parser.origin
+                        }
+                    }
+                }
+            }.bind(this))
+            },
 		},
 		watch: {},
 	}

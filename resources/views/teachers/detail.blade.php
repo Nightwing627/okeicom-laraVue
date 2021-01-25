@@ -1,52 +1,53 @@
 @extends('layouts.app')
 
-<!-- タイトル・メタディスクリプション -->
+{{-- タイトル・メタディスクリプション --}}
 @section('title', '講師詳細 | おけいcom')
 @section('description', 'おけいcomの講師詳細ページ概要です。')
 
-<!-- CSS -->
+{{-- CSS --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/teacherDetail.css') }}">
 @endpush
 
-<!-- 本文 -->
+{{-- 本文 --}}
 @section('content')
     <div class="l-wrap--title profile">
         <div class="l-wrap">
             <div class="teacherDetail-profile">
                 <div class="teacherDetail-profile-detail">
                     <div class="c-img--shadow">
-                        <div class="c-img--cover c-img--round" v-if="user.img!=null">
-                            <img src="/storage/courses/$user->img">"
+                        <div class="c-img--cover c-img--round">
+                            <img src="">
                         </div>
                     </div>
-                    <p class="u-text--big u-mb10">{{ $user->name }}</p>
+                    <p class="u-text--big u-mb10"></p>
                     <div class="c-text--evaluation u-mb5">
                         <div class="star">
                             <img src="/img/icon-star.png">
-                            <span class="evaluation">{{ $user->ave }}</span>
+                            <span class="evaluation"></span>
                         </div>
-                        <p class="review">レビュー {{ $user->count }}件</p>
+                        <p class="review">レビュー 件</p>
+                        <p>{{ $user->countEvaluations }}</p>
                     </div>
                     <ul class="c-text--category u-mb5">
-                        <li  v-if="user.cat1!=null">{{ $user->cat1 }}</li>
-                        <li  v-if="user.cat2!=null">{{ $user->cat2 }}</li>
-                        <li  v-if="user.cat3!=null">{{ $user->cat3 }}</li>
-                        <li  v-if="user.cat4!=null">{{ $user->cat4 }}</li>
-                        <li  v-if="user.cat5!=null">{{ $user->cat5 }}</li>
+                        @isset($user->category1_id)<li>$user->category1_id</li>@endisset
+                        @isset($user->category2_id)<li>$user->category2_id</li>@endisset
+                        @isset($user->category3_id)<li>$user->category3_id</li>@endisset
+                        @isset($user->category4_id)<li>$user->category4_id</li>@endisset
+                        @isset($user->category5_id)<li>$user->category5_id</li>@endisset
                     </ul>
                     <div class="teacherDetail-profile-detail-tab u-mb10">
-                        <div class="tabBox"><span>国籍</span>{{ $user->country }}</div>
-                        <div class="tabBox"><span>言語</span>{{ $user->lang }}</div>
-                        <div class="tabBox"><span>都道府県</span>{{ $user->pref }}</div>
+                        <div class="tabBox"><span>国籍</span>{{ $user->country_id ?: '未設定' }}</div>
+                        <div class="tabBox"><span>言語</span>{{ $user->language_id ?: '未設定' }}</div>
+                        <div class="tabBox"><span>都道府県</span>{{ $user->prefecture_id ?: '未設定' }}</div>
                     </div>
-                    <a href="{{ route }}" class="c-button--square__pink">メッセージを送る</a>
+                    <a href="" class="c-button--square__pink">メッセージを送る</a>
                 </div>
                 <div class="teacherDetail-profile-text">
-                    <p class="u-text--sentence">{{ user.profile }}</p>
+                    <p class="u-text--sentence"></p>
                 </div>
             </div>
         </div>
     </div>
-    <teacher-show-component :user={{ $user }} :lessons={{ $lessons }} :evalutions={{ $evalutions }}></teacher-show-component>
+    <teacher-show-component></teacher-show-component>
 @endsection

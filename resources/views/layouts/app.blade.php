@@ -4,7 +4,7 @@
 <body>
     <div id="app">
         @if( Auth::check() )
-            <header-teacher-component></header-teacher-component>
+            <header-teacher-component logout="{{ route('logout') }}"></header-teacher-component>
         @else
             <header-component></header-component>
         @endif

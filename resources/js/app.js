@@ -36,6 +36,8 @@ import UserMessageComponent from './components/user/messageComponent.vue'
 import UserProfileComponent from './components/user/profileComponent.vue'
 // 共通管理画面：プロフィール
 import UserProfileUploadImgComponent from './components/user/ProfileUploadImgComponent.vue'
+// 共通管理画面：メッセージの画像の処理
+import UserProfileMessageFileComponent from './components/user/ProfileMessageFileComponent.vue'
 
 // 受講者管理画面：受講済みレッスン一覧
 import UserLessonComponent from './components/user/lessonComponent.vue'
@@ -86,6 +88,8 @@ createApp({ components:{ App,
     'user-profile-component' : UserProfileComponent,
     // 共通管理画面：プロフィール
     'user-profile-upload-img-component' : UserProfileUploadImgComponent,
+    // 共通管理画面：メッセージの画像の箇所
+    'user-profile-message-file-component' : UserProfileMessageFileComponent,
 
     // 受講者管理画面：受講済みレッスン一覧
     'user-lesson-component' : UserLessonComponent,

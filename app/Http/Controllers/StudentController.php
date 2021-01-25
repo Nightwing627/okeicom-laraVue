@@ -79,7 +79,6 @@ class StudentController extends Controller
             $partner_users_id = $partner_users->isEmpty() ? 0 : $partner_users[0]->users_id;
         }
         $message_details = $this->message->getConversation($partner_users_id);
-
         // 既読に更新(PC)
         $agent = new Agent();
         if(!$agent->isMobile()) {
@@ -101,11 +100,12 @@ class StudentController extends Controller
     {
         $partner_users_id = $request->partner_users_id;
         $message_details = $this->message->getConversation($partner_users_id);
-
+        // dd($message_details);
         // 既読に更新(スマホ)
         DB::transaction(function () use ($message_details) {
             $this->message->saveRead($message_details);
         });
+        // dd($message_details);
 
         return view('students.message-detail', compact('message_details', 'partner_users_id'));
     }

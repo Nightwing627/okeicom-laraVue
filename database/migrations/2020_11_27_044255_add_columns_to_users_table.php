@@ -21,7 +21,7 @@ class AddColumnsToUsersTable extends Migration
             $table->unsignedTinyInteger('country_id')->nullable()->after('age');
             $table->unsignedInteger('prefecture_id')->nullable()->after('country_id');
             $table->unsignedInteger('language_id')->nullable()->after('prefecture_id');
-            $table->string('img')->nullable()->after('language_id');
+            $table->string('img')->nullable()->after('language_id')->default('no-image-user.png');
             $table->string('profile', 1000)->after('img');
             $table->unsignedTinyInteger('mailing')->after('profile');
             $table->unsignedTinyInteger('bank_type')->nullable()->after('mailing');

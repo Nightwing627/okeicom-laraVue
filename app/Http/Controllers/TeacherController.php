@@ -138,86 +138,92 @@ class TeacherController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function detail(Request $request,$id)
+    public function detail($id)
     {
+        // ユーザー詳細情報
+        // $user = User::find($id);
+        $user    = $this->user->show($id)->first();
+        dd($user);
+        return view('teachers.detail', compact('user'));
+
         //取得
-        $user=User::where("id",$id)->where('status',User::STATUS_TEACHER)->first();
-        //無い場合は404としておく
-        if(!$user){
-            abort(404);
-        }
+        // $user=User::where("id",$id)->where('status',User::STATUS_TEACHER)->first();
+        // //無い場合は404としておく
+        // if(!$user){
+        //     abort(404);
+        // }
 
-        //子要素取得
-        $user["count"]=$user->countEvaluations();
-        $user["ave"]=$user->averageEvaluationPoint();
-        if($user->category1_id){
-            $user["cat1"]=Category::find($user->category1_id)->name;
-        }
-        if($user->category2_id){
-            $user["cat2"]=Category::find($user->category2_id)->name;
-        }
-        if($user->category3_id){
-            $user["cat3"]=Category::find($user->category3_id)->name;
-        }
-        if($user->category4_id){
-            $user["cat4"]=Category::find($user->category4_id)->name;
-        }
-        if($user->category5_id){
-            $user["cat5"]=Category::find($user->category5_id)->name;
-        }
-        if($user->country_id){
-            $user["country"]=Country::where("id",$user->country_id)->value("name");
-        }
-        if($user->language_id){
-            $user["lang"]=Language::where("id",$user->language_id)->value("name");
-        }
-        if($user->prefecture_id){
-            $user["pref"]=Prefecture::where("id",$user->prefecture_id)->value("name");
-        }
+        // //子要素取得
+        // $user["count"]=$user->countEvaluations();
+        // $user["ave"]=$user->averageEvaluationPoint();
+        // if($user->category1_id){
+        //     $user["cat1"]=Category::find($user->category1_id)->name;
+        // }
+        // if($user->category2_id){
+        //     $user["cat2"]=Category::find($user->category2_id)->name;
+        // }
+        // if($user->category3_id){
+        //     $user["cat3"]=Category::find($user->category3_id)->name;
+        // }
+        // if($user->category4_id){
+        //     $user["cat4"]=Category::find($user->category4_id)->name;
+        // }
+        // if($user->category5_id){
+        //     $user["cat5"]=Category::find($user->category5_id)->name;
+        // }
+        // if($user->country_id){
+        //     $user["country"]=Country::where("id",$user->country_id)->value("name");
+        // }
+        // if($user->language_id){
+        //     $user["lang"]=Language::where("id",$user->language_id)->value("name");
+        // }
+        // if($user->prefecture_id){
+        //     $user["pref"]=Prefecture::where("id",$user->prefecture_id)->value("name");
+        // }
 
-        //レッスン取得
-        $lessons=Lesson::where("user_id",$id)->where("status",Lesson::STATUS_PLANS)->where("public",0)->orderBy("date","asc")->get();
-        foreach ($lessons as $key => $lesson) {
-            $course=Course::find($lesson->course_id);
-            if($course){
-                if($course->category1_id){
-                    $lesson["cat1"]=Category::find($course->category1_id)->name;
-                }
-                if($course->category2_id){
-                    $lesson["cat2"]=Category::find($course->category2_id)->name;
-                }
-                if($course->category3_id){
-                    $lesson["cat3"]=Category::find($course->category3_id)->name;
-                }
-                if($course->category4_id){
-                    $lesson["cat4"]=Category::find($course->category4_id)->name;
-                }
-                if($course->category5_id){
-                    $lesson["cat5"]=Category::find($course->category5_id)->name;
-                }
-                if($course->img1){
-                    $lesson["img"]=$course->img1;
-                }
-            }
-            $lesson["price"]=number_format($lesson->price);
-            //日付の整形はバックエンドしておく
-            $lesson["date_format"]=Carbon::parse($lesson["date"])->isoFormat("MM/DD(ddd)");
-            $lesson["start_format"]=Carbon::parse($lesson["start"])->format("H:i");
-            $lesson["finish_format"]=Carbon::parse($lesson["finish"])->format("H:i");
-            $lessons[$key]=$lesson;
-        }
-        //評価取得
-        $evalutions=Evaluation::where("user_teacher_id",$id)->orderBy("id","desc")->get();
-        foreach ($evalutions as $key => $evalution) {
-            $evalution_user=User::find($evalution->user_student_id);
-            if($evalution_user){
-                $evalution["user_name"]=$evalution_user["name"];
-                $evalution["user_img"]=$evalution_user["img"];
-            }
-            $evalution["date"]=substr($evalution["created_at"], 0,10);
-            $evalutions[$key]=$evalution;
-        }
-        return view('teachers.detail',["user"=>$user,"lessons"=>$lessons,"evalutions"=>$evalutions]);
+        // //レッスン取得
+        // $lessons=Lesson::where("user_id",$id)->where("status",Lesson::STATUS_PLANS)->where("public",0)->orderBy("date","asc")->get();
+        // foreach ($lessons as $key => $lesson) {
+        //     $course=Course::find($lesson->course_id);
+        //     if($course){
+        //         if($course->category1_id){
+        //             $lesson["cat1"]=Category::find($course->category1_id)->name;
+        //         }
+        //         if($course->category2_id){
+        //             $lesson["cat2"]=Category::find($course->category2_id)->name;
+        //         }
+        //         if($course->category3_id){
+        //             $lesson["cat3"]=Category::find($course->category3_id)->name;
+        //         }
+        //         if($course->category4_id){
+        //             $lesson["cat4"]=Category::find($course->category4_id)->name;
+        //         }
+        //         if($course->category5_id){
+        //             $lesson["cat5"]=Category::find($course->category5_id)->name;
+        //         }
+        //         if($course->img1){
+        //             $lesson["img"]=$course->img1;
+        //         }
+        //     }
+        //     $lesson["price"]=number_format($lesson->price);
+        //     //日付の整形はバックエンドしておく
+        //     $lesson["date_format"]=Carbon::parse($lesson["date"])->isoFormat("MM/DD(ddd)");
+        //     $lesson["start_format"]=Carbon::parse($lesson["start"])->format("H:i");
+        //     $lesson["finish_format"]=Carbon::parse($lesson["finish"])->format("H:i");
+        //     $lessons[$key]=$lesson;
+        // }
+        // //評価取得
+        // $evalutions=Evaluation::where("user_teacher_id",$id)->orderBy("id","desc")->get();
+        // foreach ($evalutions as $key => $evalution) {
+        //     $evalution_user=User::find($evalution->user_student_id);
+        //     if($evalution_user){
+        //         $evalution["user_name"]=$evalution_user["name"];
+        //         $evalution["user_img"]=$evalution_user["img"];
+        //     }
+        //     $evalution["date"]=substr($evalution["created_at"], 0,10);
+        //     $evalutions[$key]=$evalution;
+        // }
+        // return view('teachers.detail',["user"=>$user,"lessons"=>$lessons,"evalutions"=>$evalutions]);
     }
 
     /**

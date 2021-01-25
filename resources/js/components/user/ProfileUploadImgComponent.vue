@@ -7,7 +7,7 @@
             <span class="c-img--preview--button">
                 <div class="c-img--preview--button--inner">
                     <img src="/img/icon-camera-black.png">
-                    <input type="file" ref="file" @change="setImage"/>
+                    <input type="file" name="img" ref="file" @change="setImage"/>
                 </div>
             </span>
         </div>
@@ -15,12 +15,12 @@
 </template>
 <script>
 	export default {
-        components: {
-        },
+        components: {},
+        props: ['img'],
 		data() {
 			return {
 				data: {
-					image: "/img/sample-human.png",
+					image: '/storage/profile/' + this.img,
 					name: "",
 				},
 			}

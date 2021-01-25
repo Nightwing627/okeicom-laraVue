@@ -82,6 +82,8 @@ class User extends Authenticatable
         'deleted_at',
     ];
 
+
+
     /**
      * 条件検索した講師一覧を取得
      *
@@ -194,6 +196,39 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * 講師詳細
+     *
+     */
+    public function show($id)
+    {
+        // 講師のレビュー数を取得
+        $reviews     = $this->countEvaluations();
+        // 講師の評価を取得
+        $evaluations = $this->getTeachersPointQuery();
+        return self::query()
+            // 講師のレビュー数
+            ->leftJoin($reviews, 'evaluations', function ($join) {
+                $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            // 講師の評価
+            ->leftJoin($evaluations, 'evaluations', function ($join) {
+                $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            ->where('users.id', '=', $id)
+            ->select([
+                'users.*',
+                'evaluations.reviews as reviews',
+                'evaluations.avg_point as evaluations_avg_point',
+            ]);
+
+        // $user = self::query()
+        //             ->find($id)
+        //             ->WHERE('users.id', '=', $id)
+        //             ->JOIN('prefectures', 'users.prefecture_id', '=', 'prefectures.id')
+        //             ->get();
+        // dd($user);
+    }
 
     /**
      * 現在の状態名称リストを連想配列で取得
@@ -388,7 +423,7 @@ class User extends Authenticatable
      */
     public function getNewArrivalTeachers()
     {
-        // 講師別の評価値を集計
+        // 講師別の評価数を集計
         $evaluations = $this->getTeachersPointQuery();
 
         return self::query()
@@ -507,11 +542,14 @@ class User extends Authenticatable
      */
     public function countEvaluations()
     {
-        return Evaluation::where('user_teacher_id', $this->id)
-            ->count();
+        // return Evaluation::where('user_teacher_id', $this->id)
+        //     ->count();
+        return Evaluation::query()
+            ->select(
+                'evaluations.user_teacher_id', DB::raw("count('user_teacher_id') as reviews")
+            )
+            ->groupBy('evaluations.user_teacher_id');
     }
-
-
 
     /**
      * 平均ポイントを取得する
@@ -554,6 +592,5 @@ class User extends Authenticatable
                             ->from('lessons')
                             ->where('user_id',$this->id);
             })->count();
-
     }
 }

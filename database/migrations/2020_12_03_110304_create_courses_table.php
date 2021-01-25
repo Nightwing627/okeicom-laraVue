@@ -23,7 +23,7 @@ class CreateCoursesTable extends Migration
             $table->unsignedTinyInteger('category3_id')->nullable();
             $table->unsignedTinyInteger('category4_id')->nullable();
             $table->unsignedTinyInteger('category5_id')->nullable();
-            $table->string('img1')->nullable();
+            $table->string('img1')->nullable()->default('no-image-course.png');
             $table->string('img2')->nullable();
             $table->string('img3')->nullable();
             $table->string('img4')->nullable();

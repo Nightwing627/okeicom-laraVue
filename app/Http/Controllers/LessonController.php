@@ -57,7 +57,7 @@ class LessonController extends Controller
      */
     public function category(Request $request)
     {
-        //dd($request);
+        // dd($request);
         // $sort_param    = $request->query('sort_param');
         // $categories_id = $request->query('categories_id');
         if(isset($request->categories_id)) { $params['categories_id'] = $request->categories_id; }
@@ -85,7 +85,7 @@ class LessonController extends Controller
         // 関連レッスン一覧
         $relatedLessons = $this->lesson->findByCoursesId($lesson->course_id, $lesson->user_id);
         // コース画像一覧
-        $imgLists       = $this->course->
+
         return view('lessons.detail', compact('id', 'lesson', 'user', 'evaluations', 'relatedLessons'));
     }
 

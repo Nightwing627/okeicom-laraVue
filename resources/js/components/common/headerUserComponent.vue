@@ -10,7 +10,7 @@
 		<div class="menu-user" :class="{'open': isMenuUser}">
 			<div class="menu-user--inner">
 				<!-- <div class="menu-user--change">
-					<a href="" class="u-text--link">講師に切り替える</a>	
+					<a href="" class="u-text--link">講師に切り替える</a>
 				</div> -->
 				<ul class="menu-user--content">
 					<li><a href="/mypage/u/ttendance-lessons">受講レッスン</a></li>
@@ -23,7 +23,12 @@
 				<ul class="menu-user--content">
 					<li><a href="/lessons/">レッスンを探す</a></li>
 					<li><a href="/teachers/">講師を探す</a></li>
-					<li><a href="">ログアウト</a></li>
+					<li>
+                        <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
+                        <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
 				</ul>
 			</div>
 		</div>

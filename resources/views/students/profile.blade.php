@@ -18,7 +18,9 @@
             <div class="c-list--th">
                 <p class="main">プロフィール画像</p>
             </div>
-            <user-profile-upload-img-component></user-profile-upload-img-component>
+            <user-profile-upload-img-component
+                img="{{ $user['img'] }}"
+            ></user-profile-upload-img-component>
         </div>
         <div class="c-list--tr">
             <div class="c-list--th">
