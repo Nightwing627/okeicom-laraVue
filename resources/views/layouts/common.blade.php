@@ -5,7 +5,14 @@
 	<div id="app">
 		<header-component></header-component>
 		<main>
-			@include("../common/breadcrumbs")
+            <nav id="breadcrumbs">
+                <div class="l-allWrapper">
+                    <ol class="breadcrumbs__list l-flex l-start l-v__center">
+                        <li><a href="/"><img src="{{ asset('/img/icon-home-black.png') }}" alt="ホーム画面のアイコン"></a></li>
+                        <li class="breadcrumb-item active">@yield('title')</li>
+                    </ol>
+                </div>
+            </nav>
 			<div class="l-wrap--title">
 				<div class="l-wrap">
 					<h1 class="c-headline--screen">@yield('title')</h1>

@@ -27,7 +27,7 @@
 						</div>
                     </div>
                     <detail-img-list-component
-                        :imgLists={{ $courseImgLists }}
+                        :imgLists='@json($courseImgLists)'
                     >
                     </detail-img-list-component>
 					<div class="c-lessonDetail__info">
@@ -102,7 +102,7 @@
                                 <div class="c-userComment__human l-flex l-start l-v__center">
                                     <div class="img">
                                         <div class="c-img--round c-img--cover">
-                                            <img src="/img/screen-top.jpg">
+                                            <img src="{{ asset('/storage/profile/' . $evaluation->img) }}">
                                         </div>
                                     </div>
                                     <div class="info">
@@ -149,6 +149,7 @@
                             <a href="/teachers/detail/{{ $user->id }}">
                                 <div class="teacher__img__inner c-img--round c-img--cover">
                                     <img src="/img/screen-top.jpg">
+                                    <img src="{{ asset('/storage/profile/' . $user->img ) }}">
                                 </div>
                             </a>
                         </div>
@@ -197,14 +198,14 @@
                             <div class="c-scroll__box">
 								<a class="c-scroll__box__inner" href="/lessons/detail/{{ $relate->id }}">
 									<div class="c-scroll__box__img c-img--cover">
-										<img src="/img/screen-top.jpg">
+                                        <img src="{{ asset('/storage/courses/' . $courseImgLists['img1']) }}">
 									</div>
 									<div class="c-scroll__box__teacher l-flex l-v__bottom">
 										<div class="c-scroll__box__teacher__img">
 											<div class="scroll__box__teacher__img__inner c-img--round c-img--cover">
-												<img src="/img/screen-top.jpg">
+                                                <img src="{{ asset('/storage/profile/' . $user->img) }}">
 											</div>
-										</div>
+										</div>$
 										<div class="c-scroll__box__teacher__evaluation">
 											<img src="/img/icon-star.png">
 											<span class="evaluationNumber">{{ $relate->round_avg_point}}</span>

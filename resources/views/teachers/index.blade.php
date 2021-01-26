@@ -46,14 +46,13 @@
                     </div>
                 </div>
                 <div class="l-list--teacher">
-                    <div class="l-list--teacher__tab three-tab">
-                        <form action="{{ url('teachers') }}" method="get">
-
+                    <form action="{{ url('teachers') }}" method="get">
+                        <div class="l-list--teacher__tab three-tab">
                             @foreach ($params as $key => $value)
                                 <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                             @endforeach
                             <button type="submit" name="is_sex" value="all">
-                                <div class="tab-box @if(isset($params['is_sex']) && $params['is_sex'] == 'all') selected @endif">全て</div>
+                                <div class="tab-box @empty($params['is_sex']) selected @endempty @if(isset($params['is_sex']) && $params['is_sex'] == 'all') selected @endif">全て</div>
                             </button>
                             <button type="submit" name="is_sex" value="man">
                                 <div class="tab-box @if(isset($params['is_sex']) && $params['is_sex'] == 'man') selected @endif">男性</div>
@@ -61,8 +60,8 @@
                             <button type="submit" name="is_sex" value="female">
                                 <div class="tab-box @if(isset($params['is_sex']) && $params['is_sex'] == 'female') selected @endif">女性</div>
                             </button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                     @if($teachers)
                         @foreach($teachers as $teacher)
                         <div class="l-content--teacher">

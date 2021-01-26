@@ -41,14 +41,7 @@ class Course extends Model
     {
         // ID指定のコース情報を取得
         $target = Course::query()->find($id);
-        $imgLists = [];
-        $imgLists[] = $target['img1'];
-        $imgLists[] = $target['img2'];
-        $imgLists[] = $target['img3'];
-        $imgLists[] = $target['img4'];
-        $imgLists[] = $target['img5'];
-        return($imgLists);
-        // $courseImgs[] = $targe()
+        return $target->only('img1', 'img2', 'img3', 'img4', 'img5');
 
     }
 

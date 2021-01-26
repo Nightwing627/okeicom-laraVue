@@ -89,7 +89,6 @@ class LessonController extends Controller
         $relatedLessons = $this->lesson->findByCoursesId($lesson->course_id, $lesson->user_id);
         // コース画像一覧を配列で取得
         $courseImgLists = $this->course->courseImgLists($lesson->course_id);
-        // dd($courseImgLists);
         return view('lessons.detail', compact('id', 'lesson', 'user', 'evaluations', 'relatedLessons', 'courseImgLists'));
     }
 
