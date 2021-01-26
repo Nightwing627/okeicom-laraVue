@@ -59,7 +59,6 @@ class TeacherController extends Controller
     {
         $categories = $this->category->getAll(true);
         $params     = $request->all();
-        // ddd($params);
         $teachers   = $this->user->searchTeacher($params)->paginate(20);
         return view('teachers.index', compact('teachers', 'params', 'categories'));
     }

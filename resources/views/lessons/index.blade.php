@@ -59,8 +59,7 @@
                             <a class="c-contentList__box__inner" href="/lessons/detail/{{ $lesson->id }}">
                                 <div class="c-contentList__box__img">
                                     <div class="c-img--cover">
-                                        <img src="{{ asset('storage/no-image-course.png') }}">
-                                        {{-- {{ $lesson->public_path_course_img1 }} --}}
+                                        <img src="{{ asset('/storage/courses/' . $lesson->course_img)}}">
                                     </div>
                                 </div>
                                 <div class="c-contentList__box__info">
@@ -94,8 +93,7 @@
                                     <div class="teacher l-flex l-start l-v__center pc-only">
                                         <div class="teacherImg">
                                             <div class="teacherImgInner c-img--round c-img--cover">
-                                                {{-- <img src="{{ $lesson->public_path_users_img }}"> --}}
-                                                <img src="{{ asset('storage/no-image-user.png') }}">
+                                                <img src="{{ asset('/storage/profile/' . $lesson->user_img)}}">
                                             </div>
                                         </div>
                                         <div class="teacherEvaluation">
@@ -122,12 +120,3 @@
         </div>
     </div>
 @endsection
-
-{{--
-// カテゴリー一覧
-@foreach($categories as $category)
-<a href="{{ route('lessons.categories', ['categories_id' => $category->id]) }}">
-    {{ $category->name }}
-</a>
-@endforeach
---}}

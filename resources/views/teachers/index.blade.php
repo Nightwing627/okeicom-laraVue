@@ -70,7 +70,7 @@
                                 <div class="l-content--teacher__inner l-flex">
                                     <div class="u-w100">
                                         <div class="c-img--round c-img--cover">
-                                            <img>
+                                            <img src="{{ asset('/storage/profile/' . $teacher->img)}}">
                                         </div>
                                     </div>
                                     <div class="u-wflex1 u-pl10">
@@ -82,7 +82,7 @@
                                             @elseif($teacher->sex == 2)
                                                 <span class="c-text--sex woman u-mr10">女性</span>
                                             @endif
-                                            <a>{{ $teacher->name }}</a>
+                                            {{ $teacher->name }}
                                         </p>
                                         <div class="c-text--evaluation">
                                             <div class="star">

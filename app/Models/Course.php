@@ -34,6 +34,25 @@ class Course extends Model
     ];
 
     /**
+     * コースの画像一覧を取得する
+     * @return array
+     */
+    public function courseImgLists($id)
+    {
+        // ID指定のコース情報を取得
+        $target = Course::query()->find($id);
+        $imgLists = [];
+        $imgLists[] = $target['img1'];
+        $imgLists[] = $target['img2'];
+        $imgLists[] = $target['img3'];
+        $imgLists[] = $target['img4'];
+        $imgLists[] = $target['img5'];
+        return($imgLists);
+        // $courseImgs[] = $targe()
+
+    }
+
+    /**
      * カテゴリー名を取得
      * @return string
      */

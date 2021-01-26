@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lesson;
-use App\Models\Category;
 use App\Models\User;
+use App\Models\Lesson;
+use App\Models\Course;
+use App\Models\Category;
 use App\Models\Evaluation;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -12,21 +13,23 @@ use Illuminate\Contracts\View\Factory;
 use App\Http\Resources\LessonDetailResource;
 class LessonController extends Controller
 {
+    private $user;
     private $lesson;
     private $category;
-    private $user;
     private $evaluation;
 
     public function __construct(
-        Lesson $lesson,
-        Category $category,
         User $user,
+        Lesson $lesson,
+        Course $course,
+        Category $category,
         Evaluation $evaluation
     )
     {
-        $this->lesson = $lesson;
-        $this->category = $category;
         $this->user = $user;
+        $this->lesson = $lesson;
+        $this->course = $course;
+        $this->category = $category;
         $this->evaluation = $evaluation;
     }
 
@@ -84,9 +87,10 @@ class LessonController extends Controller
         $evaluations    = $this->evaluation->index($lesson->user_id)->get();
         // 関連レッスン一覧
         $relatedLessons = $this->lesson->findByCoursesId($lesson->course_id, $lesson->user_id);
-        // コース画像一覧
-
-        return view('lessons.detail', compact('id', 'lesson', 'user', 'evaluations', 'relatedLessons'));
+        // コース画像一覧を配列で取得
+        $courseImgLists = $this->course->courseImgLists($lesson->course_id);
+        // dd($courseImgLists);
+        return view('lessons.detail', compact('id', 'lesson', 'user', 'evaluations', 'relatedLessons', 'courseImgLists'));
     }
 
     /**

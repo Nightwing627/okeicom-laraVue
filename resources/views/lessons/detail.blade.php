@@ -26,7 +26,10 @@
 							<span class="evaluation"><img src="/img/icon-star.png">{{ $lesson->round_avg_point }}</span>
 						</div>
                     </div>
-                    <detail-img-list-component></detail-img-list-component>
+                    <detail-img-list-component
+                        :imgLists={{ $courseImgLists }}
+                    >
+                    </detail-img-list-component>
 					<div class="c-lessonDetail__info">
 						<div class="other l-flex l-v__center">
 							<div class="other__price">

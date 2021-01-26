@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                                 <div class="c-scroll__box__detail l-flex">
-                                    <span class="number">{{ $today_lesson->kanji_number }}</span>
+                                    <span class="number">第{{ $today_lesson->number }}回</span>
                                     <span class="price">{{ $today_lesson->separate_comma_price }}</span>
                                 </div>
                                 <div class="c-scroll__box__text">
@@ -82,7 +82,7 @@
                                     </div>
                                 </div>
                                 <div class="c-scroll__box__detail l-flex">
-                                    <span class="number">{{ $popular_lesson->kanji_number }}</span>
+                                    <span class="number">第{{ $popular_lesson->number }}回</span>
                                     <span class="price">{{ $popular_lesson->separate_comma_price }}</span>
                                 </div>
                                 <div class="c-scroll__box__text">
@@ -123,7 +123,7 @@
                                     </div>
                                 </div>
                                 <div class="c-scroll__box__detail l-flex">
-                                    <span class="number">{{ $highly_rated_lesson->kanji_number }}</span>
+                                    <span class="number">第{{ $highly_rated_lesson->number }}回</span>
                                     <span class="price">{{ $highly_rated_lesson->separate_comma_price }}</span>
                                 </div>
                                 <div class="c-scroll__box__text">
@@ -156,7 +156,6 @@
                                         <div class="scroll__box__teacher__img__inner c-img--round c-img--cover">
                                             <img src="{{ $new_arrival_lesson->public_path_users_img }}">
                                         </div>
-
                                     </div>
                                     <div class="c-scroll__box__teacher__evaluation">
                                         <img src="{{ asset('/img/icon-star.png') }}">
@@ -164,7 +163,7 @@
                                     </div>
                                 </div>
                                 <div class="c-scroll__box__detail l-flex">
-                                    <span class="number">{{ $new_arrival_lesson->kanji_number }}</span>
+                                    <span class="number">第{{ $new_arrival_lesson->number }}回</span>
                                     <span class="price">{{ $new_arrival_lesson->separate_comma_price }}</span>
                                 </div>
                                 <div class="c-scroll__box__text">
@@ -196,14 +195,24 @@
                                 <p class="c-teacher--box__name">{{ $popular_teacher->name }}</p>
                                 <div class="c-teacher--box__evaluation l-flex l-center l-v__center">
                                     <img src="{{ asset('/img/icon-star.png') }}">
-                                    <span class="evaluationNumber">{{ $popular_teacher->evaluations_avg_point }}</span>
+                                    <span class="evaluationNumber">{{ $popular_teacher->round_avg_point }}</span>
                                 </div>
                                 <ul class="c-teacher--box__category l-flex l-center">
-                                    <li><span>アート・デザイン</span></li>
-                                    <li><span>フィットネス</span></li>
-                                    <li><span>家庭教師</span></li>
-                                    <li><span>パソコン</span></li>
-                                    <li><span>その他</span></li>
+                                    @if ($popular_teacher->category1_name)
+                                        <li>{{ $popular_teacher->category1_name }}</li>
+                                    @endif
+                                    @if ($popular_teacher->category2_name)
+                                        <li>{{ $popular_teacher->category2_name }}</li>
+                                    @endif
+                                    @if ($popular_teacher->category3_name)
+                                        <li>{{ $popular_teacher->category3_name }}</li>
+                                    @endif
+                                    @if ($popular_teacher->category4_name)
+                                        <li>{{ $popular_teacher->category4_name }}</li>
+                                    @endif
+                                    @if ($popular_teacher->category5_name)
+                                        <li>{{ $popular_teacher->category5_name }}</li>
+                                    @endif
                                 </ul>
                             </a>
                         </div>
@@ -226,14 +235,24 @@
                                 <p class="c-teacher--box__name">{{ $new_arrival_teacher->name }}</p>
                                 <div class="c-teacher--box__evaluation l-flex l-center l-v__center">
                                     <img src="{{ asset('/img/icon-star.png') }}">
-                                    <span class="evaluationNumber">{{ $new_arrival_teacher->evaluations_avg_point }}</span>
+                                    <span class="evaluationNumber">{{ $new_arrival_teacher->round_avg_point }}</span>
                                 </div>
                                 <ul class="c-teacher--box__category l-flex l-center">
-                                    <li><span>アート・デザイン</span></li>
-                                    <li><span>フィットネス</span></li>
-                                    <li><span>家庭教師</span></li>
-                                    <li><span>パソコン</span></li>
-                                    <li><span>その他</span></li>
+                                    @if ($new_arrival_teacher->category1_name)
+                                        <li>{{ $new_arrival_teacher->category1_name }}</li>
+                                    @endif
+                                    @if ($new_arrival_teacher->category2_name)
+                                        <li>{{ $new_arrival_teacher->category2_name }}</li>
+                                    @endif
+                                    @if ($new_arrival_teacher->category3_name)
+                                        <li>{{ $new_arrival_teacher->category3_name }}</li>
+                                    @endif
+                                    @if ($new_arrival_teacher->category4_name)
+                                        <li>{{ $new_arrival_teacher->category4_name }}</li>
+                                    @endif
+                                    @if ($new_arrival_teacher->category5_name)
+                                        <li>{{ $new_arrival_teacher->category5_name }}</li>
+                                    @endif
                                 </ul>
                             </a>
                         </div>
