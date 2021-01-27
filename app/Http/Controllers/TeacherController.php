@@ -278,10 +278,9 @@ class TeacherController extends Controller
     public function coursesDetail(Request $request)
     {
         $course = Course::query()->find($request->courses_id);
-        // dd($course);
         $categories = $this->category->getAll();
         $lessons = $this->lesson->findByCoursesId($request->courses_id, Auth::user()->id);
-
+        // dd($course);
         return view('teachers.course-detail', compact('course', 'categories', 'lessons'));
     }
 
@@ -293,7 +292,7 @@ class TeacherController extends Controller
      */
     public function updateCourses(CourseUpdateRequest $request)
     {
-        ddd('届いてるよ！');
+        dd('届いてるよ！');
         $course = Course::query()->find($request->courses_id);
         if($request->has('save')) {
             // 更新

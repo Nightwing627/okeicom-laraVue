@@ -295,7 +295,6 @@ class Lesson extends Model
             return $query->orderby('lessons.created_at', 'desc');
         };
         // ->paginate(Config::get('const.paginate.lesson'));
-
     }
 
     /* Accessors and mutators / get~~~Attribute / ~~~

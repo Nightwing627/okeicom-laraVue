@@ -99,7 +99,7 @@ class LessonSeeder extends Seeder
 
         for ($i = 1; $i < 20; $i++) {
             Lesson::create([
-                'user_id' => 2,
+                'user_id' => 1,
                 'course_id' => 1,
                 'status' => 0,
                 'number' => $i,
@@ -117,7 +117,7 @@ class LessonSeeder extends Seeder
 
         for ($i = 1; $i < 16; $i++) {
             Lesson::create([
-                'user_id' => 2,
+                'user_id' => 1,
                 'course_id' => 2,
                 'status' => 0,
                 'number' => $i,

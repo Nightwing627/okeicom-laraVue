@@ -8,9 +8,10 @@
         </div>
         <!-- tab：コース詳細 -->
         <div class="c-list--table" v-if="isBarTab === '1'">
-            <!-- <form method="POST" action="/mypage/t/courses/update" enctype="multipart/form-data"> -->
-            <form @submit.prevent="submitForm">
+            <form method="POST" action="/mypage/t/courses/update" enctype="multipart/form-data">
+            <!-- <form @submit.prevent="submitForm"> -->
                 <input type="hidden" name="courses_id" v-model="courses_id">
+                <input type="hidden" name="_token" v-bind:value="csrf">
                 <!-- <div class="c-list--tr">
                     <div class="c-list--th">
                         <p class="main">URL</p>
@@ -64,24 +65,9 @@
                     </div>
                     <div class="c-list--td">
                         <ul class="c-list--category">
-                            <li><input type="checkbox" name=""><label>語学</label></li>
-                            <li><input type="checkbox" name=""><label>家庭教師</label></li>
-                            <li><input type="checkbox" name=""><label>音楽</label></li>
-                            <li><input type="checkbox" name=""><label>アートデザイン</label></li>
-                            <li><input type="checkbox" name=""><label>美容</label></li>
-                            <li><input type="checkbox" name=""><label>健康</label></li>
-                            <li><input type="checkbox" name=""><label>ダンス</label></li>
-                            <li><input type="checkbox" name=""><label>バレエ</label></li>
-                            <li><input type="checkbox" name=""><label>フィットネス</label></li>
-                            <li><input type="checkbox" name=""><label>武道</label></li>
-                            <li><input type="checkbox" name=""><label>書道</label></li>
-                            <li><input type="checkbox" name=""><label>お茶</label></li>
-                            <li><input type="checkbox" name=""><label>お花</label></li>
-                            <li><input type="checkbox" name=""><label>手芸</label></li>
-                            <li><input type="checkbox" name=""><label>パソコン</label></li>
-                            <li><input type="checkbox" name=""><label>趣味</label></li>
-                            <li><input type="checkbox" name=""><label>教養</label></li>
-                            <li><input type="checkbox" name=""><label>その他</label></li>
+                            <li v-for="(category, index) in categories" :key="category.id">
+                                <input class="non-check" type="checkbox" :ref="'target_' + index" :checked="false" v-model="categoryLists" :value="category.id"><label>{{ category.name }}</label>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -90,7 +76,7 @@
                         <p class="main">タイトル</p>
                     </div>
                     <div class="c-list--td">
-                        <input :value="this.courseDate.title">
+                        <input requred name="title" :value="this.courseDate.title">
                     </div>
                 </div>
                 <div class="c-list--tr">
@@ -109,39 +95,45 @@
         </div>
         <!-- tab：その他 -->
         <div class="l-contentList__list__wrap" v-else-if="isBarTab === '2'">
-            <div class="c-button--add">
+            <div class="c-button--add c-list--courseLesson">
                 <a href="">レッスンを追加する</a>
             </div>
-            <div class="c-list--courseLesson">
+            <div class="c-list--courseLesson" v-for="(lesson, index) in lessonsDate" :key="index.id">
                 <div class="c-list--courseLesson--num">
-                    <span>#</span>
+                    <span># {{ index }}</span>
                 </div>
                 <div class="c-list--courseLesson--title">
-                    <p class="title u-text--big u-mb5">タイトルタイトルタイトルタイトル</p>
-                    <p class="date u-color--grayNavy u-text--small">10/20(土) 17:00-20:00</p>
+                    <p class="title u-text--big u-mb5">{{ lesson.title }}</p>
+                    <p class="date u-color--grayNavy u-text--small">{{ moment(lesson.date).format('M/D') }}({{ moment(lesson.date).format('ddd') }}) {{ moment(lesson.start).format('H:mm') }}{{ moment(lesson.finish).format('H:mm') }}</p>
                 </div>
                 <!-- 開催日を超えた現場は削除 -->
                 <div class="c-button--edit">
                     <a href="" class="c-button--edit--link delete">削除</a>
-                    <a href="" class="c-button--edit--link edit">編集</a>
+                    <a href="{{ route('mypage.t.lessons.detail', ['id' => lesson->id]) }}" class="c-button--edit--link edit">編集</a>
                 </div>
             </div>
+            {{ courseDate.category1_id }}
         </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios'
+    import axios from 'axios';
+    import moment from "moment";
+    import 'moment/locale/ja';
 
 	export default {
         components: {},
-        props: ['course', 'categories', 'lessons'],
+        props: ['course', 'categories', 'lessons', 'csrf'],
 		data() {
             return {
+                // ライブラリ
+                moment: moment,
                 // propsのdata化
                 courseDate: this.course,
                 categoriesDate: this.categories,
                 lessonsDate: this.lessons,
+                // 通常のdata
                 isBarTab: '1',
 				couseDetailFiles: [
 					{ url: "", isAdd: true, isDelete: false },
@@ -150,7 +142,8 @@
 					{ url: "", isAdd: false, isDelete: false },
 					{ url: "", isAdd: false, isDelete: false },
                 ],
-                // submit用のパラメーター
+                // submitのパラメーター用のdata
+                categoryLists: [],
                 courses_id: this.courses_id ? this.courses_id : '',
                 detail: this.course.detail ? this.course.detail : '',
 
@@ -193,7 +186,40 @@
                 this.couseDetailFiles[4].isDelete = true;
             }
         },
-		computed: {},
+        mounted: function (option) {
+            // [初期設定] コースの持つカテゴリーと同じカテゴリーをチェック
+            for(let i = 0; i < this.categories.length; i++) {
+                // checkboxのvalueを取得
+                const checkTarget = this.$refs['target_' + i];
+                // if(checkTarget.value == this.courseDate.category1_id) {
+                //     checkTarget.checked = true;
+                // }
+                // if(checkTarget.value == this.courseDate.category2_id) {
+                //     checkTarget.checked = true;
+                // }
+                // if(checkTarget.value == this.courseDate.category3_id) {
+                //     checkTarget.checked = true;
+                // }
+                // if(checkTarget.value == this.courseDate.category4_id) {
+                //     checkTarget.checked = true;
+                // }
+                // if(checkTarget.value == this.courseDate.category5_id) {
+                //     checkTarget.checked = true;
+                // }
+                for(let t = 1; t < 6; t++) {
+                    const checkValidation = this.courseDate['category' + t + '_id'];
+                    if(checkTarget.value == checkValidation) {
+                        checkTarget.checked = true;
+                    }
+                }
+            }
+        },
+		computed: {
+            // カテゴリーが5つ以上登録できないようにする
+            checkCategoriesLimit: function() {
+
+            }
+        },
 		methods: {
 			// タブ色々
 			changeTab: function(num){
@@ -210,7 +236,6 @@
 			// },
 			// 画像のアップロード
 			uploadFile: function(index) {
-                console.log('run');
                 // // ファイルを取得する
 				const files = this.$refs['file' + index]
                 const fileImg = files.files[0]
@@ -228,7 +253,6 @@
 						this.couseDetailFiles[index+1].isAdd = true
 					}
                 }
-                console.log('fin');
 			},
 			// 画像の変更
 			changeFile: function(index) {
@@ -270,28 +294,29 @@
 					}
 				}
             },
-            submitForm: function () {
-                // axios postするパラメーターを設定する
-                const params = new FormData();
-                params.append('courses_id', this.courses_id);
-                params.append('detail', this.detail);
-                // const params = {
-                //     detail: this.detail
-                // };
-                // CORSエラー対策
-                const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
-                // Ajax POST通信
-                axios.post(CORS_PROXY + '/mypage/t/courses/update', params)
-                    .then(function (response) {
-                        // 取得成功時：画面を更新
-                        alert('成功しました！');
-                        location.href = 'http://127.0.0.1:8000/mypage/t/courses/detail/' + course.id;
-                    })
-                    .catch(function (response) {
-                        // エラー時：アラートを表示
-                        alert('失敗しました。');
-                    })
-            },
+            // axios post
+            // submitForm: function () {
+            //     // axios postするパラメーターを設定する
+            //     const params = new FormData();
+            //     params.append('courses_id', this.courses_id);
+            //     params.append('detail', this.detail);
+            //     // const params = {
+            //     //     detail: this.detail
+            //     // };
+            //     // CORSエラー対策
+            //     const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+            //     // Ajax POST通信
+            //     axios.post(CORS_PROXY + '/mypage/t/courses/update', params)
+            //         .then(function (response) {
+            //             // 取得成功時：画面を更新
+            //             alert('成功しました！');
+            //             // location.href = 'http://127.0.0.1:8000/mypage/t/courses/detail/' + course.id;
+            //         })
+            //         .catch(function (response) {
+            //             // エラー時：アラートを表示
+            //             alert('失敗しました。');
+            //         })
+            // },
 		},
         watch: {},
     }

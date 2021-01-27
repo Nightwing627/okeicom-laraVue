@@ -462,6 +462,10 @@ content
   border: 1px solid #ED6C73;
 }
 
+.c-list--category li input.non-check {
+  background: #ddd;
+}
+
 /* 講師：レッスン一覧 */
 .c-list--courseLesson {
   display: -webkit-box;

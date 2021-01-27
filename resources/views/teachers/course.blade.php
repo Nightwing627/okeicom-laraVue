@@ -18,7 +18,7 @@
 
                 @foreach($courses as $course)
                     <div class="c-contentList__box">
-                        <a class="c-contentList__box__inner" href="">
+                        <a class="c-contentList__box__inner" :href="'/mypage/t/courses/detail/' + {{ $course->id }}">
                             <div class="c-contentList__box__img">
                                 <div class="c-img--cover">
                                     <img src="{{ asset('/storage/courses/' . $course->img1 )}}">

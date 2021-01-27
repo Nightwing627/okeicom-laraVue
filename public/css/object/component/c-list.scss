@@ -39,7 +39,7 @@ $colorBorderColor: #707070;
         padding-left: 10px;
         line-height: 1.6;
         @include mq_up(md) {
-            padding-left: 15px;   
+            padding-left: 15px;
         }
         &:before {
             content: "";
@@ -270,7 +270,7 @@ content
     -webkit-box-pack: start;
     -ms-flex-pack: start;
     justify-content: flex-start;
-    
+
     -webkit-align-items: center;
     -ms-align-items: center;
     align-items: center;
@@ -319,7 +319,7 @@ content
 }
 .c-list--credit--card--detail {
     flex: 1;
-    
+
     vertical-align: bottom;
     span {
         color: #9D9D9D;
@@ -395,6 +395,9 @@ content
             &:checked ~ label {
                 color: #ED6C73;
                 border: 1px solid #ED6C73;
+            }
+            &.non-check + label {
+                background: #ddd !important;
             }
         }
     }
