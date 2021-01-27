@@ -115,18 +115,38 @@ Route::prefix('teachers')->name('teachers.')->group(function () {
     Route::get('detail/{id}', [TeacherController::class, 'detail'])->name('detail');
 });
 // 講師管理画面
-Route::prefix('mypage/t')->name('mypage.t.')->middleware(['auth', 'teacher'])->group(function () {
+Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
+    // コース一覧
     Route::get('courses', [TeacherController::class, 'course'])->name('courses');
-    Route::get('courses/add', [TeacherController::class, 'createCourse'])->name('courses.create');
-    Route::post('courses/store', [TeacherController::class, 'storeCourse'])->name('courses.store');
+    // コース詳細 / 編集
     Route::get('courses/detail/{courses_id}', [TeacherController::class, 'coursesDetail'])->name('courses.detail');
     Route::post('courses/update', [TeacherController::class, 'updateCourses'])->name('courses.update');
+    // コース作成
+    Route::get('courses/add', [TeacherController::class, 'createCourse'])->name('courses.create');
+    Route::post('courses/store', [TeacherController::class, 'storeCourse'])->name('courses.store');
+    // レッスン作成
     Route::get('lessons/create/{courses_id}', [TeacherController::class, 'createLessons'])->name('lessons.create');
     Route::post('lessons/store', [TeacherController::class, 'storeLessons'])->name('lessons.store');
+    // プロフィール
+    Route::get('profile', [StudentController::class, 'profile'])->name('profile');
+    Route::post('profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');
+    Route::get('profile/password', [StudentController::class, 'editPassword'])->name('profile.password.edit');
+    Route::post('profile/password', [StudentController::class, 'updatePassword'])->name('profile.password.update');
+    // レッスン参加状況
     Route::get('lesson-participation', [TeacherController::class, 'lessonsParticipation'])->name('lessons.participation');
     Route::get('lesson-participation/{lessons_id}', [TeacherController::class, 'lessonParticipationUsers'])->name('lessons.participation.users');
+    // キャンセルリクエスト
     Route::get('cancel-requests', [TeacherController::class, 'cancelRequests'])->name('cancel-requests');
     Route::post('cancel-requests', [TeacherController::class, 'doCancel'])->name('cancel.do');
+    // メッセージ
+    Route::get('messages', [StudentController::class, 'messages'])->name('messages');
+    Route::post('messages', [StudentController::class, 'sendMessages'])->name('messages.send');
+    Route::get('messages/{partner_users_id}', [StudentController::class, 'messageDetail'])->name('messages.detail');
+    // 入出金
+    Route::get('trade', [StudentController::class, 'trade'])->name('trade');
+    Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
+    Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
+    Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
 });
 
 // 受講者管理画面

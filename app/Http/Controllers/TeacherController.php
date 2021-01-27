@@ -233,8 +233,9 @@ class TeacherController extends Controller
      */
     public function course(Request $request)
     {
+        // コース一覧を取得
         $courses = $this->course->findByUsersId(Auth::user()->id, $this->user::STATUS_TEACHER);
-
+        // dd($courses);
         return view('teachers.course', compact('courses'));
     }
 
@@ -277,6 +278,7 @@ class TeacherController extends Controller
     public function coursesDetail(Request $request)
     {
         $course = Course::query()->find($request->courses_id);
+        // dd($course);
         $categories = $this->category->getAll();
         $lessons = $this->lesson->findByCoursesId($request->courses_id, Auth::user()->id);
 
@@ -291,6 +293,7 @@ class TeacherController extends Controller
      */
     public function updateCourses(CourseUpdateRequest $request)
     {
+        ddd('届いてるよ！');
         $course = Course::query()->find($request->courses_id);
         if($request->has('save')) {
             // 更新

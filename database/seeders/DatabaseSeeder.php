@@ -2,12 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
-use App\Models\Country;
-use App\Models\Course;
-use App\Models\Lesson;
-use App\Models\Manage;
-use App\Models\Prefecture;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,6 +22,7 @@ class DatabaseSeeder extends Seeder
             LessonSeeder::class,
             MessagesTableSeeder::class,
             ManageSeeder::class,
+            PaymentsTableSeeder::class,
             PrefectureSeeder::class,
             UserSeeder::class,
         ]);

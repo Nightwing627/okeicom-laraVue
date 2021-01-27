@@ -6,14 +6,15 @@
 					<a href="" class="u-text--link">受講者に切り替える</a>
 				</div> -->
 				<ul class="menu-user--content">
-					<li><a href="/mypage/u/courses/">コース一覧</a></li>
-					<li><a href="/mypage/u/lesson-participation/">レッスン参加状況</a></li>
-					<li><a href="/mypage/u/cancel-requests/">キャンセル依頼</a></li>
-					<li><a href="/mypage/u/messages/">メッセージ</a></li>
-					<li><a href="/mypage/u/profile/">プロフィール</a></li>
+					<li><a href="/mypage/t/courses/">コース一覧</a></li>
+					<li><a href="/mypage/t/courses/add">コースを作成</a></li>
+					<li><a href="/mypage/t/lesson-participation/">レッスン参加状況</a></li>
+					<li><a href="/mypage/t/cancel-requests/">キャンセル依頼</a></li>
+					<li><a href="/mypage/t/messages/">メッセージ</a></li>
+					<li><a href="/mypage/t/profile/">プロフィール</a></li>
 					<!-- <li><a href="">クレジットカード情報</a></li> -->
 					<!-- <li><a href="/mypage/u/bank/">銀行口座情報</a></li> -->
-					<li><a href="/mypage/u/trade/">入出金管理</a></li>
+					<li><a href="/mypage/t/trade/">入出金管理</a></li>
 				</ul>
 				<ul class="menu-user--content">
 					<li><a href="/news/">お知らせ</a></li>

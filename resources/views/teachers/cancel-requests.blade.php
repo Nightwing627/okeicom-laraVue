@@ -23,7 +23,6 @@
                                     <input type="checkbox" name="">
                                     <div class="color-box"></div>
                                 </label>
-                                
                             </div>
                         </div>
                         <div class="teacher-participant-list-detail">
@@ -69,8 +68,15 @@
                 <button name="delete" type="submit" class="c-button--square__pink">{{ __('Denial') }}</button>
             </div>
         </div>
+    </form>
 @endsection
-{{-- @extends('layouts.app')
+
+
+
+
+
+{{--
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -121,5 +127,5 @@
             </form>
         </div>
     </div>
-</div> 
+</div>
 @endsection--}}

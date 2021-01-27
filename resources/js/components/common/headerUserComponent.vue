@@ -108,7 +108,7 @@
 			</div>
 			<ul class="nav-global__list">
 				<li><a href="/">トップページ</a></li>
-				<li><a href="/lessons.php">レッスン一覧</a></li>
+				<li><a href="/attendance-lessons">レッスン一覧</a></li>
 				<li><a href="/teachers.php">講師一覧</a></li>
 			</ul>
 			<p class="c-sp-headline nav--title">会社情報</p>

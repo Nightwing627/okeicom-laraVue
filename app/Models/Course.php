@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class Course extends Model
 {
@@ -33,6 +34,48 @@ class Course extends Model
         'img5',
     ];
 
+    /* Base / get~~~Index, get~~~Show, get~~~Delete, get~~~Update
+    --------------------------------------------------------------------------------------------------*/
+    /**
+     * 指定ステータスのコース全件検索
+     *
+     * @param $users_id
+     * @param $params
+     * @int $status
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function findByUsersId(int $users_id, int $status)
+    {
+        //
+        $course = new Course();
+        $lessonCounts = $course->getRelationCourseLessonCounts();
+        // コースごとのレッスン数を取得
+        return self::query()
+            ->select([
+                'courses.*',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'categories4.name as category4_name',
+                'categories5.name as category5_name',
+            ])
+            ->join('users', 'courses.user_id', '=', 'users.id')
+            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
+            ->joinSub($lessonCounts, 'courses', function($join) {
+                $join->on('courses.course_id', '=', 'courses.id');
+            })
+            ->where('courses.user_id', $users_id)
+//            ->where('lessons.status', $status)
+            ->orderBy('courses.created_at', 'desc')
+            // ->paginate(20);
+            ->paginate(Config::get('const.paginate.lesson'));
+    }
+
+
     /**
      * コースの画像一覧を取得する
      * @return array
@@ -42,7 +85,6 @@ class Course extends Model
         // ID指定のコース情報を取得
         $target = Course::query()->find($id);
         return $target->only('img1', 'img2', 'img3', 'img4', 'img5');
-
     }
 
     /**
@@ -66,6 +108,7 @@ class Course extends Model
     {
         return $this->createCoursePublicPath($this->img1);
     }
+
     /**
      * 画像2の公開パスを取得
      * @return string
@@ -74,6 +117,7 @@ class Course extends Model
     {
         return $this->createCoursePublicPath($this->img2);
     }
+
     /**
      * 画像3の公開パスを取得
      * @return string
@@ -82,6 +126,7 @@ class Course extends Model
     {
         return $this->createCoursePublicPath($this->img3);
     }
+
     /**
      * 画像4の公開パスを取得
      * @return string
@@ -90,6 +135,7 @@ class Course extends Model
     {
         return $this->createCoursePublicPath($this->img4);
     }
+
     /**
      * 画像5の公開パスを取得
      * @return string
@@ -202,31 +248,38 @@ class Course extends Model
         }
     }
 
+    /* Relationships / getRelation~~~
+    --------------------------------------------------------------------------------------------------*/
     /**
-     * 指定ステータスのコース全件検索
+     * 指定コースのレッスン数を取得
      *
-     * @param $users_id
-     * @param $params
-     * @int $status
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function findByUsersId(int $users_id, int $status)
+    public function getRelationCourseLessonCounts()
     {
-        return self::query()
-            ->select([
-               'courses.*',
-               'categories1.name as category1_name',
-               'categories2.name as category2_name',
-               'categories3.name as category3_name',
-            ])
-            ->join('users', 'courses.user_id', '=', 'users.id')
-            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
-            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
-            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
-            ->where('courses.user_id', $users_id)
-//            ->where('lessons.status', $status)
-            ->orderBy('courses.created_at', 'desc')
-            ->paginate(Config::get('const.paginate.lesson'));
+        // 1.IDごとのレッスンを取得（集計関数 count）
+        return Lesson::query()
+            ->select(
+                'lessons.course_id',
+                DB::raw('COUNT(lessons.course_id) AS course_counts'),
+            )
+            ->join('courses', 'lessons.course_id', '=', 'courses.id')
+            // 2.ID属性によって
+            // 2.course idごとにgroup byする
+            ->groupBy('lessons.course_id');
     }
+
+    /* Query methods / getQuery~~~
+    --------------------------------------------------------------------------------------------------*/
+
+
+
+    /* Scope / scopeOf~~~
+    --------------------------------------------------------------------------------------------------*/
+    /* Accessors and mutators / get~~~Attribute / ~~~
+    --------------------------------------------------------------------------------------------------*/
+
+    /* Other /
+    --------------------------------------------------------------------------------------------------*/
 
 }

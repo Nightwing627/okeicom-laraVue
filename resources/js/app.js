@@ -44,6 +44,9 @@ import UserLessonComponent from './components/user/lessonComponent.vue'
 // 受講者管理画面：出金リクエスト
 import UserPaymentComponent from './components/user/paymentComponent.vue'
 
+// 講師管理画面：コース詳細 - 画像コンポーネント
+import TeacherCourseDetailComponent from './components/teacher/CourseDetailComponent.vue'
+
 // 管理者画面：ユーザー編集
 import AdminEditUser from './components/admin/editUserComponent.vue'
 // 管理者画面：ユーザー新規追加
@@ -95,6 +98,9 @@ createApp({ components:{ App,
     'user-lesson-component' : UserLessonComponent,
     // 受講者管理画面：出金リクエスト
     'user-payment-component' : UserPaymentComponent,
+
+    // 講師管理画面：コース詳細
+    'teacher-course-detail-component' : TeacherCourseDetailComponent,
 
     // 管理画面：ユーザー編集
     'admin-user-edit-component' : AdminEditUser,

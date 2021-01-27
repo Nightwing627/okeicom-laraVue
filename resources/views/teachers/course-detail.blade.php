@@ -1,182 +1,150 @@
-@extends('layouts.app')
+@extends('layouts.teacher')
 
+{{-- タイトル・メタディスクリプション --}}
+@section('title', 'コース詳細')
+@section('description', 'コース詳細')
+
+{{-- CSS --}}
+@push('css')
+<link rel="stylesheet" href="{{ asset('/css/foundation/single/teacherCourseDetail.css') }}">
+@endpush
+
+{{-- 本文 --}}
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            @if ($common_cancel_count > 0)
-                未処理のキャンセルリクエストが{{ $common_cancel_count }}件あります。
-            @endif
-            <h2>コース詳細</h2>
-            <form method="POST" action="{{ route('mypage.t.courses.update') }}" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="courses_id" value="{{ $course->id }}">
+    <teacher-course-detail-component
+        :course={{ $course }}
+        :categories={{ $categories }}
+        :lessons={{ $lessons }}
+    >
+    </teacher-course-detail-component>
+    <form method="POST" action="{{ route('mypage.t.courses.update') }}" enctype="multipart/form-data">
+        @csrf
+        <input type="hidden" name="courses_id" value="{{ $course->id }}">
+        <button name="save" type="submit">送信する</button>
+    </form>
+@endsection
 
-                <div class="form-group row">
-                    <label for="url" class="col-md-4 col-form-label text-md-right">{{ __('Course URL') }}</label>
 
-                    <div class="col-md-6">
-                        <input id="url" type="text" class="form-control" name="url" value="" readonly>
-                    </div>
-                </div>
 
-                <div class="form-group row">
-                    <label for="url" class="col-md-4 col-form-label text-md-right">{{ __('Course Image') }}</label>
-
-                    <div class="col-md-6">
-                        @if ($course->img1)
-                            <img src="{{ $course->public_path_img1 }}" alt="" style="height: 50px; width: 50px;">
-                            <input type="checkbox" id="img1_del" name="img1_del" value="1">削除
-                        @else
-                            <label title="画像" class="btn btn-primary mr-2">
-                                <input type="file" accept=".jpeg,.jpg,.png" id="img1" name="img1" style="display:none">
-                                画像
-                            </label>
-                        @endif
-                        @error('img1')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-
-                        @if ($course->img2)
-                            <img src="{{ $course->public_path_img2 }}" alt="" style="height: 50px; width: 50px;">
-                            <input type="checkbox" id="img2_del" name="img2_del" value="1">削除
-                        @else
-                            <label title="画像" class="btn btn-primary mr-2">
-                                <input type="file" accept=".jpeg,.jpg,.png" id="img2" name="img2" style="display:none">
-                                画像
-                            </label>
-                        @endif
-                        @error('img2')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-
-                        @if ($course->img3)
-                            <img src="{{ $course->public_path_img3 }}" alt="" style="height: 50px; width: 50px;">
-                            <input type="checkbox" id="img3_del" name="img3_del" value="1">削除
-                        @else
-                            <label title="画像" class="btn btn-primary mr-2">
-                                <input type="file" accept=".jpeg,.jpg,.png" id="img3" name="img3" style="display:none">
-                                画像
-                            </label>
-                        @endif
-                        @error('img3')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-
-                        @if ($course->img4)
-                            <img src="{{ $course->public_path_img4 }}" alt="" style="height: 50px; width: 50px;">
-                            <input type="checkbox" id="img4_del" name="img4_del" value="1">削除
-                        @else
-                            <label title="画像" class="btn btn-primary mr-2">
-                                <input type="file" accept=".jpeg,.jpg,.png" id="img4" name="img4" style="display:none">
-                                画像
-                            </label>
-                        @endif
-                        @error('img4')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-
-                        @if ($course->img5)
-                            <img src="{{ $course->public_path_img5 }}" alt="" style="height: 50px; width: 50px;">
-                            <input type="checkbox" id="img5_del" name="img5_del" value="1">削除
-                        @else
-                            <label title="画像" class="btn btn-primary mr-2">
-                                <input type="file" accept=".jpeg,.jpg,.png" id="img5" name="img5" style="display:none">
-                                画像
-                            </label>
-                        @endif
-                        @error('img5')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="url" class="col-md-4 col-form-label text-md-right">{{ __('Course Category') }}</label>
-
-                    <div class="col-md-6">
-                        @foreach($categories as $category)
-                            <input type="checkbox" id="categories" name="categories[]" class="@error('categories') is-invalid @enderror" value="{{ $category->id }}" @if(in_array($category->id, $course->array_configured_categories)) checked="checked" @endif>{{ $category->name }}
-                        @endforeach
-
-                        @error('categories')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Course Title') }}</label>
-
-                    <div class="col-md-6">
-                        <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ $course->title }}" required autocomplete="title" autofocus>
-
-                        @error('title')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="detail" class="col-md-4 col-form-label text-md-right">{{ __('Course Detail') }}</label>
-
-                    <div class="col-md-6">
-                        <textarea id="detail" class="form-control @error('detail') is-invalid @enderror" name="detail" required autocomplete="detail" cols="50" rows="10">{{ $course->detail }}</textarea>
-
-                        @error('detail')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row mb-0">
-                    <div class="col-md-3 offset-md-4">
-                        <button name="save" type="submit" class="btn btn-primary">
-                            {{ __('Save') }}
-                        </button>
-                    </div>
-                    <div class="col-md-3">
-                        <button name="delete" type="submit" class="btn btn-primary">
-                            {{ __('Delete') }}
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            <div>
-                <h2>レッスン一覧</h2>
-                    <a class="" href="{{ route('mypage.t.lessons.create', ['courses_id' => $course->id]) }}">
-                        新規レッスン作成
-                    </a>
-                <div class="col-md-6">
-                    @foreach($lessons as $lesson)
-                        {{ $lesson->separate_hyphen_date }}
-                        {{ $lesson->separate_hyphen_time }}<br>
-                        {{ $lesson->title }}
-{{--                        <a class="" href="{{ route('mypage.t.lessons.detail', ['id' => $lesson->id]) }}">--}}
-{{--                            {{ $lesson->title }}--}}
-{{--                        </a>--}}
-                        <hr>
-                    @endforeach
-                </div>
-            </div>
+{{--
+<div class="l-wrap--main--inner">
+    <div class="c-button--tab top-tab two-tab">
+        <div class="c-button--tab--inner u-w400_pc">
+            <div class="c-button--tab--box" v-bind:class="{'selected': isBarTab === '1'}" @click.prevent="changeTab('1')">コース詳細</div>
+            <div class="c-button--tab--box" v-bind:class="{'selected': isBarTab === '2'}" @click.prevent="changeTab('2')">レッスン一覧</div>
         </div>
     </div>
+    <!-- tab：コース詳細 -->
+    <div class="c-list--table" v-if="isBarTab === '1'">
+        <form method="POST" action="{{ route('mypage.t.courses.update') }}" enctype="multipart/form-data">
+        @csrf
+        <input type="hidden" name="courses_id" value="{{ $course->id }}">
+        <!--
+        <div class="c-list--tr">
+            <div class="c-list--th">
+                <p class="main">URL</p>
+            </div>
+            <div class="c-list--td">
+                <input type="" name="" class="" disabled value="aaaa" value="https://okei.com/aaa">
+                <input id="url" class="c-input--fixed" type="text" class="form-control" name="url" value="" readonly>
+            </div>
+        </div>
+        -->
+        <div class="c-list--tr">
+            <div class="c-list--th">
+                <p class="main">画像</p>
+            </div>
+            <div class="c-list--td">
+                <course-img-list-component
+                    img1="{{ $course->img1 }}"
+                    img2="{{ $course->img2 }}"
+                    img3="{{ $course->img3 }}"
+                    img4="{{ $course->img4 }}"
+                    img5="{{ $course->img5 }}"
+                ></course-img-list-component>
+            </div>
+        </div>
+        <div class="c-list--tr">
+            <div class="c-list--th">
+                <p class="main">カテゴリー</p>
+            </div>
+            <div class="c-list--td">
+                <ul class="c-list--category">
+                    <li><input type="checkbox" name=""><label>語学</label></li>
+                    <li><input type="checkbox" name=""><label>家庭教師</label></li>
+                    <li><input type="checkbox" name=""><label>音楽</label></li>
+                    <li><input type="checkbox" name=""><label>アートデザイン</label></li>
+                    <li><input type="checkbox" name=""><label>美容</label></li>
+                    <li><input type="checkbox" name=""><label>健康</label></li>
+                    <li><input type="checkbox" name=""><label>ダンス</label></li>
+                    <li><input type="checkbox" name=""><label>バレエ</label></li>
+                    <li><input type="checkbox" name=""><label>フィットネス</label></li>
+                    <li><input type="checkbox" name=""><label>武道</label></li>
+                    <li><input type="checkbox" name=""><label>書道</label></li>
+                    <li><input type="checkbox" name=""><label>お茶</label></li>
+                    <li><input type="checkbox" name=""><label>お花</label></li>
+                    <li><input type="checkbox" name=""><label>手芸</label></li>
+                    <li><input type="checkbox" name=""><label>パソコン</label></li>
+                    <li><input type="checkbox" name=""><label>趣味</label></li>
+                    <li><input type="checkbox" name=""><label>教養</label></li>
+                    <li><input type="checkbox" name=""><label>その他</label></li>
+                </ul>
+            </div>
+        </div>
+        <div class="c-list--tr">
+            <div class="c-list--th">
+                <p class="main">タイトル</p>
+            </div>
+            <div class="c-list--td">
+                <input placeholder="1234567">
+            </div>
+        </div>
+        <div class="c-list--tr">
+            <div class="c-list--th">
+                <p class="main">詳細</p>
+            </div>
+            <div class="c-list--td">
+                <textarea></textarea>
+            </div>
+        </div>
+        <div class="l-button--submit">
+            <input type="subit" name="" value="変更内容を保存する" class="c-button--square__pink">
+        </div>
+    </div>
+    <!-- tab：その他 -->
+    <div class="l-contentList__list__wrap" v-else-if="isBarTab === '2'">
+        <div class="c-button--add">
+            <a href="">レッスンを追加する</a>
+        </div>
+        @foreach($lessons as $lesson)
+            <!-- <div class="c-list--courseLesson">
+                <div class="c-list--courseLesson--num">
+                    <span>#<?php echo $i; ?></span>
+                </div>
+                <div class="c-list--courseLesson--title">
+                    <p class="title u-text--big u-mb5">タイトルタイトルタイトルタイトル</p>
+                    <p class="date u-color--grayNavy u-text--small">10/20(土) 17:00-20:00</p>
+                </div>
+                開催日を超えた現場は削除
+                <div class="c-button--edit">
+                    <a href="" class="c-button--edit--link delete">削除</a>
+                    <a href="" class="c-button--edit--link edit">編集</a>
+                </div>
+            </div> -->
+            <div class="c-list--courseLesson">
+                <div class="c-list--courseLesson--num">
+                    <span>#<?php echo $i; ?></span>
+                </div>
+                <div class="c-list--courseLesson--title">
+                    <p class="title u-text--big u-mb5">{{ $lesson->title }}</p>
+                    <p class="date u-color--grayNavy u-text--small">{{ $lesson->separate_hyphen_date }} {{ $lesson->separate_hyphen_time }}</p>
+                </div>
+                <div class="c-button--edit">
+                    <a href="" class="c-button--edit--link delete">削除</a>
+                    <a href="{{ route('mypage.t.lessons.detail', ['id' => $lesson->id]) }}" class="c-button--edit--link edit">編集</a>
+                </div>
+            </div>
+        @endforeach
+    </div>
 </div>
-@endsection
+--}}

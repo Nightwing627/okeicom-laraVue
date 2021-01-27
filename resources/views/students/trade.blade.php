@@ -6,6 +6,7 @@
 
 <!-- CSS -->
 @push('css')
+<link rel="stylesheet" href="{{ asset('/css/foundation/single/userDealing.css') }}">
 @endpush
 
 <!-- 本文 -->
@@ -37,7 +38,7 @@
                 <div class="price">
                     <p class="trade add">＋¥ 1,000,000</p>
                     <p class="balance">（残：¥213,000）</p>
-                </div> 
+                </div>
                 <div class="detail">
                     <p class="time">10月18日</p>
                     <p class="item">売上</p>
@@ -48,7 +49,7 @@
                 <div class="price">
                     <p class="trade minus">-¥ 3,000</p>
                     <p class="balance">（残：¥213,000）</p>
-                </div> 
+                </div>
                 <div class="detail">
                     <p class="time">10月18日</p>
                     <p class="item">キャンセル手数料</p>
@@ -59,7 +60,7 @@
                 <div class="price">
                     <p class="trade minus">-¥ 3,000</p>
                     <p class="balance">（残：¥213,000）</p>
-                </div> 
+                </div>
                 <div class="detail">
                     <p class="time">10月18日</p>
                     <p class="item">出金</p>
@@ -70,7 +71,7 @@
                 <div class="price">
                     <p class="trade minus">-¥ 3,000</p>
                     <p class="balance">（残：¥213,000）</p>
-                </div> 
+                </div>
                 <div class="detail">
                     <p class="time">10月18日</p>
                     <p class="item">購入</p>
@@ -81,7 +82,7 @@
                 <div class="price">
                     <p class="trade add">＋¥ 1,000,000</p>
                     <p class="balance">（残：¥213,000）</p>
-                </div> 
+                </div>
                 <div class="detail">
                     <p class="time">10月18日</p>
                     <p class="item">キャンセル返金</p>
@@ -119,6 +120,7 @@
                     <td class="u-textAlign__right">{{ $trade_detail->separate_comma_point_add_sign_amount }}</td>
                     <td class="u-textAlign__right">{{ $trade_detail->separate_comma_point_amount }}</td>
                 </tr>
+                @endforeach
             </table>
         </div>
     </div>

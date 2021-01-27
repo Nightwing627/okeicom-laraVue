@@ -16,21 +16,21 @@
         <div class="dashboard-content-list"><a href="">講師管理画面と切り替える</a></div>
     </div>
     <div class="dashboard-content">
-        <div class="dashboard-content-list"><a href="">受講レッスン</a></div>
-        <div class="dashboard-content-list"><a href="">メッセージ</a></div>
-        <div class="dashboard-content-list"><a href="">プロフィール</a></div>
-        <div class="dashboard-content-list"><a href="">クレジットカード情報</a></div>
-        <div class="dashboard-content-list"><a href="">銀行口座情報</a></div>
-        <div class="dashboard-content-list"><a href="">入出金管理</a></div>
+        <div class="dashboard-content-list"><a href="{{ route('mypage.u.attendance-lessons') }}">受講レッスン</a></div>
+        <div class="dashboard-content-list"><a href="{{ route('mypage.u.messages') }}">メッセージ</a></div>
+        <div class="dashboard-content-list"><a href="{{ route('mypage.u.profile') }}">プロフィール</a></div>
+        {{-- <div class="dashboard-content-list"><a href="{{ route('mypage.u.creditcards') }}">クレジットカード情報</a></div> --}}
+        {{-- <div class="dashboard-content-list"><a href="{{ route('mypage.u.index') }}">銀行口座情報</a></div> --}}
+        <div class="dashboard-content-list"><a href="{{ route('mypage.u.trade') }}">入出金管理</a></div>
     </div>
     <div class="dashboard-content">
-        <div class="dashboard-content-list"><a href="">お知らせ</a></div>
-        <div class="dashboard-content-list"><a href="">運営にお問い合わせ</a></div>
+        <div class="dashboard-content-list"><a href="{{ route('news') }}">お知らせ</a></div>
+        <div class="dashboard-content-list"><a href="{{ route('contact') }}">運営にお問い合わせ</a></div>
     </div>
     <div class="dashboard-content">
-        <div class="dashboard-content-list"><a href="">レッスンを探す</a></div>
-        <div class="dashboard-content-list"><a href="">講師を探す</a></div>
-        <div class="dashboard-content-list"><a href="">ログアウト</a></div>
+        <div class="dashboard-content-list"><a href="{{ route('lessons.index') }}">レッスンを探す</a></div>
+        <div class="dashboard-content-list"><a href="{{ route('teachers.index') }}">講師を探す</a></div>
+        <div class="dashboard-content-list"><a href="{{ route('logout') }}">ログアウト</a></div>
     </div>
 </div>
 @endsection

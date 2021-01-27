@@ -1,15 +1,16 @@
 <div id="sidebar" class="pc-only">
 	<div class="sidebar-change">
-		<a href="" class="u-text--link">受講生に切り替える</a>
+		<a href="" class="u-text--link">受講者に切り替える</a>
 	</div>
 	<ul class="sidebar__list">
-		<li class="selected"><a href="">コース一覧</a></li>
-		<li><a href="">レッスン参加状況</a></li>
-		<li><a href="">キャンセル依頼</a></li>
-		<li><a href="">メッセージ</a></li>
-		<li><a href="">プロフィール</a></li>
-		<li><a href="">クレジットカード情報</a></li>
-		<li><a href="">銀行口座情報</a></li>
-		<li><a href="">入出金管理</a></li>
+		<li class="@if(Request::is('mypage/t/courses')) selected @endif"><a href="{{ route('mypage.t.courses') }}">コース一覧</a></li>
+		<li class="@if(Request::is('mypage/t/courses/add')) selected @endif"><a href="{{ route('mypage.t.courses.create') }}">コース作成</a></li>
+		<li class="@if(Request::is('mypage/t/lesson-participation')) selected @endif"><a href="{{ route('mypage.t.lessons.participation') }}">レッスン参加状況</a></li>
+		<li class="@if(Request::is('mypage/t/cancel-requests')) selected @endif"><a href="{{ route('mypage.t.cancel-requests') }}">キャンセル依頼</a></li>
+		<li class="@if(Request::is('mypage/t/messages')) selected @endif"><a href="{{ route('mypage.t.messages') }}">メッセージ</a></li>
+		<li class="@if(Request::is('mypage/t/profile')) selected @endif"><a href="{{ route('mypage.t.profile') }}">プロフィール</a></li>
+		{{-- <li class="@if(Request::is('mypage/u/trade')) selected @endif"><a href="{{ route('mypage.u.creditcards') }}">クレジットカード情報</a></li> --}}
+		{{-- <li class="@if(Request::is('mypage/u/bank')) selected @endif"><a href="{{ route('mypage.u.bank') }}">銀行口座情報</a></li> --}}
+		<li class="@if(Request::is('mypage/u/trade')) selected @endif"><a href="{{ route('mypage.u.trade') }}">入出金管理</a></li>
 	</ul>
 </div>

@@ -97,10 +97,10 @@ class LessonSeeder extends Seeder
         //     $lesson->save();
         // }
 
-        for ($i = 1; $i < 50; $i++) {
+        for ($i = 1; $i < 20; $i++) {
             Lesson::create([
                 'user_id' => 2,
-                'course_id' => 3,
+                'course_id' => 1,
                 'status' => 0,
                 'number' => $i,
                 'public' => 1,
@@ -112,6 +112,24 @@ class LessonSeeder extends Seeder
                 'cancel_rate' => '5',
                 'title' => 'ユーザ２のレッスンナンバー'.$i,
                 'detail' => 'ユーザ２のレッスン詳細ナンバー'.$i,
+            ]);
+        }
+
+        for ($i = 1; $i < 16; $i++) {
+            Lesson::create([
+                'user_id' => 2,
+                'course_id' => 2,
+                'status' => 0,
+                'number' => $i,
+                'public' => 1,
+                'type' => 1,
+                'date' => '2021-01-'.$i,
+                'start' => '00:00',
+                'finish' => '00:00',
+                'price' => $i * 100,
+                'cancel_rate' => '5',
+                'title' => 'ユーザ3のレッスンナンバー'.$i,
+                'detail' => 'ユーザ3のレッスン詳細ナンバー'.$i,
             ]);
         }
     }
