@@ -10,8 +10,8 @@
         <div class="c-list--table" v-if="isBarTab === '1'">
             <form method="POST" action="/mypage/t/courses/update" enctype="multipart/form-data">
             <!-- <form @submit.prevent="submitForm"> -->
-                <input type="hidden" name="courses_id" v-model="courses_id">
-                <input type="hidden" name="_token" v-bind:value="csrf">
+                <input type="hidden" name="courses_id" :value="course.id">
+                <input type="hidden" name="_token" :value="csrf">
                 <!-- <div class="c-list--tr">
                     <div class="c-list--th">
                         <p class="main">URL</p>
@@ -33,10 +33,11 @@
                                     <span class="add-file" :class="{active: item.isAdd}">
                                         <input
                                             type="file"
-                                            accept=".jpeg,.jpg,.png,.gif"
+                                            accept="image/*"
+                                            :src="item.url"
                                             :name="'img' + (index + 1)"
+                                            :id="'img' + (index + 1)"
                                             :ref="'file' + index"
-                                            :class="'target' + index"
                                             @change="uploadFile(index)"
                                         >
                                         <!-- <input
@@ -46,10 +47,12 @@
                                         > -->
                                     </span>
                                 </div>
-                                <span class="change-file" :class="{active: item.isDelete}">
+                                <span class="change-file" :class="{active: item.isChange}">
                                     <span class="change-file-inner">
-                                        <img src="/img/icon-camera-black.png">
-                                        <input type="file" name="" ref="change" @change.self="changeFile(index)">
+                                        <button @click.prevent="changeFile(index)">
+                                            <img src="/img/icon-camera-black.png">
+                                        </button>
+                                        <!-- <input type="file" ref="change" @change.self="changeFile(index)"> -->
                                     </span>
                                 </span>
                                 <span class="delete-icon sp-only" :class="{active: item.isDelete}" @click="deleteFile(index)">
@@ -61,12 +64,12 @@
                 </div>
                 <div class="c-list--tr">
                     <div class="c-list--th">
-                        <p class="main">カテゴリー <button @click.prevent="clickfalse">カテゴリー1のcheckboxをfalseにする</button></p>
+                        <p class="main">カテゴリー</p>
                     </div>
                     <div class="c-list--td">
                         <ul class="c-list--category">
-                            <li v-for="(category, index) in categories" :key="category.id">
-                                <input class="non-check" type="checkbox" :ref="'target_' + index" :checked="false" v-model="categoryLists" :value="category.id"><label>{{ category.name }}</label>
+                            <li v-for="(category, index) in categories_list" :key="category.id">
+                                <input class="non-check" name="categories[]" type="checkbox" :ref="'target_' + index" :checked="false" :value="category.id"><label>{{ category.name }}</label>
                             </li>
                         </ul>
                     </div>
@@ -84,7 +87,7 @@
                         <p class="main">詳細</p>
                     </div>
                     <div class="c-list--td">
-                        <textarea name="detail" autocomplete="detail" v-model="detail">{{ courseDate.detail }}</textarea>
+                        <textarea name="detail" autocomplete="detail">{{ courseDate.detail }}</textarea>
                     </div>
                 </div>
                 <div class="l-button--submit">
@@ -124,45 +127,44 @@
 
 	export default {
         components: {},
-        props: ['course', 'categories', 'lessons', 'csrf'],
+        props: ['course', 'categories_list', 'lessons', 'csrf'],
 		data() {
             return {
                 // ライブラリ
                 moment: moment,
                 // propsのdata化
                 courseDate: this.course,
-                categoriesDate: this.categories,
+                categoriesDate: this.categories_list,
                 lessonsDate: this.lessons,
                 // 通常のdata
                 isBarTab: '1',
 				couseDetailFiles: [
-					{ url: "", isAdd: true, isDelete: false },
-					{ url: "", isAdd: false, isDelete: false },
-					{ url: "", isAdd: false, isDelete: false },
-					{ url: "", isAdd: false, isDelete: false },
-					{ url: "", isAdd: false, isDelete: false },
+					{ url: "", isAdd: true, isDelete: false, isChange: false },
+					{ url: "", isAdd: false, isDelete: false, isChange: false },
+					{ url: "", isAdd: false, isDelete: false, isChange: false },
+					{ url: "", isAdd: false, isDelete: false, isChange: false },
+					{ url: "", isAdd: false, isDelete: false, isChange: false },
                 ],
-                // submitのパラメーター用のdata
-                categoryLists: [],
-                courses_id: this.courses_id ? this.courses_id : '',
-                detail: this.course.detail ? this.course.detail : '',
 
             }
         },
 		created: function() {
             // 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
-            // 画像の初期設定
+            // 画像の初期設
             if(this.courseDate.img1) {
                 this.couseDetailFiles[0].url = '/storage/courses/' + this.courseDate.img1;
+                // this.couseDetailFiles[0].url = createObjectURL(this.courseDate.img1);
                 this.couseDetailFiles[0].isAdd = false;
                 this.couseDetailFiles[0].isDelete = true;
-                this.couseDetailFiles[1].isAdd = true;
+                this.couseDetailFiles[0].isChange = true;
+                this.couseDetailFiles[1].isAdd = true
                 this.couseDetailFiles[1].isDelete = false;
             }
             if(this.courseDate.img2) {
                 this.couseDetailFiles[1].url = '/storage/courses/' + this.courseDate.img2;
                 this.couseDetailFiles[1].isAdd = false;
                 this.couseDetailFiles[1].isDelete = true;
+                this.couseDetailFiles[1].isChange = true;
                 this.couseDetailFiles[2].isAdd = true;
                 this.couseDetailFiles[2].isDelete = false;
             }
@@ -170,6 +172,7 @@
                 this.couseDetailFiles[2].url = '/storage/courses/' + this.courseDate.img3;
                 this.couseDetailFiles[2].isAdd = false;
                 this.couseDetailFiles[2].isDelete = true;
+                this.couseDetailFiles[2].isChange = true;
                 this.couseDetailFiles[3].isAdd = true;
                 this.couseDetailFiles[3].isDelete = false;
             }
@@ -177,6 +180,7 @@
                 this.couseDetailFiles[3].url = '/storage/courses/' + this.courseDate.img4;
                 this.couseDetailFiles[3].isAdd = false;
                 this.couseDetailFiles[3].isDelete = true;
+                this.couseDetailFiles[3].isChange = true;
                 this.couseDetailFiles[4].isAdd = true;
                 this.couseDetailFiles[4].isDelete = false;
             }
@@ -184,36 +188,21 @@
                 this.couseDetailFiles[4].url = '/storage/courses/' + this.courseDate.img5;
                 this.couseDetailFiles[4].isAdd = false;
                 this.couseDetailFiles[4].isDelete = true;
+                this.couseDetailFiles[4].isChange = true;
             }
         },
         mounted: function (option) {
+            // [確認用]
             // [初期設定] コースの持つカテゴリーと同じカテゴリーをチェック
-            for(let i = 0; i < this.categories.length; i++) {
+            for(let i = 0; i < this.categories_list.length; i++) {
                 // checkboxのvalueを取得
                 const checkTarget = this.$refs['target_' + i];
-                // if(checkTarget.value == this.courseDate.category1_id) {
-                //     checkTarget.checked = true;
-                // }
-                // if(checkTarget.value == this.courseDate.category2_id) {
-                //     checkTarget.checked = true;
-                // }
-                // if(checkTarget.value == this.courseDate.category3_id) {
-                //     checkTarget.checked = true;
-                // }
-                // if(checkTarget.value == this.courseDate.category4_id) {
-                //     checkTarget.checked = true;
-                // }
-                // if(checkTarget.value == this.courseDate.category5_id) {
-                //     checkTarget.checked = true;
-                // }
                 for(let t = 1; t < 6; t++) {
                     const checkValidation = this.courseDate['category' + t + '_id'];
                     if(checkTarget.value == checkValidation) {
                         checkTarget.checked = true;
-                        this.categoryLists.push(checkTarget.value);
                     }
                 }
-                console.log(this.$refs.target_1)
             }
         },
 		computed: {
@@ -226,75 +215,166 @@
 			// タブ色々
 			changeTab: function(num){
 				this.isBarTab = num
+            },
+			setImage(e) {
+                const files = this.$refs.file;
+                const fileImg = files.files[0];
+				if (fileImg.type.startsWith("image/")) {
+					this.data.image = window.URL.createObjectURL(fileImg);
+					this.data.name = fileImg.name;
+					this.data.type = fileImg.type;
+				}
 			},
-			// setImage(e) {
-            //     const files = this.$refs.file;
-			// 	const fileImg = files.files[0];
-			// 	if (fileImg.type.startsWith("image/")) {
-			// 		this.data.image = window.URL.createObjectURL(fileImg);
-			// 		this.data.name = fileImg.name;
-			// 		this.data.type = fileImg.type;
-			// 	}
-			// },
 			// 画像のアップロード
 			uploadFile: function(index) {
                 // // ファイルを取得する
-				const files = this.$refs['file' + index]
+                const files = this.$refs['file' + index]
                 const fileImg = files.files[0]
                 // // 条件に応じて、アップロードを考える
-				if (fileImg.type.startsWith("image/")) {
-					if(index === 4) {
-						this.couseDetailFiles[index].isAdd = false
-						this.couseDetailFiles[index].isDelete = true
-						this.couseDetailFiles[index].url = window.URL.createObjectURL(fileImg)
-					} else {
-						this.couseDetailFiles[index].isAdd = false
-						this.couseDetailFiles[index].isDelete = true
-						this.couseDetailFiles[index].url = window.URL.createObjectURL(fileImg)
-						// 次の画像アップロード箇所追加
-						this.couseDetailFiles[index+1].isAdd = true
-					}
+				// if (fileImg.type.startsWith("image/")) {
+				// 	if(index === 4) {
+				// 		this.couseDetailFiles[index].isAdd = false
+				// 		this.couseDetailFiles[index].isDelete = true
+				// 		this.couseDetailFiles[index].isChange = true
+				// 		this.couseDetailFiles[index].url = window.URL.createObjectURL(fileImg)
+				// 	} else {
+				// 		this.couseDetailFiles[index].isAdd = false
+				// 		this.couseDetailFiles[index].isDelete = true
+				// 		this.couseDetailFiles[index].isChange = true
+				// 		this.couseDetailFiles[index].url = window.URL.createObjectURL(fileImg)
+				// 		// 次の画像アップロード箇所追加
+				// 		this.couseDetailFiles[index+1].isAdd = true
+				// 	}
+                // }
+                const target = this.couseDetailFiles
+                if (fileImg.type.startsWith("image/")) {
+                    target[index].isAdd = false
+                    target[index].isDelete = true
+                    target[index].isChange = true
+                    target[index].url = window.URL.createObjectURL(fileImg)
+                    if (index < 4 && target[index+1].url == "" && target[index+1].isAdd == false) {
+                        // 次の画像アップロード箇所追加
+                        target[index+1].isAdd = true
+                    }
                 }
 			},
 			// 画像の変更
 			changeFile: function(index) {
-				const files = this.$refs['file' + index]
-				const fileImg = files.files[0]
-				if (fileImg.type.startsWith("image/")) {
-					this.couseDetailFiles[index].url = window.URL.createObjectURL(fileImg)
-				}
+                this.$refs['file' + index].click();
+                // console.log('aaa')
+                // const files = this.$refs['file' + index]
+                // const fileImg = files.files[0]
+                // console.log(fileImg)
+				// if (fileImg.type.startsWith("image/")) {
+				// 	this.couseDetailFiles[index].url = window.URL.createObjectURL(fileImg)
+				// }
 			},
 			// 画像の削除
 			deleteFile: function(index) {
-				// 選択した画像が5枚目の場合
-				this.couseDetailFiles[index].url = ""
-				if(index === 4) {
-					this.couseDetailFiles[index].isAdd = true
-					this.couseDetailFiles[index].isDelete = false
-				} else {
-					let i = 1
-					while(i < 6) {
-						if(!this.couseDetailFiles[index+i].url == "") {
-							this.couseDetailFiles[index+i-1].url = this.couseDetailFiles[index+i].url
-							// 次に配列が存在しない場合
-							if(!this.couseDetailFiles[index+i+1]) {
-								this.couseDetailFiles[index+i].url = ""
-								this.couseDetailFiles[index+i].isAdd = true
-								this.couseDetailFiles[index+i].isDelete = false
-								break
-							}
-							i += 1
+                // 選択した画像が5枚目の場合
+				// this.couseDetailFiles[index].url = ""
+				// if(index === 4) {
+				// 	this.couseDetailFiles[index].isAdd = true
+				// 	this.couseDetailFiles[index].isDelete = false
+				// } else {
+                //     // 選択した画像が5枚目以外の場合
+                //     this.couseDetailFiles[index].isAdd = true
+				// 	let i = 1
+				// 	while(i < 6) {
+				// 		if(!this.couseDetailFiles[index+i].url == "") {
+				// 			this.couseDetailFiles[index+i-1].url = this.couseDetailFiles[index+i].url
+				// 			// 次に配列が存在しない場合
+				// 			if(!this.couseDetailFiles[index+i+1]) {
+				// 				this.couseDetailFiles[index+i].url = ""
+				// 				this.couseDetailFiles[index+i].isAdd = true
+				// 				this.couseDetailFiles[index+i].isDelete = false
+				// 				break
+				// 			}
+				// 			i += 1
 
-						} else {
-							this.couseDetailFiles[index+i-1].url = ""
-							this.couseDetailFiles[index+i-1].isAdd = true
-							this.couseDetailFiles[index+i-1].isDelete = false
-							this.couseDetailFiles[index+i].isAdd = false
-							i = 1
-							break
-						}
-					}
-				}
+				// 		} else {
+				// 			this.couseDetailFiles[index+i-1].url = ""
+				// 			this.couseDetailFiles[index+i-1].isAdd = true
+				// 			this.couseDetailFiles[index+i-1].isDelete = false
+				// 			this.couseDetailFiles[index+i].isAdd = false
+				// 			i = 1
+				// 			break
+				// 		}
+				// 	}
+                // }
+
+                const target = this.couseDetailFiles;
+                // クリックした画像が最後の場合
+                target[index].url = ""
+                if(index == 4) {
+                    target[index].url = ""
+                    target[index].isAdd = true
+                    target[index].isChange = false
+                    target[index].isDelete = false
+                } else {
+                    // クリックした画像が最後以外の場合
+                    // クリックした画像の次の画像がない場合
+                    if(target[index+1].isAdd == true) {
+                        target[index].url = ""
+                        target[index].isAdd = true
+                        target[index].isChange = false
+                        target[index].isDelete = false
+                        target[index+1].isAdd = false
+                    } else {
+                        // クリックした画像の次に画像がある場合
+                        let t = 0;
+                        for(t; t < 5; t++) {
+                            target[index+t].url = target[index+t+1].url
+                            if( target[index+t+1].isAdd == true ) break;
+                        }
+                        target[index+t].url = ""
+                        target[index+t].isAdd = true
+                        target[index+t].isChange = false
+                        target[index+t].isDelete = false
+                        if(target[index+t+1].isAdd == true) {
+                            target[index+t+1].isAdd = false
+                        }
+                    }
+                }
+
+                // 画像の配列を定義
+                // const targetImg = this.couseDetailFiles;
+
+                // // 画像1枚目は削除不可
+                // if(this.couseDetailFiles[index+1].url == null && this.couseDetailFiles[index-1].url == null) {
+                //     window.alert('1枚目は削除できません');
+                //     return;
+                // } else {
+                //     targetImg[index].url = ""
+                //     targetImg[index].isAdd = true
+                //     targetImg[index].isDelete = false
+                //     // 選択した画像が5枚目以外の場合、次のisAddをfalseにする必要がある
+                //     if(!index == 4) {
+                //         // 画像が最後の場合
+                //         let i = 1
+                //         while(i < 6) {
+                //             if(!targetImg[index+i].url == "") {
+                //                 targetImg[index+i-1].url = targetImg[index+i].url
+                //                 // 次に配列が存在しない場合
+                //                 if(!targetImg[index+i+1]) {
+                //                     targetImg[index+i].url = ""
+                //                     targetImg[index+i].isAdd = true
+                //                     targetImg[index+i].isDelete = false
+                //                     break
+                //                 }
+                //                 i += 1
+
+                //             } else {
+                //                 targetImg[index+i-1].url = ""
+                //                 targetImg[index+i-1].isAdd = true
+                //                 targetImg[index+i-1].isDelete = false
+                //                 targetImg[index+i].isAdd = false
+                //                 i = 1
+                //                 break
+                //             }
+                //         }
+                //     }
+                // }
             },
             // axios post
             // submitForm: function () {

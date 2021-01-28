@@ -38,7 +38,7 @@
     @enderror
     @error('categories')
         <div class="l-alart errorAlart" role="alert">
-            <p>カテゴリー</p>
+            <p>カテゴリーが設定されていません。</p>
         </div>
     @enderror
     @error('title')
@@ -51,6 +51,11 @@
             <p>詳細</p>
         </div>
     @enderror
+    @if (session('flash_message'))
+        <div class="flash_message">
+            {{ session('flash_message') }}
+        </div>
+    @endif
     {{--
     <teacher-course-detail-component
         :course={{ $course }}
@@ -61,7 +66,7 @@
     --}}
     <teacher-course-detail-component
         :course={{ $course }}
-        :categories={{ $categories }}
+        :categories_list={{ $categories }}
         :lessons={{ $lessons }}
         :csrf="{{json_encode(csrf_token())}}"
     >

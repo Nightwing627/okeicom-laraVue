@@ -280,7 +280,6 @@ class TeacherController extends Controller
         $course = Course::query()->find($request->courses_id);
         $categories = $this->category->getAll();
         $lessons = $this->lesson->findByCoursesId($request->courses_id, Auth::user()->id);
-        // dd($course);
         return view('teachers.course-detail', compact('course', 'categories', 'lessons'));
     }
 
@@ -292,7 +291,7 @@ class TeacherController extends Controller
      */
     public function updateCourses(CourseUpdateRequest $request)
     {
-        dd('届いてるよ！');
+        $target_id = $request->courses_id;
         $course = Course::query()->find($request->courses_id);
         if($request->has('save')) {
             // 更新
@@ -309,7 +308,8 @@ class TeacherController extends Controller
                 $course->delete();
             });
         }
-        return redirect(route('mypage.t.courses'));
+        // return redirect(route('mypage.t.courses'));
+        return redirect('/mypage/t/courses/detail/' . $target_id);
     }
 
     /**
