@@ -61,7 +61,7 @@
                 </div>
                 <div class="c-list--tr">
                     <div class="c-list--th">
-                        <p class="main">カテゴリー</p>
+                        <p class="main">カテゴリー <button @click.prevent="clickfalse">カテゴリー1のcheckboxをfalseにする</button></p>
                     </div>
                     <div class="c-list--td">
                         <ul class="c-list--category">
@@ -210,8 +210,10 @@
                     const checkValidation = this.courseDate['category' + t + '_id'];
                     if(checkTarget.value == checkValidation) {
                         checkTarget.checked = true;
+                        this.categoryLists.push(checkTarget.value);
                     }
                 }
+                console.log(this.$refs.target_1)
             }
         },
 		computed: {
