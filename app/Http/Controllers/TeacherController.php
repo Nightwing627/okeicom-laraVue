@@ -258,18 +258,37 @@ class TeacherController extends Controller
     public function storeCourse(CourseStoreRequest $request)
     {
         dd($request->all());
-        // コース登録処理
-        $course = new Course();
-        $course->user_id = Auth::user()->id;
-        $course->title = $request->title;
-        $course->detail = $request->detail;
-        $course->saveCategories($request);
-        $course->saveImgs($request);
-        $course->save();
+        // [Laravel] Recommend::make モデルを作成する
+        // 配列の詰め直し
+        foreach ($this->lessons as $index => $lesson) {
+            // $models[$index] = isset($lesson['id']) ? $lesson : Recommend::make($lesson);
+            // $models[$index]->order_column = $index;
+            $models[$index] = Lesson::make($lesson);
+        }
+        // [サンプル]
+        // トランザクジョンは片方で失敗した場合、両方が登録不可にする
+        // 「\」カーネル・エイリアス Laravel
+        \DB::transaction(function () use($post, $models) {
+            // コースの処理
+            $course = new Course();
+            $course->user_id = Auth::user()->id;
+            $course->title = $request->title;
+            $course->detail = $request->detail;
+            $course->saveCategories($request);
+            $course->saveImgs($request);
+            $course->save();
+
+            // レッスンの処理
+            // $course_id = $course->id;
+            // $course->save();
+            // $course->lessons()->saveMany($models);
+            // return $course->id;
+        });
 
         // レッスン登録処理
-        $lesson = new Lesson();
-        $lesson->user_id = Auth::user()->id;
+        // $lesson = new Lesson();
+        // $lesson->user_id = Auth::user()->id;
+
         return redirect(route('mypage.t.courses'));
     }
 
@@ -443,7 +462,6 @@ class TeacherController extends Controller
     public function cancelRequests(Request $request)
     {
         $cancels = $this->cancel->findByUsersId(Auth::user()->id);
-
         return view('teachers.cancel-requests', compact('cancels'));
     }
 

@@ -5,9 +5,7 @@
                 <img :src="item.url" v-if="item.url !== ''">
                 <span class="delete-file pc-only" :class="{active: item.isDelete}" @click="deleteFile(index)"></span>
                 <span class="add-file" :class="{active: item.isAdd}">
-                    <input
-                        type="file"
-                        accept="image/*"
+                    <input type="file" accept="image/*"
                         :src="item.url"
                         :name="'img' + (index + 1)"
                         :id="'img' + (index + 1)"
@@ -35,7 +33,6 @@
         props: ['course'],
         data() {
             return {
-                initialThumbnail: 'no-image-course.png',
                 courseDate: this.course ?? '',
 				couseDetailFiles: [
 					{ url: "", isAdd: true, isDelete: false, isChange: false },
@@ -44,19 +41,13 @@
 					{ url: "", isAdd: false, isDelete: false, isChange: false },
 					{ url: "", isAdd: false, isDelete: false, isChange: false },
                 ],
+                // validationNumber: 100,
             }
         },
         created: function() {
-            // 画像の初期設
+            // 画像の初期設定
             if(this.courseDate.img1) {
                 this.couseDetailFiles[0].url = '/storage/courses/' + this.courseDate.img1;
-                this.couseDetailFiles[0].isAdd = false;
-                this.couseDetailFiles[0].isDelete = false;
-                this.couseDetailFiles[0].isChange = true;
-                this.couseDetailFiles[1].isAdd = true
-                this.couseDetailFiles[1].isDelete = false;
-            } else if(this.initialThumbnail) {
-                this.couseDetailFiles[0].url = '/storage/courses/' + this.initialThumbnail;
                 this.couseDetailFiles[0].isAdd = false;
                 this.couseDetailFiles[0].isDelete = false;
                 this.couseDetailFiles[0].isChange = true;
@@ -96,6 +87,8 @@
         },
         mounted: function () {
         },
+        watch: {
+        },
         computed: {},
         methods: {
             // 画像のアップロード
@@ -116,6 +109,8 @@
                         target[index].isDelete = true
                     }
                 }
+                // バリデーション用
+                this.validationNumber += 1
                 // // 条件に応じて、アップロードを考える
 				// if (fileImg.type.startsWith("image/")) {
 				// 	if(index === 4) {
@@ -132,6 +127,7 @@
 				// 		this.couseDetailFiles[index+1].isAdd = true
 				// 	}
                 // }
+                this.$emit('add');
 			},
 			// 画像の変更
 			changeFile: function(index) {
@@ -178,9 +174,10 @@
 				// 	}
                 // }
 
-                const target = this.couseDetailFiles;
+                const target = this.couseDetailFiles
                 // クリックした画像が最後の場合
                 target[index].url = ""
+
                 if(index == 4) {
                     target[index].url = ""
                     target[index].isAdd = true
@@ -211,6 +208,8 @@
                         }
                     }
                 }
+                this.validationNumber -= 1
+                this.$emit('remove');
 
                 // 画像の配列を定義
                 // const targetImg = this.couseDetailFiles;
@@ -251,6 +250,10 @@
                 //     }
                 // }
             },
+
+            // ajax通信
+            
+
         },
     }
 </script>

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
+
+
 class Cancel extends Model
 {
     use HasFactory, SoftDeletes;
@@ -14,7 +16,7 @@ class Cancel extends Model
     const STATUS_AUTO = 0;              // 24時間以前のキャンセル
     const STATUS_PENDING_TEACHER = 1;   // 講師承認待ち
     const STATUS_PENDING_ADMIN = 2;     // 運営承認待ち
-    const STATUS_APPROVAL = 3;          // 承認済み
+    const STATUS_APPROVAL = 3;          // 講師承認済み
     const STATUS_DENIAL_TEACHER = 8;    // 講師非承認
     const STATUS_DENIAL_ADMIN = 9;      // 運営非承認
 

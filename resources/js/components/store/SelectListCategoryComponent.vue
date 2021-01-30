@@ -42,12 +42,6 @@
             }
         },
 		computed: {
-            // カテゴリーが5つ以上登録できないようにする
-            checkCategoriesLimit: function() {},
-            // カテゴリーのcheckedの数を数える
-            checkedNumber: function() {
-
-            }
         },
 		methods: {
             categorySubmit: function(ref) {

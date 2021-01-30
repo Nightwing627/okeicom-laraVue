@@ -34,6 +34,16 @@ class Course extends Model
         'img5',
     ];
 
+    public function course()
+    {
+        $this->post_id = \DB::transaction(function () use($post, $models) {
+            $post->save();
+            $post->recommends()->saveMany($models);
+        
+            return $post->id;
+        });
+    }
+
     /* Base / get~~~Index, get~~~Show, get~~~Delete, get~~~Update
     --------------------------------------------------------------------------------------------------*/
     /**

@@ -173,8 +173,6 @@
                                 type="text"
                                 v-on:keyup="validationCheck"
                                 v-model="textValidation"
-                                autocomplete="title"
-                                autofocus
                                 placeholder="タイトルを入力してください">
                             <!-- <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus placeholder="タイトルを入力してください"> -->
                         </div>
@@ -183,8 +181,8 @@
                             <textarea
                                 id="detail"
                                 class="form-control"
-                                name="detail"
-                                autocomplete="detail"></textarea>
+                                name="detail">
+                            </textarea>
                             <!-- <textarea id="detail" class="form-control @error('detail') is-invalid @enderror" name="detail" required autocomplete="detail" cols="50" rows="10">{{ old('detail') }}</textarea> -->
                         </div>
                     </div>
@@ -192,7 +190,10 @@
                 <div class="l-content--detail">
                     <div class="c-headline--block">画像を選択</div>
                     <div class="l-content--detail__inner">
-                        <select-image></select-image>
+                        <select-image
+                            @add="addImage"
+                            @remove="removeImage"
+                        ></select-image>
                     </div>
                 </div>
                 <div class="l-content--detail">
@@ -252,7 +253,6 @@
         </div>
     </form>
 </template>
-
 <script>
     // moment js
     import moment from "moment"
@@ -302,6 +302,7 @@
                 checkNext: true,
                 textValidation: '',     // ステップ1：タイトルのバリデーション
                 categoryValidation: 0,  // ステップ1：カテゴリーのバリデーション
+                validationNumber: 0,
                 // [ステップ2] 保存ボタンのバリデーション
                 checkStore: true,
                 // [レッスン追加]
@@ -341,12 +342,12 @@
 		created: function() {
             // [ステップ1]のボタンのバリデーションチェック
             this.$watch(
-                () => [this.$data.categoryValidation, this.$data.textValidation],
+                () => [this.$data.categoryValidation, this.$data.textValidation, this.validationNumber],
                 // valueやoldValueの型は上で返した配列になる
                 (value, oldValue) => {
-                    if(this.categoryValidation == 0 || this.textValidation == '') {
+                    if(this.categoryValidation == 0 || this.textValidation == '' || this.validationNumber == 0) {
                         this.checkNext = true;
-                    } else if (this.categoryValidation > 0 && !this.textValidation == '') {
+                    } else if (this.categoryValidation > 0 && !this.textValidation == '' && this.validationNumber > 0) {
                         this.checkNext = false;
                     }
                 }
@@ -364,17 +365,24 @@
             )
         },
         watch: {
+            textValidation: function() {
+            },
         },
 		methods: {
             // [ステップ1]
-            // テキスト入力時、条件に応じてdisabledを変更する
-            // カテゴリーにチェックされた場合、テキストに値があればdisabledをfalseにする
+            // バリデーション：カテゴリーの値
             addCheckbox: function() {
                 this.categoryValidation += 1;
             },
-            // カテゴリーにチェックが外れた場合、チェックが0で、テキストに値がなければdisabledをtrueにする
             reduceCheckbox: function() {
                 this.categoryValidation -= 1;
+            },
+            // バリデーション：画像の値
+            addImage: function() {
+                this.validationNumber += 1
+            },
+            removeImage: function() {
+                this.validationNumber -= 1
             },
             // ステップ1の次へボタン
             nextPage: function() {

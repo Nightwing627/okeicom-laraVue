@@ -18,7 +18,6 @@ class CreateCancelsTable extends Migration
             $table->unsignedInteger('application_id');
             $table->unsignedInteger('user_id');
             $table->unsignedTinyInteger('status');
-            $table->string('reason', 1000)->nullable();
             $table->dateTime('approval_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

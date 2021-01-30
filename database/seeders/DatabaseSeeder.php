@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ApplicationsTableSeeder::class,
             CategorySeeder::class,
+            CancelsTableSeeder::class,
             CountrySeeder::class,
             CourseSeeder::class,
             EvaluationsTableSeeder::class,
