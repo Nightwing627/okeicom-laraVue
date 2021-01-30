@@ -38,17 +38,17 @@
     @enderror
     @error('categories')
         <div class="l-alart errorAlart" role="alert">
-            <p>カテゴリーが設定されていません。</p>
+            <p>カテゴリーが設定されていない、あるいは5つ以上のカテゴリーが設定されています。</p>
         </div>
     @enderror
     @error('title')
         <div class="l-alart errorAlart" role="alert">
-            <p>タイトル</p>
+            <p>タイトルが未記入です。</p>
         </div>
     @enderror
     @error('detail')
         <div class="l-alart errorAlart" role="alert">
-            <p>詳細</p>
+            <p>詳細が未記入です。</p>
         </div>
     @enderror
     @if (session('flash_message'))

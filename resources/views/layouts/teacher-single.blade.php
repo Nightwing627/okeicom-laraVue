@@ -4,7 +4,7 @@
 <!-- CSS -->
 <body>
     <div id="app">
-        <header-teacher-component></header-teacher-component>
+        <header-teacher-component :csrf="{{json_encode(csrf_token())}}"></header-teacher-component>
         <main>
             @yield('content')
         </main>

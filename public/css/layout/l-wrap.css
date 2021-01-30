@@ -11,6 +11,7 @@
 }
 
 .l-wrap--single {
+  position: relative;
   width: 100%;
   margin: auto auto 42px;
 }

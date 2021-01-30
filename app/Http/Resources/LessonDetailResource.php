@@ -22,7 +22,7 @@ class LessonDetailResource extends JsonResource
             'number'                    => $this->number,
             'public'                    => $this->public,
             'type'                      => $this->type,
-            'youtube'                   => $this->youtube,
+            'url'                       => $this->url,
             'slide'                     => $this->slide,
             'date'                      => $this->date,
             'start'                     => $this->start,

@@ -4,7 +4,7 @@
 <body>
 	{{-- <div id="app" class="login-user"> --}}
 	<div id="app">
-		<header-user-component></header-user-component>
+		<header-user-component :csrf="{{json_encode(csrf_token())}}"></header-user-component>
 		{{-- @include("../common/header-user") --}}
 		<main>
 			@yield('content')

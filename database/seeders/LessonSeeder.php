@@ -22,7 +22,6 @@ class LessonSeeder extends Seeder
         //         'user_id' => 1,
         //         'course_id' => 1,
         //         'status' => 0,
-        //         'number' => 1,
         //         'public' => 0,
         //         'type' => 0,
         //         'date' => '2021-01-01',
@@ -37,7 +36,6 @@ class LessonSeeder extends Seeder
         //         'user_id' => 1,
         //         'course_id' => 1,
         //         'status' => 0,
-        //         'number' => 2,
         //         'public' => 0,
         //         'type' => 0,
         //         'date' => '2021-01-02',
@@ -52,7 +50,6 @@ class LessonSeeder extends Seeder
         //         'user_id' => 1,
         //         'course_id' => 1,
         //         'status' => 0,
-        //         'number' => 3,
         //         'public' => 0,
         //         'type' => 0,
         //         'date' => '2021-01-03',
@@ -67,7 +64,6 @@ class LessonSeeder extends Seeder
         //         'user_id' => 1,
         //         'course_id' => 2,
         //         'status' => 1,
-        //         'number' => 1,
         //         'public' => 0,
         //         'type' => 0,
         //         'date' => '2020-12-20',
@@ -84,7 +80,6 @@ class LessonSeeder extends Seeder
         //     $lesson->user_id = $data['user_id'];
         //     $lesson->course_id = $data['course_id'];
         //     $lesson->status = $data['status'];
-        //     $lesson->number = $data['number'];
         //     $lesson->public = $data['public'];
         //     $lesson->type = $data['type'];
         //     $lesson->date = $data['date'];
@@ -102,7 +97,6 @@ class LessonSeeder extends Seeder
                 'user_id' => 1,
                 'course_id' => 1,
                 'status' => 0,
-                'number' => $i,
                 'public' => 1,
                 'type' => 1,
                 'date' => '2021-01-'.$i,
@@ -120,7 +114,6 @@ class LessonSeeder extends Seeder
                 'user_id' => 1,
                 'course_id' => 2,
                 'status' => 0,
-                'number' => $i,
                 'public' => 1,
                 'type' => 1,
                 'date' => '2021-01-'.$i,

@@ -462,8 +462,8 @@ content
   border: 1px solid #ED6C73;
 }
 
-.c-list--category li input.non-check {
-  background: #ddd;
+.c-list--category li input.non-check + label {
+  background: #ddd !important;
 }
 
 /* 講師：レッスン一覧 */

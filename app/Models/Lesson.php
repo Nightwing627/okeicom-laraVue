@@ -29,10 +29,9 @@ class Lesson extends Model
         'user_id',
         'course_id',
         'status',
-        'number',
         'public',
         'type',
-        'youtube',
+        'url',
         'slide',
         'date',
         'start',
@@ -57,7 +56,7 @@ class Lesson extends Model
     /* Base / get~~~Index, get~~~Show, get~~~Delete, get~~~Update
     --------------------------------------------------------------------------------------------------*/
     /**
-     * レッスン一覧（キーワード検索 / 日付検索 / カテゴリー検索）
+     * [Index] レッスン一覧（キーワード検索 / 日付検索 / カテゴリー検索）
      *
      * @param int $categories_id
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
@@ -69,7 +68,6 @@ class Lesson extends Model
         $evaluations = $user->getTeachersPointQuery();
 
         // キーワード
-
         return self::query()
             ->select([
                 'lessons.*',
@@ -124,21 +122,7 @@ class Lesson extends Model
     }
 
     /**
-     * タイプの名称リストを連想配列で取得
-     *
-     * @return array
-     */
-    public static function getArrayTypes()
-    {
-        return [
-            self::TYPE_LIVE => __('LessonTypeLive'),
-            self::TYPE_MOVIE => __('LessonTypeMovie'),
-            self::TYPE_DOCUMENT => __('LessonTypeDocument'),
-        ];
-    }
-
-    /**
-     * 全件検索
+     * [Index] 全件検索
      *
      * @param $params
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
@@ -177,7 +161,7 @@ class Lesson extends Model
     }
 
     /**
-     * 指定カテゴリのレッスン取得
+     * [Index] 指定カテゴリのレッスン取得
      *
      * @param int $categories_id
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
@@ -222,30 +206,56 @@ class Lesson extends Model
     }
 
     /**
-     * 指定コースのレッスン数を取得
+     * 新着レッスンを取得
      *
-     * @param int $courses_id
-     * @param int $users_id
      * @return array|\Illuminate\Database\Concerns\BuildsQueries[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    // public function findByCourseLessonCounts()
-    // {
-    //     // 1.IDごとのレッスンを取得（集計関数 count）
-    //     return self::query()
-    //         ->select(
-    //             'lessons.course_id',
-    //             DB::raw('COUNT(lessons.course_id) AS course_counts'),
-    //         )
-    //         // 2.course idごとにgroup byする
-    //         ->groupBy('lessons.course_id');
-    // }
+    public function getNewArrival()
+    {
+        // 講師別の評価値を集計
+        $user = new User();
+        $evaluations = $user->getTeachersPointQuery();
+
+        return self::query()
+            ->select([
+                'lessons.*',
+                'courses.img1 as courses_img1',
+                'courses.img2 as courses_img2',
+                'courses.img3 as courses_img3',
+                'courses.img4 as courses_img4',
+                'courses.img5 as courses_img5',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'categories4.name as category4_name',
+                'categories5.name as category5_name',
+                'users.img as users_img',
+                'evaluations.avg_point as evaluations_avg_point',
+            ])
+            ->join('courses', 'lessons.course_id', '=', 'courses.id')
+            ->join('users', 'lessons.user_id', '=', 'users.id')
+            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
+            })
+            ->where('lessons.status', self::STATUS_PLANS)
+            ->where('lessons.date', '>=', date("Y-m-d"))
+            ->orderBy('lessons.created_at', 'desc')
+            ->limit(Config::get('const.top_thumbnail_count'))
+            ->get();
+    }
+
 
     /**
-     * 指定コースのレッスン一覧取得
+     * [Index] 指定コースのレッスン一覧を取得する
      *
      * @param int $courses_id
      * @param int $users_id
-     * @return array|\Illuminate\Database\Concerns\BuildsQueries[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return
      */
     public function findByCoursesId(int $courses_id, int $users_id)
     {
@@ -254,67 +264,31 @@ class Lesson extends Model
         return self::query()
             ->where('lessons.user_id', $users_id)
             ->where('lessons.course_id', $courses_id)
-            ->orderBy('lessons.number')
+            ->orderBy('lessons.date', 'asc')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                 $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
             })
             ->get();
     }
 
-    /* Relationships / relate~~~
-    --------------------------------------------------------------------------------------------------*/
-
-    /* Query methods / getQuery~~~
-    --------------------------------------------------------------------------------------------------*/
-
-
-    /* Scope / scopeOf~~~
-    --------------------------------------------------------------------------------------------------*/
-    // スコープ：並び替え
-    public function scopeDynamicOrderBy($query, $params)
+    /**
+     * [Index] 指定コースのレッスン一覧を日付順に並び替えて取得
+     *
+     * @param int $courses_id
+     * @param int $users_id
+     * @return
+     */
+    public function getCourseLessonsDateIndex(int $courses_id, int $users_id)
     {
-        // asc・・・昇順（小さいもの順）
-        // desc・・・降順（大きいもの順）
-        if(isset($params['sort_param']) === 'newDate') {
-            // 新着順
-            return $query->orderby('lessons.created_at', 'asc');
-        } elseif(isset($params['sort_param']) === 'dateLate') {
-            // 開催日が近い順
-            return $query->orderby('lessons.date', 'asc');
-        } elseif(isset($params['sort_param']) === 'participantHigh') {
-            // 参加者が多い順
-            return $query->orderby('lessons.created_at', 'desc');
-        } elseif(isset($params['sort_param']) === 'evaluationHigh') {
-            // 評価が高い順
-            return $query->orderby('evaluations_avg_point', 'desc');
-        } elseif(isset($params['sort_param']) === 'priceLow') {
-            // 料金が安い順
-            return $query->orderby('lessons.price', 'asc');
-        } else {
-            // その他
-            return $query->orderby('lessons.created_at', 'desc');
-        };
-        // ->paginate(Config::get('const.paginate.lesson'));
+        return self::query()
+            ->where('lessons.user_id', $users_id)
+            ->where('lessons.course_id', $courses_id)
+            ->ofOrderByStartDate()
+            ->get();
     }
 
-    /* Accessors and mutators / get~~~Attribute / ~~~
-    --------------------------------------------------------------------------------------------------*/
-
-    /* Other /
-    --------------------------------------------------------------------------------------------------*/
-
-
-
-
-
-
-
-
-
-
-
     /**
-     * ログインユーザの受講レッスン一覧取得
+     * [Index] ログインユーザの受講レッスン一覧取得
      *
      * @param $applications_status
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
@@ -343,6 +317,97 @@ class Lesson extends Model
             ->where('applications.status', $applications_status)
             ->orderBy($applications_status == 1 ? 'applications.created_at' : 'lessons.created_at', 'desc')
             ->paginate(Config::get('const.paginate.attendanceLesson'));
+    }
+
+    /* Relationships / relate~~~
+    --------------------------------------------------------------------------------------------------*/
+
+    /**
+     * 指定コース内のレッスンを日付順に並び替える（日付 asc / start asc）
+     *
+     * @param int $courses_id
+     * @param int $users_id
+     * @return
+     */
+    public function relateCourseOrderDate(int $courses_id)
+    {
+        return self::query()
+            ->where('lessons.course_id', $courses_id)
+            ->orderBy('lessons.number')
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
+            })
+            ->get();
+    }
+
+
+    /* Query methods / getQuery~~~
+    --------------------------------------------------------------------------------------------------*/
+
+
+    /* Scope / scopeOf~~~
+    --------------------------------------------------------------------------------------------------*/
+    /**
+     * スコープ：並び替え
+     *
+     * @param int $query
+     * @param array $params
+     * @return
+     */
+    public function scopeDynamicOrderBy($query, $params)
+    {
+        // asc・・・昇順（小さいもの順）
+        // desc・・・降順（大きいもの順）
+        if(isset($params['sort_param']) === 'newDate') {
+            // 新着順
+            return $query->orderby('lessons.created_at', 'asc');
+        } elseif(isset($params['sort_param']) === 'dateLate') {
+            // 開催日が近い順
+            return $query->orderby('lessons.date', 'asc');
+        } elseif(isset($params['sort_param']) === 'participantHigh') {
+            // 参加者が多い順
+            return $query->orderby('lessons.created_at', 'desc');
+        } elseif(isset($params['sort_param']) === 'evaluationHigh') {
+            // 評価が高い順
+            return $query->orderby('evaluations_avg_point', 'desc');
+        } elseif(isset($params['sort_param']) === 'priceLow') {
+            // 料金が安い順
+            return $query->orderby('lessons.price', 'asc');
+        } else {
+            // その他
+            return $query->orderby('lessons.created_at', 'desc');
+        };
+        // ->paginate(Config::get('const.paginate.lesson'));
+    }
+
+    /**
+     * スコープ：レッスンを開始時刻順に並び替える
+     *
+     * @param array $params
+     * @return
+     */
+    public function scopeOfOrderByStartDate($query)
+    {
+        return $query->orderby('date', 'asc')
+                    ->orderby('start', 'asc');
+    }
+    /* Accessors and mutators / get~~~Attribute / ~~~
+    --------------------------------------------------------------------------------------------------*/
+
+    /* Other /
+    --------------------------------------------------------------------------------------------------*/
+    /**
+     * タイプの名称リストを連想配列で取得
+     *
+     * @return array
+     */
+    public static function getArrayTypes()
+    {
+        return [
+            self::TYPE_LIVE => __('LessonTypeLive'),
+            self::TYPE_MOVIE => __('LessonTypeMovie'),
+            self::TYPE_DOCUMENT => __('LessonTypeDocument'),
+        ];
     }
 
     /**
@@ -511,7 +576,6 @@ class Lesson extends Model
         // 講師別の評価値を集計
         $user = new User();
         $evaluations = $user->getTeachersPointQuery();
-
         return self::query()
             ->select([
                 'lessons.*',
@@ -542,50 +606,6 @@ class Lesson extends Model
             ->where('lessons.date', '>=', date("Y-m-d"))
             ->orderBy('evaluations.avg_point', 'desc')
             ->orderBy('lessons.created_at')
-            ->limit(Config::get('const.top_thumbnail_count'))
-            ->get();
-    }
-
-    /**
-     * 新着レッスンを取得
-     *
-     * @return array|\Illuminate\Database\Concerns\BuildsQueries[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public function getNewArrival()
-    {
-        // 講師別の評価値を集計
-        $user = new User();
-        $evaluations = $user->getTeachersPointQuery();
-
-        return self::query()
-            ->select([
-                'lessons.*',
-                'courses.img1 as courses_img1',
-                'courses.img2 as courses_img2',
-                'courses.img3 as courses_img3',
-                'courses.img4 as courses_img4',
-                'courses.img5 as courses_img5',
-                'categories1.name as category1_name',
-                'categories2.name as category2_name',
-                'categories3.name as category3_name',
-                'categories4.name as category4_name',
-                'categories5.name as category5_name',
-                'users.img as users_img',
-                'evaluations.avg_point as evaluations_avg_point',
-            ])
-            ->join('courses', 'lessons.course_id', '=', 'courses.id')
-            ->join('users', 'lessons.user_id', '=', 'users.id')
-            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
-            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
-            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
-            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
-            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
-            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
-                $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
-            })
-            ->where('lessons.status', self::STATUS_PLANS)
-            ->where('lessons.date', '>=', date("Y-m-d"))
-            ->orderBy('lessons.created_at', 'desc')
             ->limit(Config::get('const.top_thumbnail_count'))
             ->get();
     }

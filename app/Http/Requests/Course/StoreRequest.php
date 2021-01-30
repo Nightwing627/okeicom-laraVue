@@ -29,7 +29,7 @@ class StoreRequest extends FormRequest
             'img3' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
             'img4' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
             'img5' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
-            'categories' => ['required', 'array', 'max:3'],
+            'categories' => ['required', 'array', 'max:5'],
             'title' => ['required', 'string', 'max:255'],
             'detail' =>['nullable', 'string', 'max:255'],
         ];
@@ -60,7 +60,7 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'categories.max' => 'カテゴリーは最大3つまで指定できます。',
+            'categories.max' => 'カテゴリーは最大5つまで指定できます。',
         ];
     }
 }

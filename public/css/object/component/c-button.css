@@ -169,6 +169,10 @@
   color: #fff;
 }
 
+.c-button--square__pink:disabled {
+  background: #dcdcdc;
+}
+
 .c-button--square__blue {
   display: block;
   width: 100%;
@@ -206,62 +210,73 @@
 }
 
 .c-button--add a {
-    position: relative;
-    display: inline-block;
-    padding: 10px 60px 10px 30px;
-    border-radius: 3px;
-    border: 1px solid #3188FF;
-    color: #3188FF;
-    font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  padding: 10px 60px 10px 30px;
+  border-radius: 3px;
+  border: 1px solid #3188FF;
+  color: #3188FF;
+  font-weight: 700;
+  -webkit-transition: .3s;
+  transition: .3s;
 }
 
 .c-button--add a:before {
-    content: "";
-    display: block;
-    width: 12px;
-    height: 12px;
-    background: url(/../img/icon-add-blue.png) center/contain no-repeat;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
+  content: "";
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: url(/../img/icon-add-blue.png) center/contain no-repeat;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.c-button--add a:hover {
+  background: #EBF4FF;
+}
+
+.c-button--add.border-dashed a {
+  border: 1px dashed #3188FF;
 }
 
 @media screen and (max-width: 897px) {
-    .c-button--minus {
-        padding: 10px;
-        border-bottom: 1px solid #EFEFEF;
-    }
+  .c-button--minus {
+    padding: 10px;
+    border-bottom: 1px solid #EFEFEF;
+  }
 }
 
 @media screen and (min-width: 896px) {
-    .c-button--minus {
-        margin-bottom: 20px;
-    }
+  .c-button--minus {
+    margin-bottom: 20px;
+  }
 }
 
 .c-button--minus a {
-    position: relative;
-    display: inline-block;
-    padding: 10px 60px 10px 30px;
-    border-radius: 3px;
-    border: 1px solid #ED6C73;
-    color: #ED6C73;
-    font-weight: 700;
+  position: relative;
+  display: inline-block;
+  padding: 10px 60px 10px 30px;
+  border-radius: 3px;
+  border: 1px solid #ED6C73;
+  color: #ED6C73;
+  font-weight: 700;
 }
 
 .c-button--minus a:before {
-    content: "";
-    display: block;
-    width: 12px;
-    height: 12px;
-    background: url(/../img/icon-minus-pink.png) center/contain no-repeat;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
+  content: "";
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: url(/../img/icon-minus-pink.png) center/contain no-repeat;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 
 /* 編集・削除ボタン */

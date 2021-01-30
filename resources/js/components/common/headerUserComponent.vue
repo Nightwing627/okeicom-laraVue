@@ -26,7 +26,7 @@
 					<li>
                         <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
                         <form id="logout-form" action="/logout" method="POST" style="display: none;">
-                            @csrf
+                            <input type="hidden" name="_token" v-bind:value="csrf">
                         </form>
                     </li>
 				</ul>
@@ -137,6 +137,12 @@
 
 <script>
 	export default {
+        props:  {
+            csrf: {
+                type: String,
+                required: true,
+            }
+        },
 		components: {
 		},
 		data() {

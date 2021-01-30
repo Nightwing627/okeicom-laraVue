@@ -66,7 +66,7 @@ $colorBorderColor: #707070;
     textarea {
         height: 150px;
     }
-    
+
     .imageBox {
         position: relative;
         width: 200px;
@@ -105,9 +105,13 @@ $colorBorderColor: #707070;
 .l-content--input__two {
     width: 49.5%;
 }
+// ipnutが3つの場合
+.l-content--input__three {
+    width: 33%;
+}
 // 見出し
 .l-content--input__headline {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     margin-bottom: 5px;
 }
@@ -153,7 +157,7 @@ $colorBorderColor: #707070;
             flex: 1;
         }
         @include mq_up(md) {
-            
+
             width: 530px;
         }
     }

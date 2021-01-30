@@ -176,6 +176,9 @@ $bgMainColor: #F6F5F7;
     background: #ED6C73;
     border-radius: 3px;
     color: #fff;
+    &:disabled {
+        background: #dcdcdc;
+    }
 }
 .c-button--square__blue {
     display: block;
@@ -209,6 +212,7 @@ $bgMainColor: #F6F5F7;
         margin-bottom: 20px;
     }
     a {
+        cursor: pointer;
         position: relative;
         display: inline-block;
         padding: 10px 60px 10px 30px;
@@ -216,6 +220,7 @@ $bgMainColor: #F6F5F7;
         border: 1px solid #3188FF;
         color: #3188FF;
         font-weight: 700;
+        transition: .3s;
         &:before {
             content: "";
             display: block;
@@ -227,6 +232,12 @@ $bgMainColor: #F6F5F7;
             top: 50%;
             transform: translateY(-50%);
         }
+        &:hover {
+            background: #EBF4FF;
+        }
+    }
+    &.border-dashed a {
+        border: 1px dashed #3188FF;
     }
 }
 

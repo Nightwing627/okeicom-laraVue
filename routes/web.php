@@ -114,19 +114,26 @@ Route::prefix('teachers')->name('teachers.')->group(function () {
     Route::get('/changeOrder', [TeacherController::class, 'changeOrder'])->name('changeOrder');
     Route::get('detail/{id}', [TeacherController::class, 'detail'])->name('detail');
 });
+
 // 講師管理画面
 Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
     // コース一覧
     Route::get('courses', [TeacherController::class, 'course'])->name('courses');
-    // コース詳細 / 編集
+    // コース詳細
     Route::get('courses/detail/{courses_id}', [TeacherController::class, 'coursesDetail'])->name('courses.detail');
+    // コース編集
     Route::post('courses/update', [TeacherController::class, 'updateCourses'])->name('courses.update');
     // コース作成
-    Route::get('courses/add', [TeacherController::class, 'createCourse'])->name('courses.create');
+    Route::get('courses/create', [TeacherController::class, 'createCourse'])->name('courses.create');
     Route::post('courses/store', [TeacherController::class, 'storeCourse'])->name('courses.store');
     // レッスン作成
     Route::get('lessons/create/{courses_id}', [TeacherController::class, 'createLessons'])->name('lessons.create');
     Route::post('lessons/store', [TeacherController::class, 'storeLessons'])->name('lessons.store');
+    // レッスン編集
+    Route::get('lessons/edit/{lesson_id}', [TeacherController::class, 'editLessons'])->name('lessons.edit');
+    Route::post('lessons/update', [TeacherController::class, 'updateLessons'])->name('lessons.update');
+    // レッスン削除
+    Route::post('lessons/delete', [TeacherController::class, 'deleteLessons'])->name('lessons.delete');
     // プロフィール
     Route::get('profile', [StudentController::class, 'profile'])->name('profile');
     Route::post('profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');

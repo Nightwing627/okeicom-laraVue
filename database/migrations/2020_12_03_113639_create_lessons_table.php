@@ -18,10 +18,9 @@ class CreateLessonsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('course_id');
             $table->unsignedTinyInteger('status');
-            $table->unsignedTinyInteger('number');
             $table->unsignedTinyInteger('public');
             $table->unsignedTinyInteger('type');
-            $table->string('youtube', 100)->nullable();
+            $table->string('url', 100)->nullable();
             $table->string('slide', 100)->nullable();
             $table->date('date');
             $table->time('start');

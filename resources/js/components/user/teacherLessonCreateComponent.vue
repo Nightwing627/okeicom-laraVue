@@ -54,7 +54,7 @@
 							</ul>
 						</div>
 						<div class="l-content--input" v-if="isType === '2'">
-							<p class="l-content--input__headline">Youtube URL</p>
+							<p class="l-content--input__headline">URL</p>
 							<input type="text" name="" placeholder="https://www.youtube.com/">
 						</div>
 						<div class="l-content--input" v-if="isType === '3'">
@@ -84,7 +84,7 @@
 											</select>
 										</div>
 									</div>
-									
+
 								</div>
 								<div class="l-content--input__two">
 									<div class="l-content--input__headline">終了時間</div>
@@ -102,7 +102,7 @@
 									</div>
 								</div>
 							</div>
-							
+
 						</div>
 						<div class="l-content--input">
 							<p class="l-content--input__headline">詳細</p>

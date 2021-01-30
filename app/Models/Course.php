@@ -69,7 +69,7 @@ class Course extends Model
                 $join->on('courses.course_id', '=', 'courses.id');
             })
             ->where('courses.user_id', $users_id)
-//            ->where('lessons.status', $status)
+            // ->where('lessons.status', $status)
             ->orderBy('courses.created_at', 'desc')
             // ->paginate(20);
             ->paginate(Config::get('const.paginate.lesson'));
@@ -224,6 +224,8 @@ class Course extends Model
         $this->category1_id = array_key_exists(0, $request->categories) ? (int)$request->categories[0] : null;
         $this->category2_id = array_key_exists(1, $request->categories) ? (int)$request->categories[1] : null;
         $this->category3_id = array_key_exists(2, $request->categories) ? (int)$request->categories[2] : null;
+        $this->category4_id = array_key_exists(3, $request->categories) ? (int)$request->categories[3] : null;
+        $this->category5_id = array_key_exists(4, $request->categories) ? (int)$request->categories[4] : null;
     }
 
     /**
@@ -232,7 +234,9 @@ class Course extends Model
     public function deleteImgs()
     {
         if ($this->img1) {
-            Storage::delete(Config::get('const.image_path.course') . '/' . $this->img1);
+            if(!$this->img1 == 'no-image-course.png') {
+                Storage::delete(Config::get('const.image_path.course') . '/' . $this->img1);
+            }
         }
         if ($this->img2) {
             Storage::delete(Config::get('const.image_path.course') . '/' . $this->img2);
@@ -276,6 +280,8 @@ class Course extends Model
 
     /* Scope / scopeOf~~~
     --------------------------------------------------------------------------------------------------*/
+
+
     /* Accessors and mutators / get~~~Attribute / ~~~
     --------------------------------------------------------------------------------------------------*/
 

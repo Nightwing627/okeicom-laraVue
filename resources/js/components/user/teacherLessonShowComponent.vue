@@ -69,7 +69,7 @@
 			<!-- case：放送タイプが動画埋め込みの場合 -->
 			<div class="c-list--tr">
 				<div class="c-list--th">
-					<p class="main">Youtube URL</p>
+					<p class="main">URL</p>
 				</div>
 				<div class="c-list--td">
 					<input type="" name="" placeholder="https://www.youtube.com/">
@@ -104,7 +104,7 @@
 									</select>
 								</div>
 							</div>
-							
+
 						</div>
 						<div class="l-content--input__two">
 							<div class="l-content--input__headline">終了時間</div>

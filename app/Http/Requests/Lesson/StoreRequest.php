@@ -26,7 +26,6 @@ class StoreRequest extends FormRequest
         return [
             'courses_id' => ['required', 'numeric'],
             'title' => ['required', 'string', 'max:255'],
-            'number' => ['required', 'numeric', 'between:1,10'],
             'type' => ['required', 'numeric'],
             'date' => ['required', 'date'],
             'start' => ['required', 'date_format:H:i'],
@@ -47,7 +46,6 @@ class StoreRequest extends FormRequest
         return [
             'courses_id' => 'コースID',
             'title' => 'タイトル',
-            'number' => 'レッスン番号',
             'type' => '放送タイプ',
             'date' => '日付',
             'start' => '開始時間',

@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './components/App.vue'
 
+
 // 共通
 import HeaderComponent from './components/common/headerComponent.vue'
 import HeaderUserComponent from './components/common/headerUserComponent.vue'
@@ -9,6 +10,13 @@ import SidebarComponent from './components/common/sidebarComponent.vue'
 import SidebarSearchComponent from './components/common/sidebarSearchComponent.vue'
 import DatepickerLite from "vue3-datepicker"
 import VuejsDatepickerComponent from "./components/common/VuejsDatepickerComponent.vue"
+
+
+// [登録周り]
+// カテゴリー一覧を表示して、selectで選択できるコンポーネント
+import SelectListCategryComponent from './components/store/SelectListCategoryComponent.vue'
+// 画像を5つ表示して、選択できるコンポーネント
+import SelectListImageComponent from './components/store/SelectListImageComponent.vue'
 
 // 検索
 import SearchComponent from './components/search/indexComponent.vue'
@@ -44,8 +52,12 @@ import UserLessonComponent from './components/user/lessonComponent.vue'
 // 受講者管理画面：出金リクエスト
 import UserPaymentComponent from './components/user/paymentComponent.vue'
 
-// 講師管理画面：コース詳細 - 画像コンポーネント
+// 講師管理画面：コース詳細
 import TeacherCourseDetailComponent from './components/teacher/CourseDetailComponent.vue'
+// 講師管理画面：コース登録
+import TeacherCourseStoreComponent from './components/teacher/CourseStoreComponent.vue'
+// 講師管理画面：コース登録 - レッスン紐付け
+// import TeacherCourseRelateLessonComponent from './components/teacher/CourseRelateLessonComponent.vue'
 
 // 管理者画面：ユーザー編集
 import AdminEditUser from './components/admin/editUserComponent.vue'
@@ -65,6 +77,13 @@ createApp({ components:{ App,
     'vue-datapicker-lite': DatepickerLite,
     'vuejs-datepicker-component': VuejsDatepickerComponent,
 
+    // [登録周り]
+    // カテゴリー
+    'select-list-category-component': SelectListCategryComponent,
+    // 画像
+    'select-list-image-component': SelectListImageComponent,
+
+    // カテゴリーを選択
     // 検索
     'search-component': SearchComponent,
 
@@ -101,6 +120,10 @@ createApp({ components:{ App,
 
     // 講師管理画面：コース詳細
     'teacher-course-detail-component' : TeacherCourseDetailComponent,
+    // 講師管理画面：コース登録
+    'teacher-course-store-component' : TeacherCourseStoreComponent,
+    // 講師管理画面：コース登録 - レッスン紐付け
+    // 'teacher-course-relate-lesson-component' : TeacherCourseRelateLessonComponent,
 
     // 管理画面：ユーザー編集
     'admin-user-edit-component' : AdminEditUser,

@@ -113,7 +113,6 @@
                     <div class="l-contentList__list__wrap">
                         @if($teachers)
                             @foreach($teachers as $teacher)
-
                                 <div class="l-content--teacher">
                                     <a href="/teachers/detail/{{ $teacher->id }}">
                                         <div class="l-content--teacher__inner l-flex">

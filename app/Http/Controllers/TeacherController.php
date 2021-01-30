@@ -84,8 +84,6 @@ class TeacherController extends Controller
         //一覧の表示数
         $limit=config('const.paginate.teacher');
 
-
-
         //カテゴリー取得
         $categories=Category::all();
 
@@ -259,6 +257,8 @@ class TeacherController extends Controller
      */
     public function storeCourse(CourseStoreRequest $request)
     {
+        dd($request->all());
+        // コース登録処理
         $course = new Course();
         $course->user_id = Auth::user()->id;
         $course->title = $request->title;
@@ -266,6 +266,10 @@ class TeacherController extends Controller
         $course->saveCategories($request);
         $course->saveImgs($request);
         $course->save();
+
+        // レッスン登録処理
+        $lesson = new Lesson();
+        $lesson->user_id = Auth::user()->id;
         return redirect(route('mypage.t.courses'));
     }
 
@@ -300,6 +304,7 @@ class TeacherController extends Controller
             $course->saveCategories($request);
             $course->saveImgs($request);
             $course->save();
+            return redirect('/mypage/t/courses/detail/' . $target_id);
         } elseif ($request->has('delete')) {
             // 削除
             DB::transaction(function () use ($course) {
@@ -307,9 +312,9 @@ class TeacherController extends Controller
                 $this->lesson->deleteByCoursesId($course->id);
                 $course->delete();
             });
+            return redirect(route('mypage.t.courses'));
         }
-        // return redirect(route('mypage.t.courses'));
-        return redirect('/mypage/t/courses/detail/' . $target_id);
+
     }
 
     /**
@@ -338,7 +343,6 @@ class TeacherController extends Controller
             'user_id' => Auth::user()->id,
             'course_id' => $request->courses_id,
             'status' => $this->lesson::STATUS_PLANS,
-            'number' => $request->number,
             'public' => 0,
             'type' => $request->type,
             'date' => $request->date,
@@ -351,6 +355,57 @@ class TeacherController extends Controller
         ])->save();
 
         return redirect(route('mypage.t.courses.detail', ['courses_id' => $request->courses_id]));
+    }
+
+    /**
+     * レッスンの編集
+     *
+     * @param LessonStoreRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function editLessons($id)
+    {
+        // 詳細取得
+        $lesson = Lesson::find($id);
+        return view('teachers.lesson-edit', compact('lesson'));
+    }
+
+    /**
+     * レッスンの更新
+     *
+     * @param LessonStoreRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function updateLessons(LessonStoreRequest $request)
+    {
+        // 更新
+    }
+
+    /**
+     * レッスンの削除
+     *
+     * @param LessonStoreRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function deleteLessons(Request $request)
+    {
+        // 該当レッスンのIDを取得
+        $lesson_id = $request->lesson_id;
+        // 該当レッスンのユーザーIDを取得
+        $user_id = $request->user_id;
+        // 該当レッスンからコースIDを取得
+        $course_id = $request->course_id;
+        // レッスンIDから該当するレッスンを取得して、削除
+        Lesson::find($lesson_id)->delete();
+
+        // 関連削除 / 編集
+        // 該当レッスンの予約を全てキャンセルする(Applications)
+        // 該当レッスンのクーポンを全て削除する（Coupon）
+        // 該当レッスンの未決定のキャンセル処理を全てdeleted_ad（Cancels）
+        // 該当レッスンの未実施の決済履歴もキャンセル(Payments）
+
+        // コース詳細へ戻る
+        return redirect(route('mypage.t.courses.detail', ['courses_id' => $course_id]));
     }
 
     /**

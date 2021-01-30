@@ -7,7 +7,6 @@
 				</div> -->
 				<ul class="menu-user--content">
 					<li><a href="/mypage/t/courses/">コース一覧</a></li>
-					<li><a href="/mypage/t/courses/add">コースを作成</a></li>
 					<li><a href="/mypage/t/lesson-participation/">レッスン参加状況</a></li>
 					<li><a href="/mypage/t/cancel-requests/">キャンセル依頼</a></li>
 					<li><a href="/mypage/t/messages/">メッセージ</a></li>
@@ -20,7 +19,10 @@
 					<li><a href="/news/">お知らせ</a></li>
 					<li><a href="mailto:chankan77@gmail.com">運営にお問い合わせ</a></li>
                     <li>
-                        <a v-on:click="axiosLogout">ログアウト</a>
+                        <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
+                        <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                            <input type="hidden" name="_token" v-bind:value="csrf">
+                        </form>
                     </li>
 				</ul>
 			</div>
@@ -129,12 +131,14 @@
 </template>
 
 <script>
-    import axios from 'axios';
 	export default {
 		components: {
         },
         props: {
-            logout: String,
+            csrf: {
+                type: String,
+                required: true,
+            }
         },
 		data() {
 			return {
@@ -168,24 +172,6 @@
 			// ユーザーメニューを開く
 			toggleMenuUser: function() {
 				this.isMenuUser = !this.isMenuUser
-            },
-            axiosLogout() {
-                axios.post(this.logout)
-                .then( function (response) {
-                    location.reload();
-                }.bind(this))
-
-                .catch(function (error) {
-                    console.log(error)
-                    if (error.response) {
-                    if (error.response.status) {
-                        if (error.response.status == 401 || error.response.status == 419) {
-                            var parser = new URL(this.logout)
-                            location.href=parser.origin
-                        }
-                    }
-                }
-            }.bind(this))
             },
 		},
 		watch: {},
