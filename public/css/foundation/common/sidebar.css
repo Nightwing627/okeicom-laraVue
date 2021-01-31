@@ -64,7 +64,7 @@
     top: 50%;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%);
-    background: url(/../img/icon-arrow-right-blue.png) center/contain no-repeat;
+    background: url(/../img/common/icon-arrow-right-blue.png) center/contain no-repeat;
   }
   .sidebar__list li.selected button,
   .sidebar__list li.selected a {
@@ -73,7 +73,7 @@
   }
   .sidebar__list li.selected button:before,
   .sidebar__list li.selected a:before {
-    background: url(/../img/icon-sidebar-arrow-right-black.png) center/contain no-repeat;
+    background: url(/../img/common/icon-sidebar-arrow-right-black.png) center/contain no-repeat;
   }
 }
 
@@ -119,7 +119,7 @@
     top: 50%;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%);
-    background: url(/../img/icon-arrow-right-blue.png) center/contain no-repeat;
+    background: url(/../img/common/icon-arrow-right-blue.png) center/contain no-repeat;
   }
   .sidebar__list.long li {
     width: 100%;

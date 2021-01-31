@@ -218,7 +218,7 @@ $bgMainColor: #F6F5F7;
                 z-index: 1;
                 -webkit-transform: translate(-50%,-50%) scale(1);
                 transform: translate(-50%,-50%) scale(1);
-                background: url(/../../img/icon-add-pink.png) center/contain no-repeat;
+                background: url(/../../img/common/icon-add-pink.png) center/contain no-repeat;
                 @include mq_up(md) {
                     width: 30px;
                     height: 30px;
@@ -331,7 +331,7 @@ $bgMainColor: #F6F5F7;
     }
 
     .couse-detail-img .c-img--cover:hover .delete-file:after {
-        background: url(/../img/icon-batsu-white.png) center/contain no-repeat;
+        background: url(/../img/common/icon-batsu-white.png) center/contain no-repeat;
         width: 50px;
         height: 50px;
         top: 50%;

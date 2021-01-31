@@ -65,7 +65,7 @@
 							<p class="u-text--big u-mb10"><span class="c-text--sex man u-mr10" v-if="user.sex==1">男性</span><span class="c-text--sex woman u-mr10" v-if="user.sex==2">女性</span><a v-bind:href="'/teachers/detail/'+user.id">{{ user.name }}</a></p>
 							<div class="c-text--evaluation">
 								<div class="star">
-									<img src="/img/icon-star.png">
+									<img src="/img/common/icon-star.png">
 									<span class="evaluation">{{ user.ave }}</span>
 								</div>
 								<p class="review">レビュー {{ user.count }}件</p>

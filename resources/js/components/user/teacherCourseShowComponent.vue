@@ -37,12 +37,12 @@
 							</div>
 							<span class="change-file" :class="{active: item.isDelete}">
 								<span class="change-file-inner">
-									<img src="/img/icon-camera-black.png">
+									<img src="/img/common/icon-camera-black.png">
 									<input type="file" name="" ref="change" @change.self="changeFile(index)">
 								</span>
 							</span>
 							<span class="delete-icon sp-only" :class="{active: item.isDelete}" @click="deleteFile(index)">
-								<img src="/img/icon-dust-black.png">
+								<img src="/img/common/icon-dust-black.png">
 							</span>
 						</li>
 					</ul>

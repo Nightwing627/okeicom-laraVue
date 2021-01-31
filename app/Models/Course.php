@@ -33,15 +33,16 @@ class Course extends Model
         'img4',
         'img5',
     ];
-
-    public function course()
+    /**
+     * リレーションシップ：レッスン
+     *
+     * @param $users_id
+     * @param $params
+     * @int $status
+     */
+    public function lessons()
     {
-        $this->post_id = \DB::transaction(function () use($post, $models) {
-            $post->save();
-            $post->recommends()->saveMany($models);
-        
-            return $post->id;
-        });
+        return $this->hasMany('App\Models\Lesson');
     }
 
     /* Base / get~~~Index, get~~~Show, get~~~Delete, get~~~Update

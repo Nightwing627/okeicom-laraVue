@@ -2,14 +2,14 @@
 	<div class="l-modal" :class="{open: isParticipantDetail}" @click.self="openDetail">
 		<div class="l-modal--wrap">
 			<div class="close-button">
-				<span class="close-icon" @click.prevent="openDetail"><img src="/img/icon-batsu-white.png"></span>
+				<span class="close-icon" @click.prevent="openDetail"><img src="/img/common/icon-batsu-white.png"></span>
 			</div>
 			<div class="l-modal--wrap--inner">
 				<div class="l-modal--content">
 					<div class="l-modal--header">
 						<div class="l-modal--header--img">
 							<div class="c-img--cover c-img--round">
-								<img src="/img/screen-top.jpg">
+								<img src="/img/common/screen-top.jpg">
 							</div>
 						</div>
 						<div class="l-modal--header--button">
@@ -161,7 +161,7 @@
 			<div class="c-list--courseLesson" v-for="i in 10">
 				<div class="c-list--courseLesson--num">
 					<div class="c-img--round c-img--cover">
-						<img src="/img/screen-top.jpg">
+						<img src="/img/common/screen-top.jpg">
 					</div>
 				</div>
 				<div class="c-list--courseLesson--title u-pl10">

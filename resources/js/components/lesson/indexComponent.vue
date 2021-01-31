@@ -59,7 +59,7 @@
                                             </div>
                                         </div>
                                         <div class="teacherEvaluation">
-                                            <img src="/img/icon-star.png">
+                                            <img src="/img/common/icon-star.png">
                                             <span class="evaluationNumber">{{ lesson.round_avg_point }}</span>
                                         </div>
                                     </div>

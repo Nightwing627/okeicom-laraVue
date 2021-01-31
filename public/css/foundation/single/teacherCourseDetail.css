@@ -80,7 +80,7 @@
   z-index: 1;
   -webkit-transform: translate(-50%, -50%) scale(1);
   transform: translate(-50%, -50%) scale(1);
-  background: url(/../../img/icon-add-pink.png) center/contain no-repeat;
+  background: url(/../../img/common/icon-add-pink.png) center/contain no-repeat;
 }
 
 @media screen and (min-width: 896px) {
@@ -206,7 +206,7 @@
     z-index: 1;
   }
   .couse-detail-img .c-img--cover:hover .delete-file:after {
-    background: url(/img/icon-batsu-white.png) center/contain no-repeat;
+    background: url(/img/common/icon-batsu-white.png) center/contain no-repeat;
     width: 50px;
     height: 50px;
     top: 50%;

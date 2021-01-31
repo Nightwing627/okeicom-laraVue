@@ -73,6 +73,7 @@ class StudentController extends Controller
     public function messages(Request $request)
     {
         $partner_users = $this->message->getUsersWithLatestMessage();
+        // dd($partner_users);
         if ($request->query('partner_users_id')) {
             $partner_users_id = $request->query('partner_users_id');
         } else {
@@ -98,7 +99,10 @@ class StudentController extends Controller
      */
     public function messageDetail(Request $request)
     {
+        // ユーザー情報
         $partner_users_id = $request->partner_users_id;
+        $user_name = User::find($partner_users_id)->name;
+        $user_img = User::find($partner_users_id)->img;
         $message_details = $this->message->getConversation($partner_users_id);
         // dd($message_details);
         // 既読に更新(スマホ)
@@ -107,7 +111,7 @@ class StudentController extends Controller
         });
         // dd($message_details);
 
-        return view('students.message-detail', compact('message_details', 'partner_users_id'));
+        return view('students.message-detail', compact('message_details', 'partner_users_id', 'user_name', 'user_img'));
     }
 
     /**
@@ -118,6 +122,7 @@ class StudentController extends Controller
      */
     public function sendMessages(MessageSendRequest $request)
     {
+        dd($request->all());
         $message = new Message();
         $message->user_send_id = Auth::user()->id;
         $message->user_receive_id = $request->partner_users_id;
@@ -126,11 +131,12 @@ class StudentController extends Controller
         $message->save();
 
         $agent = new Agent();
-        if($agent->isMobile()) {
-            return redirect(route('mypage.u.messages.detail', ['partner_users_id' => $message->user_receive_id ]));
-        } else {
-            return redirect(route('mypage.u.messages', ['partner_users_id' => $message->user_receive_id]));
-        }
+        // if($agent->isMobile()) {
+        //     return redirect(route('mypage.u.messages.detail', ['partner_users_id' => $message->user_receive_id ]));
+        // } else {
+        //     return redirect(route('mypage.u.messages', ['partner_users_id' => $message->user_receive_id]));
+        // }
+        return redirect(route('mypage.u.messages.detail', ['partner_users_id' => $message->user_receive_id ]));
     }
 
     /**

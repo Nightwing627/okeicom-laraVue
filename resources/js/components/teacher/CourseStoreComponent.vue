@@ -6,7 +6,7 @@
                 <div class="l-content--detail__inner">
                     <div class="l-wrap--title">
                         <h1 class="c-headline--screen">レッスンを追加する</h1>
-                        <button class="close-modal" @click="closeModal"><img src="/img/icon-batsu-white.png"></button>
+                        <button class="close-modal" @click="closeModal"><img src="/img/common/icon-batsu-white.png"></button>
                     </div>
                     <div class="l-content--input">
                         <p class="l-content--input__headline">タイトル</p>
@@ -142,7 +142,7 @@
     <!-- <form method="POST" action="{{ route('mypage.t.courses.create') }}" enctype="multipart/form-data"> -->
     <form method="POST" action="/mypage/t/courses/store" enctype="multipart/form-data">
         <input type="hidden" name="_token" :value="csrf">
-        <input type="hidden" name="lessons" :value="courseLessons">
+        <input type="hidden" name="lessons" v-model="arrayCourseLessons">
         <div class="l-wrap--title">
             <a href="/mypage/t/courses" class="c-link--back u-mb5">コース一覧へ戻る</a>
             <h1 class="c-headline--screen">コースを作成する</h1>
@@ -248,12 +248,14 @@
                 <button type="button" class="c-button--square__pink" @click="backPage">ステップ1に戻る</button>
             </div>
             <div class="l-button--submit--two">
-                <button type="submit" name="save" class="c-button--square__pink" :disabled="checkStore">登録する</button>
+                <button type="submit" @click="registerCourse" name="save" class="c-button--square__pink" :disabled="checkStore">登録する</button>
             </div>
         </div>
     </form>
 </template>
 <script>
+    // ajax通信
+    import axios from "axios"
     // moment js
     import moment from "moment"
     import 'moment/locale/ja'
@@ -291,6 +293,7 @@
                 page1: true,
                 page2: false,
                 courseLessons: [],
+                arrayCourseLessons: '',
                 // courseLessons: [
                 //     {public: 0 ,type: 0, url: 'https://wwww.yuotube.com', slide: '', date: '2020-12-31', start: '00:00:00', finish: '00:00:00', price: '300', cancel_rate: '30', title: 'title', detail: 'dtaildetaildtaildetaildtaildetail'},
                 //     {public: 0 ,type: 0, url: 'https://wwww.yuotube.com', slide: '', date: '2020-12-31', start: '00:00:00', finish: '00:00:00', price: '300', cancel_rate: '30', title: 'title', detail: 'dtaildetaildtaildetaildtaildetail'},
@@ -365,8 +368,6 @@
             )
         },
         watch: {
-            textValidation: function() {
-            },
         },
 		methods: {
             // [ステップ1]
@@ -423,16 +424,17 @@
                         title           : this.lessonTitle,
                         public          : this.lessonPublic,
                         type            : this.lessonType,
-                        url             : this.lessonUrl,
-                        slide           : this.lessonSlide,
+                        url             : this.lessonUrl ? this.lessonUrl : null,
+                        slide           : this.lessonSlide ? this.lessonSlide : null,
                         date            : momentDate,
                         start           : this.lessonStart,
                         finish          : this.lessonFinish,
                         price           : this.lessonPrice,
                         cancel_rate     : this.lessonCancelRate,
-                        detail          : this.lessonDetail,
+                        detail          : this.lessonDetail ? this.lessonDetail : null,
                     }
                 ]),
+                this.arrayCourseLessons = JSON.stringify(this.courseLessons);
                 // 入力情報をリセットする
                 this.lessonPublic      = 0;
                 this.lessonType        = 0;
@@ -502,6 +504,7 @@
                 this.lessonTitle       = '';
                 this.lessonDetail      = '';
                 // モーダルを閉じる
+                this.arrayCourseLessons = JSON.stringify(this.courseLessons);
                 this.isLessonModal = false;
                 this.changeModalEdit = false;
             },
@@ -511,6 +514,7 @@
                 if(!this.courseLessons.length) {
                     this.checkStore = true;
                 }
+                this.arrayCourseLessons = JSON.stringify(this.courseLessons);
             },
             // モーダルを表示
             showModal: function() {
@@ -550,6 +554,20 @@
                     this.lessonSlide = reader.result
                 }
             },
+            // registerCourse: function() {
+            //     const params = new URLSearchParams();
+            //     params.append('user', 1);
+            //     axios.post('/mypage/t/course/store', params)
+            //         .then(result => {
+            //             console.log('登録が完了しました。')
+            //             location.href = '/mypage/t/courses'
+            //         })
+            //         .catch(result => {
+            //             console.log('登録が失敗しました')
+            //             location.href = '/mypage/t/courses/store'
+            //             errorHandling.errorMessage(result)
+            //         })
+            // },
         },
     }
 </script>

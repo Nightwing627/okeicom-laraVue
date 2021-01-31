@@ -24,11 +24,11 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'img1' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
-            'img2' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
-            'img3' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
-            'img4' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
-            'img5' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
+            'img1' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
+            'img2' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
+            'img3' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
+            'img4' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
+            'img5' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
             'categories' => ['required', 'array', 'max:5'],
             'title' => ['required', 'string', 'max:255'],
             'detail' =>['nullable', 'string', 'max:255'],

@@ -65,7 +65,7 @@
 							<a class="c-contentList__box__inner">
 								<div class="c-contentList__box__img">
 									<div class="c-img--cover">
-										<img src="/img/screen-top.jpg">
+										<img src="/img/common/screen-top.jpg">
 									</div>
 								</div>
 								<div class="c-contentList__box__info">
@@ -98,11 +98,11 @@
 									<div class="teacher l-flex l-start l-v__center pc-only">
 										<div class="teacherImg">
 											<div class="teacherImgInner c-img--round c-img--cover">
-												<img src="/img/screen-top.jpg">
+												<img src="/img/common/screen-top.jpg">
 											</div>
 										</div>
 										<div class="teacherEvaluation">
-											<img src="/img/icon-star.png">
+											<img src="/img/common/icon-star.png">
 											<span class="evaluationNumber">4.8</span>
 										</div>
 									</div>

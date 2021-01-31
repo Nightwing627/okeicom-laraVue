@@ -8,7 +8,7 @@
                         <div class="u-w50">
                             <div class="message-sidebar-list-box-img">
                                 <div class="c-img--cover">
-                                    <img src="/img/screen-top.jpg">
+                                    <img src="/img/common/screen-top.jpg">
                                 </div>
                             </div>
                         </div>
@@ -24,12 +24,12 @@
         <div class="message-header l-flex l-start">
             <div class="message-header-back sp-only">
                 <a href="">
-                    <img src="/img/icon-arrow-left-blue.png">
+                    <img src="/img/common/icon-arrow-left-blue.png">
                 </a>
             </div>
             <div class="message-header-img pc-only">
                 <div class="c-img--cover c-img--round">
-                    <img src="/img/screen-top.jpg">
+                    <img src="/img/common/screen-top.jpg">
                 </div>
             </div>
             <p class="u-text--big">名前名前名前名前</p>
@@ -40,7 +40,7 @@
                 <div class="l-flex">
                     <div class="message-body-img">
                         <div class="c-img--cover c-img--round">
-                            <img src="/img/screen-top.jpg">
+                            <img src="/img/common/screen-top.jpg">
                         </div>
                     </div>
                     <div class="message-body-text">
@@ -58,7 +58,7 @@
                 <div class="l-flex">
                     <div class="message-body-img">
                         <div class="c-img--cover c-img--round">
-                            <img src="/img/screen-top.jpg">
+                            <img src="/img/common/screen-top.jpg">
                         </div>
                     </div>
                     <div class="message-body-text">
@@ -76,7 +76,7 @@
                 <div class="l-flex">
                     <div class="message-body-img">
                         <div class="c-img--cover c-img--round">
-                            <img src="/img/screen-top.jpg">
+                            <img src="/img/common/screen-top.jpg">
                         </div>
                     </div>
                     <div class="message-body-text">
@@ -94,7 +94,7 @@
                 <div class="l-flex">
                     <div class="message-body-img">
                         <div class="c-img--cover c-img--round">
-                            <img src="/img/screen-top.jpg">
+                            <img src="/img/common/screen-top.jpg">
                         </div>
                     </div>
                     <div class="message-body-text">
@@ -112,7 +112,7 @@
                 <div class="l-flex">
                     <div class="message-body-img">
                         <div class="c-img--cover c-img--round">
-                            <img src="/img/screen-top.jpg">
+                            <img src="/img/common/screen-top.jpg">
                         </div>
                     </div>
                     <div class="message-body-text">
@@ -131,7 +131,7 @@
                 <div class="l-flex">
                     <div class="message-body-img">
                         <div class="c-img--cover c-img--round">
-                            <img src="/img/screen-top.jpg">
+                            <img src="/img/common/screen-top.jpg">
                         </div>
                     </div>
                     <div class="message-body-text">
@@ -160,11 +160,11 @@
                     </div>
                     <div class="message-input-icon l-flex">
                         <span class="file">
-                            <img src="/img/icon-message-file.png">
+                            <img src="/img/common/icon-message-file.png">
                             <input type="file" ref="preview" name="" @change="uploadFile">
                         </span>
                         <span class="submit">
-                            <img src="/img/icon-message-send.png">
+                            <img src="/img/common/icon-message-send.png">
                             <input type="submit" name="">
                         </span>
                     </div>

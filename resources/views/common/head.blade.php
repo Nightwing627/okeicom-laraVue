@@ -22,9 +22,9 @@
     <meta property="og:site_name" content="サイト名" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="fb:app_id" content="appIDを入力" />
-    <link rel="shortcut icon" href="{{ asset('/img/favicon.png') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('/img/common/favicon.png') }}" type="image/x-icon" />
     <!-- スマホ用アイコン画像 -->
-    <link rel="apple-touch-icon-precomposed" href="{{ asset('/img/favicon.png') }}" />
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('/img/common/favicon.png') }}" />
 
     <!-- Windows用タイル設定 -->
     <meta name="msapplication-TileImage" content="画像のURL" />

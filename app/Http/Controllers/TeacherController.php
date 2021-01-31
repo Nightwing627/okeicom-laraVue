@@ -257,7 +257,32 @@ class TeacherController extends Controller
      */
     public function storeCourse(CourseStoreRequest $request)
     {
-        dd($request->all());
+        $course = new Course();
+        $course->user_id = Auth::user()->id;
+        $lessons = json_decode($request->lessons, true);
+        // dd($lessons);
+        foreach ($lessons as $index => $lesson) {
+            $models[$index] = Lesson::make($lesson);
+            $models[$index]->user_id = $course->user_id;
+            $models[$index]->status = 0;
+        }
+        // dd($models);
+        DB::transaction(function () use($course, $request, $models) {
+            // コース追加の処理
+            $course->title = $request->title;
+            $course->detail = $request->detail;
+            $course->saveCategories($request);
+            $course->saveImgs($request);
+            $course->save();
+
+            // レッスンの処理
+            $course->lessons()->saveMany($models);
+            return $course->id;
+        });
+        return redirect(route('mypage.t.courses'));
+
+
+
         // [Laravel] Recommend::make モデルを作成する
         // 配列の詰め直し
         foreach ($this->lessons as $index => $lesson) {
@@ -268,7 +293,7 @@ class TeacherController extends Controller
         // [サンプル]
         // トランザクジョンは片方で失敗した場合、両方が登録不可にする
         // 「\」カーネル・エイリアス Laravel
-        \DB::transaction(function () use($post, $models) {
+        \DB::transaction(function () use($course) {
             // コースの処理
             $course = new Course();
             $course->user_id = Auth::user()->id;

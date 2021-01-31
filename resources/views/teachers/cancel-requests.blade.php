@@ -30,7 +30,7 @@
                                 <div class="teacher-participant-list-profile">
                                     <div class="teacher-participant-list-content participant-img">
                                         <div class="c-img--cover c-img--round">
-                                            <img src="/img/screen-top.jpg">
+                                            <img src="/img/common/screen-top.jpg">
                                         </div>
                                     </div>
                                     <div class="teacher-participant-list-content participant-detail">

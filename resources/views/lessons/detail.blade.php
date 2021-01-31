@@ -23,7 +23,7 @@
 						<p class="title">{{ $lesson->title }}</p>
 						<div class="sub">
 							<span class="application">申込人数：{{ $lesson->applicants_number ?? '0'}}人</span>
-							<span class="evaluation"><img src="/img/icon-star.png">{{ $lesson->round_avg_point }}</span>
+							<span class="evaluation"><img src="/img/common/icon-star.png">{{ $lesson->round_avg_point }}</span>
 						</div>
                     </div>
                     <detail-img-list-component
@@ -108,7 +108,7 @@
                                     <div class="info">
                                         <p class="name">{{ $evaluation->name }}</p>
                                         <p class="other">
-                                            <span class="evaluation"><img src="/img/icon-star.png">{{ $evaluation->point }}</span>
+                                            <span class="evaluation"><img src="/img/common/icon-star.png">{{ $evaluation->point }}</span>
                                             <span class="date">{{ $evaluation->created_at }}</span>
                                         </p>
                                     </div>
@@ -122,13 +122,13 @@
                                 <div class="c-userComment__human l-flex l-start l-v__center">
                                     <div class="img">
                                         <div class="c-img--round c-img--cover">
-                                            <img src="/img/screen-top.jpg">
+                                            <img src="/img/common/screen-top.jpg">
                                         </div>
                                     </div>
                                     <div class="info">
                                         <p class="name">TANAKA ATSUSHI</p>
                                         <p class="other">
-                                            <span class="evaluation"><img src="/img/icon-star.png">4.8</span>
+                                            <span class="evaluation"><img src="/img/common/icon-star.png">4.8</span>
                                             <span class="date">2020-12-13 23:00</span>
                                         </p>
                                     </div>
@@ -148,7 +148,7 @@
                         <div class="teacher__img">
                             <a href="/teachers/detail/{{ $user->id }}">
                                 <div class="teacher__img__inner c-img--round c-img--cover">
-                                    <img src="/img/screen-top.jpg">
+                                    <img src="/img/common/screen-top.jpg">
                                     <img src="{{ asset('/storage/profile/' . $user->img ) }}">
                                 </div>
                             </a>
@@ -156,7 +156,7 @@
                         <div class="teacher__profile">
                             <div class="teacher__profile__detail">
                                 <p class="name"><a class="u-text--link" href="/teachers/detail/{{ $user->id }}">{{ $user->name}}</a></p>
-                                <p class="evaluation"><img src="/img/icon-star.png">{{ $lesson->round_avg_point }}</p>
+                                <p class="evaluation"><img src="/img/common/icon-star.png">{{ $lesson->round_avg_point }}</p>
                             </div>
                             <ul class="c-teacher--box__category l-flex l-center">
                                 @isset($user->category1_name)
@@ -207,7 +207,7 @@
 											</div>
 										</div>$
 										<div class="c-scroll__box__teacher__evaluation">
-											<img src="/img/icon-star.png">
+											<img src="/img/common/icon-star.png">
 											<span class="evaluationNumber">{{ $relate->round_avg_point}}</span>
 										</div>
 									</div>
@@ -228,16 +228,16 @@
 							<!-- <div class="c-scroll__box" v-for="i in 5">
 								<a class="c-scroll__box__inner" href="">
 									<div class="c-scroll__box__img c-img--cover">
-										<img src="/img/screen-top.jpg">
+										<img src="/img/common/screen-top.jpg">
 									</div>
 									<div class="c-scroll__box__teacher l-flex l-v__bottom">
 										<div class="c-scroll__box__teacher__img">
 											<div class="scroll__box__teacher__img__inner c-img--round c-img--cover">
-												<img src="/img/screen-top.jpg">
+												<img src="/img/common/screen-top.jpg">
 											</div>
 										</div>
 										<div class="c-scroll__box__teacher__evaluation">
-											<img src="/img/icon-star.png">
+											<img src="/img/common/icon-star.png">
 											<span class="evaluationNumber">4.8</span>
 										</div>
 									</div>

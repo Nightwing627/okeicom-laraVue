@@ -27,7 +27,7 @@
 					<div class="l-wrap--main l-wrap--detail">
 						<div class="l-content--detail">
 							<div class="l-content--detail__inner">
-								<img src="/img/screen-top.jpg">
+								<img src="/img/common/screen-top.jpg">
 								<p>ああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
 								<p>ああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
 								<h2>ああああああああああああああ</h2>

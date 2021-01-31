@@ -32,7 +32,7 @@ $bgMainColor: #F6F5F7;
 
 .topScreen {
 	height: 323px;
-	background: url(/img/screen-top.jpg) center/cover no-repeat;
+	background: url(/img/common/screen-top.jpg) center/cover no-repeat;
 	@include mq_up(md) {
 		height: 563px;
 	}

@@ -33,7 +33,7 @@
   top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
-  background: url(/../img/icon-arrow-round-right-white.png) center/contain no-repeat;
+  background: url(/../img/common/icon-arrow-round-right-white.png) center/contain no-repeat;
 }
 
 /* タブボタン */
@@ -227,7 +227,7 @@
   display: block;
   width: 12px;
   height: 12px;
-  background: url(/../img/icon-add-blue.png) center/contain no-repeat;
+  background: url(/../img/common/icon-add-blue.png) center/contain no-repeat;
   position: absolute;
   right: 10px;
   top: 50%;
@@ -271,7 +271,7 @@
   display: block;
   width: 12px;
   height: 12px;
-  background: url(/../img/icon-minus-pink.png) center/contain no-repeat;
+  background: url(/../img/common/icon-minus-pink.png) center/contain no-repeat;
   position: absolute;
   right: 10px;
   top: 50%;

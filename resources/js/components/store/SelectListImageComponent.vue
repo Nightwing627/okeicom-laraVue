@@ -17,12 +17,12 @@
             <span class="change-file" :class="{active: item.isChange}">
                 <span class="change-file-inner">
                     <button @click.prevent="changeFile(index)">
-                        <img src="/img/icon-camera-black.png">
+                        <img src="/img/common/icon-camera-black.png">
                     </button>
                 </span>
             </span>
             <span class="delete-icon sp-only" :class="{active: item.isDelete}" @click="deleteFile(index)">
-                <img src="/img/icon-dust-black.png">
+                <img src="/img/common/icon-dust-black.png">
             </span>
         </li>
     </ul>
@@ -249,11 +249,7 @@
                 //         }
                 //     }
                 // }
-            },
-
-            // ajax通信
-            
-
+            }
         },
     }
 </script>

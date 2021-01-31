@@ -82,7 +82,7 @@ $colorBorderColor: #707070;
                     left: 15px;
                     top: 50%;
                     transform: translateY(-50%);
-                    background: url(/../img/icon-arrow-right-blue.png) center/contain no-repeat;
+                    background: url(/../img/common/icon-arrow-right-blue.png) center/contain no-repeat;
                 }
             }
             &.selected button,
@@ -90,7 +90,7 @@ $colorBorderColor: #707070;
                 color: #3C3C3B;
                 font-weight: 700;
                 &:before {
-                    background: url(/../img/icon-sidebar-arrow-right-black.png) center/contain no-repeat;
+                    background: url(/../img/common/icon-sidebar-arrow-right-black.png) center/contain no-repeat;
                 }
             }
         }
@@ -132,7 +132,7 @@ $colorBorderColor: #707070;
                     left: 10px;
                     top: 50%;
                     transform: translateY(-50%);
-                    background: url(/../img/icon-arrow-right-blue.png) center/contain no-repeat;
+                    background: url(/../img/common/icon-arrow-right-blue.png) center/contain no-repeat;
                 }
             }
         }

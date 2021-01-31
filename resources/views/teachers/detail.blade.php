@@ -23,7 +23,7 @@
                     <p class="u-text--big u-mb10"></p>
                     <div class="c-text--evaluation u-mb5">
                         <div class="star">
-                            <img src="/img/icon-star.png">
+                            <img src="/img/common/icon-star.png">
                             <span class="evaluation">{{ $user->round_avg_point }}</span>
                         </div>
                         <p class="review">レビュー {{ $user->reviews }}件</p>

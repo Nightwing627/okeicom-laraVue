@@ -134,7 +134,7 @@
                                                 </p>
                                                 <div class="c-text--evaluation">
                                                     <div class="star">
-                                                        <img src="/img/icon-star.png">
+                                                        <img src="/img/common/icon-star.png">
                                                         <span class="evaluation">{{ $teacher->round_avg_point }}</span>
                                                     </div>
                                                     <p class="review">レビュー {{ $teacher->count }}件</p>
@@ -206,7 +206,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="teacherEvaluation">
-                                                    <img src="/img/icon-star.png">
+                                                    <img src="/img/common/icon-star.png">
                                                     <span class="evaluationNumber">{{ $lesson->round_avg_point}}</span>
                                                 </div>
                                             </div>

@@ -18,7 +18,7 @@
                 <div class="u-w55">
                     <div class="message-sidebar-list-box-img">
                         <div class="c-img--cover">
-                            <img src="/img/screen-top.jpg">
+                            <img src="/img/common/screen-top.jpg">
                         </div>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                 <div class="u-w55">
                     <div class="message-sidebar-list-box-img">
                         <div class="c-img--cover">
-                            <img src="/img/screen-top.jpg">
+                            <img src="/img/common/screen-top.jpg">
                         </div>
                     </div>
                 </div>
@@ -47,22 +47,24 @@
         @if(!$partner_users->isEmpty())
             @foreach($partner_users as $partner_user)
             <div class="message-user">
-                <a href="{{ route('mypage.t.messages.detail', ['partner_users_id' => $partner_user->id]) }}">
-                    <div class="message-sidebar-list-box l-flex l-v__center">
-                        <div class="u-w40"><span class="u-color--red">{{ $partner_user->is_all_read ? '既読' : '未読' }}</span></div>
-                        <div class="u-w55">
-                            <div class="message-sidebar-list-box-img">
-                                <div class="c-img--cover">
-                                    <img src="/storage/profile/{{ $partner_user->users_img }}">
+                <a href="{{ route('mypage.t.messages.detail', ['partner_users_id' => $partner_user->users_id]) }}">
+                    <div class="message-sidebar-list-box l-flex l-v__top">
+                        <div class="l-flex l-v__center">
+                            <div class="u-w40"><span class="u-color--red">{{ $partner_user->is_all_read ? '既読' : '未読' }}</span></div>
+                            <div class="u-w55">
+                                <div class="message-sidebar-list-box-img">
+                                    <div class="c-img--cover">
+                                        <img src="/storage/profile/{{ $partner_user->users_img }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="u-wflex1">
                             <p class="u-text--big">{{ $partner_user->users_name }}</p>
-                            <p class="u-color--gray u-mt5">{{ $partner_user->message_detail }}</p>
+                            <p class="u-color--gray u-mt5">{{ Str::limit($partner_user->message_detail, 60) }}</p>
                         </div>
                     </div>
-                    <div class="message-sidebar-list-box l-flex l-v__center">
+                    <!-- <div class="message-sidebar-list-box l-flex l-v__center">
                         <div class="u-w40"><span class="u-color--gray">{{ $partner_user->is_all_read ? '既読' : '未読' }}</span></div>
                         <div class="u-w55">
                             <div class="message-sidebar-list-box-img">
@@ -75,7 +77,7 @@
                             <p class="u-text--big">{{ $partner_user->users_name }}</p>
                             <p class="u-color--gray u-mt5">{{ $partner_user->message_detail }}</p>
                         </div>
-                    </div>
+                    </div> -->
                 </a>
             </div>
             @endforeach

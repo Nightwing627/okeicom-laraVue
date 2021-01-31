@@ -1,6 +1,6 @@
 .topScreen {
   height: 323px;
-  background: url(/img/screen-top.jpg) center/cover no-repeat;
+  background: url(/img/common/screen-top.jpg) center/cover no-repeat;
 }
 
 @media screen and (min-width: 896px) {

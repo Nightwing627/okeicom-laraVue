@@ -7,19 +7,19 @@
 						<p class="title">レッスン名レッスン名レッスン名レッスン名レッスン名</p>
 						<div class="sub">
 							<span class="application">申込人数：</span>
-							<span class="evaluation"><img src="/img/icon-star.png">4.8</span>
+							<span class="evaluation"><img src="/img/common/icon-star.png">4.8</span>
 						</div>
 					</div>
 					<div class="c-lessonDetail__img l-flex">
 						<div class="c-lessonDetail__img__thumb c-img--cover">
-							<img src="/img/screen-top.jpg">
+							<img src="/img/common/screen-top.jpg">
 						</div>
 						<ul class="c-lessonDetail__img__list">
-							<li><img src="/img/screen-top.jpg"></li>
-							<li><img src="/img/screen-top.jpg"></li>
-							<li><img src="/img/screen-top.jpg"></li>
-							<li><img src="/img/screen-top.jpg"></li>
-							<li><img src="/img/screen-top.jpg"></li>
+							<li><img src="/img/common/screen-top.jpg"></li>
+							<li><img src="/img/common/screen-top.jpg"></li>
+							<li><img src="/img/common/screen-top.jpg"></li>
+							<li><img src="/img/common/screen-top.jpg"></li>
+							<li><img src="/img/common/screen-top.jpg"></li>
 						</ul>
 					</div>
 					<div class="c-lessonDetail__info">
@@ -70,13 +70,13 @@
 									<div class="c-userComment__human l-flex l-start l-v__center">
 										<div class="img">
 											<div class="c-img--round c-img--cover">
-												<img src="/img/screen-top.jpg">
+												<img src="/img/common/screen-top.jpg">
 											</div>
 										</div>
 										<div class="info">
 											<p class="name">TANAKA ATSUSHI</p>
 											<p class="other">
-												<span class="evaluation"><img src="/img/icon-star.png">4.8</span>
+												<span class="evaluation"><img src="/img/common/icon-star.png">4.8</span>
 												<span class="date">2020-12-13 23:00</span>
 											</p>
 										</div>
@@ -95,13 +95,13 @@
 						<div class="l-lessonDetail__body__sidebar__wrap">
 							<div class="teacher__img">
 								<div class="teacher__img__inner c-img--round c-img--cover">
-									<img src="/img/screen-top.jpg">
+									<img src="/img/common/screen-top.jpg">
 								</div>
 							</div>
 							<div class="teacher__profile">
 								<div class="teacher__profile__detail">
 									<p class="name">佐藤麻衣</p>
-									<p class="evaluation"><img src="/img/icon-star.png">4.8</p>
+									<p class="evaluation"><img src="/img/common/icon-star.png">4.8</p>
 								</div>
 								<ul class="c-teacher--box__category l-flex l-center">
 									<li><span>アート・デザイン</span></li>

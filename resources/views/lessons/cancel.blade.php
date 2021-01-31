@@ -27,7 +27,7 @@
     				<div class="l-content--detail__inner l-flex">
     					<div class="u-w30per">
     						<div class="c-img--cover">
-    							<img src="/img/screen-top.jpg">
+    							<img src="/img/common/screen-top.jpg">
     						</div>
     					</div>
     					<div class="u-w70per u-pl15">

@@ -107,7 +107,7 @@ $bgMainColor: #F6F5F7;
             left: 10px;
             top: 50%;
             transform: translateY(-50%);
-            background: no-repeat url(/../img/icon-header-search.png) center / contain;
+            background: no-repeat url(/../img/common/icon-header-search.png) center / contain;
         }
         input[type=text] {
             padding-left: 40px;
@@ -130,7 +130,7 @@ $bgMainColor: #F6F5F7;
                 right: 10px;
                 top: 50%;
                 transform: translateY(-50%);
-                background: no-repeat url(/../img/icon-calendar-gray.png) center / contain;
+                background: no-repeat url(/../img/common/icon-calendar-gray.png) center / contain;
             }
             .vdp-datepicker__clear-button {
                 position: absolute;

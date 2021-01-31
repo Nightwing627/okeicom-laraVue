@@ -145,7 +145,7 @@
   top: 0;
   width: 30px;
   height: 30px;
-  background: url(/../../img/icon-arrow-button.png) center/contain no-repeat;
+  background: url(/../../img/common/icon-arrow-button.png) center/contain no-repeat;
 }
 
 .l-page ul.c-list--question .toggleAnswerPanelButton.rotate {

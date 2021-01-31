@@ -11,7 +11,7 @@
 					<p class="u-text--big u-mb10">{{ user.name }}</p>
 					<div class="c-text--evaluation u-mb5">
 						<div class="star">
-							<img src="/img/icon-star.png">
+							<img src="/img/common/icon-star.png">
 							<span class="evaluation">{{ user.ave }}</span>
 						</div>
 						<p class="review">レビュー {{ user.count }}件</p>
@@ -97,7 +97,7 @@
 								<p class="u-mb5">{{ evalution.user_name }}</p>
 								<div class="c-text--evaluation">
 									<div class="star u-mr10">
-										<img src="/img/icon-star.png">
+										<img src="/img/common/icon-star.png">
 										<span class="evaluation">{{ evalution.point }}</span>
 									</div>
 									<span class="u-color--gray u-text--small">{{ evalution.date }}</span>

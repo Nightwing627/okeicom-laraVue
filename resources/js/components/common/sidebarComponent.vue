@@ -32,7 +32,7 @@
             </ul>
             <div class="c-openButton sp-only">
                 <a @click.prevent="toggleActiveCategory">
-                    <span v-if="!isActiveCategory"><img src="/img/icon-arrow-down-blue.png">全てのカテゴリー一覧を見る</span>
+                    <span v-if="!isActiveCategory"><img src="/img/common/icon-arrow-down-blue.png">全てのカテゴリー一覧を見る</span>
                     <span class="close" v-else="!isActiveCategory">閉じる</span>
                 </a>
             </div>

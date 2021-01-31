@@ -26,7 +26,7 @@
 									</div>
 									<span class="c-img--preview--button">
 										<div class="c-img--preview--button--inner">
-											<img src="/img/icon-camera-black.png">
+											<img src="/img/common/icon-camera-black.png">
 											<input type="file" ref="file" @change="setImage"/>
 										</div>
 									</span>

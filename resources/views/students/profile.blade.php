@@ -158,17 +158,13 @@
 
 
 {{--
-
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h2>プロフィール</h2>
             <form method="POST" action="{{ route('mypage.u.profile.update') }}" enctype="multipart/form-data">
-
-
                 <div class="form-group row">
                     @if($user->img)
                         <img src="{{ $user->public_path_img }}" alt="" style="height: 50px; width: 50px;">

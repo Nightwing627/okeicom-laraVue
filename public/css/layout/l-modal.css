@@ -47,7 +47,7 @@
 .l-modal--search__input:before {
   content: "";
   display: block;
-  background: url(/img/icon-header-search.png) center/contain no-repeat;
+  background: url(/img/common/icon-header-search.png) center/contain no-repeat;
   width: 22px;
   height: 22px;
   position: absolute;

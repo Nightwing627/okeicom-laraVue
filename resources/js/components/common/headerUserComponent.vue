@@ -35,8 +35,8 @@
 		<div class="l-flex">
 			<div class="header__left l-flex l-v__center">
 				<div class="header__logo">
-					<img class="sp-only" src="/img/okeicom-logo-square.png">
-					<img class="pc-only" src="/img/okeicom-logo-side.png">
+					<img class="sp-only" src="/img/common/okeicom-logo-square.png">
+					<img class="pc-only" src="/img/common/okeicom-logo-side.png">
 				</div>
 				<nav class="header__menu pc-only">
 					<ul class="l-flex">
@@ -49,26 +49,26 @@
 				<ul class="header__icon l-flex l-v__bottom sp-only">
 					<li>
 						<a @click="openSearch">
-							<img src="/img/icon-search-pink.png" alt="検索アイコン">
+							<img src="/img/common/icon-search-pink.png" alt="検索アイコン">
 							<span>検索</span>
 						</a>
 					</li>
 					<li>
 						<a href="">
-							<img src="/img/icon-chat-pink.png" alt="チャットアイコン">
+							<img src="/img/common/icon-chat-pink.png" alt="チャットアイコン">
 							<span>チャット</span>
 						</a>
 					</li>
 					<li>
 						<a @click="openDrawer">
-							<img src="/img/icon-header-menu-bold-pink.png" alt="ハンバーガーメニューアイコン">
+							<img src="/img/common/icon-header-menu-bold-pink.png" alt="ハンバーガーメニューアイコン">
 							<span>メニュー</span>
 						</a>
 					</li>
 					<li class="menu-profile">
 						<a class="c-img--shadow" @click.prevent="toggleMenuUser">
 							<div class="c-img--cover c-img--round">
-								<img src="/img/screen-top.jpg" alt="メニューアイコン">
+								<img src="/img/common/screen-top.jpg" alt="メニューアイコン">
 							</div>
 						</a>
 					</li>
@@ -87,14 +87,14 @@
 					<ul class="l-flex">
 						<li>
 							<a href="">
-								<img src="/img/icon-chat-pink.png" alt="チャットアイコン">
+								<img src="/img/common/icon-chat-pink.png" alt="チャットアイコン">
 								<span>チャット</span>
 							</a>
 						</li>
 						<li class="menu-profile">
 							<a class="c-img--shadow" @click.prevent="toggleMenuUser">
 								<div class="c-img--cover c-img--round">
-									<img src="/img/screen-top.jpg" alt="メニューアイコン">
+									<img src="/img/common/screen-top.jpg" alt="メニューアイコン">
 								</div>
 							</a>
 						</li>
@@ -104,7 +104,7 @@
 		</div>
 		<nav id="nav-global" class="sp-only" :class="{'open--nav':drawerActive}">
 			<div class="nav-global__back">
-				<a @click='closeDrawer'><img src="/img/icon-nav-back.png"></a>
+				<a @click='closeDrawer'><img src="/img/common/icon-nav-back.png"></a>
 			</div>
 			<ul class="nav-global__list">
 				<li><a href="/">トップページ</a></li>
