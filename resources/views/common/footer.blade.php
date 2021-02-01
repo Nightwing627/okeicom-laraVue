@@ -4,15 +4,15 @@
 			<div class="footer__wrap__box footer__lesson">
 				<div class="footer__lesson__box">
 					<a href="/lessons" class="linkBox">
-						<img class="sp-only" src="{{ asset('/img/icon-nav-lesson-white.png') }}">
-						<img class="pc-only" src="{{ asset('/img/icon-nav-lesson.png') }}">
+						<img class="sp-only" src="{{ asset('/img/common/icon-nav-lesson-white.png') }}">
+						<img class="pc-only" src="{{ asset('/img/common/icon-nav-lesson.png') }}">
 						<span>レッスン一覧</span>
 					</a>
 				</div>
 				<div class="footer__lesson__box">
 					<a href="/teachers" class="linkBox">
-						<img class="sp-only" src="{{ asset('/img/icon-grass-white.png') }}">
-						<img class="pc-only" src="{{ asset('/img/icon-grass.png') }}">
+						<img class="sp-only" src="{{ asset('/img/common/icon-grass-white.png') }}">
+						<img class="pc-only" src="{{ asset('/img/common/icon-grass.png') }}">
 						<span>先生一覧</span>
 					</a>
 				</div>
@@ -40,7 +40,7 @@
 				</div>
 			</div>
 			<div class="footer__wrap__box footer__logo">
-				<img src="{{ asset('/img/okeicom-logo-square.png') }}">
+				<img src="{{ asset('/img/common/okeicom-logo-square.png') }}">
 			</div>
 		</div>
 		<p class="copyright">@copyright おけい.com 2021</p>
