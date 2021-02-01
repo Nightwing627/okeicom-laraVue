@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 @include("../common/head")
 <body>
-    <div id="app">
+    <div id="app" class="login-user @if(request()->is('*messages*')) l-message @endif">
         <header-component></header-component>
         <main>
             @yield('content')

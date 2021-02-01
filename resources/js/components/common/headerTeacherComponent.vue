@@ -7,7 +7,7 @@
 				</div> -->
 				<ul class="menu-user--content">
 					<li><a href="/mypage/t/courses/">コース一覧</a></li>
-					<li><a href="/mypage/t/lesson-participation/">レッスン参加状況</a></li>
+					<!-- <li><a href="/mypage/t/lesson-participation/">レッスン参加状況</a></li> -->
 					<li><a href="/mypage/t/cancel-requests/">キャンセル依頼</a></li>
 					<li><a href="/mypage/t/messages/">メッセージ</a></li>
 					<li><a href="/mypage/t/profile/">プロフィール</a></li>
@@ -43,13 +43,13 @@
 			<div class="header__right l-flex l-v__center">
 				<ul class="header__icon l-flex l-v__bottom sp-only">
 					<li>
-						<a class="/mypage/u/courses/">
+						<a class="/mypage/t/courses/">
 							<img src="/img/common/icon-add-pink.png" alt="検索アイコン">
 							<span>コース</span>
 						</a>
 					</li>
 					<li>
-						<a href="/mypage/u/messages">
+						<a href="/mypage/t/messages">
 							<img src="/img/common/icon-chat-pink.png" alt="チャットアイコン">
 							<span>チャット</span>
 						</a>
@@ -81,7 +81,7 @@
 				<div class="header__icon pc-only">
 					<ul class="l-flex">
 						<li>
-							<a href="/mypage/u/messages">
+							<a href="/mypage/t/messages">
 								<img src="/img/common/icon-chat-pink.png" alt="チャットアイコン">
 								<span>チャット</span>
 							</a>

@@ -13,7 +13,7 @@
 					<a href="" class="u-text--link">講師に切り替える</a>
 				</div> -->
 				<ul class="menu-user--content">
-					<li><a href="/mypage/u/ttendance-lessons">受講レッスン</a></li>
+					<li><a href="/mypage/u/attendance-lessons">受講レッスン</a></li>
 					<li><a href="/mypage/u/messages/">メッセージ</a></li>
 					<li><a href="/mypage/u/profile/">プロフィール</a></li>
 					<!-- <li><a href="/mypage/u/">クレジットカード情報</a></li>
@@ -54,7 +54,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="">
+						<a href="/mypage/u/messages/">
 							<img src="/img/common/icon-chat-pink.png" alt="チャットアイコン">
 							<span>チャット</span>
 						</a>
@@ -86,7 +86,7 @@
 				<div class="header__icon pc-only">
 					<ul class="l-flex">
 						<li>
-							<a href="">
+							<a href="/mypage/u/messages/">
 								<img src="/img/common/icon-chat-pink.png" alt="チャットアイコン">
 								<span>チャット</span>
 							</a>

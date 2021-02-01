@@ -36,4 +36,15 @@ class Teacher
 
         return $next($request);
     }
+
+    /**
+     * ステータスの保存
+     *
+     * @param array $data
+     */
+    public function changeStatus($id) {
+        $user = self::find($id);
+        $user->status = 0;
+        $user->save();
+    }
 }

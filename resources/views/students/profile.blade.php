@@ -1,15 +1,15 @@
-@extends('layouts.user')
+@extends(($user_status == 0)?'layouts.user':'layouts.teacher')
 
-<!-- タイトル・メタディスクリプション -->
+{{-- タイトル・メタディスクリプション --}}
 @section('title', 'プロフィール')
 @section('description', 'プロフィール')
 
-<!-- CSS -->
+{{-- CSS --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/teacher.css') }}">
 @endpush
 
-<!-- 本文 -->
+{{-- 本文 --}}
 @section('content')
 <form method="POST" action="{{ route('mypage.u.profile.update') }}" enctype="multipart/form-data">
     @csrf
@@ -67,7 +67,7 @@
                 <p class="main">国籍</p>
             </div>
             <div class="c-list--td">
-                <input type="" name="" value="日本">
+                <input type="text" name="country_id" value="{{ $user->country_id }}">
             </div>
         </div>
         <div class="c-list--tr">
@@ -75,7 +75,7 @@
                 <p class="main">言語</p>
             </div>
             <div class="c-list--td">
-                <input type="" name="" value="日本語">
+                <input type="text" name="language_id" value="{{ $user->language_id }}">
             </div>
         </div>
         <div class="c-list--tr">
@@ -84,10 +84,14 @@
             </div>
             <div class="c-list--td">
                 <div class="c-selectBox">
-                    <select>
-                        <option>東京</option>
-                        <option>北海道</option>
-                        <option>北海道</option>
+                    <select name="prefecture_id">
+                        @foreach ($prefecturies as $prefecture)
+                            @if ($user->prefecture_id === $prefecture->id)
+                            <option value="{{ $prefecture->id }}" selected="selected">{{ $prefecture->name }}</option>
+                            @else
+                            <option value="{{ $prefecture->id }}">{{ $prefecture->name }}</option>
+                            @endif
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -97,41 +101,11 @@
                 <p class="main">カテゴリー</p>
             </div>
             <div class="c-list--td">
-                <div class="c-selectBox u-mb5">
-                    <select>
-                        <option>カテゴリー1</option>
-                        <option>カテゴリー2</option>
-                        <option>カテゴリー3</option>
-                    </select>
-                </div>
-                <div class="c-selectBox u-mb5">
-                    <select>
-                        <option>カテゴリー1</option>
-                        <option>カテゴリー2</option>
-                        <option>カテゴリー3</option>
-                    </select>
-                </div>
-                <div class="c-selectBox u-mb5">
-                    <select>
-                        <option>カテゴリー1</option>
-                        <option>カテゴリー2</option>
-                        <option>カテゴリー3</option>
-                    </select>
-                </div>
-                <div class="c-selectBox u-mb5">
-                    <select>
-                        <option>カテゴリー1</option>
-                        <option>カテゴリー2</option>
-                        <option>カテゴリー3</option>
-                    </select>
-                </div>
-                <div class="c-selectBox">
-                    <select>
-                        <option>カテゴリー1</option>
-                        <option>カテゴリー2</option>
-                        <option>カテゴリー3</option>
-                    </select>
-                </div>
+                <select-list-category-component
+                    :user={{ $user }}
+                    :categorieslists={{ $categories }}
+                >
+                </select-list-category-component>
             </div>
         </div>
         <div class="c-list--tr">

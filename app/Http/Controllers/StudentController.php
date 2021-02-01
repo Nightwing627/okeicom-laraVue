@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Message\SendRequest as MessageSendRequest;
 use App\Http\Requests\User\UpdateRequest as UserUpdateRequest;
 use App\Http\Requests\User\PasswordUpdateRequest as UserPasswordUpdateRequest;
+use App\Models\User;
 use App\Models\Lesson;
 use App\Models\Message;
 use App\Models\Payment;
-use App\Models\User;
+use App\Models\Category;
 use App\Models\Withdraw;
+use App\Models\Prefecture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,25 +20,31 @@ use Jenssegers\Agent\Agent;
 
 class StudentController extends Controller
 {
+    private $user;
     private $lesson;
     private $message;
     private $payment;
-    private $user;
     private $withdraw;
+    private $category;
+    private $prefecture;
 
     public function __construct(
+        User $user,
         Lesson $lesson,
         Message $message,
         Payment $payment,
-        User $user,
-        Withdraw $withdraw
+        Withdraw $withdraw,
+        Category $category,
+        Prefecture $prefecture
     )
     {
+        $this->user = $user;
         $this->lesson = $lesson;
         $this->message = $message;
         $this->payment = $payment;
-        $this->user = $user;
         $this->withdraw = $withdraw;
+        $this->category = $category;
+        $this->prefecture = $prefecture;
     }
 
     /**
@@ -87,8 +95,8 @@ class StudentController extends Controller
                 $this->message->saveRead($message_details);
             });
         }
-
-        return view('students.messages', compact('partner_users', 'message_details'));
+        $user_status = Auth::user()->status;
+        return view('students.messages', compact('partner_users', 'message_details', 'user_status'));
     }
 
     /**
@@ -103,15 +111,13 @@ class StudentController extends Controller
         $partner_users_id = $request->partner_users_id;
         $user_name = User::find($partner_users_id)->name;
         $user_img = User::find($partner_users_id)->img;
+        $user_status = Auth::user()->status;
         $message_details = $this->message->getConversation($partner_users_id);
-        // dd($message_details);
         // 既読に更新(スマホ)
         DB::transaction(function () use ($message_details) {
             $this->message->saveRead($message_details);
         });
-        // dd($message_details);
-
-        return view('students.message-detail', compact('message_details', 'partner_users_id', 'user_name', 'user_img'));
+        return view('students.message-detail', compact('message_details', 'partner_users_id', 'user_name', 'user_img', 'user_status'));
     }
 
     /**
@@ -122,7 +128,6 @@ class StudentController extends Controller
      */
     public function sendMessages(MessageSendRequest $request)
     {
-        dd($request->all());
         $message = new Message();
         $message->user_send_id = Auth::user()->id;
         $message->user_receive_id = $request->partner_users_id;
@@ -149,8 +154,10 @@ class StudentController extends Controller
     {
         $user = $this->user->query()->find(Auth::user()->id);
         $sexes = User::getArraySexes();
-
-        return view('students.profile', compact('user', 'sexes'));
+        $categories = $this->category->getAll();
+        $prefecturies = $this->prefecture->getAll();
+        $user_status = Auth::user()->status;
+        return view('students.profile', compact('user', 'sexes', 'categories', 'prefecturies', 'user_status'));
     }
 
     /**
@@ -164,9 +171,12 @@ class StudentController extends Controller
         $user = $this->user->query()->find(Auth::user()->id);
         $user->name = $request->name;
         $user->profile = $request->profile;
+        $user->country_id = $request->country_id;
+        $user->language_id = $request->language_id;
+        $user->prefecture_id = $request->prefecture_id;
+        $user->saveCategories($request);
         $user->saveImgs($request);
         $user->save();
-
         return redirect(route('mypage.u.profile'));
     }
 
@@ -305,8 +315,9 @@ class StudentController extends Controller
         $holding_amount = $this->payment->getHoldingAmount();
         $trade_months = $this->payment->getMonths();
         $trade_details = $this->payment->getDetail();
+        $user_status = Auth::user()->status;
 
-        return view('students.trade', compact('holding_amount', 'trade_months', 'trade_details'));
+        return view('students.trade', compact('holding_amount', 'trade_months', 'trade_details', 'user_status'));
     }
 
     /**
@@ -340,5 +351,21 @@ class StudentController extends Controller
     public function completePayment(Request $request)
     {
         return view('students.payment-complete');
+    }
+
+    /**
+     * ステータス変更
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function change(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
+        $user->status = 1;
+        $user->save();
+        // $this->user->changeStatus($user_id);
+        return redirect(route('mypage.t.courses'));
     }
 }

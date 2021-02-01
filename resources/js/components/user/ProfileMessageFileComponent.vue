@@ -16,7 +16,8 @@
                     <input
                         type="file"
                         ref="preview"
-                        name="file"
+                        name="message_file[]"
+                        :name="message_file"
                         accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.png,.jpeg,.jpg,.gif"
                         @change="uploadFile">
                 </span>

@@ -86,7 +86,6 @@ class Course extends Model
             ->paginate(Config::get('const.paginate.lesson'));
     }
 
-
     /**
      * コースの画像一覧を取得する
      * @return array

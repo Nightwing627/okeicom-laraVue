@@ -1,9 +1,9 @@
 <div id="sidebar" class="pc-only">
 	<div class="sidebar-change">
-		<a href="" class="u-text--link">受講者に切り替える</a>
+		<a href="{{ route('mypage.t.change') }}" class="u-text--link">受講者に切り替える</a>
 	</div>
 	<ul class="sidebar__list">
-		<li class="@if(Request::is('mypage/t/courses' || 'mypage/t/courses/*')) selected @endif"><a href="{{ route('mypage.t.courses') }}">コース一覧</a></li>
+		<li class="@if(Request::is('mypage/t/courses*')) selected @endif"><a href="{{ route('mypage.t.courses') }}">コース一覧</a></li>
 		<li class="@if(Request::is('mypage/t/courses/add')) selected @endif"><a href="{{ route('mypage.t.courses.create') }}">コース作成</a></li>
 		{{-- <li class="@if(Request::is('mypage/t/lesson-participation')) selected @endif"><a href="{{ route('mypage.t.lessons.participation') }}">レッスン参加状況</a></li> --}}
 		<li class="@if(Request::is('mypage/t/cancel-requests')) selected @endif"><a href="{{ route('mypage.t.cancel-requests') }}">キャンセル依頼</a></li>

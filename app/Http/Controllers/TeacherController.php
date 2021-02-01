@@ -11,6 +11,7 @@ use App\Models\Country;
 use App\Models\Language;
 use App\Models\Prefecture;
 use App\Models\User;
+use App\Models\Teacher;
 use App\Models\Evaluation;
 use App\Http\Requests\Course\StoreRequest as CourseStoreRequest;
 use App\Http\Requests\Course\UpdateRequest as CourseUpdateRequest;
@@ -31,6 +32,7 @@ class TeacherController extends Controller
     private $cancel;
     private $lesson;
     private $user;
+    private $teacher;
 
     public function __construct(
         Application $application,
@@ -38,7 +40,8 @@ class TeacherController extends Controller
         Category $category,
         Cancel $cancel,
         Lesson $lesson,
-        User $user
+        User $user,
+        User $teacher
     )
     {
         $this->application = $application;
@@ -47,6 +50,7 @@ class TeacherController extends Controller
         $this->cancel = $cancel;
         $this->lesson = $lesson;
         $this->user = $user;
+        $this->teacher = $teacher;
     }
 
     /**
@@ -513,5 +517,21 @@ class TeacherController extends Controller
         });
 
         return redirect(route('mypage.t.cancel-requests'));
+    }
+
+    /**
+     * ステータス変更
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function change(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
+        $user->status = 0;
+        $user->save();
+        // $this->teacher->changeStatus($user_id);
+        return redirect(route('mypage.u.attendance-lessons'));
     }
 }

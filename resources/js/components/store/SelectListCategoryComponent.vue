@@ -16,11 +16,12 @@
 <script>
 	export default {
         components: {},
-        props: ['categorieslists', 'course'],
+        props: ['categorieslists', 'course', 'user'],
 		data() {
             return {
-                courseDate: this.course ?? '',
                 categoriesDate: this.categorieslists ?? '',
+                courseDate: this.course ?? '',
+                userDate: this.user ?? '',
                 // バリデーション カテゴリー確認
                 checkbox: 0,
             }
@@ -34,6 +35,18 @@
                     const checkTarget = this.$refs['target' + i];
                     for(let t = 1; t < 6; t++) {
                         const checkValidation = this.courseDate['category' + t + '_id'];
+                        if(checkTarget.value == checkValidation) {
+                            checkTarget.checked = true;
+                        }
+                    }
+                }
+            }
+            if(this.userDate) {
+                for(let i = 0; i < this.categoriesDate.length; i++) {
+                    // checkboxのvalueを取得
+                    const checkTarget = this.$refs['target' + i];
+                    for(let t = 1; t < 6; t++) {
+                        const checkValidation = this.userDate['category' + t + '_id'];
                         if(checkTarget.value == checkValidation) {
                             checkTarget.checked = true;
                         }

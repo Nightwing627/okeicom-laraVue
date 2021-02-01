@@ -3,7 +3,9 @@
 @include("../common/head")
 <body>
     <div id="app">
-        @if( Auth::check() )
+        @if( Auth::user()->status == 0 )
+            <header-user-component logout="{{ route('logout') }}"></header-user-component>
+        @elseif( Auth::user()->status == 1 )
             <header-teacher-component logout="{{ route('logout') }}"></header-teacher-component>
         @else
             <header-component></header-component>

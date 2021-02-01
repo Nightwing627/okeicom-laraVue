@@ -2,10 +2,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 @include("../common/head")
 <body>
-	{{-- <div id="app" class="login-user"> --}}
-	<div id="app">
+	<div id="app" class="login-user @if(request()->is('*messages*')) l-message @endif">
 		<header-user-component :csrf="{{json_encode(csrf_token())}}"></header-user-component>
-		{{-- @include("../common/header-user") --}}
 		<main>
 			@yield('content')
 		</main>

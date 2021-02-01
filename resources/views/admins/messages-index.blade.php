@@ -1,4 +1,4 @@
-@extends('layouts.owner')
+@extends(($user_status == 0)?'layouts.user':'layouts.teacher')
 
 <!-- タイトル・メタディスクリプション -->
 @section('title', 'メッセージ一覧 | おけいcom')

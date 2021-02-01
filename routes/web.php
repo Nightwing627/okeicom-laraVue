@@ -154,6 +154,8 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
     Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
     Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
     Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
+    // 切り替え
+    Route::get('change', [TeacherController::class, 'change'])->name('change');
 });
 
 // 受講者管理画面
@@ -187,6 +189,7 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
         Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
         Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
     });
+    Route::get('change', [StudentController::class, 'change'])->name('change');
 });
 
 // 静的ページ

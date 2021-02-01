@@ -109,7 +109,6 @@ class Lesson extends Model
                     $query->orwhere('lessons.date', '=', $params['select_date']);
                 });
             })
-
             // [条件指定] 入力したキーワードから検索
             ->when(isset($params['keyword']), function($query) use ($params) {
                 $query->where(function ($query) use ($params) {

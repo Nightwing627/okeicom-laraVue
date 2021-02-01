@@ -82,8 +82,6 @@ class User extends Authenticatable
         'deleted_at',
     ];
 
-
-
     /**
      * 条件検索した講師一覧を取得
      *
@@ -509,9 +507,8 @@ class User extends Authenticatable
      */
     public function countTeachersList($sex=null,$category_id = null)
     {
-       //講師のみ
+        //講師のみ
         $query=self::where('status',User::STATUS_TEACHER);
-
         //性別があれば性別で絞込
         if($sex){
             $query->where("sex",$sex);
@@ -526,10 +523,32 @@ class User extends Authenticatable
                     ->orWhere('category5_id', '=', $category_id);
             });
         }
-
         return $query->count();
     }
 
+    /**
+     * ステータスの保存
+     *
+     * @param array $data
+     */
+    public function changeStatus($id) {
+        $user = self::find($id);
+        $user->status = 1;
+        $user->save();
+    }
+
+    /**
+     * カテゴリーの保存
+     *
+     * @param array $data
+     */
+    public function saveCategories($request) {
+        $this->category1_id = array_key_exists(0, $request->categories) ? (int)$request->categories[0] : null;
+        $this->category2_id = array_key_exists(1, $request->categories) ? (int)$request->categories[1] : null;
+        $this->category3_id = array_key_exists(2, $request->categories) ? (int)$request->categories[2] : null;
+        $this->category4_id = array_key_exists(3, $request->categories) ? (int)$request->categories[3] : null;
+        $this->category5_id = array_key_exists(4, $request->categories) ? (int)$request->categories[4] : null;
+    }
 
     //以下二つは本来べつに作るべきかもしりないが利便性をかんがえuserに作成する
     /**

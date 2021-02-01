@@ -1,71 +1,84 @@
-@extends('layouts.user')
 
-<!-- タイトル・メタディスクリプション -->
+@extends(($user_status == 0)?'layouts.user-single':'layouts.teacher-single')
+
+{{-- タイトル・メタディスクリプション --}}
 @section('title', 'メッセージ一覧')
 @section('description', 'メッセージ一覧')
 
-<!-- CSS -->
+{{-- CSS --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/userMessage.css') }}">
 @endpush
 
-<!-- 本文 -->
+{{-- 本文 --}}
 @section('content')
-    <div class="message-header l-flex l-start">
-        <div class="message-header-back sp-only">
-            <a href="">
-                <img src="/img/common/icon-arrow-left-blue.png">
-            </a>
-        </div>
-        <div class="message-header-img pc-only">
-            <div class="c-img--cover c-img--round">
-                <img src="/storage/profile/{{ $user_img }}">
+<div class="l-wrap--single">
+	<div class="l-wrap--body">
+        <div class="message-header l-flex l-start">
+            <div class="message-header-back">
+                @if($user_status = 0)
+                <a href="{{ route('mypage.u.messages') }}">
+                @elseif($user_status = 1)
+                <a href="{{ route('mypage.t.messages') }}">
+                @endif
+                    <img src="/img/common/icon-arrow-left-blue.png">
+                </a>
             </div>
+            <p class="u-text--big">{{ $user_name }}</p>
         </div>
-        <p></p>
-        <p class="u-text--big">{{ $user_name }}</p>
-    </div>
-    <div class="message-body">
-        @php
-            if(!$message_details->isEmpty()) {
-                $break_date = '';
-                foreach ($message_details as $message_detail) {
-                    if($break_date != $message_detail->separate_hyphen_created_at) {
-                        echo '<div class="message-body-block"><p class="message-body-date">';
-                        echo $message_detail->separate_hyphen_created_at;
-                        echo '</p></div>';
+        <div class="message-body">
+            @php
+                if(!$message_details->isEmpty()) {
+                    $break_date = '';
+                    foreach ($message_details as $message_detail) {
+                        if($break_date != $message_detail->separate_hyphen_created_at) {
+                            echo '<div class="message-body-block"><p class="message-body-date">';
+                            echo $message_detail->separate_hyphen_created_at;
+                            echo '</p></div>';
+                        }
+                        $break_date = $message_detail->separate_hyphen_created_at;
+                        echo '<div class="message-body-block"><div class="l-flex">';
+                        // 自分か相手かの判断方法↓ フロント実装後このコメントは削除してください
+                        // if($partner_users_id == $message_detail->user_send_id) {
+                        //     echo '相手';
+                        // } else {
+                        //     echo '自分';
+                        // }
+                        echo '<div class="message-body-img"><div class="c-img--cover c-img--round"><img src="/storage/profile/' . $message_detail->users_img .'"></div></div>';
+                        echo '<div class="message-body-text"><p class="name"><a href="/teachers/detail/' . $message_detail->partner_users_id . '" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p>';
+                        if($message_detail->file1) {
+                            echo '<div class="message-image"><img src="/storage/messages/'. $message_detail->file1 . '"></div>';
+                        }
+                        if($message_detail->file2) {
+                            echo '<div class="message-image"><img src="/storage/messages/'. $message_detail->file2 . '"></div>';
+                        }
+                        if($message_detail->file3) {
+                            echo '<div class="message-image"><img src="/storage/messages/'. $message_detail->file3 . '"></div>';
+                        }
+                        echo '</div>';
+                        echo '<div class="message-body-time"><span class="u-color--gray u-text--small">' . $message_detail->created_time . '</span></div>';
+                        if ($message_detail->file) {
+                            echo '<p>'. $message_detail->public_path_file . '</p>';
+                        }
+                        echo '</div></div>';
                     }
-                    $break_date = $message_detail->separate_hyphen_created_at;
-                    echo '<div class="message-body-block"><div class="l-flex">';
-                    // 自分か相手かの判断方法↓ フロント実装後このコメントは削除してください
-                    // if($partner_users_id == $message_detail->user_send_id) {
-                    //     echo '相手';
-                    // } else {
-                    //     echo '自分';
-                    // }
-                    echo '<div class="message-body-img"><div class="c-img--cover c-img--round"><img src="/storage/profile/' . $message_detail->users_img .'"></div></div>';
-                    echo '<div class="message-body-text"><p class="name"><a href="/teachers/detail/' . $message_detail->partner_users_id . '" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p></div>';
-                    echo '<div class="message-body-time"><span class="u-color--gray u-text--small">' . $message_detail->created_time . '</span></div>';
-                    if ($message_detail->file) {
-                        echo '<p>'. $message_detail->public_path_file . '</p>';
-                    }
-                    echo '</div></div>';
+                } else {
+                    echo 'メッセージはありません';
                 }
-            } else {
-                echo 'メッセージはありません';
-            }
-        @endphp
+            @endphp
+        </div>
+        <div class="message-input">
+            <form method="POST" action="{{ route('mypage.u.messages.send') }}" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" id="partner_users_id" name="partner_users_id" value="{{ $partner_users_id }}">
+                <user-profile-message-file-component></user-profile-message-file-component>
+            </form>
+        </div>
     </div>
-    <div class="message-input">
-        {{-- @if(!$message_details->isEmpty()) --}}
-        <form method="POST" action="{{ route('mypage.u.messages.send') }}" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" id="partner_users_id" name="partner_users_id" value="{{ $partner_users_id }}">
-            <user-profile-message-file-component></user-profile-message-file-component>
-        </form>
-        {{-- @endif --}}
-    </div>
+</div>
 @endsection
+
+
 
 
 {{--
@@ -81,7 +94,6 @@
                 <user-message-component></user-message-component>
 
                 <div class="l-message--inner">
-                    <!-- サイドバー -->
                     <div class="message-sidebar pc-only">
                         <div class="message-sidebar-list">
                             <div class="message-sidebar-list-box" v-for="i in 10">
@@ -101,7 +113,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- メイン -->
                     <div class="message-header l-flex l-start">
                         <div class="message-header-back sp-only">
                             <a href="">
@@ -257,13 +268,13 @@
                         @endphp
                     </div>
                     <div class="message-input">
-                        {{-- @if(!$message_details->isEmpty()) --}}
+                        @if(!$message_details->isEmpty())
                         <form method="POST" action="{{ route('mypage.u.messages.send') }}" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" id="partner_users_id" name="partner_users_id" value="{{ $partner_users_id }}">
                             <user-profile-message-file-component></user-profile-message-file-component>
                         </form>
-                        {{-- @endif --}}
+                        @endif
                     </div>
                 </div>
             </div>
@@ -272,10 +283,9 @@
     @include("../common/footer-message")
 </body>
 </html>
---}}
 
 
-{{--
+
 開発者が実装したもの
 @extends('layouts.app')
 @section('content')

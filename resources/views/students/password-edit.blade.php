@@ -11,36 +11,49 @@
 
 <!-- 本文 -->
 @section('content')
-    <div class="c-list--table">
-        <div class="c-list--tr">
-            <div class="c-list--th">
-                <p class="main">旧パスワード</p>
-            </div>
-            <div class="c-list--td">
-                <input type="" name="" class="c-input--fixed" disabled value="aaaa">
-            </div>
-        </div>
-        <div class="c-list--tr">
-            <div class="c-list--th">
-                <p class="main">新パスワード</p>
-                <p class="sub">英数字6文字以上です。</p>
-            </div>
-            <div class="c-list--td">
-                <input type="" name="" class="c-input--fixed" disabled value="aaaa">
-            </div>
-        </div>
-        <div class="c-list--tr">
-            <div class="c-list--th">
-                <p class="main">新パスワード確認用</p>
-            </div>
-            <div class="c-list--td">
-                <input type="" name="" class="c-input--fixed" disabled value="aaaa">
-            </div>
-        </div>
+@error('old_password')
+    <div class="l-alart errorAlart" role="alert">
+        <p>{{ $message }}</p>
     </div>
-    <div class="l-button--submit">
-        <input type="subit" name="" value="変更内容を保存する" class="c-button--square__pink">
+@enderror
+@error('password')
+    <div class="l-alart errorAlart" role="alert">
+        <p>{{ $message }}</p>
     </div>
+@enderror
+    <form method="POST" action="{{ route('mypage.u.profile.password.update') }}">
+        @csrf
+        <div class="c-list--table">
+            <div class="c-list--tr">
+                <div class="c-list--th">
+                    <p class="main">旧パスワード</p>
+                </div>
+                <div class="c-list--td">
+                    <input type="password" name="old_password" class="c-input--fixed" required>
+                </div>
+            </div>
+            <div class="c-list--tr">
+                <div class="c-list--th">
+                    <p class="main">新パスワード</p>
+                    <p class="sub">英数字6文字以上です。</p>
+                </div>
+                <div class="c-list--td">
+                    <input type="password" name="password" class="c-input--fixed" required>
+                </div>
+            </div>
+            <div class="c-list--tr">
+                <div class="c-list--th">
+                    <p class="main">新パスワード確認用</p>
+                </div>
+                <div class="c-list--td">
+                    <input type="password" name="password_confirm" class="c-input--fixed" required>
+                </div>
+            </div>
+        </div>
+        <div class="l-button--submit">
+            <button type="subit" class="c-button--square__pink">変更内容を保存する</button>
+        </div>
+    </form>
 @endsection
 
 

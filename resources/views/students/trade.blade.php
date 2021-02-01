@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends(($user_status == 0)?'layouts.user':'layouts.teacher')
 
 <!-- タイトル・メタディスクリプション -->
 @section('title', '取引履歴')
