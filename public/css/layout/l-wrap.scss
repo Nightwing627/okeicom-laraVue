@@ -76,7 +76,6 @@ $bgMainColor: #F6F5F7;
 .login-user .l-wrap--title {
     @include mq_up(md) {
         padding-bottom: 25px;
-        padding-top: 0;
     }
 }
 

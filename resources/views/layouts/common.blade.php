@@ -8,7 +8,7 @@
             <nav id="breadcrumbs">
                 <div class="l-allWrapper">
                     <ol class="breadcrumbs__list l-flex l-start l-v__center">
-                        <li><a href="/"><img src="{{ asset('/img/icon-home-black.png') }}" alt="ホーム画面のアイコン"></a></li>
+                        <li><a href="/"><img src="{{ asset('/img/common/icon-home-black.png') }}" alt="ホーム画面のアイコン"></a></li>
                         <li class="breadcrumb-item active">@yield('title')</li>
                     </ol>
                 </div>
