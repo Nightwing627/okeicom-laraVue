@@ -3,10 +3,12 @@
 @include("../common/head")
 <body>
     <div id="app">
-        @if( Auth::user()->status == 0 )
-            <header-user-component logout="{{ route('logout') }}"></header-user-component>
-        @elseif( Auth::user()->status == 1 )
-            <header-teacher-component logout="{{ route('logout') }}"></header-teacher-component>
+        @if(Auth::user())
+            @if( Auth::user()->status == 0 )
+                <header-user-component logout="{{ route('logout') }}"></header-user-component>
+            @elseif( Auth::user()->status == 1 )
+                <header-teacher-component logout="{{ route('logout') }}"></header-teacher-component>
+            @endif
         @else
             <header-component></header-component>
         @endif
