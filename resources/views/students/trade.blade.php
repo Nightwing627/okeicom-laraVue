@@ -34,61 +34,19 @@
         </div>
         <!-- スマホ -->
         <div class="l-list--deal--detail sp-only">
+            @foreach ($trade_details as $trade_detail)
             <div class="l-list--deal--detail--content">
                 <div class="price">
-                    <p class="trade add">＋¥ 1,000,000</p>
-                    <p class="balance">（残：¥213,000）</p>
+                    <p class="trade add">{{ $trade_detail->separate_comma_point_add_sign_amount }}</p>
+                    <p class="balance">（残：{{ $trade_detail->separate_comma_point_amount }}）</p>
                 </div>
                 <div class="detail">
-                    <p class="time">10月18日</p>
+                    <p class="time">{{ $trade_detail->formated_ymd_created_at }}</p>
                     <p class="item">売上</p>
                     <p class="deal">「レッスンタイトルタイトル」</p>
                 </div>
             </div>
-            <div class="l-list--deal--detail--content">
-                <div class="price">
-                    <p class="trade minus">-¥ 3,000</p>
-                    <p class="balance">（残：¥213,000）</p>
-                </div>
-                <div class="detail">
-                    <p class="time">10月18日</p>
-                    <p class="item">キャンセル手数料</p>
-                    <p class="deal">「レッスンタイトルタイトルレッスンタイトルタイトル」</p>
-                </div>
-            </div>
-            <div class="l-list--deal--detail--content">
-                <div class="price">
-                    <p class="trade minus">-¥ 3,000</p>
-                    <p class="balance">（残：¥213,000）</p>
-                </div>
-                <div class="detail">
-                    <p class="time">10月18日</p>
-                    <p class="item">出金</p>
-                    <p class="deal">「レッスンタイトルタイトル」</p>
-                </div>
-            </div>
-            <div class="l-list--deal--detail--content">
-                <div class="price">
-                    <p class="trade minus">-¥ 3,000</p>
-                    <p class="balance">（残：¥213,000）</p>
-                </div>
-                <div class="detail">
-                    <p class="time">10月18日</p>
-                    <p class="item">購入</p>
-                    <p class="deal">「レッスンタイトルタイトル」</p>
-                </div>
-            </div>
-            <div class="l-list--deal--detail--content">
-                <div class="price">
-                    <p class="trade add">＋¥ 1,000,000</p>
-                    <p class="balance">（残：¥213,000）</p>
-                </div>
-                <div class="detail">
-                    <p class="time">10月18日</p>
-                    <p class="item">キャンセル返金</p>
-                    <p class="deal">「レッスンタイトルタイトルレッスンタイトルタイトル」</p>
-                </div>
-            </div>
+            @endforeach
         </div>
         <!-- PC -->
         <div class="l-list--deal--detail pc-only">

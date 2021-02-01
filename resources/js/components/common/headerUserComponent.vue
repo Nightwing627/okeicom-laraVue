@@ -16,8 +16,8 @@
 					<li><a href="/mypage/u/attendance-lessons">受講レッスン</a></li>
 					<li><a href="/mypage/u/messages/">メッセージ</a></li>
 					<li><a href="/mypage/u/profile/">プロフィール</a></li>
-					<!-- <li><a href="/mypage/u/">クレジットカード情報</a></li>
-					<li><a href="">銀行口座情報</a></li> -->
+					<!-- <li><a href="/mypage/u/">クレジットカード情報</a></li> -->
+					<li><a href="/mypage/u/bank/">銀行口座情報</a></li>
 					<li><a href="/mypage/u//trade/">入出金管理</a></li>
 				</ul>
 				<ul class="menu-user--content">

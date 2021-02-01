@@ -12,6 +12,9 @@ use App\Models\Payment;
 use App\Models\Category;
 use App\Models\Withdraw;
 use App\Models\Prefecture;
+use App\Models\OthersBank;
+use App\Models\JapansBank;
+use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +30,9 @@ class StudentController extends Controller
     private $withdraw;
     private $category;
     private $prefecture;
+    private $others_bank;
+    private $japans_bank;
+    private $withdrawal;
 
     public function __construct(
         User $user,
@@ -35,7 +41,10 @@ class StudentController extends Controller
         Payment $payment,
         Withdraw $withdraw,
         Category $category,
-        Prefecture $prefecture
+        Prefecture $prefecture,
+        OthersBank $others_bank,
+        JapansBank $japans_bank,
+        withdrawal $withdrawal
     )
     {
         $this->user = $user;
@@ -45,6 +54,9 @@ class StudentController extends Controller
         $this->withdraw = $withdraw;
         $this->category = $category;
         $this->prefecture = $prefecture;
+        $this->others_bank = $others_bank;
+        $this->japans_bank = $japans_bank;
+        $this->withdrawal = $withdrawal;
     }
 
     /**
@@ -316,7 +328,6 @@ class StudentController extends Controller
         $trade_months = $this->payment->getMonths();
         $trade_details = $this->payment->getDetail();
         $user_status = Auth::user()->status;
-
         return view('students.trade', compact('holding_amount', 'trade_months', 'trade_details', 'user_status'));
     }
 
@@ -328,7 +339,9 @@ class StudentController extends Controller
      */
     public function createPayment(Request $request)
     {
-        return view('students.payment-create');
+        $user_status = Auth::user()->status;
+        $holding_amount = $this->payment->getHoldingAmount();
+        return view('students.payment-create', compact('holding_amount', 'user_status'));
     }
 
     /**
@@ -339,7 +352,26 @@ class StudentController extends Controller
      */
     public function storePayment(Request $request)
     {
-        return redirect(route('payment.complete'));
+        // dd($request->all());
+        $user_id = Auth::user()->id;
+        $user_status = Auth::user()->status;
+        $bank_type = $request->bank_type;
+        // １．銀行タイプから、条件分岐でゆうちょかそれ以外かに登録
+        // ２．情報を全て登録
+        if($bank_type == 1) {
+            // ゆうちょ銀行
+            $this->japans_bank->registerJapanBank($request, $user_id);
+
+        } elseif($bank_type == 2) {
+            // その他銀行
+            $this->others_bank->registerOtherBank($request, $user_id);
+        }
+        // ３．登録した銀行IDを取得
+        $id = DB::getPdo()->lastInsertId();
+        // ４．全てをwithdrawals tableに登録
+        $this->withdrawal->store($request, $user_id, $id);
+        // ５．取引履歴
+        return view('students.payment-complete', compact('user_status'));
     }
 
     /**

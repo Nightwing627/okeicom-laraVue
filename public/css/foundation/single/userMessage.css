@@ -47,7 +47,6 @@
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
   grid-column: 1 / 2;
-  border-right: 1px solid #F0F0F0;
   background: #fff;
 }
 

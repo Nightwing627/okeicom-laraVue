@@ -12,7 +12,7 @@
 					<li><a href="/mypage/t/messages/">メッセージ</a></li>
 					<li><a href="/mypage/t/profile/">プロフィール</a></li>
 					<!-- <li><a href="">クレジットカード情報</a></li> -->
-					<!-- <li><a href="/mypage/u/bank/">銀行口座情報</a></li> -->
+					<li><a href="/mypage/t/bank/">銀行口座情報</a></li>
 					<li><a href="/mypage/t/trade/">入出金管理</a></li>
 				</ul>
 				<ul class="menu-user--content">

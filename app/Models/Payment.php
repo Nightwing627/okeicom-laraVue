@@ -72,12 +72,13 @@ class Payment extends Model
     public function getHoldingAmount()
     {
         // プラス金額(レッスンを購入された履歴)を取得
+        $user_id = Auth::user()->id;
         $query_plus_amount = self::query()
             ->select([
                 DB::raw('1 as id'),
                 DB::raw('sum(amount) as sum_amount')
             ])
-            ->where('payments.user_teacher_id', Auth::user()->id)
+            ->where('payments.user_teacher_id', $user_id)
             ->groupBy([
                 'payments.id',
             ]);
@@ -88,7 +89,7 @@ class Payment extends Model
                 DB::raw('max(payments.id) as id'),
                 DB::raw('sum(amount) * -1 as sum_amount')
             ])
-            ->where('payments.user_student_id', Auth::user()->id)
+            ->where('payments.user_student_id', $user_id)
             ->groupBy([
                 'payments.id',
             ])

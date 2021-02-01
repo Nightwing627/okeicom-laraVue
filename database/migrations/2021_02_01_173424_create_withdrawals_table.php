@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJapansBanksTable extends Migration
+class CreateWithdrawalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateJapansBanksTable extends Migration
      */
     public function up()
     {
-        Schema::create('japans_banks', function (Blueprint $table) {
+        Schema::create('withdrawals', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('mark');
-            $table->unsignedInteger('number');
-            $table->string('name', 100);
+            $table->unsignedInteger('bank_type');
+            $table->unsignedInteger('bank_id');
+            $table->string('amount', 100);
+            $table->date('verified')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +32,12 @@ class CreateJapansBanksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('japans_banks');
+        Schema::dropIfExists('withdrawals');
     }
 }
+
+
+
+
+
+

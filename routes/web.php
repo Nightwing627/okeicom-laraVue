@@ -161,7 +161,6 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
 // 受講者管理画面
 Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
     Route::get('withdrawal/complete', [StudentController::class, 'completeWithdrawal'])->name('withdrawal.complete');
-
     Route::middleware(['auth', 'student'])->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('index');
         Route::get('attendance-lessons', [StudentController::class, 'attendanceLessons'])->name('attendance-lessons');
@@ -196,7 +195,6 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
 Route::name('pages.')->group(function () {
     Route::get('news', [PageController::class, 'news' ])->name('news');
     Route::get('news/detail/{id}', [PageController::class, 'newsDetail'])->name('news.detail');
-
     // Route::get('company', [PageController::class, 'company'])->name('company');
     // Route::get('terms-service', [PageController::class, 'termsService'])->name('terms-service');
     // Route::get('terms-point', [PageController::class, 'termsPoint'])->name('terms-point');
