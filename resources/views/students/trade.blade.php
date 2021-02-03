@@ -41,9 +41,14 @@
                     <p class="balance">（残：{{ $trade_detail->separate_comma_point_amount }}）</p>
                 </div>
                 <div class="detail">
-                    <p class="time">{{ $trade_detail->formated_ymd_created_at }}</p>
+                    <p class="time"></p>
+                    @if($trade_detail->lessons_title == '出金')
+                    <p class="item">出金</p>
+                    <p class="deal"></p>
+                    @else
                     <p class="item">売上</p>
                     <p class="deal">「レッスンタイトルタイトル」</p>
+                    @endif
                 </div>
             </div>
             @endforeach
@@ -54,7 +59,6 @@
                 <thead>
                     <tr>
                         <td>日付</td>
-                        <td>内容</td>
                         <td>対象レッスン</td>
                         <td>入金</td>
                         <td>出金</td>
@@ -62,21 +66,28 @@
                     </tr>
                 </thead>
                 @foreach ($trade_details as $trade_detail)
-                {{-- <tr>
+                {{--
+                <tr>
                     <td>1日</td>
                     <td>購入</td>
                     <td>「レッスン名レッスン名レッスン名レッスン名」</td>
                     <td class="u-textAlign__right">-</td>
                     <td class="u-textAlign__right">¥23,334</td>
                     <td class="u-textAlign__right">¥335,906</td>
-                </tr> --}}
+                </tr>
+                --}}
                 <tr>
-
                     <td>{{ $trade_detail->formated_ymd_created_at }}</td>
-                    <td>購入</td>
+                    @if($trade_detail->lessons_title == '出金')
+                    <td></td>
+                    <td></td>
+                    <td class="u-textAlign__right">{{ $trade_detail->separate_comma_amount }}</td>
+                    @else
                     <td>「{{ $trade_detail->lessons_title }}」</td>
                     <td class="u-textAlign__right">{{ $trade_detail->separate_comma_amount }}</td>
-                    <td class="u-textAlign__right">{{ $trade_detail->separate_comma_point_add_sign_amount }}</td>
+                    <td></td>
+                    @endif
+                    {{-- <td class="u-textAlign__right"></td> --}}
                     <td class="u-textAlign__right">{{ $trade_detail->separate_comma_point_amount }}</td>
                 </tr>
                 @endforeach

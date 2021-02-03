@@ -87,18 +87,26 @@ class Payment extends Model
             ]);
 
         // マイナス金額(レッスンを購入したor出金した履歴)とプラス金額をUNION ALLで取得
-        $query_amount = self::query()
+        // $query_amount = self::query()
+        //     ->select([
+        //         DB::raw('max(payments.id) as id'),
+        //         DB::raw('sum(amount) * -1 as sum_amount')
+        //     ])
+        //     ->where('payments.user_student_id', $user_id)
+        //     ->groupBy([
+        //         'payments.id',
+        //     ])
+        //     ->unionAll($query_plus_amount);
+        $query_amount = Withdrawal::query()
             ->select([
-                DB::raw('max(payments.id) as id'),
+                DB::raw('max(withdrawals.id) as id'),
                 DB::raw('sum(amount) * -1 as sum_amount')
             ])
-            ->where('payments.user_student_id', $user_id)
+            ->where('withdrawals.user_id', $user_id)
             ->groupBy([
-                'payments.id',
+                'withdrawals.user_id',
             ])
             ->unionAll($query_plus_amount);
-
-        //
 
         // 総保有金額を取得
         return self::query()
@@ -154,8 +162,17 @@ class Payment extends Model
         //     ->get();
 
         $user_id = Auth::user()->id;
+        $withdraw = Withdrawal::query()
+            ->select([
+                'withdrawals.amount AS amount',
+                'withdrawals.created_at AS created_at',
+                DB::raw("'出金' AS lessons_title"),
+            ])
+            ->where('withdrawals.user_id', '=', 1)
+            // 受け取り履歴一覧と出金リクエスト一覧を結合させる
+            ->orderBy('created_at', 'desc');
         // 受け取り履歴一覧（キャンセルされたもの以外）
-        $payments = self::query()
+        $details = self::query()
             ->select([
                 'payments.amount AS amount',
                 'payments.created_at AS created_at',
@@ -165,34 +182,30 @@ class Payment extends Model
                 ['user_teacher_id', '=', $user_id],
                 ['payments.status', '=', 0],
             ])
-            // ->where('user_teacher_id', '=', $user_id)
-            // ->orWhere('payments.status', '=', 0)
+            ->unionAll($withdraw)
             ->leftJoin('applications', 'payments.application_id', '=', 'applications.id')
-            ->leftJoin('lessons', 'applications.lesson_id', '=', 'lessons.id');
+            ->leftJoin('lessons', 'applications.lesson_id', '=', 'lessons.id')
+            ->get();
         // 出金リクエスト一覧
         // $details = DB::table('withdrawals')
-        $details = Withdrawal::query()
-            ->select([
-                'withdrawals.amount AS amount',
-                'withdrawals.created_at AS created_at',
-                DB::raw("'出金' AS lessons_title"),
-            ])
-            ->where('withdrawals.user_id', '=', 1)
-            // 受け取り履歴一覧と出金リクエスト一覧を結合させる
-            ->unionAll($payments)
-            ->orderBy('created_at', 'desc')
-            ->get();
 
+        // 保有金額が0からスタート
         $wk_point_amount = 0;
         foreach ($details as $detail) {
             // // 取引時点の保有金額情報を付加
             // $detail->point_amount = $wk_point_amount;
-            // // 先生なら＋、生徒ならー
+            // // 先生なら＋、生徒ならーseparateCommaPoint
             // $detail->add_sign_amount = Auth::user()->id == $detail->user_teacher_id ? $detail->amount : $detail->amount * -1;
             // $wk_point_amount += $detail->add_sign_amount;
 
             // 取引時点の保有金額情報を付加
+            // $detail->point_amount = $wk_point_amount;
+            // $detail->add_sign_amount = $detail->lessons_title == '出金' ? $detail->amount * -1 : $detail->amount;
+            // $wk_point_amount += $detail->add_sign_amount;
+
             $detail->point_amount = $wk_point_amount;
+            $detail->point_amount += $detail->lessons_title == '出金' ? $detail->amount * -1 : $detail->amount;
+            // $detail->point_amount = $wk_point_amount;
             $detail->add_sign_amount = $detail->lessons_title == '出金' ? $detail->amount * -1 : $detail->amount;
             $wk_point_amount += $detail->add_sign_amount;
         }
