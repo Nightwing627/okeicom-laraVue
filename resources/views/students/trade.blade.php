@@ -71,10 +71,11 @@
                     <td class="u-textAlign__right">¥335,906</td>
                 </tr> --}}
                 <tr>
+
                     <td>{{ $trade_detail->formated_ymd_created_at }}</td>
                     <td>購入</td>
                     <td>「{{ $trade_detail->lessons_title }}」</td>
-                    <td class="u-textAlign__right">-</td>
+                    <td class="u-textAlign__right">{{ $trade_detail->separate_comma_amount }}</td>
                     <td class="u-textAlign__right">{{ $trade_detail->separate_comma_point_add_sign_amount }}</td>
                     <td class="u-textAlign__right">{{ $trade_detail->separate_comma_point_amount }}</td>
                 </tr>

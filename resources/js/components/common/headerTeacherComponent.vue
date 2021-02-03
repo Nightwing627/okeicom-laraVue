@@ -14,6 +14,7 @@
 					<!-- <li><a href="">クレジットカード情報</a></li> -->
 					<li><a href="/mypage/t/bank/">銀行口座情報</a></li>
 					<li><a href="/mypage/t/trade/">入出金管理</a></li>
+					<li><a href="/mypage/t/withdrawal/">退会</a></li>
 				</ul>
 				<ul class="menu-user--content">
 					<li><a href="/news/">お知らせ</a></li>
@@ -21,7 +22,7 @@
                     <li>
                         <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
                         <form id="logout-form" action="/logout" method="POST" style="display: none;">
-                            <input type="hidden" name="_token" v-bind:value="csrf">
+                            <input type="hidden" name="_token" :value="csrf">
                         </form>
                     </li>
 				</ul>

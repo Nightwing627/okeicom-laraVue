@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Withdrawal;
+
 
 class Payment extends Model
 {
@@ -48,10 +50,11 @@ class Payment extends Model
      *
      * @return string
      */
-    public function getSeparateCommaPointAddSignAmountAttribute()
+    public function getSeparateCommaPointAddSignAmountAttribute($value)
     {
         $sign = $this->add_sign_amount >= 0 ? '+' : '-';
         return $sign . '¥' . number_format(abs($this->add_sign_amount));
+        // return $this->add_sign_amount * 2;
     }
 
     /**
@@ -135,26 +138,62 @@ class Payment extends Model
      */
     public function getDetail()
     {
-        $details = self::query()
+        // $details = self::query()
+        //     ->select([
+        //         'payments.*',
+        //         'lessons.title as lessons_title'
+        //     ])
+        //     ->leftJoin('applications', 'payments.application_id', '=', 'applications.id')
+        //     ->leftJoin('lessons', 'applications.lesson_id', '=', 'lessons.id')
+        //     // ->where(function ($query) {
+        //     //     $query->orWhere('payments.user_teacher_id', Auth::user()->id)
+        //     //           ->orWhere('payments.user_student_id', Auth::user()->id);
+        //     // })
+        //     ->where('payments.user_teacher_id', Auth::user()->id)
+        //     ->orderBy('payments.created_at')
+        //     ->get();
+
+        $user_id = Auth::user()->id;
+        // 受け取り履歴一覧（キャンセルされたもの以外）
+        $payments = self::query()
             ->select([
-                'payments.*',
-                'lessons.title as lessons_title'
+                'payments.amount AS amount',
+                'payments.created_at AS created_at',
+                'lessons.title AS lessons_title',
             ])
+            ->where([
+                ['user_teacher_id', '=', $user_id],
+                ['payments.status', '=', 0],
+            ])
+            // ->where('user_teacher_id', '=', $user_id)
+            // ->orWhere('payments.status', '=', 0)
             ->leftJoin('applications', 'payments.application_id', '=', 'applications.id')
-            ->leftJoin('lessons', 'applications.lesson_id', '=', 'lessons.id')
-            ->where(function ($query) {
-                $query->orWhere('payments.user_teacher_id', Auth::user()->id)
-                      ->orWhere('payments.user_student_id', Auth::user()->id);
-            })
-            ->orderBy('payments.created_at')
+            ->leftJoin('lessons', 'applications.lesson_id', '=', 'lessons.id');
+        // 出金リクエスト一覧
+        // $details = DB::table('withdrawals')
+        $details = Withdrawal::query()
+            ->select([
+                'withdrawals.amount AS amount',
+                'withdrawals.created_at AS created_at',
+                DB::raw("'出金' AS lessons_title"),
+            ])
+            ->where('withdrawals.user_id', '=', 1)
+            // 受け取り履歴一覧と出金リクエスト一覧を結合させる
+            ->unionAll($payments)
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $wk_point_amount = 0;
         foreach ($details as $detail) {
+            // // 取引時点の保有金額情報を付加
+            // $detail->point_amount = $wk_point_amount;
+            // // 先生なら＋、生徒ならー
+            // $detail->add_sign_amount = Auth::user()->id == $detail->user_teacher_id ? $detail->amount : $detail->amount * -1;
+            // $wk_point_amount += $detail->add_sign_amount;
+
             // 取引時点の保有金額情報を付加
             $detail->point_amount = $wk_point_amount;
-            // 先生なら＋、生徒ならー
-            $detail->add_sign_amount = Auth::user()->id == $detail->user_teacher_id ? $detail->amount : $detail->amount * -1;
+            $detail->add_sign_amount = $detail->lessons_title == '出金' ? $detail->amount * -1 : $detail->amount;
             $wk_point_amount += $detail->add_sign_amount;
         }
 

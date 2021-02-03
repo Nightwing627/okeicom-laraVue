@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,12 +14,12 @@ class Lesson extends Model
 {
     use HasFactory, SoftDeletes;
 
-    const STATUS_PLANS = 0;             // 予約済み
-    const STATUS_FINISHED = 1;          // 終了済み
-    const STATUS_CANCEL = 2;            // キャンセル済み
-    const TYPE_LIVE = 0;                // LIVE
-    const TYPE_MOVIE = 1;               // MOVIE
-    const TYPE_DOCUMENT = 2;            // PDF（ドキュメント）
+    const STATUS_PLANS      = 0; // 予約済み
+    const STATUS_FINISHED   = 1; // 終了済み
+    const STATUS_CANCEL     = 2; // キャンセル済み
+    const TYPE_LIVE         = 0; // LIVE
+    const TYPE_MOVIE        = 1; // MOVIE
+    const TYPE_DOCUMENT     = 2; // PDF（ドキュメント）
 
     /**
      * The attributes that are mass assignable.
@@ -292,11 +293,12 @@ class Lesson extends Model
      * @param $applications_status
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function findByAuthUsersId(int $applications_status)
+    public function findByAuthUsersId($status)
     {
         return self::query()
             ->select([
                 'lessons.*',
+                'courses.img1 as courses_img1',
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
@@ -313,8 +315,8 @@ class Lesson extends Model
             ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
             ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
             ->where('applications.user_id', Auth::user()->id)
-            ->where('applications.status', $applications_status)
-            ->orderBy($applications_status == 1 ? 'applications.created_at' : 'lessons.created_at', 'desc')
+            ->where('applications.status', $status)
+            ->orderBy($status == 1 ? 'applications.created_at' : 'lessons.created_at', 'desc')
             ->paginate(Config::get('const.paginate.attendanceLesson'));
     }
 
@@ -458,7 +460,7 @@ class Lesson extends Model
             ->where('lessons.user_id', Auth::user()->id)
             ->where('lessons.status', self::STATUS_PLANS)
             ->update([
-                'lessons.status' => self::STATUS_CANCEL_TEACHER
+                'lessons.status' => Application::STATUS_CANCEL_TEACHER
             ]);
     }
 

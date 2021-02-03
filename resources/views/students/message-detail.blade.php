@@ -27,6 +27,7 @@
             <p class="u-text--big">{{ $user_name }}</p>
         </div>
         <div class="message-body">
+            {{--
             @php
                 if(!$message_details->isEmpty()) {
                     $break_date = '';
@@ -48,6 +49,51 @@
                         echo '<div class="message-body-text"><p class="name"><a href="/teachers/detail/' . $message_detail->partner_users_id . '" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p>';
                         if($message_detail->file1) {
                             echo '<div class="message-image"><img src="/storage/messages/'. $message_detail->file1 . '"></div>';
+                        }
+                        if($message_detail->file2) {
+                            echo '<div class="message-image"><img src="/storage/messages/'. $message_detail->file2 . '"></div>';
+                        }
+                        if($message_detail->file3) {
+                            echo '<div class="message-image"><img src="/storage/messages/'. $message_detail->file3 . '"></div>';
+                        }
+                        echo '</div>';
+                        echo '<div class="message-body-time"><span class="u-color--gray u-text--small">' . $message_detail->created_time . '</span></div>';
+                        if ($message_detail->file) {
+                            echo '<p>'. $message_detail->public_path_file . '</p>';
+                        }
+                        echo '</div></div>';
+                    }
+                } else {
+                    echo 'メッセージはありません';
+                }
+            @endphp
+            --}}
+            @php
+                if(!$message_details->isEmpty()) {
+                    $break_date = '';
+                    foreach ($message_details as $message_detail) {
+                        if($break_date != $message_detail->separate_hyphen_created_at) {
+                            echo '<div class="message-body-block"><p class="message-body-date">';
+                            echo $message_detail->separate_hyphen_created_at;
+                            echo '</p></div>';
+                        }
+                        $break_date = $message_detail->separate_hyphen_created_at;
+                        echo '<div class="message-body-block"><div class="l-flex">';
+                        // 自分か相手かの判断方法↓ フロント実装後このコメントは削除してください
+                        // if($partner_users_id == $message_detail->user_send_id) {
+                        //     echo '相手';
+                        // } else {
+                        //     echo '自分';
+                        // }
+                        echo '<div class="message-body-img"><div class="c-img--cover c-img--round"><img src="/storage/profile/' . $message_detail->users_img .'"></div></div>';
+                        echo '<div class="message-body-text"><p class="name"><a href="/teachers/detail/' . $message_detail->partner_users_id . '" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p>';
+                        if($message_detail->file1) {
+                            $target_file = pathinfo($message_detail->file1, PATHINFO_EXTENSION);
+                            if($target_file == 'png' || $target_file == 'jpg' || $target_file == 'jpeg' || $target_file == 'gif') {
+                                echo '<div class="message-image"><img src="/storage/messages/'. $message_detail->file1 . '"></div>';
+                            } else {
+                                echo '<div class="message-image"><a class="u-text--link" href="/storage/messages/'. $message_detail->file1 . '">「'. $target_file .'ファイル」をダウンロード</a></div>';
+                            }
                         }
                         if($message_detail->file2) {
                             echo '<div class="message-image"><img src="/storage/messages/'. $message_detail->file2 . '"></div>';

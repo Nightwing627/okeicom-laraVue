@@ -18,6 +18,7 @@ class CreatePaymentsTable extends Migration
             $table->unsignedInteger('user_teacher_id');
             $table->unsignedInteger('user_student_id');
             $table->unsignedInteger('amount');
+            $table->unsignedTinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

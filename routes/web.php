@@ -154,6 +154,9 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
     Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
     Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
     Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
+    // 退会
+    Route::get('withdrawal', [StudentController::class, 'createWithdrawal'])->name('withdrawal.create');
+    Route::post('withdrawal', [StudentController::class, 'storeWithdrawal'])->name('withdrawal.store');
     // 切り替え
     Route::get('change', [TeacherController::class, 'change'])->name('change');
 });
@@ -163,7 +166,10 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
     Route::get('withdrawal/complete', [StudentController::class, 'completeWithdrawal'])->name('withdrawal.complete');
     Route::middleware(['auth', 'student'])->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('index');
+        // 受講予定レッスン
         Route::get('attendance-lessons', [StudentController::class, 'attendanceLessons'])->name('attendance-lessons');
+        // 受講済みレッスン
+        Route::get('taken-lessons', [StudentController::class, 'takenLessons'])->name('taken-lessons');
         // メッセージ
         Route::get('messages', [StudentController::class, 'messages'])->name('messages');
         Route::post('messages', [StudentController::class, 'sendMessages'])->name('messages.send');
@@ -173,9 +179,6 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
         Route::post('profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');
         Route::get('profile/password', [StudentController::class, 'editPassword'])->name('profile.password.edit');
         Route::post('profile/password', [StudentController::class, 'updatePassword'])->name('profile.password.update');
-        // 退会
-        Route::get('withdrawal', [StudentController::class, 'createWithdrawal'])->name('withdrawal.create');
-        Route::post('withdrawal', [StudentController::class, 'storeWithdrawal'])->name('withdrawal.store');
         // クレジットカード
         Route::get('creditcards', [StudentController::class, 'creditcards'])->name('creditcards');
         Route::get('creditcards/add', [StudentController::class, 'createCreditcards'])->name('creditcards.create');
@@ -187,6 +190,9 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
         Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
         Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
         Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
+        // 退会
+        Route::get('withdrawal', [StudentController::class, 'createWithdrawal'])->name('withdrawal.create');
+        Route::post('withdrawal', [StudentController::class, 'storeWithdrawal'])->name('withdrawal.store');
     });
     Route::get('change', [StudentController::class, 'change'])->name('change');
 });

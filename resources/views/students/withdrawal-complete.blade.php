@@ -1,4 +1,4 @@
-@extends('layouts.user-single')
+@extends('layouts.app')
 
 <!-- タイトル・メタディスクリプション -->
 @section('title', '退会完了')
@@ -19,7 +19,7 @@
                 <div class="l-content--detail">
                     <div class="l-content--detail__inner">
                         <p class="u-text--sentence u-mb20">退会完了しました！<br>引き続き、おけい.comをお楽しみくださいませ！</p>
-                        <a href="" class="u-text--link">トップページへ戻る</a>
+                        <a href="{{ route('home') }}" class="u-text--link">トップページへ戻る</a>
                     </div>
                 </div>
             </div>

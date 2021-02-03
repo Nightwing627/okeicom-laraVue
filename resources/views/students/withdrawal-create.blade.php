@@ -1,5 +1,4 @@
-
-@extends('layouts.user-single')
+@extends(($user_status == 0)?'layouts.user-single':'layouts.teacher-single')
 
 <!-- タイトル・メタディスクリプション -->
 @section('title', '退会')
@@ -13,7 +12,7 @@
 @section('content')
     <div class="l-wrap--single">
         <div class="l-wrap--title">
-            <a class="c-link--back u-mb5" href="">前の画面に戻る</a>
+            <a class="c-link--back u-mb5" href="{{ url()->previous() }}">前の画面に戻る</a>
             <h1 class="c-headline--screen">退会手続き</h1>
         </div>
         <div class="l-wrap--body">
@@ -32,6 +31,7 @@
             </div>
         </div>
         <form method="POST" action="{{ route('mypage.u.withdrawal.store') }}">
+            @csrf
             <div class="l-button--submit">
                 <button type="submit" class="c-button--square__pink">{{ __('Withdrawal') }}</button>
             </div>

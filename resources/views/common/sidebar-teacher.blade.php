@@ -12,5 +12,6 @@
 		{{-- <li class="@if(Request::is('mypage/u/trade')) selected @endif"><a href="{{ route('mypage.u.creditcards') }}">クレジットカード情報</a></li> --}}
 		{{-- <li class="@if(Request::is('mypage/u/bank')) selected @endif"><a href="{{ route('mypage.u.bank') }}">銀行口座情報</a></li> --}}
 		<li class="@if(Request::is('mypage/u/trade')) selected @endif"><a href="{{ route('mypage.u.trade') }}">入出金管理</a></li>
+		<li class="@if(Request::is('mypage/t/withdrawal')) selected @endif"><a href="{{ route('mypage.t.withdrawal.create') }}">退会</a></li>
 	</ul>
 </div>

@@ -13,7 +13,8 @@
 					<a href="" class="u-text--link">講師に切り替える</a>
 				</div> -->
 				<ul class="menu-user--content">
-					<li><a href="/mypage/u/attendance-lessons">受講レッスン</a></li>
+					<li><a href="/mypage/u/attendance-lessons">受講予定レッスン</a></li>
+					<li><a href="/mypage/u/taken-lessons">受講済みレッスン</a></li>
 					<li><a href="/mypage/u/messages/">メッセージ</a></li>
 					<li><a href="/mypage/u/profile/">プロフィール</a></li>
 					<!-- <li><a href="/mypage/u/">クレジットカード情報</a></li> -->

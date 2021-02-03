@@ -1,8 +1,8 @@
 @extends('layouts.user')
 
 {{-- タイトル・メタディスクリプション --}}
-@section('title', '受講予定レッスン一覧')
-@section('description', '受講予定レッスン一覧')
+@section('title', '受講済みレッスン一覧')
+@section('description', '受講済みレッスン一覧')
 
 {{-- CSS --}}
 @push('css')

@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             PaymentsTableSeeder::class,
             PrefectureSeeder::class,
             UserSeeder::class,
+            WithdrawalTableSeeder::class,
         ]);
     }
 }

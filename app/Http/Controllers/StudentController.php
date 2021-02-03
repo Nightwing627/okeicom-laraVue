@@ -71,17 +71,33 @@ class StudentController extends Controller
     }
 
     /**
-     * 受講予定・受講済みレッスン一覧
+     * 受講予定レッスン一覧
      *
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function attendanceLessons(Request $request)
     {
-        $applications_status = $request->query('applications_status') == 1 ? 1 : 0;
-        $lessons = $this->lesson->findByAuthUsersId($applications_status);
+        // $applications_status = $request->query('applications_status') == 1 ? 1 : 0;
+        $status = 0;
+        $lessons = $this->lesson->findByAuthUsersId($status);
+        // dd($lessons);
+        return view('students.attendance-lessons', compact('lessons'));
+    }
 
-        return view('students.attendance-lessons', compact('lessons', 'applications_status'));
+    /**
+     * 受講予定済みレッスン一覧
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function takenLessons(Request $request)
+    {
+        // $applications_status = $request->query('applications_status') == 1 ? 1 : 0;
+        $status = 1;
+        $lessons = $this->lesson->findByAuthUsersId($status);
+        // dd($lessons);
+        return view('students.taken-lessons', compact('lessons'));
     }
 
     /**
@@ -227,7 +243,9 @@ class StudentController extends Controller
      */
     public function createWithdrawal(Request $request)
     {
-        return view('students.withdrawal-create');
+        $user_status = Auth::user()->status;
+        // return view('students.withdrawal-create');
+        return view('students.withdrawal-create', compact('user_status'));
     }
 
     /**
@@ -327,6 +345,7 @@ class StudentController extends Controller
         $holding_amount = $this->payment->getHoldingAmount();
         $trade_months = $this->payment->getMonths();
         $trade_details = $this->payment->getDetail();
+        // dd($trade_details);
         $user_status = Auth::user()->status;
         return view('students.trade', compact('holding_amount', 'trade_months', 'trade_details', 'user_status'));
     }
