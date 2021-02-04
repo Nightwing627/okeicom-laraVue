@@ -52,20 +52,16 @@
 
 .c-scroll__box {
   width: 207px;
+  min-width: 207px;
   margin-right: 10px;
   vertical-align: text-top;
   position: relative;
 }
 
-@media screen and (max-width: 897px) {
-  .c-scroll__box {
-    min-width: 207px;
-  }
-}
-
 @media screen and (min-width: 896px) {
   .c-scroll__box {
-    width: 18.4%;
+    width: 184px;
+    min-width: 184px;
     margin-right: 2%;
   }
   .c-scroll__box:last-child {

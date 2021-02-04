@@ -105,6 +105,7 @@
 
 <script>
     export default {
+        props: ['teacherlink'],
 		data(){
 			return {
 				// 検索窓を表示
@@ -112,6 +113,7 @@
                 drawerActive: false,
                 // 検索キーワード
                 keyword: '',
+                teacherLink: this.teacherlink ?? '',
 			}
 		},
 		methods: {

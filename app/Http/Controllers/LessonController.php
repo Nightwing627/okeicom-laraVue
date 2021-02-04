@@ -11,6 +11,7 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\Factory;
 use App\Http\Resources\LessonDetailResource;
+use Illuminate\Support\Facades\Auth;
 class LessonController extends Controller
 {
     private $user;
@@ -100,7 +101,11 @@ class LessonController extends Controller
      */
     public function application(Request $request)
     {
-        return view('lessons.application');
+        $id     = $request->id;
+        $lesson = $this->lesson->getShowLesson($id)->first();
+        $courseImg = $this->course->courseImgLists($lesson->course_id)['img1'];
+        $user_status = Auth::user()->status;
+        return view('lessons.application', compact('lesson', 'courseImg', 'user_status'));
     }
 
     /**

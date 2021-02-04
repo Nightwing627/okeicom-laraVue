@@ -5,9 +5,9 @@
     <div id="app">
         @if(Auth::user())
             @if( Auth::user()->status == 0 )
-                <header-user-component :csrf="{{ json_encode(csrf_token()) }}" :csrf="{{ json_encode(csrf_token()) }}"></header-user-component>
+                <header-user-component logout="{{ route('logout') }}" :csrf="{{ json_encode(csrf_token()) }}"></header-user-component>
             @elseif( Auth::user()->status == 1 )
-                <header-teacher-component logout="{{ route('logout') }}" :csrf="{{ json_encode(csrf_token()) }}"></header-teacher-component>
+                <header-teacher-component teacherlink="1" logout="{{ route('logout') }}" :csrf="{{ json_encode(csrf_token()) }}"></header-teacher-component>
             @endif
         @else
             <header-component :csrf="{{ json_encode(csrf_token()) }}"></header-component>

@@ -40,7 +40,7 @@
 								<p class="date">{{ $lesson->date_slash }}<span class="week">({{ $lesson->week }})</span><br>{{ $lesson->separate_hyphen_time}}</p>
 							</div>
 							<div class="other_reserve">
-								<a href="">予約する</a>
+								<a href="{{ route('lessons.application', ['id' => $lesson->id]) }}">予約する</a>
 							</div>
 						</div>
                     </div>
@@ -205,7 +205,7 @@
 											<div class="scroll__box__teacher__img__inner c-img--round c-img--cover">
                                                 <img src="{{ asset('/storage/profile/' . $user->img) }}">
 											</div>
-										</div>$
+										</div>
 										<div class="c-scroll__box__teacher__evaluation">
 											<img src="/img/common/icon-star.png">
 											<span class="evaluationNumber">{{ $relate->round_avg_point}}</span>

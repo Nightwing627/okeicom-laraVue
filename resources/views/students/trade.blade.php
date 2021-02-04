@@ -1,8 +1,8 @@
 @extends(($user_status == 0)?'layouts.user':'layouts.teacher')
 
 <!-- タイトル・メタディスクリプション -->
-@section('title', '取引履歴')
-@section('description', '取引履歴')
+@section('title', '入出金管理')
+@section('description', '入出金管理')
 
 <!-- CSS -->
 @push('css')

@@ -131,7 +131,6 @@ class Lesson extends Model
     {
         $user = new User();
         $evaluations = $user->getTeachersPointQuery();
-
         return self::query()
             ->select([
                 'lessons.*',

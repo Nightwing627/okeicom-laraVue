@@ -72,15 +72,14 @@ $bgMainColor: #F6F5F7;
 	}
 }
 .c-scroll__box {
-	width: 207px;
+    width: 207px;
+    min-width: 207px;
 	margin-right: 10px;
 	vertical-align: text-top;
 	position: relative;
-	@include mq_down(md) {
-		min-width: 207px;
-	}
 	@include mq_up(md) {
-		width: 18.4%;
+        width: 184px;
+        min-width: 184px;
 		margin-right: 2%;
 		&:last-child {
 			margin-right: 0;

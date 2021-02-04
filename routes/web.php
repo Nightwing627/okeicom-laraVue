@@ -92,7 +92,7 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
     // レッスン：ログインが必須なページ
     Route::middleware('auth')->group(function () {
         // レッスン：予約
-        Route::get('{id}/application', [LessonController::class, 'application'])->name('application');
+        Route::get('application/{id}', [LessonController::class, 'application'])->name('application');
         // 決済画面
         Route::get('detail/credit-payment', [LessonController::class, 'paymentCredit'])->name('credit-payment');
         Route::get('detail/application/error', [LessonController::class, 'errorApplication'])->name('application.error');
