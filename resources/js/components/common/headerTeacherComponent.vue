@@ -111,7 +111,7 @@
 			<ul class="nav-global__list">
 				<li><a href="/news/">お知らせ</a></li>
 				<!-- <li><a href="/company.php">会社概要</a></li> -->
-				<li><a href="/flow/">料金決済の流れ</a></li>
+				<!-- <li><a href="/flow/">料金決済の流れ</a></li> -->
 				<li><a href="/tokushoho/">特定商取引法に基づく表記</a></li>
 				<li><a href="mailtp:chankan77@gmail.com">お問い合わせ</a></li>
 			</ul>

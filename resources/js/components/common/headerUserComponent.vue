@@ -116,7 +116,7 @@
 			<ul class="nav-global__list">
 				<li><a href="/news.php">お知らせ</a></li>
 				<li><a href="/company.php">会社概要</a></li>
-				<li><a href="/contact-us.php">料金決済の流れ</a></li>
+				<!-- <li><a href="/contact-us.php">料金決済の流れ</a></li> -->
 				<li><a href="/contact-us.php">特定商取引法に基づく表記</a></li>
 				<li><a href="/contact-us.php">お問い合わせ</a></li>
 			</ul>

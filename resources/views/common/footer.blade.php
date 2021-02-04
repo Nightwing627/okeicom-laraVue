@@ -35,7 +35,7 @@
 						<li><a href="/faq-teacher">講師よくある質問</a></li>
 						<li><a href="/cancel-user">受講者キャンセルポリシー</a></li>
 						<li><a href="/cancel-teacher">講師キャンセルポリシー</a></li>
-						<li><a href="/flow">料金決済の流れ</a></li>
+						{{-- <li><a href="{{ url('/flow/') }}">料金決済の流れ</a></li> --}}
 					</ul>
 				</div>
 			</div>
