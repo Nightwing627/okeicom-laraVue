@@ -66,6 +66,7 @@ class TeacherController extends Controller
         $teachers   = $this->user->searchTeacher($params)->paginate(20);
         return view('teachers.index', compact('teachers', 'params', 'categories'));
     }
+
     /**
      * 並び替え
      *
@@ -127,10 +128,8 @@ class TeacherController extends Controller
             $new_users->push($value);
         }
 
-
         //表示
         return view('teachers.index',["users"=>$new_users,'categories'=>$categories,'count'=>$count,'order'=>$order,'sex'=>$request->input("sex"),'selected_category'=>$selected_category,'page'=>$page,'start'=>$start,'end'=>$end,'page_cnt'=>$page_cnt]);
-
     }
 
     /**

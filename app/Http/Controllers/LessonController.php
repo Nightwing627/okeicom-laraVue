@@ -109,6 +109,18 @@ class LessonController extends Controller
     }
 
     /**
+     * クレジットカード決済（後ほど削除）
+     *
+     * @param Request $request
+     * @return Factory|View
+     */
+    public function payment(Request $request)
+    {
+        dd($request->all());
+        return view('lessons.credit-payment');
+    }
+
+    /**
      * クレジットカード決済ページ
      *
      * @param Request $request
