@@ -96,38 +96,42 @@
                 // // ファイルを取得する
                 const files = this.$refs['file' + index]
                 const fileImg = files.files[0]
-                const target = this.couseDetailFiles
-                if (fileImg.type.startsWith("image/")) {
-                    target[index].isAdd = false
-                    target[index].isChange = true
-                    target[index].url = window.URL.createObjectURL(fileImg)
-                    if (index < 4 && target[index+1].url == "" && target[index+1].isAdd == false) {
-                        // 次の画像アップロード箇所追加
-                        target[index+1].isAdd = true
+                if (fileImg.size > 1048576) {
+                    alert('ファイルの上限サイズ1MBを超えています')
+                } else {
+                    const target = this.couseDetailFiles
+                    if (fileImg.type.startsWith("image/")) {
+                        target[index].isAdd = false
+                        target[index].isChange = true
+                        target[index].url = window.URL.createObjectURL(fileImg)
+                        if (index < 4 && target[index+1].url == "" && target[index+1].isAdd == false) {
+                            // 次の画像アップロード箇所追加
+                            target[index+1].isAdd = true
+                        }
+                        if(!index == 0) {
+                            target[index].isDelete = true
+                        }
                     }
-                    if(!index == 0) {
-                        target[index].isDelete = true
-                    }
+                    // バリデーション用
+                    this.validationNumber += 1
+                    // // 条件に応じて、アップロードを考える
+                    // if (fileImg.type.startsWith("image/")) {
+                    // 	if(index === 4) {
+                    // 		this.couseDetailFiles[index].isAdd = false
+                    // 		this.couseDetailFiles[index].isDelete = true
+                    // 		this.couseDetailFiles[index].isChange = true
+                    // 		this.couseDetailFiles[index].url = window.URL.createObjectURL(fileImg)
+                    // 	} else {
+                    // 		this.couseDetailFiles[index].isAdd = false
+                    // 		this.couseDetailFiles[index].isDelete = true
+                    // 		this.couseDetailFiles[index].isChange = true
+                    // 		this.couseDetailFiles[index].url = window.URL.createObjectURL(fileImg)
+                    // 		// 次の画像アップロード箇所追加
+                    // 		this.couseDetailFiles[index+1].isAdd = true
+                    // 	}
+                    // }
+                    this.$emit('add');
                 }
-                // バリデーション用
-                this.validationNumber += 1
-                // // 条件に応じて、アップロードを考える
-				// if (fileImg.type.startsWith("image/")) {
-				// 	if(index === 4) {
-				// 		this.couseDetailFiles[index].isAdd = false
-				// 		this.couseDetailFiles[index].isDelete = true
-				// 		this.couseDetailFiles[index].isChange = true
-				// 		this.couseDetailFiles[index].url = window.URL.createObjectURL(fileImg)
-				// 	} else {
-				// 		this.couseDetailFiles[index].isAdd = false
-				// 		this.couseDetailFiles[index].isDelete = true
-				// 		this.couseDetailFiles[index].isChange = true
-				// 		this.couseDetailFiles[index].url = window.URL.createObjectURL(fileImg)
-				// 		// 次の画像アップロード箇所追加
-				// 		this.couseDetailFiles[index+1].isAdd = true
-				// 	}
-                // }
-                this.$emit('add');
 			},
 			// 画像の変更
 			changeFile: function(index) {

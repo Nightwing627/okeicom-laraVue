@@ -12,9 +12,13 @@
 <!-- 本文 -->
 @section('content')
     <div class="l-wrap--single">
-        <form method="POST" action="https://linkpt.cardservice.co.jp/cgi-bin/credit/order.cgi" TARGET="_top" accept-charset="Shift_JIS">
+        <!-- <form method="POST" action="https://linkpt.cardservice.co.jp/cgi-bin/credit/order.cgi" TARGET="_top" accept-charset="Shift_JIS"> -->
+        <form method="POST" action="{{ route('lessons.application.post') }}">
             @csrf
+            <input type="hidden" name="" value="">
+            <input type="hidden" name="" value="">
             <!-- zeus情報 -->
+            <!--
             <input type="hidden" name="clientip" value="2014003669">
             <INPUT TYPE="hidden" name="money" VALUE="">
             <INPUT TYPE="hidden" name="sendid" VALUE="">
@@ -24,6 +28,7 @@
             <INPUT TYPE="hidden" NAME="success_str" VALUE="おけいcomのページに戻る">
             <INPUT TYPE="hidden" NAME="failure_url" VALUE="{{ route('contact') }}">
             <INPUT TYPE="hidden" NAME="failure_str" VALUE="おけいcomへお問い合わせする">
+            -->
             <!-- fin zeus情報 -->
             <div class="l-wrap--title">
                 <a class="c-link--back u-mb5" href="' . $_SERVER['HTTP_REFERER'] . '">レッスン詳細へ戻る</a>
@@ -98,7 +103,7 @@
                 </div>
             </div>
             <div class="l-button--submit">
-                <button class="c-button--square__pink" type="submit">決済する</button>
+                <button class="c-button--square__pink" type="submit">クレカ決済へ進む</button>
             </div>
         </form>
     </div>

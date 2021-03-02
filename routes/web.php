@@ -92,14 +92,15 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
     // レッスン：ログインが必須なページ
     Route::middleware('auth')->group(function () {
         // レッスン：予約
-        Route::get('application/{id}', [LessonController::class, 'application'])->name('application');
+        Route::get('application', [LessonController::class, 'application'])->name('application');
+        Route::post('application', [LessonController::class, 'applicationPost'])->name('application.post');
         // 決済画面
-        Route::get('detail/credit-payment', [LessonController::class, 'paymentCredit'])->name('credit-payment');
-        Route::get('detail/application/error', [LessonController::class, 'errorApplication'])->name('application.error');
-        Route::get('detail/application/complete', [LessonController::class, 'completeApplication'])->name('application.complete');
+        Route::get('application/credit-payment', [LessonController::class, 'paymentCredit'])->name('credit-payment');
+        Route::get('application/error', [LessonController::class, 'errorApplication'])->name('application.error');
+        Route::get('application/complete', [LessonController::class, 'completeApplication'])->name('application.complete');
         // キャンセル
-        Route::get('detail/cancel', [LessonController::class, 'cancel'])->name('cancel');
-        Route::post('detail/cancel', [LessonController::class, 'doCancel'])->name('cancel.do');
+        Route::get('application/cancel', [LessonController::class, 'cancel'])->name('cancel');
+        Route::post('application/cancel', [LessonController::class, 'doCancel'])->name('cancel.do');
         // キャンセル完了
         Route::get('detail/cancel/complete', [LessonController::class, 'completeCancel'])->name('cancel.complete');
         // 評価画面
