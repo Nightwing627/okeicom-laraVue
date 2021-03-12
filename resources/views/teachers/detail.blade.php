@@ -29,11 +29,11 @@
                         <p class="review">レビュー {{ $user->reviews }}件</p>
                     </div>
                     <ul class="c-text--category u-mb5">
-                        @isset($user->category1_id)<li>$user->category1_id</li>@endisset
-                        @isset($user->category2_id)<li>$user->category2_id</li>@endisset
-                        @isset($user->category3_id)<li>$user->category3_id</li>@endisset
-                        @isset($user->category4_id)<li>$user->category4_id</li>@endisset
-                        @isset($user->category5_id)<li>$user->category5_id</li>@endisset
+                        @isset($user->category1_id)<li>{{ $user->category1_name }}</li>@endisset
+                        @isset($user->category2_id)<li>{{ $user->category2_name }}</li>@endisset
+                        @isset($user->category3_id)<li>{{ $user->category3_name }}</li>@endisset
+                        @isset($user->category4_id)<li>{{ $user->category4_name }}</li>@endisset
+                        @isset($user->category5_id)<li>{{ $user->category5_name }}</li>@endisset
                     </ul>
                     <div class="teacherDetail-profile-detail-tab u-mb10">
                         <div class="tabBox"><span>国籍</span>{{ $user->country_id ?: '未設定' }}</div>

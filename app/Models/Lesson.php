@@ -14,9 +14,8 @@ class Lesson extends Model
 {
     use HasFactory, SoftDeletes;
 
-    const STATUS_PLANS      = 0; // 予約済み
-    const STATUS_FINISHED   = 1; // 終了済み
-    const STATUS_CANCEL     = 2; // キャンセル済み
+    const STATUS_PLANS      = 0; // 通常
+    const STATUS_CANCEL     = 1; // キャンセル済み
     const TYPE_LIVE         = 0; // LIVE
     const TYPE_MOVIE        = 1; // MOVIE
     const TYPE_DOCUMENT     = 2; // PDF（ドキュメント）
@@ -32,6 +31,7 @@ class Lesson extends Model
         'status',
         'public',
         'type',
+        'view',
         'url',
         'slide',
         'date',
@@ -409,6 +409,33 @@ class Lesson extends Model
             self::TYPE_DOCUMENT => __('LessonTypeDocument'),
         ];
     }
+    /**
+     * レッスン開始日付を取得
+     *
+     * @return array
+     */
+    public static function getBasicDate($date, $time)
+    {
+        $year = date('Y', strtotime($date));
+        $month = date('m', strtotime($date));
+        $day = date('d', strtotime($date));
+        $hour = date('H', strtotime($time));
+        $minute = date('i', strtotime($time));
+        $second = date('s', strtotime($time));
+        return Carbon::create($year, $month, $day, $hour, $minute, $second);
+    }
+
+    /**
+     * 購入済みレッスンがあるか確認
+     *
+     * @param array $data
+     */
+    public function checkPurchaseLesson($lesson_id, $user_id)
+    {
+        return Application::where('applications.lesson_id', $lesson_id)
+            ->where('applications.user_id', $user_id)
+            ->first();
+    }
 
     /**
      * 指定コースのレッスンを削除
@@ -641,6 +668,7 @@ class Lesson extends Model
             ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
             ->select([
                 'lessons.*',
+                'courses.img1 as courses_img1',
                 'evaluations.avg_point AS evaluations_avg_point',
                 'applications.applicants_number AS applicants_number',
                 'categories1.name as category1_name',
@@ -667,6 +695,20 @@ class Lesson extends Model
             ->select('applications.lesson_id', DB::raw('COUNT(applications.status = 0 OR null) AS applicants_number'))
             // lesson_idごとに、グルーピングする
             ->groupBy('applications.lesson_id');
+    }
+
+    /**
+     * レッスンの参加者の合計クエリを取得する
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getLessonNumberOfCourse($course_id, $lesson_id)
+    {
+        // コースIDと紐づくレッスン一覧の配列を取得
+        $courseLessons = Lesson::where('course_id', $course_id)->get()->toArray();
+
+        // コースIDの中での番号を取得し、連想配列に入れる
+        return array_search($lesson_id, array_column($courseLessons, 'id')) + 1;
     }
 
     /* アクセサ get~~~Attribute

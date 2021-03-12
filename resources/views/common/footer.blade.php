@@ -21,9 +21,9 @@
 				<div class="footer__list__box">
 					<p class="footer__list__title">会社情報</p>
 					<ul class="footer__list__content">
-						<li><a href="/news">お知らせ</a></li>
+						{{-- <li><a href="/news">お知らせ</a></li> --}}
 						<li><a href="/tokushoho">特商法に基づく表示</a></li>
-						<li><a href="/contact">お問い合わせ</a></li>
+						<li><a href="mailto:contact@i-rick.co.jp">お問い合わせ</a></li>
 					</ul>
 				</div>
 				<div class="footer__list__box">

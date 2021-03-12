@@ -30,11 +30,15 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('login', [UserLogin::class, 'showLoginForm'])->name('login');
 Route::post('login', [UserLogin::class, 'login']);
 Route::post('logout', [UserLogin::class, 'logout'])->name('logout');
+
+// パスワードリセット
 Route::get('password-reset', [UserForgotPassword::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password-email', [UserForgotPassword::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password-reset/new/{token}', [UserResetPassword::class, 'showResetForm'])->name('password.reset');
 Route::post('password-reset/new', [UserResetPassword::class, 'reset'])->name('password.update');
 Route::get('password-reset/complete', [UserResetPassword::class, 'complete'])->name('password.complete');
+
+// ログイン
 Route::get('sign-up', [UserRegister::class, 'showEmailVerifyForm'])->name('email.verify');
 Route::post('email-send', [UserRegister::class, 'emailVerify'])->name('email.verify.send');
 Route::get('email-send/complete', [UserRegister::class, 'completeEmailSend'])->name('email.send.complete');
@@ -96,13 +100,16 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
         Route::post('application', [LessonController::class, 'applicationPost'])->name('application.post');
         // 決済画面
         Route::get('application/credit-payment', [LessonController::class, 'paymentCredit'])->name('credit-payment');
+        Route::post('application/credit-payment', [LessonController::class, 'paymentCreditPost'])->name('credit-payment.post');
         Route::get('application/error', [LessonController::class, 'errorApplication'])->name('application.error');
         Route::get('application/complete', [LessonController::class, 'completeApplication'])->name('application.complete');
         // キャンセル
         Route::get('application/cancel', [LessonController::class, 'cancel'])->name('cancel');
         Route::post('application/cancel', [LessonController::class, 'doCancel'])->name('cancel.do');
         // キャンセル完了
-        Route::get('detail/cancel/complete', [LessonController::class, 'completeCancel'])->name('cancel.complete');
+        Route::get('application/cancel/complete', [LessonController::class, 'completeCancel'])->name('cancel.complete');
+        // レッスン閲覧画面
+        Route::get('browsing/{id}', [LessonController::class, 'browsing'])->name('browsing');
         // 評価画面
         Route::get('evaluation', [LessonController::class, 'createEvaluation'])->name('evaluation.create');
         Route::post('evaluation', [LessonController::class, 'storeEvaluation'])->name('evaluation.update');

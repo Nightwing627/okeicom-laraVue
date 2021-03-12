@@ -12,13 +12,13 @@
 					<li><a href="/mypage/t/messages/">メッセージ</a></li>
 					<li><a href="/mypage/t/profile/">プロフィール</a></li>
 					<!-- <li><a href="">クレジットカード情報</a></li> -->
-					<li><a href="/mypage/t/bank/">銀行口座情報</a></li>
+					<!-- <li><a href="/mypage/t/bank/">銀行口座情報</a></li> -->
 					<li><a href="/mypage/t/trade/">入出金管理</a></li>
 					<li><a href="/mypage/t/withdrawal/">退会</a></li>
 				</ul>
 				<ul class="menu-user--content">
-					<li><a href="/news/">お知らせ</a></li>
-					<li><a href="mailto:chankan77@gmail.com">運営にお問い合わせ</a></li>
+					<!-- <li><a href="/news/">お知らせ</a></li> -->
+					<li><a href="mailto:contact@i-rick.co.jp">運営にお問い合わせ</a></li>
                     <li>
                         <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
                         <form id="logout-form" action="/logout" method="POST" style="display: none;">
@@ -31,8 +31,10 @@
 		<div class="l-flex">
 			<div class="header__left l-flex l-v__center">
 				<div class="header__logo">
-					<img class="sp-only" src="/img/common/okeicom-logo-square.png">
-					<img class="pc-only" src="/img/common/okeicom-logo-side.png">
+                    <a href="/">
+                        <img class="sp-only" src="/img/common/okeicom-logo-square.png">
+                        <img class="pc-only" src="/img/common/okeicom-logo-side.png">
+                    </a>
 				</div>
 				<nav class="header__menu pc-only">
 					<ul class="l-flex">

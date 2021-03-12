@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -14,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        // \App\Console\Commands\AutoCommand::class,
     ];
 
     /**
@@ -24,7 +26,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // スケジュールを実行させるタイミング
+        // $lessons = DB::table('lessons')->get();
+        // foreach($lessons as $index => $lesson) {
+        //     $schedule
+        //         ->command('command:lesson_finish')
+        //         ->withoutOverlapping()
+        //         ->cron('* * * * *');
+        // }
+
     }
 
     /**
@@ -35,7 +45,6 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
     }
 }

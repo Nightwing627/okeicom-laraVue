@@ -36,6 +36,7 @@ class User extends Authenticatable
         'account',
         'status',
         'sex',
+        'tel',
         'age',
         'country_id',
         'prefecture_id',
@@ -83,6 +84,22 @@ class User extends Authenticatable
     ];
 
     /**
+     * リレーション：ユーザーのコース一覧
+     */
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+
+    /**
+     * リレーション：ユーザーのレッスン一覧
+     */
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
+
+    /**
      * 条件検索した講師一覧を取得
      *
      * @param $value
@@ -96,18 +113,24 @@ class User extends Authenticatable
         $is_categories = $params['categories_id'] ?? '';
         $is_sex        = $params['is_sex'] ?? '';
         $is_keyword    = $params['keyword'] ?? '';
+
         // 評価の計算結果
         $evaluations   = $this->getTeachersPointQuery();
+
         // 条件ユーザー一覧をリターン
         return self::query()
-                ->ofSortParam($is_sort)
-                ->ofCategoryId($is_categories)
-                ->ofUserSex($is_sex)
-                ->ofSearchKeyword($is_keyword)
-                ->leftJoinSub($evaluations, 'evaluations', function ($join) {
-                    $join->on('users.id', '=', 'evaluations.user_teacher_id');
-                })
-                ->select(['users.*', 'evaluations.avg_point as evaluations_avg_point',]);
+            ->where('is_teacher', 1)
+            ->ofSortParam($is_sort)
+            ->ofCategoryId($is_categories)
+            ->ofUserSex($is_sex)
+            ->ofSearchKeyword($is_keyword)
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            ->select([
+                'users.*',
+                'evaluations.avg_point as evaluations_avg_point',
+            ]);
     }
 
     /**
@@ -334,6 +357,21 @@ class User extends Authenticatable
     }
 
     /**
+     * 講師のコース一覧を取得する
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getTeachersCourseQuery()
+    {
+        // 講師別の評価値を集計
+        return Course::query()
+            ->select(
+                'courses.user_id'
+            )
+            ->groupBy('courses.user_id');
+    }
+
+    /**
      * 指定レッスンの参加者一覧取得
      *
      * @param int $users_id
@@ -361,7 +399,8 @@ class User extends Authenticatable
      * @return bool|mixed|null
      * @throws \Exception
      */
-    public function deleteLoggedUser() {
+    public function deleteLoggedUser()
+    {
         return self::query()->find(Auth::user()->id)->delete();
     }
 
@@ -394,11 +433,12 @@ class User extends Authenticatable
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                 $join->on('users.id', '=', 'evaluations.user_teacher_id');
             })
-            ->whereExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('lessons')
-                    ->whereRaw('lessons.user_id = users.id');
-            })
+            ->where('is_teacher', 1)
+            // ->whereExists(function ($query) {
+            //     $query->select(DB::raw(1))
+            //         ->from('lessons')
+            //         ->whereRaw('lessons.user_id = users.id');
+            // })
             ->orderByDesc('evaluations.avg_point')
             ->orderBy('users.created_at')
             ->limit(Config::get('const.top_thumbnail_count'))
@@ -434,11 +474,12 @@ class User extends Authenticatable
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                 $join->on('users.id', '=', 'evaluations.user_teacher_id');
             })
-            ->whereExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('lessons')
-                    ->whereRaw('lessons.user_id = users.id');
-            })
+            ->where('is_teacher', 1)
+            // ->whereExists(function ($query) {
+            //     $query->select(DB::raw(1))
+            //         ->from('lessons')
+            //         ->whereRaw('lessons.user_id = users.id');
+            // })
             ->orderByDesc('users.created_at')
             ->limit(Config::get('const.top_thumbnail_count'))
             ->get();
@@ -450,13 +491,13 @@ class User extends Authenticatable
      * @param int $categories_id
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getTeachersList($sex=null,$category_id = null)
+    public function getTeachersList($sex=null,$category_id=null)
     {
         // 講師別の評価値を集計
         $evaluations = $this->getTeachersPointQuery();
 
        //講師のみ
-        $query=self::query()
+        $query = self::query()
             ->select([
                 'users.*',
                 'categories1.name as category1_name',
@@ -466,6 +507,7 @@ class User extends Authenticatable
                 'categories5.name as category5_name',
                 'evaluations.avg_point as evaluations_avg_point',
             ])
+            ->where('is_teacher', 1)
             ->leftJoin('categories as categories1', 'users.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'users.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'users.category3_id', '=', 'categories3.id')
@@ -473,8 +515,8 @@ class User extends Authenticatable
             ->leftJoin('categories as categories5', 'users.category5_id', '=', 'categories5.id')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                 $join->on('users.id', '=', 'evaluations.user_teacher_id');
-            })
-            ->where('status',User::STATUS_TEACHER);//講師のみ
+            }); // 講師のみ
+            // ->where('status',User::STATUS_TEACHER);//講師のみ
 
         //性別があれば性別で絞込
         if($sex){
@@ -497,6 +539,39 @@ class User extends Authenticatable
             $tmp=["evaluations_avg_point","desc"];
         }
         return $query->orderBy($tmp[0],$tmp[1])->paginate(Config::get('const.paginate.teacher'));
+    }
+
+    /**
+     * 講師詳細
+     *
+     * @param int $categories_id
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getTeachersShow($user_id)
+    {
+        // 講師別の評価値を集計
+        $evaluations = $this->getTeachersPointQuery();
+
+        //講師詳細
+        return self::query()
+            ->select([
+                'users.*',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'categories4.name as category4_name',
+                'categories5.name as category5_name',
+                'evaluations.avg_point as evaluations_avg_point',
+            ])
+            ->leftJoin('categories as categories1', 'users.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'users.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'users.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'users.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'users.category5_id', '=', 'categories5.id')
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            ->first();
     }
 
     /**
@@ -531,7 +606,8 @@ class User extends Authenticatable
      *
      * @param array $data
      */
-    public function changeStatus($id) {
+    public function changeStatus($id)
+    {
         $user = self::find($id);
         $user->status = 1;
         $user->save();
@@ -542,12 +618,15 @@ class User extends Authenticatable
      *
      * @param array $data
      */
-    public function saveCategories($request) {
-        $this->category1_id = array_key_exists(0, $request->categories) ? (int)$request->categories[0] : null;
-        $this->category2_id = array_key_exists(1, $request->categories) ? (int)$request->categories[1] : null;
-        $this->category3_id = array_key_exists(2, $request->categories) ? (int)$request->categories[2] : null;
-        $this->category4_id = array_key_exists(3, $request->categories) ? (int)$request->categories[3] : null;
-        $this->category5_id = array_key_exists(4, $request->categories) ? (int)$request->categories[4] : null;
+    public function saveCategories($request)
+    {
+        if($request->categories) {
+            $this->category1_id = array_key_exists(0, $request->categories) ? (int)$request->categories[0] : null;
+            $this->category2_id = array_key_exists(1, $request->categories) ? (int)$request->categories[1] : null;
+            $this->category3_id = array_key_exists(2, $request->categories) ? (int)$request->categories[2] : null;
+            $this->category4_id = array_key_exists(3, $request->categories) ? (int)$request->categories[3] : null;
+            $this->category5_id = array_key_exists(4, $request->categories) ? (int)$request->categories[4] : null;
+        }
     }
 
     //以下二つは本来べつに作るべきかもしりないが利便性をかんがえuserに作成する
@@ -597,6 +676,7 @@ class User extends Authenticatable
     }
 
     /**
+     *
      * 参加人数を取得する
      *
      */

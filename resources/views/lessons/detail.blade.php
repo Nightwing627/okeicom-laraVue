@@ -14,8 +14,33 @@
     {{--
     <lesson-show-component></lesson-show-component>
     --}}
+    {{--  エラーメッセージ  --}}
+    @if ($errors->any())
+    <div class="l-alart errorAlart" role="alert">
+        @foreach ($errors->all() as $error)
+        <p>{{ $error }}</p>
+        @endforeach
+    </div>
+    @endif
 
+    {{--  本文  --}}
 	<div class="l-lessonDetail">
+        @if($checkPurchase)
+        <div class="l-lessonDetail__browsing">
+			<div class="l-allWrapper">
+                {{-- 終了時間による条件分岐 --}}
+                @if(date("Y-m-d H:i:s") <= $finishDate)
+                    @if(date("Y-m-d H:i:s") >= $basicDate)
+                        <a href="{{ $lesson->url }}" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
+                    @else
+                        <p class="lesson-wait">レッスン開始までお待ちください。</p>
+                    @endif
+                @else
+                    <p class="lesson-fin">レッスンは終了しています。</p>
+                @endif
+            </div>
+        </div>
+        @endif
 		<div class="l-lessonDetail__header">
 			<div class="l-allWrapper">
 				<div class="l-lessonDetail__header__inner cf">
@@ -31,7 +56,7 @@
                     >
                     </detail-img-list-component>
 					<div class="c-lessonDetail__info">
-						<div class="other l-flex l-v__center">
+						<div class="other l-flex l-v__center @if(date("Y-m-d H:i:s") >= $basicDate) l-start @endif">
 							<div class="other__price">
 								<p class="price">{{ $lesson->separate_comma_price }}</p>
 								<p class="cancel">キャンセル手数料：{{ $lesson->cancel_rate }}%（¥{{ $lesson->comma_cancel_price }}）</p>
@@ -39,9 +64,18 @@
 							<div class="other__date">
 								<p class="date">{{ $lesson->date_slash }}<span class="week">({{ $lesson->week }})</span><br>{{ $lesson->separate_hyphen_time}}</p>
 							</div>
-							<div class="other_reserve">
-								<a href="{{ route('lessons.application', ['id' => $lesson->id]) }}">予約する</a>
-							</div>
+
+                            @if($checkPurchase)
+                                @if(date("Y-m-d H:i:s") <= $basicDate)
+                                <div class="other_reserve">
+                                    <a href="{{ route('lessons.cancel') }}">キャンセルする</a>
+                                </div>
+                                @endif
+                            @else
+                                <div class="other_reserve">
+                                    <a href="{{ route('lessons.application') }}">予約する</a>
+                                </div>
+                            @endif
 						</div>
                     </div>
                 </div>
@@ -192,7 +226,7 @@
 						<h2>関連コース</h2>
 					</div>
 					<div class="l-scroll__list">
-						<div class="l-scroll__list__wrap l-flex">
+						<div class="l-scroll__list__wrap l-flex l-start">
 
                             @foreach ($relatedLessons as $relate)
                             <div class="c-scroll__box">

@@ -19,7 +19,7 @@
 @endsection --}}
 
 
-@extends('layouts.single')
+@extends('layouts.user-single')
 
 <!-- タイトル・メタディスクリプション -->
 @section('title', 'レッスン購入完了 | おけいcom')

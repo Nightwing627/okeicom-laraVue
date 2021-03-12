@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Http\Requests\Message\SendRequest as MessageSendRequest;
 use App\Http\Requests\User\UpdateRequest as UserUpdateRequest;
 use App\Http\Requests\User\PasswordUpdateRequest as UserPasswordUpdateRequest;
@@ -15,6 +16,7 @@ use App\Models\Prefecture;
 use App\Models\OthersBank;
 use App\Models\JapansBank;
 use App\Models\Withdrawal;
+use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -78,25 +80,80 @@ class StudentController extends Controller
      */
     public function attendanceLessons(Request $request)
     {
-        // $applications_status = $request->query('applications_status') == 1 ? 1 : 0;
-        $status = 0;
-        $lessons = $this->lesson->findByAuthUsersId($status);
-        // dd($lessons);
+        // $status = 0;
+        // $lessons = $this->lesson->findByAuthUsersId($status);
+
+        $user_id = Auth::user()->id;
+        $date = Carbon::now()->format('Y-m-d');
+        $time = Carbon::now()->format('H:m:s');
+
+        // 予約済み一覧を取得
+        $applications = Application::where('user_id', $user_id)->where('status', 0)->get();
+
+        // 受講予定のレッスン一覧
+        $lessons = [];
+        // 対象のレッスン
+        $number = count($applications);
+        for($i = 0; $i < $number; $i++) {
+            $target = $this->lesson->getShowLesson($applications[$i]->lesson_id)
+                            ->where('date', '>', $date)
+                            ->where('finish', '>', $time)
+                            ->where('status', 0)
+                            ->first();
+            if($target) {
+                $lessons[] = $target;
+            }
+        }
+
+        // where('date', '>', $date)->where('finish', '>', $time)->
         return view('students.attendance-lessons', compact('lessons'));
     }
 
     /**
-     * 受講予定済みレッスン一覧
+     * 受講済みレッスン一覧
      *
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function takenLessons(Request $request)
     {
-        // $applications_status = $request->query('applications_status') == 1 ? 1 : 0;
-        $status = 1;
-        $lessons = $this->lesson->findByAuthUsersId($status);
-        // dd($lessons);
+        // $status = 1;
+        // $lessons = $this->lesson->findByAuthUsersId($status);
+
+        $user_id = Auth::user()->id;
+        $date = Carbon::now()->format('Y-m-d');
+        $time = Carbon::now()->format('H:m:s');
+
+        // 予約済み一覧を取得
+        $applications = Application::where('user_id', $user_id)->where('status', 0)->get();
+
+        // 受講予定のレッスン一覧
+        $lessons = [];
+        // 対象のレッスン
+        $number = count($applications);
+        for($i = 0; $i < $number; $i++) {
+            // ステータスとデータが紐づくレッスン一覧を取得
+            $target = $this->lesson->getShowLesson($applications[$i]->lesson_id)
+                                    ->where('date', '<', $date)
+                                    // ->where('finish', '<', $time)
+                                    ->where('status', 0)
+                                    ->first();
+            $course_id = $target->course_id;
+            if($target) {
+                // コースIDの中での番号を取得し、連想配列に入れる
+                $keyIndex = $this->lesson->getLessonNumberOfCourse($course_id, $target->id);
+
+                // レッスン情報に数字を入れる
+                $target['number'] = $keyIndex;
+
+                // レッスン配列にレッスンを入れる
+                $lessons[] = $target;
+            }
+        }
+
+
+        // array_search(3, array_column($lessons, 'id')) + 1
+
         return view('students.taken-lessons', compact('lessons'));
     }
 

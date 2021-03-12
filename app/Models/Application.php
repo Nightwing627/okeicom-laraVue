@@ -15,7 +15,23 @@ class Application extends Model
     const STATUS_COMPLETION = 1;        // 終了済み
     const STATUS_CANCEL_STUDENT = 2;    // 生徒キャンセル（退会時も）
     const STATUS_CANCEL_TEACHER = 3;    // 講師キャンセル（退会時も）
-    const STATUS_CANCEL_ADMIN = 3;      // 運営キャンセル
+    const STATUS_CANCEL_ADMIN = 4;      // 運営キャンセル
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'lesson_id',
+        'user_id',
+        'coupon_id',
+        'status',
+        'cancel_id',
+        'price',
+        'coupon_price',
+        'cancel_price',
+    ];
 
     /**
      * 退会による申込状態の更新

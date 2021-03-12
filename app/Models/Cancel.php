@@ -13,6 +13,19 @@ class Cancel extends Model
 {
     use HasFactory, SoftDeletes;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'application_id',
+        'user_id',
+        'status',
+        'reason',
+        'approval_at',
+    ];
+
     const STATUS_AUTO = 0;              // 24時間以前のキャンセル
     const STATUS_PENDING_TEACHER = 1;   // 講師承認待ち
     const STATUS_PENDING_ADMIN = 2;     // 運営承認待ち

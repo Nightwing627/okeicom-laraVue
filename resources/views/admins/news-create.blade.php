@@ -29,7 +29,6 @@
 					<div class="l-wrap--owner--body--news">
 						<textarea placeholder="本文"></textarea>
 					</div>
-					
 				</div>
 				<div class="l-button--submit">
 					<input type="subit" name="" value="投稿する" class="c-button--square__pink">

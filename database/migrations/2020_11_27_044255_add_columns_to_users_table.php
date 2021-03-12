@@ -16,7 +16,8 @@ class AddColumnsToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('account')->after('password');
             $table->unsignedTinyInteger('status')->nullable()->after('account');
-            $table->unsignedTinyInteger('sex')->default(0)->after('status');
+            $table->unsignedTinyInteger('is_teacher')->default(0)->after('status');
+            $table->unsignedTinyInteger('sex')->default(0)->after('is_teacher');
             $table->unsignedTinyInteger('age')->nullable()->after('sex');
             // $table->unsignedTinyInteger('country_id')->nullable()->after('age');
             $table->string('country_id')->nullable()->after('age');

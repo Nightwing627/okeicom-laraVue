@@ -7,9 +7,11 @@
         <div class="topScreen__text">
             <p class="topScreen__title">自宅で好きな時に<br>習い事！</p>
             <p class="topScreen__sub">オンライン学習サイト<br>「おけい.com」</p>
+            @if( !Auth::check() )
             <div class="topScreen__link">
                 <a class="c-button--round right-arrow-round" href="{{ route('email.verify') }}">新規登録</a>
             </div>
+            @endif
         </div>
     </div>
 </div>

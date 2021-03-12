@@ -64,6 +64,7 @@ class TeacherController extends Controller
         $categories = $this->category->getAll(true);
         $params     = $request->all();
         $teachers   = $this->user->searchTeacher($params)->paginate(20);
+
         return view('teachers.index', compact('teachers', 'params', 'categories'));
     }
 
@@ -141,10 +142,13 @@ class TeacherController extends Controller
     public function detail($id)
     {
         // ユーザー詳細情報
-        // $user = User::find($id);
-        $user    = $this->user->show($id)->first();
-        // dd($user);
-        return view('teachers.detail', compact('user'));
+        $user = $this->user->getTeachersShow($id);
+
+        // ユーザーのレッスン一覧を取得する
+        $lessons = User::find($id)->lessons;
+
+        // ビュー画面
+        return view('teachers.detail', compact('user', 'lessons'));
 
         //取得
         // $user=User::where("id",$id)->where('status',User::STATUS_TEACHER)->first();
@@ -236,7 +240,7 @@ class TeacherController extends Controller
     {
         // コース一覧を取得
         $courses = $this->course->findByUsersId(Auth::user()->id, $this->user::STATUS_TEACHER);
-        // dd($courses);
+        $lessons = DB::table('lessons')->get();
         return view('teachers.course', compact('courses'));
     }
 
@@ -263,13 +267,40 @@ class TeacherController extends Controller
         $course = new Course();
         $course->user_id = Auth::user()->id;
         $lessons = json_decode($request->lessons, true);
-        // dd($lessons);
+
+        // レッスンURLを配列で取得
+        $lessonUrls = Lesson::select(['lessons.view'])->get()->toArray();
+        foreach($lessonUrls as $lessonUrl) {
+            $urls[] = $lessonUrl['view'];
+        }
+
+        // ランダムな整数を配列に入れる
+        for($i = 0; $i < count($lessons); $i++) {
+            if($lessonUrls) {
+                do{
+                    // 12桁のランダムな整数を作成
+                    $randams[$i] = substr(bin2hex(random_bytes(64)), 0, 64);
+                    // DBに登録されているnumberと12桁のランダムな整数が合致するか
+                    $key = in_array($randams[$i], $urls);
+                    // ランダムな整数がDBと同じ場合は、再度ランダムな整数を発行する
+                } while ($key == true);
+            } else {
+                $randams[$i] = substr(bin2hex(random_bytes(64)), 0, 64);
+            }
+        }
+
+        // レッスンに必要な情報を入れる
         foreach ($lessons as $index => $lesson) {
+            // ランダムな整数を配列に入れる
             $models[$index] = Lesson::make($lesson);
             $models[$index]->user_id = $course->user_id;
             $models[$index]->status = 0;
+            // ランダムな整数を確認する
+            // ランダムな整数がBDと同じか確認する
+            // ランダムな整数が同じ
+            $models[$index]->view = $randams[$index];
         }
-        // dd($models);
+
         DB::transaction(function () use($course, $request, $models) {
             // コース追加の処理
             $course->title = $request->title;
@@ -277,6 +308,12 @@ class TeacherController extends Controller
             $course->saveCategories($request);
             $course->saveImgs($request);
             $course->save();
+
+            // ユーザーの講師処理
+            $user_id = Auth::id();
+            $user = User::find($user_id);
+            $user->is_teacher = 1;
+            $user->save();
 
             // レッスンの処理
             $course->lessons()->saveMany($models);

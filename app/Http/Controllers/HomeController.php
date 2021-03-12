@@ -18,6 +18,7 @@ class HomeController extends Controller
         Lesson $lesson,
         User $user
     )
+
     {
         $this->category = $category;
         $this->lesson = $lesson;

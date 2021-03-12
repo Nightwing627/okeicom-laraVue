@@ -12,9 +12,7 @@
 @section('content')
 <div class="l-contentList__wrap l-flex">
     <div class="l-contentList__list">
-
         <div class="l-contentList__list__wrap">
-
             @foreach($courses as $course)
                 <div class="c-contentList__box">
                     <a class="c-contentList__box__inner" :href="'/mypage/t/courses/detail/' + {{ $course->id }}">

@@ -18,8 +18,8 @@
 					<li><a href="/mypage/u/messages/">メッセージ</a></li>
 					<li><a href="/mypage/u/profile/">プロフィール</a></li>
 					<!-- <li><a href="/mypage/u/">クレジットカード情報</a></li> -->
-					<li><a href="/mypage/u/bank/">銀行口座情報</a></li>
-					<li><a href="/mypage/u//trade/">入出金管理</a></li>
+					<!-- <li><a href="/mypage/u/bank/">銀行口座情報</a></li> -->
+					<li><a href="/mypage/u/trade/">入出金管理</a></li>
 				</ul>
 				<ul class="menu-user--content">
 					<li><a href="/lessons/">レッスンを探す</a></li>
@@ -36,8 +36,10 @@
 		<div class="l-flex">
 			<div class="header__left l-flex l-v__center">
 				<div class="header__logo">
-					<img class="sp-only" src="/img/common/okeicom-logo-square.png">
-					<img class="pc-only" src="/img/common/okeicom-logo-side.png">
+                    <a href="/">
+                        <img class="sp-only" src="/img/common/okeicom-logo-square.png">
+                        <img class="pc-only" src="/img/common/okeicom-logo-side.png">
+                    </a>
 				</div>
 				<nav class="header__menu pc-only">
 					<ul class="l-flex">

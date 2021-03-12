@@ -3,34 +3,28 @@
   top: 0;
   left: 0;
   right: 0;
+  z-index: 9998;
   padding: 20px;
-  -webkit-animation-name: alartFadeOut;
-          animation-name: alartFadeOut;
-  -webkit-animation-duration: .5s;
-          animation-duration: .5s;
-  -webkit-animation-delay: 1.5s;
-          animation-delay: 1.5s;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
+  animation-name: alartFadeOut;
+  animation-duration: .5s;
+  animation-delay: 1.5s;
+  animation-fill-mode: forwards;
 }
-
 @media screen and (min-width: 896px) {
   .l-alart {
     font-size: 18px;
     padding: 30px 0;
   }
 }
-
 .l-alart.errorAlart {
   background: rgba(237, 70, 70, 0.8);
   color: #fff;
 }
-
 .l-alart.successAlart {
   background: rgba(62, 137, 224, 0.8);
 }
-
 .l-alart p {
   text-align: center;
 }
+
 /*# sourceMappingURL=l-alart.css.map */

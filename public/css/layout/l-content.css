@@ -12,7 +12,12 @@
   padding: 20px;
   background: #fff;
 }
-
+.l-content--detail__inner .browsing-url {
+  background: #f5f5f5;
+  border: 1px solid #eeeeee;
+  padding: 20px;
+  text-align: center;
+}
 @media screen and (min-width: 896px) {
   .l-content--detail__inner {
     padding: 36px;
@@ -28,13 +33,11 @@
 .l-content--input {
   margin-bottom: 21px;
 }
-
 @media screen and (min-width: 896px) {
   .l-content--input {
     margin-bottom: 26px;
   }
 }
-
 .l-content--input input:not([type=file]), .l-content--input textarea, .l-content--input select {
   width: 100%;
   padding: 10px;
@@ -42,24 +45,20 @@
   border: 1px solid #B4B4B4;
   resize: none;
 }
-
 .l-content--input textarea {
   height: 150px;
 }
-
 .l-content--input .imageBox {
   position: relative;
   width: 200px;
   height: 200px;
   margin: auto;
 }
-
 .l-content--input .imageBox .imageBox-picture {
   position: relative;
   width: 100%;
   height: 100%;
 }
-
 .l-content--input .imageBox .imageBox-icon {
   cursor: pointer;
   position: absolute;
@@ -69,13 +68,11 @@
   height: 50px;
   text-align: center;
 }
-
 .l-content--input .imageBox .imageBox-icon__inner {
   position: relative;
   width: 100%;
   height: 100%;
 }
-
 .l-content--input .imageBox input[type=file] {
   opacity: 0;
   position: absolute;
@@ -123,37 +120,29 @@
   padding: 20px;
   border-bottom: 1px solid #EFEFEF;
 }
-
 @media screen and (max-width: 897px) {
   .l-content--review {
     background: #fff;
   }
 }
-
 .l-content--review .l-content--review--img {
   width: 80px;
 }
-
 @media screen and (min-width: 896px) {
   .l-content--review .l-content--review--img {
     width: 120px;
   }
 }
-
 @media screen and (min-width: 896px) {
   .l-content--review .l-content--review--img .c-mig--shadow {
     padding: 5px;
   }
 }
-
 @media screen and (max-width: 897px) {
   .l-content--review .l-content--review--text {
-    -webkit-box-flex: 1;
-        -ms-flex: 1;
-            flex: 1;
+    flex: 1;
   }
 }
-
 @media screen and (min-width: 896px) {
   .l-content--review .l-content--review--text {
     width: 530px;
@@ -166,4 +155,5 @@
   padding-top: 1em;
   border-top: 1px solid #EFEFEF;
 }
+
 /*# sourceMappingURL=l-content.css.map */

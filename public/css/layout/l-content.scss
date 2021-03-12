@@ -41,6 +41,12 @@ $colorBorderColor: #707070;
 .l-content--detail__inner {
     padding: 20px;
     background: #fff;
+    .browsing-url {
+        background: #f5f5f5;
+        border: 1px solid #eeeeee;
+        padding: 20px;
+        text-align: center;
+    }
     @include mq_up(md) {
         padding: 36px;
         border-bottom: 1px solid #F0F0F0;

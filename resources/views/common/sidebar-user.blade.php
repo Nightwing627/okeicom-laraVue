@@ -3,8 +3,8 @@
 		<a href="{{ route('mypage.u.change') }}" class="u-text--link">講師に切り替える</a>
 	</div>
 	<ul class="sidebar__list">
-		<li class="@if(Request::is('mypage/u/attendance-lessons')) selected @endif"><a href="{{ route('mypage.u.attendance-lessons') }}">受講レッスン</a></li>
-		<li class="@if(Request::is('mypage/u/taken-lessons')) selected @endif"><a href="{{ route('mypage.u.taken-lessons') }}">受講レッスン</a></li>
+		<li class="@if(Request::is('mypage/u/attendance-lessons')) selected @endif"><a href="{{ route('mypage.u.attendance-lessons') }}">受講予定レッスン</a></li>
+		<li class="@if(Request::is('mypage/u/taken-lessons')) selected @endif"><a href="{{ route('mypage.u.taken-lessons') }}">受講済みレッスン</a></li>
 		<li class="@if(Request::is('mypage/u/messages')) selected @endif"><a href="{{ route('mypage.u.messages') }}">メッセージ</a></li>
 		<li class="@if(Request::is('mypage/u/profile')) selected @endif"><a href="{{ route('mypage.u.profile') }}">プロフィール</a></li>
 		{{-- <li class="@if(Request::is('mypage/u/message')) selected @endif"><a href="{{ route('mypage.u.') }}">支払い管理</a></li> --}}

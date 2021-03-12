@@ -21,6 +21,7 @@ class Teacher
         $this->cancel = $cancel;
     }
 
+
     /**
      * Handle an incoming request.
      *

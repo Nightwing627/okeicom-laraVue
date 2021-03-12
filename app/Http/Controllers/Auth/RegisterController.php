@@ -194,6 +194,7 @@ class RegisterController extends Controller
                 'email_verified_at' => Carbon::now(),
                 'password' => Hash::make($data['password']),
                 'account' => $data['account'],
+                'tel' => $data['tel'],
                 'status' => 0,
                 'sex' => $data['sex'],
                 'profile' => $data['profile'],

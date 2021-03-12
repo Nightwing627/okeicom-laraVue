@@ -49,16 +49,18 @@
                     </div>
                 </a>
             </div>
-            <div class="l-pagenation">
-                <ul class="l-pagenation__list">
-                    @for ($i = 1; $i < $lessons->lastPage()+1; $i++)
-                        <li class="{{ $i == $lessons->currentPage() ? 'selected disabled' : ''}}">
-                            <a href="{{ $lessons->withQueryString()->url($i) }}">{{ $i }}</a>
-                        </li>
-                    @endfor
-                </ul>
-            </div>
         @endforeach
+        {{--
+        <div class="l-pagenation">
+            <ul class="l-pagenation__list">
+                @for ($i = 1; $i < $lessons->lastPage()+1; $i++)
+                    <li class="{{ $i == $lessons->currentPage() ? 'selected disabled' : ''}}">
+                        <a href="{{ $lessons->withQueryString()->url($i) }}">{{ $i }}</a>
+                    </li>
+                @endfor
+            </ul>
+        </div>
+        --}}
     </div>
     {{--
     <user-lesson-component

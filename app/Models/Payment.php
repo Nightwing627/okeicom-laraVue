@@ -20,9 +20,12 @@ class Payment extends Model
      * @var array
      */
     protected $fillable = [
+        'application_id',
         'user_teacher_id',
         'user_student_id',
+        'lesson_id',
         'amount',
+        'status',
     ];
 
     /**

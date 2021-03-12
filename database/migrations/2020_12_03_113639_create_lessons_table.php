@@ -20,6 +20,7 @@ class CreateLessonsTable extends Migration
             $table->unsignedTinyInteger('status');
             $table->unsignedTinyInteger('public');
             $table->unsignedTinyInteger('type');
+            $table->string('view', 64);
             $table->string('url', 100)->nullable();
             $table->string('slide', 100)->nullable();
             $table->date('date');

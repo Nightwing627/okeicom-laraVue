@@ -1,8 +1,8 @@
-@extends('layouts.single')
+@extends(($user_status == 0)?'layouts.user-single':'layouts.teacher-single')
 
 <!-- タイトル・メタディスクリプション -->
-@section('title', 'クレジットカード決済 | おけいcom')
-@section('description', 'おけいcomのクレジットカード決済ページです。')
+@section('title', 'クレジットカード決済完了 | おけいcom')
+@section('description', 'おけいcomのクレジットカード決済完了ページです。')
 
 <!-- CSS -->
 @push('css')
@@ -27,17 +27,3 @@
 	</div>
 </div>
 @endsection
-
-
-{{--
-@extends('layouts.app')
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <h2>クレジットカード決済完了</h2>
-            </div>
-        </div>
-    </div>
-@endsection
---}}
