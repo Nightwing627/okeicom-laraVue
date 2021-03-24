@@ -11,18 +11,15 @@
   background: #ED6C73;
   text-align: center;
 }
-
 @media screen and (min-width: 896px) {
   .c-button--round {
     height: 50px;
     line-height: 50px;
   }
 }
-
 .c-button--round.right-arrow-round {
   position: relative;
 }
-
 .c-button--round.right-arrow-round:before {
   content: "";
   display: block;
@@ -31,8 +28,7 @@
   position: absolute;
   right: 10px;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   background: url(/../img/common/icon-arrow-round-right-white.png) center/contain no-repeat;
 }
 
@@ -53,13 +49,11 @@
 .c-tab--button {
   width: 49%;
 }
-
 @media screen and (min-width: 896px) {
   .c-tab--button {
     width: 164px;
   }
 }
-
 .c-tab--button a,
 .c-tab--button button {
   width: 100%;
@@ -72,9 +66,7 @@
   background: #fff;
   color: #ED6C73;
 }
-
-.c-tab--button.selected a,
-.c-tab--button.selected button {
+.c-tab--button.selected a, .c-tab--button.selected button {
   background: #ED6C73;
   color: #fff;
 }
@@ -83,7 +75,6 @@
 .c-button--tab {
   width: 100%;
 }
-
 .c-button--tab .c-button--tab--inner {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -96,7 +87,6 @@
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
-
 .c-button--tab .c-button--tab--box {
   text-align: center;
   border: 1px solid #BBBFD8;
@@ -104,32 +94,26 @@
   border-radius: 3px;
   padding: 10px 0;
 }
-
 .c-button--tab .c-button--tab--box.selected {
   border: 1px solid #373B50;
   background: #373B50;
   color: #fff;
 }
-
 .c-button--tab.top-tab {
   padding-bottom: 20px;
   border-bottom: 1px solid #EFEFEF;
 }
-
 @media screen and (max-width: 897px) {
   .c-button--tab.top-tab {
     padding: 10px 20px;
   }
 }
-
 .c-button--tab.two-tab .c-button--tab--box {
   width: 49%;
 }
-
 .c-button--tab.three-tab .c-button--tab--box {
   width: 32%;
 }
-
 .c-button--tab.four-tab .c-button--tab--box {
   width: 24%;
 }
@@ -139,18 +123,15 @@
   text-align: center;
   padding: 15px 0;
 }
-
 .c-openButton a {
   color: #3188FF;
 }
-
 .c-openButton img {
   width: 12px;
   vertical-align: middle;
   display: inline-block;
   margin-right: 4px;
 }
-
 .c-openButton span.close {
   display: inline-block;
   padding: 10px 60px;
@@ -162,13 +143,12 @@
   display: block;
   width: 100%;
   padding: 15px 0;
-  max-width: 280px;
+  max-width: 328px;
   margin: auto;
   background: #ED6C73;
   border-radius: 3px;
   color: #fff;
 }
-
 .c-button--square__pink:disabled {
   background: #dcdcdc;
 }
@@ -202,13 +182,11 @@
     border-bottom: 1px solid #EFEFEF;
   }
 }
-
 @media screen and (min-width: 896px) {
   .c-button--add {
     margin-bottom: 20px;
   }
 }
-
 .c-button--add a {
   cursor: pointer;
   position: relative;
@@ -218,10 +196,8 @@
   border: 1px solid #3188FF;
   color: #3188FF;
   font-weight: 700;
-  -webkit-transition: .3s;
   transition: .3s;
 }
-
 .c-button--add a:before {
   content: "";
   display: block;
@@ -231,14 +207,11 @@
   position: absolute;
   right: 10px;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
-
 .c-button--add a:hover {
   background: #EBF4FF;
 }
-
 .c-button--add.border-dashed a {
   border: 1px dashed #3188FF;
 }
@@ -249,13 +222,11 @@
     border-bottom: 1px solid #EFEFEF;
   }
 }
-
 @media screen and (min-width: 896px) {
   .c-button--minus {
     margin-bottom: 20px;
   }
 }
-
 .c-button--minus a {
   position: relative;
   display: inline-block;
@@ -265,7 +236,6 @@
   color: #ED6C73;
   font-weight: 700;
 }
-
 .c-button--minus a:before {
   content: "";
   display: block;
@@ -275,8 +245,7 @@
   position: absolute;
   right: 10px;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 /* 編集・削除ボタン */
@@ -293,19 +262,16 @@
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   /* 高さ中央揃え */
+  -webkit-align-items: center;
   -ms-align-items: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: flex-end;
 }
-
 .c-button--edit.one-button {
   width: 50px;
 }
-
 .c-button--edit .c-button--edit--link {
   display: block;
   width: 50px;
@@ -314,18 +280,16 @@
   background: #fff;
   text-align: center;
 }
-
 .c-button--edit .c-button--edit--link:nth-child(2) {
   margin-left: 5px;
 }
-
 .c-button--edit .c-button--edit--link.delete {
   border: 1px solid #ED6C73;
   color: #ED6C73;
 }
-
 .c-button--edit .c-button--edit--link.edit {
   border: 1px solid #373B50;
   color: #373B50;
 }
+
 /*# sourceMappingURL=c-button.css.map */

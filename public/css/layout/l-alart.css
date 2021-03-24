@@ -27,4 +27,16 @@
   text-align: center;
 }
 
+.l-alart__text {
+  padding: 1em;
+  margin-top: .5em;
+}
+.l-alart__text.errorAlart {
+  background: #ffeaea;
+  color: #fff;
+}
+.l-alart__text.successAlart {
+  background: #eaf4ff;
+}
+
 /*# sourceMappingURL=l-alart.css.map */

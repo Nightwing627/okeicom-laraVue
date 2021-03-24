@@ -176,6 +176,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // captcha
+        Mews\Captcha\CaptchaServiceProvider::class,
+
     ],
 
     /*
@@ -228,6 +231,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        // captcha
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
     ],
 
 ];

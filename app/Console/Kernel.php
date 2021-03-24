@@ -27,14 +27,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // スケジュールを実行させるタイミング
-        // $lessons = DB::table('lessons')->get();
-        // foreach($lessons as $index => $lesson) {
-        //     $schedule
-        //         ->command('command:lesson_finish')
-        //         ->withoutOverlapping()
-        //         ->cron('* * * * *');
-        // }
-
+        $lessons = DB::table('lessons')->get();
+        foreach($lessons as $index => $lesson) {
+            $schedule
+                ->command('command:lesson_finish')
+                ->withoutOverlapping()
+                ->cron('* * * * *');
+        }
     }
 
     /**

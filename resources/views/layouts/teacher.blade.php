@@ -3,7 +3,7 @@
 @include("../common/head")
 <body>
     <div id="app" class="login-user">
-        <header-teacher-component :csrf="{{json_encode(csrf_token())}}"></header-teacher-component>
+        <header-teacher-component :csrf="{{json_encode(csrf_token())}}" user-img="{{ Auth::user()->img }}"></header-teacher-component>
         <main>
             <div class="l-wrap--body">
                 <div class="l-wrap l-flex">

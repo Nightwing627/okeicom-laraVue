@@ -48,7 +48,7 @@ $colorBorderColor: #707070;
         text-align: center;
     }
     @include mq_up(md) {
-        padding: 36px;
+        padding: 40px;
         border-bottom: 1px solid #F0F0F0;
     }
 }

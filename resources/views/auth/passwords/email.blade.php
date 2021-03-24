@@ -84,8 +84,8 @@
                     </div>
                     <div class="l-content--inputLink">
                         <ul>
-                            <li class="u-mb10"><a href="" class="u-text--link">ログイン画面はコチラ</a></li>
-                            <li><a href="" class="u-text--link">新規登録はコチラ</a></li>
+                            <li class="u-mb10"><a href="{{ route('login') }}" class="u-text--link">ログイン画面はコチラ</a></li>
+                            <li><a href="{{ route('email.verify') }}" class="u-text--link">新規登録はコチラ</a></li>
                         </ul>
                     </div>
                 </div>

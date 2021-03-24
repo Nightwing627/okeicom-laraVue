@@ -46,6 +46,7 @@ Route::get('sign-up/register/{token}', [UserRegister::class, 'showRegistrationFo
 Route::post('sign-up/register/{token}', [UserRegister::class, 'register'])->name('sign-up.store');
 Route::get('sign-up/complete', [UserRegister::class, 'completeRegister'])->name('sign-up.complete');
 
+
 // 管理者認証
 Route::prefix('owner-admin')->name('admins.')->group(function () {
     Route::middleware('guest')->group(function () {
@@ -230,6 +231,9 @@ Route::name('pages.')->group(function () {
 // 検索
 Route::get('search', [SearchController::class, 'index'])->name('search.index');
 
-// 問い合わせ
-Route::get('contact', [ContactController::class, 'contact'])->name('contact');
-Route::post('contact', [ContactController::class, 'doContact'])->name('contact.do');
+
+/* お問い合わせ */
+// 入力画面
+Route::get('contact', [ContactController::class, 'index'])->name('contact');
+// 送信完了
+Route::post('contact', [ContactController::class, 'send'])->name('contact.send');

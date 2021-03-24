@@ -92,7 +92,8 @@
 						<li class="menu-profile">
 							<a class="c-img--shadow" @click.prevent="toggleMenuUser">
 								<div class="c-img--cover c-img--round">
-									<img src="/img/common/screen-top.jpg" alt="メニューアイコン">
+									<!-- <img src="/img/common/screen-top.jpg" alt="メニューアイコン"> -->
+                                    <img :src="'/storage/profile/' + this.userImg" alt="メニューアイコン">
 								</div>
 							</a>
 						</li>
@@ -115,7 +116,7 @@
 				<!-- <li><a href="/company.php">会社概要</a></li> -->
 				<!-- <li><a href="/flow/">料金決済の流れ</a></li> -->
 				<li><a href="/tokushoho/">特定商取引法に基づく表記</a></li>
-				<li><a href="mailtp:chankan77@gmail.com">お問い合わせ</a></li>
+				<li><a href="mailto:chankan77@gmail.com">お問い合わせ</a></li>
 			</ul>
 			<p class="c-sp-headline nav--title">講師向け</p>
 			<ul class="nav-global__list">
@@ -141,7 +142,11 @@
             csrf: {
                 type: String,
                 required: true,
-            }
+            },
+            userImg: {
+                type: String,
+                required: true,
+            },
         },
 		data() {
 			return {
@@ -151,11 +156,10 @@
 			}
 		},
 		created: function() {
-		    // 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
+            // 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
 		},
 		computed: {},
 		methods: {
-
 			// 検索画面を開く
 			openSearch: function() {
 				this.searchShow = !this.searchShow

@@ -11,12 +11,10 @@
 <!-- 本文 -->
 @section('content')
 <div class="l-wrap--single">
-
     <div class="l-wrap--title">
         <h1 class="c-headline--screen u-textAlign__center">新規登録</h1>
     </div>
     <div class="l-wrap--body">
-        <div class="l-wrap--main l-wrap--detail">
         <div class="l-wrap--main l-wrap--detail">
 
             <div class="l-content--detail">

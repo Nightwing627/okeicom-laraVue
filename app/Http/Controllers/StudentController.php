@@ -95,11 +95,12 @@ class StudentController extends Controller
         // 対象のレッスン
         $number = count($applications);
         for($i = 0; $i < $number; $i++) {
-            $target = $this->lesson->getShowLesson($applications[$i]->lesson_id)
-                            ->where('date', '>', $date)
-                            ->where('finish', '>', $time)
-                            ->where('status', 0)
-                            ->first();
+            $target = $this->lesson
+                ->getShowLesson($applications[$i]->lesson_id)
+                ->where('date', '>', $date)
+                ->where('finish', '>', $time)
+                ->where('status', 0)
+                ->first();
             if($target) {
                 $lessons[] = $target;
             }

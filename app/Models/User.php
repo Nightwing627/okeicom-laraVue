@@ -554,6 +554,7 @@ class User extends Authenticatable
 
         //講師詳細
         return self::query()
+            ->where('users.id', $user_id)
             ->select([
                 'users.*',
                 'categories1.name as category1_name',

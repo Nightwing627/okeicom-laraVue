@@ -130,7 +130,7 @@
                             <div class="l-content--inputLink">
                                 <ul>
                                     <li class="u-mb10"><a href="{{ route('password.request') }}" class="u-text--link">パスワードを忘れた方はコチラ</a></li>
-                                    <li><a href="" class="u-text--link">新規登録はコチラ</a></li>
+                                    <li><a href="{{ route('email.verify') }}" class="u-text--link">新規登録はコチラ</a></li>
                                 </ul>
                             </div>
                         </form>
