@@ -76,8 +76,7 @@
                         <div class="l-content--input">
                             <p class="l-content--input__headline">件名</p>
                             <div class="c-selectBox u-mb5">
-                                <select name="subject" required="required" value="{{ old('subject') }}">
-                                    <option value="0">選択</option>
+                                <select name="subject" required="required" value="{{ old('subject') ?? 1 }}">
                                     <option value="1">会員登録について</option>
                                     <option value="2">入金確認依頼</option>
                                     <option value="3">講師・レッスンについて</option>

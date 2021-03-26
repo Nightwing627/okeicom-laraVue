@@ -50,11 +50,14 @@ return [
         ],
 
         'mailgun' => [
-            'transport' => 'mailgun',
+            // 'transport' => 'mailgun',
+            'domain' => env('MAILGUN_DOMAIN'),
+            'secret' => env('MAILGUN_SECRET'),
         ],
 
         'postmark' => [
-            'transport' => 'postmark',
+            // 'transport' => 'postmark',
+            'token' => env('POSTMARK_TOKEN'),
         ],
 
         'sendmail' => [
@@ -84,8 +87,12 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@okeicom.com'),
+        'name' => env('MAIL_FROM_NAME', 'おけいcom'),
+    ],
+    'reply_to' => [
+        'address' => env('MAIL_FROM_ADDRESS', 'info@okeicom.com'),
+        'name' => env('MAIL_FROM_NAME', 'おけいcom'),
     ],
 
     /*

@@ -134,11 +134,13 @@ class StudentController extends Controller
         $number = count($applications);
         for($i = 0; $i < $number; $i++) {
             // ステータスとデータが紐づくレッスン一覧を取得
-            $target = $this->lesson->getShowLesson($applications[$i]->lesson_id)
-                                    ->where('date', '<', $date)
-                                    // ->where('finish', '<', $time)
-                                    ->where('status', 0)
-                                    ->first();
+            $target = $this
+                ->lesson
+                ->getShowLesson($applications[$i]->lesson_id)
+                ->where('date', '<', $date)
+                // ->where('finish', '<', $time)
+                ->where('status', 0)
+                ->first();
             $course_id = $target->course_id;
             if($target) {
                 // コースIDの中での番号を取得し、連想配列に入れる

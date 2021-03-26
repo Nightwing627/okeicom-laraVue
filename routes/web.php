@@ -237,3 +237,4 @@ Route::get('search', [SearchController::class, 'index'])->name('search.index');
 Route::get('contact', [ContactController::class, 'index'])->name('contact');
 // 送信完了
 Route::post('contact', [ContactController::class, 'send'])->name('contact.send');
+Route::get('contact/complete', [ContactController::class, 'complete'])->name('contact.complete');

@@ -31,7 +31,7 @@ class ContactRequest extends FormRequest
                 'class'     => 'required|integer',
                 'subject'   => 'required|integer',
                 'detail'    => 'required|max:1000',
-                'captcha'   => 'required|captcha'
+                // 'captcha'   => 'required|captcha'
             ];
         } else {
             return [
@@ -41,7 +41,7 @@ class ContactRequest extends FormRequest
                 'subject'   => 'required|integer',
                 'img'       => 'image',
                 'detail'    => 'required|max:1000',
-                'captcha'   => 'required|captcha'
+                // 'captcha'   => 'required|captcha'
             ];
         }
 
@@ -52,6 +52,17 @@ class ContactRequest extends FormRequest
      *
      * @return array
      */
+    // public function attributes() {
+    //     return [
+    //         'email' => 'メールアドレス',
+    //         'name' => 'お名前／表示名',
+    //         'class' => '区分',
+    //         'subject' => '件名',
+    //         'img' => '画像',
+    //         'detail' => '内容',
+    //         'captcha' => 'キャプチャ',
+    //     ];
+    // }
     public function messages()
     {
         return [
