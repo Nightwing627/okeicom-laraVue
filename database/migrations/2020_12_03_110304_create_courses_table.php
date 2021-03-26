@@ -16,8 +16,8 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id');
-            $table->string('title');
-            $table->string('detail')->nullable();
+            $table->string('title', 255);
+            $table->string('detail', 1000)->nullable();
             $table->unsignedTinyInteger('category1_id')->nullable();
             $table->unsignedTinyInteger('category2_id')->nullable();
             $table->unsignedTinyInteger('category3_id')->nullable();

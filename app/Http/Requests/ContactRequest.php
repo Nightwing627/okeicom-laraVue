@@ -31,7 +31,7 @@ class ContactRequest extends FormRequest
                 'class'     => 'required|integer',
                 'subject'   => 'required|integer',
                 'detail'    => 'required|max:1000',
-                // 'captcha'   => 'required|captcha'
+                'captcha'   => 'required|captcha'
             ];
         } else {
             return [
@@ -41,7 +41,7 @@ class ContactRequest extends FormRequest
                 'subject'   => 'required|integer',
                 'img'       => 'image',
                 'detail'    => 'required|max:1000',
-                // 'captcha'   => 'required|captcha'
+                'captcha'   => 'required|captcha'
             ];
         }
 

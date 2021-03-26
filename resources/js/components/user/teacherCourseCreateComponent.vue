@@ -136,7 +136,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 </template>
 <script>
@@ -221,7 +221,7 @@
 								break
 							}
 							i += 1
-							
+
 						} else {
 							this.couseDetailFiles[index+i-1].url = ""
 							this.couseDetailFiles[index+i-1].isAdd = true

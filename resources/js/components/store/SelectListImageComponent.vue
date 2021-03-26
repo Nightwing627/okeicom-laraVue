@@ -30,7 +30,7 @@
 <script>
 	export default {
         components: {},
-        props: ['course'],
+        props: ['course', 'old'],
         data() {
             return {
                 courseDate: this.course ?? '',

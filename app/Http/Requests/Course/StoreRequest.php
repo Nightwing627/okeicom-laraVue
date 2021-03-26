@@ -24,14 +24,14 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'img1' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
-            'img2' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
-            'img3' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
-            'img4' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
-            'img5' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
+            'img1'       => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
+            'img2'       => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
+            'img3'       => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
+            'img4'       => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
+            'img5'       => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
             'categories' => ['required', 'array', 'max:5'],
-            'title' => ['required', 'string', 'max:255'],
-            'detail' =>['nullable', 'string', 'max:255'],
+            'title'      => ['required', 'string', 'max:255'],
+            'detail'     => ['nullable', 'string', 'max:1000'],
         ];
     }
 
@@ -51,16 +51,6 @@ class StoreRequest extends FormRequest
             'categories' => 'カテゴリー',
             'title' => 'タイトル',
             'detail' => '詳細',
-        ];
-    }
-
-    /**
-     * @return array|string[]
-     */
-    public function messages()
-    {
-        return [
-            'categories.max' => 'カテゴリーは最大5つまで指定できます。',
         ];
     }
 }

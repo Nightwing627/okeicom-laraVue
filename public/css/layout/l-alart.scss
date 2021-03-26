@@ -62,10 +62,11 @@ $bgMainColor: #F6F5F7;
     margin-top: .5em;
     &.errorAlart {
         background: #ffeaea;
-        color: #fff;
+        color: #ed4646;
     }
     &.successAlart {
         background: #eaf4ff;
+        color: 3e89e0;
     }
 }
 

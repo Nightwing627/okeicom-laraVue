@@ -33,10 +33,11 @@
 }
 .l-alart__text.errorAlart {
   background: #ffeaea;
-  color: #fff;
+  color: #ed4646;
 }
 .l-alart__text.successAlart {
   background: #eaf4ff;
+  color: 3e89e0;
 }
 
 /*# sourceMappingURL=l-alart.css.map */

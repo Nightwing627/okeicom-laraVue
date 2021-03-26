@@ -7,6 +7,7 @@
                 :ref="'target' + index"
                 :checked="false"
                 :value="category.id"
+                v-model="checkcategories"
                 @click="categorySubmit('target' + index)"
             >
             <label>{{ category.name }}</label>
@@ -16,7 +17,7 @@
 <script>
 	export default {
         components: {},
-        props: ['categorieslists', 'course', 'user'],
+        props: ['categorieslists', 'course', 'user', 'categories'],
 		data() {
             return {
                 categoriesDate: this.categorieslists ?? '',
@@ -26,7 +27,9 @@
                 checkbox: 0,
             }
         },
-		created: function() {},
+		created: function() {
+            console.log(this.categories)
+        },
         mounted: function () {
             // [初期設定] コースの持つカテゴリーと同じカテゴリーをチェック
             if(this.courseDate) {

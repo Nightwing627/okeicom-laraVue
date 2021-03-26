@@ -172,8 +172,10 @@
                                 class="form-control"
                                 type="text"
                                 v-on:keyup="validationCheck"
-                                v-model="textValidation"
-                                placeholder="タイトルを入力してください">
+                                v-model="course.title"
+                                placeholder="タイトルを入力してください"
+                            >
+                            <p class="l-alart__text errorAlart" v-if="errors.title">{{ errors.title[0] }}</p>
                             <!-- <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus placeholder="タイトルを入力してください"> -->
                         </div>
                         <div class="l-content--input">
@@ -181,8 +183,11 @@
                             <textarea
                                 id="detail"
                                 class="form-control"
-                                name="detail">
+                                name="detail"
+                                v-model="course.detail"
+                            >
                             </textarea>
+                            <p class="l-alart__text errorAlart" v-if="errors.detail">{{ errors.detail[0] }}</p>
                             <!-- <textarea id="detail" class="form-control @error('detail') is-invalid @enderror" name="detail" required autocomplete="detail" cols="50" rows="10">{{ old('detail') }}</textarea> -->
                         </div>
                     </div>
@@ -193,6 +198,7 @@
                         <select-image
                             @add="addImage"
                             @remove="removeImage"
+                            :old="old"
                         ></select-image>
                     </div>
                 </div>
@@ -200,9 +206,10 @@
                     <div class="c-headline--block">カテゴリーを選択</div>
                     <div class="l-content--detail__inner">
                         <select-category
-                            :categorieslists="categories_list"
                             @addCategory="addCheckbox"
                             @reduceCategory="reduceCheckbox"
+                            :categorieslists="categories_list"
+                            :categories="old.categories"
                         ></select-category>
                     </div>
                 </div>
@@ -241,7 +248,7 @@
             </div>
         </div>
         <div class="l-button--submit" v-show="page1">
-            <button class="c-button--square__pink" type="button" @click="nextPage" :disabled="checkNext">ステップ2に進む</button>
+            <button class="c-button--square__pink" type="button" @click="nextPage" :disabled="checkNextStep">ステップ2に進む</button>
         </div>
         <div class="l-button--submit" v-show="page2">
             <div class="l-button--submit--two">
@@ -286,7 +293,18 @@
             'vuejs-datepicker-component': VuejsDatepickerComponent,
             moment: moment
         },
-        props: ['course', 'categories_list', 'csrf'],
+        props: [
+            'course',
+            'categories_list',
+            'csrf',
+            'old',
+            'errors',
+            'img1',
+            'img2',
+            'img3',
+            'img4',
+            'img5',
+        ],
 		data() {
             return {
                 // [修正] page1 true / page2 false
@@ -300,20 +318,23 @@
                 //     {public: 0 ,type: 0, url: 'https://wwww.yuotube.com', slide: '', date: '2020-12-31', start: '00:00:00', finish: '00:00:00', price: '300', cancel_rate: '30', title: 'title', detail: 'dtaildetaildtaildetaildtaildetail'},
                 //     {public: 0 ,type: 0, url: 'https://wwww.yuotube.com', slide: '', date: '2020-12-31', start: '00:00:00', finish: '00:00:00', price: '300', cancel_rate: '30', title: 'title', detail: 'dtaildetaildtaildetaildtaildetail'},
                 // ],
+                // 次のステップへ
+                checkNextStep: true,
                 // [ステップ1]
-                // ボタンのバリデーション
-                checkNext: true,
-                textValidation: '',     // ステップ1：タイトルのバリデーション
-                categoryValidation: 0,  // ステップ1：カテゴリーのバリデーション
+                course : {
+                    title: this.old.title ?? '', // タイトル
+                    detail: this.old.detail ?? '', // 詳細
+                    category: this.old.category ?? '' // カテゴリー
+                },
+                // categoryValidation: 0,    // カテゴリー
                 validationNumber: 0,
-                // [ステップ2] 保存ボタンのバリデーション
+                // [ステップ2]
                 checkStore: true,
                 // [レッスン追加]
-                checkLesson: true,
-                isLessonModal: false,
-                changeModalEdit: false,
+                checkLesson: true,        // レッスン
+                isLessonModal: false,     // レッスンの有無
+                changeModalEdit: false,   // 編集モデル
                 isType: 1,
-                // data-timepicker
                 startFormat: '00:00',
                 finishFormat: '00:00',
                 minInterval: 5,
@@ -345,13 +366,13 @@
 		created: function() {
             // [ステップ1]のボタンのバリデーションチェック
             this.$watch(
-                () => [this.$data.categoryValidation, this.$data.textValidation, this.validationNumber],
+                () => [this.$data.course.category, this.$data.course.title, this.validationNumber],
                 // valueやoldValueの型は上で返した配列になる
                 (value, oldValue) => {
-                    if(this.categoryValidation == 0 || this.textValidation == '' || this.validationNumber == 0) {
-                        this.checkNext = true;
-                    } else if (this.categoryValidation > 0 && !this.textValidation == '' && this.validationNumber > 0) {
-                        this.checkNext = false;
+                    if(this.course.category == 0 || this.course.title == '' || this.validationNumber == 0) {
+                        this.checkNextStep = true;
+                    } else if (this.course.category > 0 && !this.course.title == '' && this.validationNumber > 0) {
+                        this.checkNextStep = false;
                     }
                 }
             ),
@@ -373,10 +394,10 @@
             // [ステップ1]
             // バリデーション：カテゴリーの値
             addCheckbox: function() {
-                this.categoryValidation += 1;
+                this.course.category += 1;
             },
             reduceCheckbox: function() {
-                this.categoryValidation -= 1;
+                this.course.category -= 1;
             },
             // バリデーション：画像の値
             addImage: function() {

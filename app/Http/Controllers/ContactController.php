@@ -59,7 +59,7 @@ class ContactController extends Controller
         Mail::send(new \App\Mail\ContactMail([
             'to' => $validated['email'],
             'to_name' => $validated['name'],
-            'from' => 'info@more-be.com',
+            'from' => 'info@okeicom.com',
             'from_name' => '【自動返信】お問い合わせ完了 おけいcom',
             'subject' => 'お問い合わせありがとうございました。',
             'body' => $validated,
@@ -68,7 +68,7 @@ class ContactController extends Controller
 
         // 自社への受信メール
         Mail::send(new \App\Mail\ContactMail([
-            'to' => 'chankan77@gmail.com',
+            'to' => 'info@okeicom.com',
             'to_name' => 'おけいcom',
             'from' => $validated['email'],
             'from_name' => $validated['name'],
