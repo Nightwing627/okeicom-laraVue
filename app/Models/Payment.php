@@ -215,4 +215,19 @@ class Payment extends Model
 
         return $details->reverse();
     }
+
+    /**
+     * 決済確定処理
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|Model|object|null
+     */
+    public function settlementConfirmed($user_id)
+    {
+        // $payments = self::where('id', '=', $user_id)
+        //     ->where('status', '=', 0)
+        //     ->get();
+        // foreach($payments as $payment) {
+        //     //
+        // }
+    }
 }

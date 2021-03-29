@@ -13,7 +13,6 @@
     <div class="l-contentList__list__wrap">
         @foreach($lessons as $lesson)
             <div class="c-contentList__box">
-                {{ $lesson->id }}
                 <a class="c-contentList__box__inner" href="{{ route('lessons.detail', ['id' => $lesson->id]) }}">
                     <div class="c-contentList__box__img">
                         <div class="c-img--cover">

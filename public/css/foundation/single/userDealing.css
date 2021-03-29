@@ -13,14 +13,12 @@
   flex-wrap: wrap;
   border-bottom: 1px solid #EFEFEF;
 }
-
 @media screen and (min-width: 896px) {
   .user-detaling-total {
     margin-bottom: 20px;
     padding-bottom: 20px;
   }
 }
-
 @media screen and (max-width: 897px) {
   .user-detaling-total {
     padding: 10px 20px;
@@ -31,20 +29,16 @@
   position: relative;
   border: 1px solid #B4B4B4;
   border-radius: 3px;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  flex: 1;
   height: 50px;
   line-height: 50px;
   text-align: center;
 }
-
 @media screen and (max-width: 897px) {
   .user-detaling-total--price {
     margin-bottom: 10px;
   }
 }
-
 @media screen and (min-width: 896px) {
   .user-detaling-total--price {
     height: 60px;
@@ -52,7 +46,6 @@
     border-radius: 3px 0 0 3px;
   }
 }
-
 .user-detaling-total--price:before {
   content: "保有金額";
   display: block;
@@ -64,7 +57,6 @@
   height: auto;
   line-height: 1em;
 }
-
 @media screen and (min-width: 896px) {
   .user-detaling-total--price:before {
     left: 5px;
@@ -72,12 +64,10 @@
     font-size: 12px;
   }
 }
-
 .user-detaling-total--price span {
   font-size: 16px;
   font-weight: 700;
 }
-
 @media screen and (min-width: 896px) {
   .user-detaling-total--price span {
     font-size: 20px;
@@ -87,13 +77,11 @@
 .user-detaling-total--request {
   width: 100%;
 }
-
 @media screen and (min-width: 896px) {
   .user-detaling-total--request {
     width: 200px;
   }
 }
-
 .user-detaling-total--request a {
   display: block;
   text-align: center;
@@ -104,13 +92,16 @@
   border-radius: 3px;
   color: #fff;
 }
-
 @media screen and (min-width: 896px) {
   .user-detaling-total--request a {
     height: 60px;
     line-height: 60px;
     border-radius: 0 3px 3px 0;
   }
+}
+.user-detaling-total--request a.disabled {
+  background: #dcdcdc;
+  pointer-events: none;
 }
 
 /* 期間 */
@@ -128,33 +119,27 @@
   /* 横並び */
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-align-items: center;
   -ms-align-items: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
 }
-
 @media screen and (min-width: 896px) {
   .l-list--deal--period {
     margin-bottom: 10px;
     padding: 0 0 10px 0;
   }
 }
-
 .l-list--deal--period p {
   margin-right: 1em;
 }
-
 .l-list--deal--period .c-selectBox {
   width: 150px;
 }
-
 @media screen and (min-width: 896px) {
   .l-list--deal--period .c-selectBox {
     width: 200px;
   }
 }
-
 .l-list--deal--period .c-selectBox select {
   border: 1px solid #B4B4B4;
   width: 100%;
@@ -196,7 +181,6 @@
     white-space: nowrap;
   }
 }
-
 /* 取引詳細：パソコン */
 @media screen and (max-width: 897px) {
   .l-list--deal--detail--content {
@@ -217,9 +201,7 @@
     width: 125px;
   }
   .l-list--deal--detail--content .detail {
-    -webkit-box-flex: 1;
-        -ms-flex: 1;
-            flex: 1;
+    flex: 1;
     text-align: right;
     color: #9D9D9D;
     font-size: 12px;
@@ -242,4 +224,5 @@
     font-size: 12px;
   }
 }
+
 /*# sourceMappingURL=userDealing.css.map */

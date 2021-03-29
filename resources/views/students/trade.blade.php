@@ -1,25 +1,28 @@
 @extends(($user_status == 0)?'layouts.user':'layouts.teacher')
 
-<!-- タイトル・メタディスクリプション -->
+{{--  タイトル・メタディスクリプション  --}}
 @section('title', '入出金管理')
 @section('description', '入出金管理')
 
-<!-- CSS -->
+{{--  CSS  --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/userDealing.css') }}">
 @endpush
 
-<!-- 本文 -->
+{{-- 本文  --}}
 @section('content')
     <div class="user-detaling-total">
         <div class="user-detaling-total--price">
             <span>{{ $holding_amount->separate_comma_amount }}</span>
         </div>
         <div class="user-detaling-total--request">
-            <a href="{{ route('mypage.u.payment.create') }}">出金リクエスト</a>
+            <a href="{{ route('mypage.u.payment.create') }}" @if($holding_amount->separate_comma_amount == '¥0') class="disabled" disabled="disabled" tabindex="-1" @endif>出金リクエスト</a>
+            {{--  <form method="POST" action="{{ route('mypage.u.payment.create') }}">
+                <button type="submit" class="c-button--square__pink" @if($holding_amount->separate_comma_amount == '¥0') disabled @endif>出金リクエスト</button>
+            </form>  --}}
         </div>
     </div>
-    <!-- tab：ゆうちょ -->
+    {{--  tab：ゆうちょ  --}}
     <div class="l-list--deal">
         <div class="l-list--deal--period">
             <p class="u-color--grayNavy u-text--small">表示対象期間</p>
@@ -32,7 +35,7 @@
                 </select>
             </div>
         </div>
-        <!-- スマホ -->
+        {{--  スマホ  --}}
         <div class="l-list--deal--detail sp-only">
             @foreach ($trade_details as $trade_detail)
             <div class="l-list--deal--detail--content">
@@ -53,7 +56,7 @@
             </div>
             @endforeach
         </div>
-        <!-- PC -->
+        {{--  PC  --}}
         <div class="l-list--deal--detail pc-only">
             <table>
                 <thead>
@@ -95,37 +98,3 @@
         </div>
     </div>
 @endsection
-
-
-
-{{-- @extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h2>入出金履歴</h2>
-            <p>保有金額</p>
-            <a class="" href="{{ route('mypage.u.payment.create') }}">
-                出金リクエスト
-            </a>
-            {{ $holding_amount->separate_comma_amount }}
-            <br>
-
-            <select id="months" name="months" class="form-control" autocomplete="months">
-                <option value=""></option>
-                @foreach ($trade_months as $trade_month)
-                    <option value="{{ $trade_month->months }}" @if ($loop->first) selected  @endif>{{ $trade_month->months }}</option>
-                @endforeach
-            </select>
-
-            @foreach ($trade_details as $trade_detail)
-                <p>{{ $trade_detail->formated_ymd_created_at }}</p>
-                <p>「{{ $trade_detail->lessons_title }}」代金</p>
-                <p>{{ $trade_detail->separate_comma_point_add_sign_amount }}</p>
-                <p>{{ $trade_detail->separate_comma_point_amount }}</p>
-            @endforeach
-        </div>
-    </div>
-</div>
-@endsection --}}
