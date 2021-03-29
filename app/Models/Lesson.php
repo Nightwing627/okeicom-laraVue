@@ -319,6 +319,39 @@ class Lesson extends Model
             ->paginate(Config::get('const.paginate.attendanceLesson'));
     }
 
+    /**
+     * [Index] ログインユーザーの受講済みレッスン一覧
+     *
+     * @param $applications_status
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function findByTakenLessonOfUsersId()
+    {
+        return self::query()
+            ->select([
+                'lessons.*',
+                'courses.img1 as courses_img1',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'categories4.name as category4_name',
+                'categories5.name as category5_name',
+                'users.img as user_img',
+            ])
+            ->join('courses', 'lessons.course_id', '=', 'courses.id')
+            ->join('applications', 'lessons.id', '=', 'applications.lesson_id')
+            ->join('users', 'lessons.user_id', '=', 'users.id')
+            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
+            ->where('applications.user_id', Auth::user()->id)
+            ->where('applications.status', 0)
+            ->onlyTrashed()
+            ->paginate(Config::get('const.paginate.attendanceLesson'));
+    }
+
     /* Relationships / relate~~~
     --------------------------------------------------------------------------------------------------*/
 
@@ -677,6 +710,7 @@ class Lesson extends Model
                 'categories4.name as category4_name',
                 'categories5.name as category5_name',
             ])
+            ->withTrashed()
             ->where('lessons.id', '=', $id);
     }
 

@@ -113,7 +113,7 @@ class LessonController extends Controller
 
         // レッスンを購入しているか調べる
         $lessonInstance = new Lesson;
-        $checkPurchase = $lessonInstance->checkPurchaseLesson($lesson_id, $user_id);
+        $checkPurchase  = $lessonInstance->checkPurchaseLesson($lesson_id, $user_id);
         if($checkPurchase) {
             $request->session()->put("application_id", $checkPurchase['id']);
         }

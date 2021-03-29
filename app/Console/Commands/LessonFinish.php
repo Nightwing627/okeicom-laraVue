@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use App\Models\Lesson;
+use App\Models\Application;
 use Illuminate\Console\Command;
 
 class LessonFinish extends Command
@@ -41,11 +42,27 @@ class LessonFinish extends Command
      */
     public function handle()
     {
-        // レッスンの終了時刻を超えた場合、削除処理実装
-        $lessons = Lesson::where('date', '=', Carbon::today())->where('finish', '<=', Carbon::now())->get();
+        // レッスンの終了時刻を超えた場合、論理削除処理実装
+        $lessons = Lesson::where('date', '=', Carbon::today())
+            ->where('finish', '<=', Carbon::now())
+            ->get();
         foreach($lessons as $lesson) {
+            $lesson_id = $lesson->id;
+            // レッスンと紐づく予約情報を取得
+            $application = new Application();
+            $applications = $application::where('id', '=', $lesson_id)->where('status', '=', 0)->get();
+            if($applications) {
+                foreach($applications as $application) {
+                    // 予約を論理削除
+                    $application->delete();
+                    $application->save();
+                }
+            }
+            // レッスンを論理削除
             $lesson->delete();
             $lesson->save();
+
+            // 決済確定処理
         }
     }
 }
