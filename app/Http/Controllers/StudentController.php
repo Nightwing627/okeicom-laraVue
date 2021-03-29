@@ -88,23 +88,23 @@ class StudentController extends Controller
         $time = Carbon::now()->format('H:m:s');
 
         // 予約済み一覧を取得
-        $applications = Application::where('user_id', $user_id)->where('status', 0)->get();
+        $lessons = Application::where('user_id', $user_id)->where('status', 0)->get();
 
         // 受講予定のレッスン一覧
-        $lessons = [];
+        // $lessons = [];
         // 対象のレッスン
-        $number = count($applications);
-        for($i = 0; $i < $number; $i++) {
-            $target = $this->lesson
-                ->getShowLesson($applications[$i]->lesson_id)
-                ->where('date', '>', $date)
-                ->where('finish', '>', $time)
-                ->where('status', 0)
-                ->first();
-            if($target) {
-                $lessons[] = $target;
-            }
-        }
+        // $number = count($applications);
+        // for($i = 0; $i < $number; $i++) {
+        //     $target = $this->lesson
+        //         ->getShowLesson($applications[$i]->lesson_id)
+        //         ->where('date', '>', $date)
+        //         ->where('finish', '>', $time)
+        //         ->where('status', 0)
+        //         ->first();
+        //     if($target) {
+        //         $lessons[] = $target;
+        //     }
+        // }
 
         // where('date', '>', $date)->where('finish', '>', $time)->
         return view('students.attendance-lessons', compact('lessons'));

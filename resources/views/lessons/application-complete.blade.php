@@ -19,8 +19,11 @@
 		<div class="l-wrap--main l-wrap--detail">
 			<div class="l-content--detail">
 				<div class="l-content--detail__inner">
-					<p class="u-text--sentence u-mb20">購入が完了しました！</p>
-					<a href="" class="u-text--link">購入済みレッスン一覧へ</a>
+                    <p class="u-text--sentence u-mb20">購入が完了しました！</p>
+                    <form method="POST" action="{{ route('lessons.application.complete.post') }}">
+                        @csrf
+                        <button class="u-text--link" >購入済みレッスン一覧へ</button>
+                    </form>
 				</div>
 			</div>
 		</div>

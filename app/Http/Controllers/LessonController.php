@@ -402,6 +402,34 @@ class LessonController extends Controller
     }
 
     /**
+     * クレジットカード決済完了ページ
+     *
+     * @param Request $request
+     * @return Factory|View
+     */
+    public function completeApplicationPost(Request $request)
+    {
+        // ユーザーIDを取得
+        $user_id = Auth::user()->id;
+        // ユーザーが講師の場合、ステータスを変更
+        DB::beginTransaction();
+        try {
+            if(Auth::user()->status === 1) {
+                // ユーザーの情報更新
+                $user = User::where('id', $user_id)->first();
+                $user->status = 0;
+                $user->save();
+            }
+            DB::commit();
+            return redirect(route('mypage.u.attendance-lessons'));
+        } catch(\Exception $e) {
+            DB::rollback();
+            $error = '原因不明のエラーです。管理者へお問い合わせくださいませ。';
+            return back()->withErrors($error);
+        }
+    }
+
+    /**
      * レッスンキャンセルページ
      *
      * @param Request $request

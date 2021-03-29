@@ -101,7 +101,9 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
         Route::get('application/credit-payment', [LessonController::class, 'paymentCredit'])->name('credit-payment');
         Route::post('application/credit-payment', [LessonController::class, 'paymentCreditPost'])->name('credit-payment.post');
         Route::get('application/error', [LessonController::class, 'errorApplication'])->name('application.error');
+        // 決済完了画面
         Route::get('application/complete', [LessonController::class, 'completeApplication'])->name('application.complete');
+        Route::post('application/complete', [LessonController::class, 'completeApplicationPost'])->name('application.complete.post');
         // キャンセル
         Route::get('application/cancel', [LessonController::class, 'cancel'])->name('cancel');
         Route::post('application/cancel', [LessonController::class, 'doCancel'])->name('cancel.do');

@@ -13,9 +13,10 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        //
-        // \App\Console\Commands\AutoCommand::class,
+    protected $commands =
+    [
+        // レッスンを削除するコマンド
+        \App\Console\Commands\LessonFinish::class,
     ];
 
     /**
@@ -26,14 +27,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // スケジュールを実行させるタイミング
-        $lessons = DB::table('lessons')->get();
-        foreach($lessons as $index => $lesson) {
-            $schedule
-                ->command('command:lesson_finish')
-                ->withoutOverlapping()
-                ->cron('* * * * *');
-        }
+        // レッスン削除のバッチ処理
+        $schedule->command('lesson:finish')
+                 ->withoutOverlapping() // 多重実行を防ぐ
+                 ->everyFiveMinutes(); // 5分ごとに実行
     }
 
     /**
