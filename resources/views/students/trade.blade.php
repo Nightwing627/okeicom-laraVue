@@ -82,7 +82,7 @@
                 <tr>
                     <td>{{ $trade_detail->formated_ymd_created_at }}</td>
                     @if($trade_detail->lessons_title == '出金')
-                    <td></td>
+                    <td>出金依頼</td>
                     <td></td>
                     <td class="u-textAlign__right">{{ $trade_detail->separate_comma_amount }}</td>
                     @else

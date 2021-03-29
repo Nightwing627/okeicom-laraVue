@@ -171,7 +171,7 @@ class Payment extends Model
                 'withdrawals.created_at AS created_at',
                 DB::raw("'出金' AS lessons_title"),
             ])
-            ->where('withdrawals.user_id', '=', 1)
+            ->where('withdrawals.user_id', '=', $user_id)
             // 受け取り履歴一覧と出金リクエスト一覧を結合させる
             ->orderBy('created_at', 'desc');
         // 受け取り履歴一覧（キャンセルされたもの以外）
@@ -183,7 +183,7 @@ class Payment extends Model
             ])
             ->where([
                 ['user_teacher_id', '=', $user_id],
-                ['payments.status', '=', 0],
+                ['payments.status', '=', 1],
             ])
             ->unionAll($withdraw)
             ->leftJoin('applications', 'payments.application_id', '=', 'applications.id')

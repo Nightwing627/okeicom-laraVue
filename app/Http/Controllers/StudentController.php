@@ -399,7 +399,6 @@ class StudentController extends Controller
         $holding_amount = $this->payment->getHoldingAmount();
         $trade_months = $this->payment->getMonths();
         $trade_details = $this->payment->getDetail();
-        // dd($trade_details);
         $user_status = Auth::user()->status;
         return view('students.trade', compact('holding_amount', 'trade_months', 'trade_details', 'user_status'));
     }
