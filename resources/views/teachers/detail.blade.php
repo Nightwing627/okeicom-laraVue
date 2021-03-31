@@ -11,6 +11,7 @@
 
 {{-- 本文 --}}
 @section('content')
+
     <div class="l-wrap--title profile">
         <div class="l-wrap">
             <div class="teacherDetail-profile">
@@ -40,7 +41,7 @@
                         <div class="tabBox"><span>言語</span>{{ $user->language_id ?: '未設定' }}</div>
                         <div class="tabBox"><span>都道府県</span>{{ $user->prefecture_id ?: '未設定' }}</div>
                     </div>
-                    <a href="" class="c-button--square__pink">メッセージを送る</a>
+                    <a href="/mypage/t/messages/{{$user->id}}" class="c-button--square__pink">メッセージを送る</a>
                 </div>
                 <div class="teacherDetail-profile-text">
                     <p class="u-text--sentence"></p>
