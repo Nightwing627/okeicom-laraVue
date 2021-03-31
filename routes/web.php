@@ -187,6 +187,7 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
         Route::get('messages', [StudentController::class, 'messages'])->name('messages');
         Route::post('messages', [StudentController::class, 'sendMessages'])->name('messages.send');
         Route::get('messages/{partner_users_id}', [StudentController::class, 'messageDetail'])->name('messages.detail');
+        
         // プロフィール
         Route::get('profile', [StudentController::class, 'profile'])->name('profile');
         Route::post('profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');

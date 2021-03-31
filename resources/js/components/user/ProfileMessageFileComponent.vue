@@ -1,7 +1,7 @@
 <template>
     <div class="message-input-inner">
         <div class="message-input-area">
-            <textarea id="message_detail" class="form-control @error('message_detail') is-invalid @enderror" name="message_detail" required cols="50" rows="5" placeholder="メッセージを入力してください"></textarea>
+            <textarea id="message_detail" class="form-control @error('message_detail') is-invalid @enderror" name="message_detail" required cols="50" rows="5" v-model="message" placeholder="メッセージを入力してください"></textarea>
         </div>
         <div class="message-input-other l-flex">
             <div class="message-input-img l-flex">
@@ -31,6 +31,7 @@
 </template>
 <script>
 	export default {
+        props: ['message'],
         components: {
         },
 		data() {

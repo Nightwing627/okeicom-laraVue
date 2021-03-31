@@ -195,11 +195,12 @@ class StudentController extends Controller
         $user_img = User::find($partner_users_id)->img;
         $user_status = Auth::user()->status;
         $message_details = $this->message->getConversation($partner_users_id);
+        $message_received = $request->messages_detail;
         // 既読に更新(スマホ)
         DB::transaction(function () use ($message_details) {
             $this->message->saveRead($message_details);
         });
-        return view('students.message-detail', compact('message_details', 'partner_users_id', 'user_name', 'user_img', 'user_status'));
+        return view('students.message-detail', compact('message_details', 'partner_users_id', 'user_name', 'user_img', 'user_status','message_received'));
     }
 
     /**
@@ -223,7 +224,7 @@ class StudentController extends Controller
         // } else {
         //     return redirect(route('mypage.u.messages', ['partner_users_id' => $message->user_receive_id]));
         // }
-        return redirect(route('mypage.u.messages.detail', ['partner_users_id' => $message->user_receive_id ]));
+        return redirect(route('mypage.u.messages.detail', ['partner_users_id' => $message->user_receive_id, 'messages_detail'=>$message->message_detail]));
     }
 
     /**

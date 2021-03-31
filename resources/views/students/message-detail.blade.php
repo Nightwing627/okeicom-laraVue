@@ -46,7 +46,7 @@
                         //     echo '自分';
                         // }
                         echo '<div class="message-body-img"><div class="c-img--cover c-img--round"><img src="/storage/profile/' . $message_detail->users_img .'"></div></div>';
-                        echo '<div class="message-body-text"><p class="name"><a href="/teachers/detail/' . $message_detail->partner_users_id . '" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p>';
+                        echo '<div class="message-body-text"><p class="name"><a href="/mypage/t/messages/'. $partner_users_id .'" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p>';
                         if($message_detail->file1) {
                             echo '<div class="message-image"><img src="/storage/messages/'. $message_detail->file1 . '"></div>';
                         }
@@ -86,7 +86,7 @@
                         //     echo '自分';
                         // }
                         echo '<div class="message-body-img"><div class="c-img--cover c-img--round"><img src="/storage/profile/' . $message_detail->users_img .'"></div></div>';
-                        echo '<div class="message-body-text"><p class="name"><a href="/teachers/detail/' . $message_detail->partner_users_id . '" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p>';
+                        echo '<div class="message-body-text"><p class="name"><a href="/mypage/t/messages" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p>';
                         if($message_detail->file1) {
                             $target_file = pathinfo($message_detail->file1, PATHINFO_EXTENSION);
                             if($target_file == 'png' || $target_file == 'jpg' || $target_file == 'jpeg' || $target_file == 'gif') {
@@ -117,7 +117,7 @@
             <form method="POST" action="{{ route('mypage.u.messages.send') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" id="partner_users_id" name="partner_users_id" value="{{ $partner_users_id }}">
-                <user-profile-message-file-component></user-profile-message-file-component>
+                <user-profile-message-file-component message="{{$message_received}}"></user-profile-message-file-component>
             </form>
         </div>
     </div>
