@@ -28,8 +28,8 @@
                             </div>
                         </div>
                         <div class="u-wflex1">
-                            <p class="u-text--big">{{ $partner_user->users_name }}</p>
-                            <p class="u-color--gray u-mt5">{{ Str::limit($partner_user->message_detail, 60) }}</p>
+                            <p class="u-text--big" >{{ $partner_user->users_name }}</p>
+                            <p class="u-color--gray u-mt5" id = "{{ $partner_user->users_name }}">{{ Str::limit($partner_user->message_detail, 60) }}</p>
                         </div>
                     </div>
                 </a>
@@ -41,6 +41,16 @@
             @endif
         @endif
     </div>
+    <script>
+      
+        var names = JSON.parse(localStorage.getItem("users")); 
+        function iterate(item) {
+            document.getElementById(item).innerHTML = localStorage.getItem(item);
+        }
+        names.forEach(iterate);
+        
+
+    </script>
 @endsection
 
 

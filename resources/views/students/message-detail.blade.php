@@ -24,7 +24,7 @@
                     <img src="/img/common/icon-arrow-left-blue.png">
                 </a>
             </div>
-            <p class="u-text--big">{{ $user_name }}</p>
+            <p class="u-text--big" id="user_id">{{ $user_name }}</p>
         </div>
         <div class="message-body">
             {{--
@@ -123,9 +123,27 @@
     </div>
 </div>
 <script>
-    function uviewmessagelist(){
+      document.onreadystatechange = function () {
+     if (document.readyState == "complete") {
+        var user_id =  document.getElementById("user_id").innerText;
+        if (user_id !=null) {
+            document.getElementById("message_detail").value = localStorage.getItem(user_id);
+        }
+   }
+ }
+        
+    function uviewmessagelist(){          
         var message = document.getElementById("message_detail").value;
-        localStorage.setItem("message_unsend", JSON.stringify({message:message}));
+        var user_id =  document.getElementById("user_id").innerText;
+        var names=new Array();
+        names = JSON.parse(localStorage.getItem("users"));
+        if (names == null) {
+            names = [user_id];
+        }else if(names.indexOf(user_id) == -1){
+            names.push(user_id);
+        }
+        localStorage.setItem("users",JSON.stringify(names));
+        localStorage.setItem(user_id, message);
         window.location.assign("/mypage/u/messages");
     }
 
