@@ -17,9 +17,9 @@
         <div class="message-header l-flex l-start">
             <div class="message-header-back">
                 @if($user_status = 0)
-                <a href="{{ route('mypage.u.messages') }}">
+                <a onclick="uviewmessagelist()">
                 @elseif($user_status = 1)
-                <a href="{{ route('mypage.t.messages') }}">
+                <a  onclick="uviewmessagelist()">
                 @endif
                     <img src="/img/common/icon-arrow-left-blue.png">
                 </a>
@@ -86,7 +86,7 @@
                         //     echo '自分';
                         // }
                         echo '<div class="message-body-img"><div class="c-img--cover c-img--round"><img src="/storage/profile/' . $message_detail->users_img .'"></div></div>';
-                        echo '<div class="message-body-text"><p class="name"><a href="/mypage/t/messages" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p>';
+                        echo '<div class="message-body-text"><p class="name"><a href="/mypage/u/messages/'. $partner_users_id .'" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p>';
                         if($message_detail->file1) {
                             $target_file = pathinfo($message_detail->file1, PATHINFO_EXTENSION);
                             if($target_file == 'png' || $target_file == 'jpg' || $target_file == 'jpeg' || $target_file == 'gif') {
@@ -122,6 +122,19 @@
         </div>
     </div>
 </div>
+<script>
+    function uviewmessagelist(){
+        var message = document.getElementById("message_detail").value;
+        localStorage.setItem("message_unsend", JSON.stringify({message:message}));
+        window.location.assign("/mypage/u/messages");
+    }
+
+    function tviewmessagelist(){
+        var message = document.getElementById("message_detail").value;
+        localStorage.setItem("message_unsend", JSON.stringify({message:message}));
+        window.location.assign("/mypage/t/messages");
+    }
+</script>
 @endsection
 
 
