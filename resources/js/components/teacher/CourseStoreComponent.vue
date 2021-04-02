@@ -397,7 +397,9 @@
             // [ステップ1]
             // バリデーション：カテゴリーの値
             addCheckbox: function() {
-                this.course.category += 1;
+                if (this.course.category  < 5) {
+                    this.course.category += 1;
+                } 
             },
             reduceCheckbox: function() {
                 this.course.category -= 1;

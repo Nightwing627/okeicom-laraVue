@@ -65,9 +65,15 @@
                 //     return $(this).val();
                 // }).get();
                 if(this.$refs[ref]['checked']) {
-                    this.$emit("addCategory")
+                    if (this.checkbox < 5) {
+                        this.checkbox += 1
+                        this.$emit("addCategory")
+                    } else {
+                        this.$refs[ref]['checked'] = false
+                    }
                 } else {
                     this.$emit("reduceCategory")
+                    this.checkbox -= 1
                 }
 
             }
