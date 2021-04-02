@@ -6,6 +6,7 @@
 
 {{-- CSS --}}
 @push('css')
+    <link rel="stylesheet" href="{{ asset('/css/foundation/single/teacherCourseAdd.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/foundation/single/teacherCourseDetail.css') }}">
 @endpush
 
@@ -56,6 +57,12 @@
             {{ session('flash_message') }}
         </div>
     @endif
+    <teacher-course-detail-component
+        :course={{ $course }}
+        :categories_list={{ $categories }}
+        :lessons={{ $lessons }}
+        :csrf="{{json_encode(csrf_token())}}"
+    >
     {{--
     <teacher-course-detail-component
         :course={{ $course }}
@@ -64,12 +71,6 @@
     >
     </teacher-course-detail-component>
     --}}
-    <teacher-course-detail-component
-        :course={{ $course }}
-        :categories_list={{ $categories }}
-        :lessons={{ $lessons }}
-        :csrf="{{json_encode(csrf_token())}}"
-    >
     </teacher-course-detail-component>
     {{--
     <form method="POST" action="{{ route('mypage.t.courses.update') }}" enctype="multipart/form-data">
@@ -170,7 +171,7 @@
     <!-- tab：その他 -->
     <div class="l-contentList__list__wrap" v-else-if="isBarTab === '2'">
         <div class="c-button--add">
-            <a href="">レッスンを追加する</a>
+            <a @href="">レッスンを追加する</a>
         </div>
         @foreach($lessons as $lesson)
             <!-- <div class="c-list--courseLesson">

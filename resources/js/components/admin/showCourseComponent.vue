@@ -1,7 +1,7 @@
 <template>
+    <!-- 本文 -->
 	<div class="l-wrap--owner--main single-page">
 		<div class="l-wrap--owner--main--inner">
-			
 			<div class="l-wrap--owner--header">
 				<div class="l-wrap--owner--header--title">
 					<p>コース詳細</p>
