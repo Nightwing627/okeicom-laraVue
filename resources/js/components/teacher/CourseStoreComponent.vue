@@ -5,7 +5,8 @@
             <div class="l-content--detail">
                 <div class="l-content--detail__inner">
                     <div class="l-wrap--title">
-                        <h1 class="c-headline--screen">レッスンを追加する</h1>
+                        <h1 class="c-headline--screen" v-if="!changeModalEdit">レッスンを追加する</h1>
+                        <h1 class="c-headline--screen" v-else-if="changeModalEdit">レッスンを編集する</h1>
                         <button class="close-modal" @click="closeModal"><img src="/img/common/icon-batsu-white.png"></button>
                     </div>
                     <div class="l-content--input">
@@ -324,7 +325,7 @@
                 course : {
                     title: this.old.title ?? '', // タイトル
                     detail: this.old.detail ?? '', // 詳細
-                    category: this.old.category ?? '' // カテゴリー
+                    category: this.old.category ?? 0 // カテゴリー
                 },
                 // categoryValidation: 0,    // カテゴリー
                 validationNumber: 0,
@@ -361,6 +362,7 @@
                 lessonPrice        : 100,  // <必須> 金額
                 lessonCancelRate   : 20,  // <必須> キャンセル手数料
                 lessonDetail       : '', // 詳細
+                currendEditIndex   : null
             }
         },
 		created: function() {
@@ -369,6 +371,7 @@
                 () => [this.$data.course.category, this.$data.course.title, this.validationNumber],
                 // valueやoldValueの型は上で返した配列になる
                 (value, oldValue) => {
+                    console.log(value, oldValue)
                     if(this.course.category == 0 || this.course.title == '' || this.validationNumber == 0) {
                         this.checkNextStep = true;
                     } else if (this.course.category > 0 && !this.course.title == '' && this.validationNumber > 0) {
@@ -476,6 +479,7 @@
             },
             // レッスン編集画面表示
             editLesson: function(index) {
+                this.currendEditIndex = index
                 // 値がある場合は追加する
                 this.lessonTitle        = this.courseLessons[index].title;
                 this.lessonPublic       = this.courseLessons[index].public;
@@ -497,7 +501,7 @@
                 // 日付をフォーマットの通りに変更する
                 const momentDate = moment(this.lessonDate).format('YYYY/MM/DD');
                 // courseLessonsデータに情報を保存する
-                this.courseLessons.push(...[
+                this.courseLessons[this.currendEditIndex] = 
                     {
                         title           : this.lessonTitle,
                         public          : this.lessonPublic,
@@ -510,8 +514,7 @@
                         price           : this.lessonPrice,
                         cancel_rate     : this.lessonCancelRate,
                         detail          : this.lessonDetail,
-                    }
-                ]),
+                    },
                 // 入力情報をリセットする
                 this.lessonPublic      = 0;
                 this.lessonType        = 0;
