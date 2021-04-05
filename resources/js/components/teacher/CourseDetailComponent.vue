@@ -249,13 +249,13 @@
             <div class="c-button--add c-list--courseLesson">
                 <a @click="showModal">レッスンを追加する</a>
             </div>
-            <div class="c-list--courseLesson" v-for="(lesson, index) in lessonsDate" :key="index.id">
+            <div class="c-list--courseLesson" v-for="(lesson, index) in lessons" :key="index.id">
                 <div class="c-list--courseLesson--num">
                     <span># {{ index + 1}}</span>
                 </div>
                 <div class="c-list--courseLesson--title">
-                    <p class="title u-text--big u-mb5">{{ lesson[index].title }}</p>
-                    <p class="date u-color--grayNavy u-text--small">{{ moment(lesson[index].date).format('M/D') }} {{ moment(lesson[index].start).format('H:mm') }}-{{ moment(lesson[index].finish).format('H:mm') }}</p>
+                    <p class="title u-text--big u-mb5">{{ lesson.title }}</p>
+                    <p class="date u-color--grayNavy u-text--small">{{ moment(lesson.date).format('M/D') }} {{ moment(lesson.start).format('H:mm') }}-{{ moment(lesson.finish).format('H:mm') }}</p>
                 </div>
                 <!-- 開催日を超えた現場は削除 -->
                 <div class="c-button--edit">
