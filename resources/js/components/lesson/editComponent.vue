@@ -1,5 +1,55 @@
 <template>
-	 <div class="l-wrap--main--inner">
+    <div class="l-modal" :class="{open: isParticipantDetail}" @click.self="openDetail">
+        <div class="l-modal--wrap">
+            <div class="close-button">
+                <span class="close-icon" @click.prevent="openDetail"><img src="/public/img/icon-batsu-white.png"></span>
+            </div>
+            <div class="l-modal--wrap--inner">
+                <div class="l-modal--content">
+                    <div class="l-modal--header">
+                        <div class="l-modal--header--img">
+                            <div class="c-img--cover c-img--round">
+                                <img src="/public/img/screen-top.jpg">
+                            </div>
+                        </div>
+                        <div class="l-modal--header--button">
+                            <ul>
+                                <li class="message"><a href="">メッセージを送る</a></li>
+                                <li class="reject"><a href="">参加を拒否する</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="l-modal--content">
+                    <div class="l-modal--name">
+                        <p class="sub">アカウント名</p>
+                        <p class="main">アカウント名アカウント名</p>
+                    </div>
+                </div>
+                <div class="l-modal--detail">
+                    <div class="l-modal--detail--box l-modal--content">
+                        <p class="sub">性別</p>
+                        <p class="main">男性</p>
+                    </div>
+                    <div class="l-modal--detail--box l-modal--content">
+                        <p class="sub">年齢</p>
+                        <p class="main">29歳</p>
+                    </div>
+                    <div class="l-modal--detail--box l-modal--content">
+                        <p class="sub">都道府県</p>
+                        <p class="main">北海道</p>
+                    </div>
+                </div>
+                <div class="l-modal--content border-none">
+                    <div class="l-modal--profile">
+                        <p class="sub">プロフィール</p>
+                        <p class="main">プロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィール</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="l-wrap--main--inner">
         <div class="c-button--tab top-tab two-tab">
             <div class="c-button--tab--inner u-w400_pc">
                 <div class="c-button--tab--box" v-bind:class="{'selected': isBarTab === '1'}" @click.prevent="changeTab('1')">レッスン詳細</div>
@@ -109,21 +159,21 @@
         </div>
         <!-- tab：その他 -->
         <div class="l-contentList__list__wrap"  v-if="isBarTab === '2'">
-                <div class="c-list--courseLesson">
-                    <div class="c-list--courseLesson--num">
-                        <div class="c-img--round c-img--cover">
-                            <img src="/public/img/screen-top.jpg">
-                        </div>
-                    </div>
-                    <div class="c-list--courseLesson--title u-pl10">
-                        <p class="title u-text--big u-mb5">名前名前</p>
-                        <p class="date u-color--grayNavy u-text--small">10/20(土) 12:00</p>
-                    </div>
-                    <!-- 開催日を超えた現場は削除 -->
-                    <div class="c-button--edit">
-                        <a class="c-button--edit--link edit" @click.prevent="openDetail">詳細</a>
+            <div class="c-list--courseLesson">
+                <div class="c-list--courseLesson--num">
+                    <div class="c-img--round c-img--cover">
+                        <img src="/public/img/screen-top.jpg">
                     </div>
                 </div>
+                <div class="c-list--courseLesson--title u-pl10">
+                    <p class="title u-text--big u-mb5">名前名前</p>
+                    <p class="date u-color--grayNavy u-text--small">10/20(土) 12:00</p>
+                </div>
+                <!-- 開催日を超えた現場は削除 -->
+                <div class="c-button--edit">
+                    <a class="c-button--edit--link edit" @click.prevent="openDetail">詳細</a>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -135,6 +185,8 @@
 		data() {
 			return {
                 isBarTab: '1',
+                // 参加者詳細モーダル
+				isParticipantDetail: false,
             }
 		},
 		created: function() {
@@ -145,7 +197,11 @@
 		methods: {
             changeTab(tab) {
                 this.isBarTab = tab
-            }
+            },
+            // 参加者詳細モーダル
+			openDetail: function() {
+				this.isParticipantDetail =! this.isParticipantDetail
+			}
         },
 		watch: {},
 	}
