@@ -563,12 +563,18 @@ class User extends Authenticatable
                 'categories4.name as category4_name',
                 'categories5.name as category5_name',
                 'evaluations.avg_point as evaluations_avg_point',
+                'prefectures.name as pref',
+                'countries.name as country',
+                'languages.name as language',
             ])
             ->leftJoin('categories as categories1', 'users.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'users.category2_id', '=', 'categories2.id')
             ->leftJoin('categories as categories3', 'users.category3_id', '=', 'categories3.id')
             ->leftJoin('categories as categories4', 'users.category4_id', '=', 'categories4.id')
             ->leftJoin('categories as categories5', 'users.category5_id', '=', 'categories5.id')
+            ->leftJoin('prefectures', 'users.prefecture_id', '=', 'prefectures.id')
+            ->leftJoin('countries', 'users.country_id', '=', 'countries.id')
+            ->leftJoin('languages', 'users.language_id', '=', 'languages.id')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                 $join->on('users.id', '=', 'evaluations.user_teacher_id');
             })

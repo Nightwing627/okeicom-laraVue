@@ -1,11 +1,11 @@
 <template>
-	<!-- <div class="l-wrap--title profile">
+	<div class="l-wrap--title profile">
 		<div class="l-wrap">
 			<div class="teacherDetail-profile">
 				<div class="teacherDetail-profile-detail">
 					<div class="c-img--shadow">
 						<div class="c-img--cover c-img--round" v-if="user.img!=null">
-							<img v-bind:src="'/storage/courses/' + user.img">"
+							<img v-bind:src="'/storage/profile/' + user.img">"
 						</div>
 					</div>
 					<p class="u-text--big u-mb10">{{ user.name }}</p>
@@ -14,7 +14,7 @@
 							<img src="/img/common/icon-star.png">
 							<span class="evaluation">{{ user.ave }}</span>
 						</div>
-						<p class="review">レビュー {{ user.count }}件</p>
+						<p class="review">レビュー {{ evalutions.length ? evalutions.length : 0 }}件</p>
 					</div>
 					<ul class="c-text--category u-mb5">
 						<li  v-if="user.cat1!=null">{{ user.cat1 }}</li>
@@ -24,9 +24,9 @@
 						<li  v-if="user.cat5!=null">{{ user.cat5 }}</li>
 					</ul>
 					<div class="teacherDetail-profile-detail-tab u-mb10">
-						<div class="tabBox"><span>国籍</span>{{ user.country }}</div>
-						<div class="tabBox"><span>言語</span>{{ user.lang }}</div>
-						<div class="tabBox"><span>都道府県</span>{{ user.pref }}</div>
+						<div class="tabBox"><span>国籍</span>{{ user.country ? user.country : '未設定' }}</div>
+						<div class="tabBox"><span>言語</span>{{ user.lang ? user.lang : '未設定'}}</div>
+						<div class="tabBox"><span>都道府県</span>{{ user.pref ? user.pref : '未設定'}}</div>
 					</div>
 					<a href="{{ route}}" class="c-button--square__pink">メッセージを送る</a>
 				</div>
@@ -35,7 +35,7 @@
 				</div>
 			</div>
 		</div>
-	</div> -->
+	</div>
 	<div class="l-wrap--body">
 		<div class="l-wrap l-flex">
 			<div id="sidebar" class="sidebar__tab">
@@ -52,7 +52,7 @@
 				<!-- tab：レッスン一覧 -->
 				<div class="l-contentList__list__wrap" v-if="isBarTab === '1'">
 					<div class="c-contentList__box" v-for="lesson in lessons">
-						<a class="c-contentList__box__inner" href="">
+						<a class="c-contentList__box__inner" :href="`/lessons/detail/${lesson.id}`">
 							<div class="c-contentList__box__img">
 
 								<div class="c-img--cover c-img--round"  v-if="lesson.img!=null">
@@ -88,7 +88,7 @@
 							<div class="l-content--review--img u-mr20_pc u-mr10_sp">
 								<div class="c-img--shadow">
 									<div class="c-img--cover c-img--round"  v-if="evalution.user_img!=null">
-										<img v-bind:src="'/storage/courses/' + evalution.user_img">"
+										<img v-bind:src="'/storage/profile/' + evalution.user_img">"
 									</div>
 
 								</div>
