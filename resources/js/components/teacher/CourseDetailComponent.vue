@@ -269,7 +269,7 @@
                         </form>
                     </a>
                     <!-- <a :href="'/mypage/t/lessons/edit/' + lesson.id" class="c-button--edit--link edit">編集</a> -->
-                    <a @click="editLesson(index)" class="c-button--edit--link edit">編集</a>
+                    <a :href="`/mypage/t/lessons/edit/${lesson.id}`" class="c-button--edit--link edit">編集</a>
                 </div>
             </div>
             <!-- {{ courseDate.category1_id }} -->

@@ -25,6 +25,8 @@ createApp({ components:{
     'lesson-index-component': require('./components/lesson/indexComponent.vue').default,
     // レッスン：詳細
     'lesson-show-component': require('./components/lesson/showComponent.vue').default,
+    // レッスン：編集
+    'lesson-edit-component': require('./components/lesson/editComponent.vue').default,
     // レッスン：詳細 - 画像処理
     'detail-img-list-component': require('./components/lesson/DetailImgListComponent.vue').default,
 
