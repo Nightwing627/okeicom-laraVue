@@ -4,12 +4,12 @@
             <div class="close-button">
                 <span class="close-icon" @click.prevent="openDetail"><img src="/public/img/icon-batsu-white.png"></span>
             </div>
-            <div class="l-modal--wrap--inner">
+            <div class="l-modal--wrap--inner" v-if="currentUser">
                 <div class="l-modal--content">
                     <div class="l-modal--header">
                         <div class="l-modal--header--img">
                             <div class="c-img--cover c-img--round">
-                                <img src="/public/img/screen-top.jpg">
+                                <img  v-bind:src="'/storage/profile/' + currentUser.img">
                             </div>
                         </div>
                         <div class="l-modal--header--button">
@@ -23,17 +23,17 @@
                 <div class="l-modal--content">
                     <div class="l-modal--name">
                         <p class="sub">アカウント名</p>
-                        <p class="main">アカウント名アカウント名</p>
+                        <p class="main">{{currentUser.name}}</p>
                     </div>
                 </div>
                 <div class="l-modal--detail">
                     <div class="l-modal--detail--box l-modal--content">
                         <p class="sub">性別</p>
-                        <p class="main">男性</p>
+                        <p class="main">{{currentUser.sex == 0 ? "男性"　: "女性" }}</p>
                     </div>
                     <div class="l-modal--detail--box l-modal--content">
                         <p class="sub">年齢</p>
-                        <p class="main">29歳</p>
+                        <p class="main">{{currentUser.age}}歳</p>
                     </div>
                     <div class="l-modal--detail--box l-modal--content">
                         <p class="sub">都道府県</p>
@@ -43,7 +43,7 @@
                 <div class="l-modal--content border-none">
                     <div class="l-modal--profile">
                         <p class="sub">プロフィール</p>
-                        <p class="main">プロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィール</p>
+                        <p class="main">{{currentUser.profile}}</p>
                     </div>
                 </div>
             </div>
@@ -159,19 +159,19 @@
         </div>
         <!-- tab：その他 -->
         <div class="l-contentList__list__wrap"  v-if="isBarTab === '2'">
-            <div class="c-list--courseLesson">
+            <div class="c-list--courseLesson" v-for="user in users">
                 <div class="c-list--courseLesson--num">
                     <div class="c-img--round c-img--cover">
-                        <img src="/public/img/screen-top.jpg">
+                        <img v-bind:src="'/storage/profile/' + user.img">
                     </div>
                 </div>
                 <div class="c-list--courseLesson--title u-pl10">
-                    <p class="title u-text--big u-mb5">名前名前</p>
+                    <p class="title u-text--big u-mb5">{{user.name}}</p>
                     <p class="date u-color--grayNavy u-text--small">10/20(土) 12:00</p>
                 </div>
                 <!-- 開催日を超えた現場は削除 -->
                 <div class="c-button--edit">
-                    <a class="c-button--edit--link edit" @click.prevent="openDetail">詳細</a>
+                    <a class="c-button--edit--link edit" @click.prevent="openDetail(user)">詳細</a>
                 </div>
             </div>
         </div>
@@ -180,13 +180,22 @@
 <script>
 
 	export default {
+        props: {
+            lesson: {
+                type: Object
+            },
+            users: {
+                type: [Object]
+            },
+        },
 		components: {
 		},
 		data() {
 			return {
                 isBarTab: '1',
                 // 参加者詳細モーダル
-				isParticipantDetail: false,
+                isParticipantDetail: false,
+                currentUser: null,
             }
 		},
 		created: function() {
@@ -199,8 +208,9 @@
                 this.isBarTab = tab
             },
             // 参加者詳細モーダル
-			openDetail: function() {
-				this.isParticipantDetail =! this.isParticipantDetail
+			openDetail: function(currentUser) {
+                this.isParticipantDetail =! this.isParticipantDetail
+                this.currentUser = currentUser
 			}
         },
 		watch: {},

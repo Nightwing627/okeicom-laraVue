@@ -11,5 +11,5 @@
 
 {{-- 本文 --}}
 @section('content')
-    <lesson-edit-component></lesson-edit-component>
+    <lesson-edit-component :lesson="{{$lesson}}" :users="{{$users}}"></lesson-edit-component>
 @endsection

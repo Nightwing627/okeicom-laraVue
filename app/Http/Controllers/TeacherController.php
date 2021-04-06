@@ -462,7 +462,9 @@ class TeacherController extends Controller
     {
         // 詳細取得
         $lesson = Lesson::find($id);
-        return view('teachers.lesson-edit', compact('lesson'));
+        $userids = Application::where('lesson_id', $id)->pluck('user_id')->toArray();
+        $users = User::whereIn('id', $userids)->get();
+        return view('teachers.lesson-edit', compact('lesson', 'users'));
     }
 
     /**
