@@ -158,6 +158,7 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
     // キャンセルリクエスト
     Route::get('cancel-requests', [TeacherController::class, 'cancelRequests'])->name('cancel-requests');
     Route::post('cancel-requests', [TeacherController::class, 'doCancel'])->name('cancel.do');
+    Route::post('block-application', [TeacherController::class, 'doBlock'])->name('block.do');
     // メッセージ
     Route::get('messages', [StudentController::class, 'messages'])->name('messages');
     Route::post('messages', [StudentController::class, 'sendMessages'])->name('messages.send');

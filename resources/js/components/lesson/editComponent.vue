@@ -14,8 +14,8 @@
                         </div>
                         <div class="l-modal--header--button">
                             <ul>
-                                <li class="message"><a href="">メッセージを送る</a></li>
-                                <li class="reject"><a href="">参加を拒否する</a></li>
+                                <li class="message"><a :href="`/mypage/t/messages/${currentUser.id}`">メッセージを送る</a></li>
+                                <li class="reject"><a @click="remove()">参加を拒否する</a></li>
                             </ul>
                         </div>
                     </div>
@@ -167,7 +167,7 @@
                 </div>
                 <div class="c-list--courseLesson--title u-pl10">
                     <p class="title u-text--big u-mb5">{{user.name}}</p>
-                    <p class="date u-color--grayNavy u-text--small">10/20(土) 12:00</p>
+                    <p class="date u-color--grayNavy u-text--small">{{user.created_at}}</p>
                 </div>
                 <!-- 開催日を超えた現場は削除 -->
                 <div class="c-button--edit">
@@ -178,7 +178,7 @@
     </div>
 </template>
 <script>
-
+import axios from 'axios';
 	export default {
         props: {
             lesson: {
@@ -211,7 +211,15 @@
 			openDetail: function(currentUser) {
                 this.isParticipantDetail =! this.isParticipantDetail
                 this.currentUser = currentUser
-			}
+			},
+            remove() {
+                axios.post('/mypage/t/block-application', {userId: this.currentUser.id, lessonId: this.lesson.id})
+                    .then(result => {
+                        location.reload();
+                    })
+                    .catch(result => {
+                    })
+            }
         },
 		watch: {},
 	}

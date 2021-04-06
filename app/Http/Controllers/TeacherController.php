@@ -462,7 +462,7 @@ class TeacherController extends Controller
     {
         // 詳細取得
         $lesson = Lesson::find($id);
-        $userids = Application::where('lesson_id', $id)->pluck('user_id')->toArray();
+        $userids = Application::where('lesson_id', $id)->whereIn('status', [0,1])->pluck('user_id')->toArray();
         $users = User::whereIn('id', $userids)->get();
         return view('teachers.lesson-edit', compact('lesson', 'users'));
     }
@@ -566,6 +566,24 @@ class TeacherController extends Controller
         });
 
         return redirect(route('mypage.t.cancel-requests'));
+    }
+
+    public function doBlock(Request $request) {
+        DB::transaction(function () use ($request) {
+            $application = Application::where('lesson_id', $request->lessonId)
+                                        ->where('user_id', $request->userId)
+                                        ->first();
+            $application->status = 3;
+            $application->deleted_at = date("Y-m-d");
+            $application->save();
+            
+            \App\Models\Cancel::create([
+                'application_id' => $application->id,
+                'user_id' => $request->userId,
+                'status' => 1
+            ]);
+        });
+        return redirect(route('mypage.t.lessons.edit', ['lesson_id' =>$request->lessonId]));
     }
 
     /**
