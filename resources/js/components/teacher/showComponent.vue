@@ -51,19 +51,19 @@
 			<div class="l-wrap--main">
 				<!-- tab：レッスン一覧 -->
 				<div class="l-contentList__list__wrap" v-if="isBarTab === '1'">
-					<div class="c-contentList__box" v-for="lesson in lessons">
+					<div class="c-contentList__box" v-for="(lesson, index) in lessons">
 						<a class="c-contentList__box__inner" :href="`/lessons/detail/${lesson.id}`">
 							<div class="c-contentList__box__img">
 
-								<div class="c-img--cover c-img--round"  v-if="lesson.img!=null">
-										<img v-bind:src="'/storage/courses/' + lesson.img">"
+								<div class="c-img--cover c-img--round"  v-if="lesson.course.img1!=null">
+										<img v-bind:src="'/storage/courses/' + lesson.course.img1">"
 									</div>
 							</div>
 							<div class="c-contentList__box__info">
 								<div class="number l-flex">
 									<p class="other">
-										<span class="stage">第{{ lesson.number }}回</span>
-										<span class="date">{{ lesson.date_format }} {{ lesson.start_format }}-{{ lesson.finish_format }}</span>
+										<span class="stage">第{{ index + 1 }}回</span>
+										<span class="date">{{ lesson.formated_md_date }} {{ lesson.separate_hyphen_time }}</span>
 									</p>
 									<p class="price">￥{{ lesson.price }}</p>
 								</div>
@@ -128,7 +128,7 @@
 		},
 		created: function() {
 			// 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
-
+			console.log(this.lessons)
 		},
 		computed: {},
 		methods: {

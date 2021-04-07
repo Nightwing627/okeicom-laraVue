@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                                 <div class="c-scroll__box__detail l-flex">
-                                    <span class="number">第{{ $today_lesson->number }}回</span>
+                                    <span class="number">第{{ $today_lesson->rowNumber }}回</span>
                                     <span class="price">{{ $today_lesson->separate_comma_price }}</span>
                                 </div>
                                 <div class="c-scroll__box__text">
@@ -85,7 +85,7 @@
                                     </div>
                                 </div>
                                 <div class="c-scroll__box__detail l-flex">
-                                    <span class="number">第{{ $popular_lesson->number }}回</span>
+                                    <span class="number">第{{ $popular_lesson->rowNumber }}回</span>
                                     <span class="price">{{ $popular_lesson->separate_comma_price }}</span>
                                 </div>
                                 <div class="c-scroll__box__text">
@@ -126,7 +126,7 @@
                                     </div>
                                 </div>
                                 <div class="c-scroll__box__detail l-flex">
-                                    <span class="number">第{{ $highly_rated_lesson->number }}回</span>
+                                    <span class="number">第{{ $highly_rated_lesson->rowNumber }}回</span>
                                     <span class="price">{{ $highly_rated_lesson->separate_comma_price }}</span>
                                 </div>
                                 <div class="c-scroll__box__text">
@@ -166,7 +166,7 @@
                                     </div>
                                 </div>
                                 <div class="c-scroll__box__detail l-flex">
-                                    <span class="number">第{{ $new_arrival_lesson->number }}回</span>
+                                    <span class="number">第{{ $new_arrival_lesson->rowNumber }}回</span>
                                     <span class="price">{{ $new_arrival_lesson->separate_comma_price }}</span>
                                 </div>
                                 <div class="c-scroll__box__text">
