@@ -1,5 +1,5 @@
 
-<!-- 検索モーダル -->
+{{-- 検索モーダル --}}
 <div class="l-overlay l-modal--search" @click="closeSearch" v-show="searchShow">
     <div class="l-modal--search__content" @click="stopEvent">
         <form action="">
@@ -9,7 +9,7 @@
         </form>
     </div>
 </div>
-<!-- header -->
+{{-- header --}}
 <header id="header">
     <div class="l-flex">
         <div class="header__left l-flex l-v__center">
@@ -85,7 +85,7 @@
             <li><a href="{{ url('/news/') }}">お知らせ</a></li>
             {{-- <li><a href="{{ url('/flow/') }}">料金決済の流れ</a></li> --}}
             <li><a href="{{ url('/tokushoho/') }}">特定商取引法に基づく表記</a></li>
-            <li><a href="mailto: chankan77@gmail.com">お問い合わせ</a></li>
+            <li><a href="{{ route('contact') }}">お問い合わせ</a></li>
         </ul>
         <p class="c-sp-headline nav--title">講師向け</p>
         <ul class="nav-global__list">
@@ -104,7 +104,7 @@
 <script src="{{ mix('js/app.js') }}"></script>
 <script>
     const headerapp = new Vue({
-	    el: "#header",
+        el: "#header",
 		data(){
 			return {
 				// 検索窓を表示

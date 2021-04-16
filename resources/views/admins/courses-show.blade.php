@@ -2,6 +2,7 @@
 
 <!-- タイトル・メタディスクリプション -->
 @section('title', 'コース詳細 | おけいcom')
+<link rel="stylesheet" href="{{ asset('/css/foundation/single/teacherCourseAdd.css') }}">
 @section('description', 'コース詳細')
 
 <!-- CSS -->

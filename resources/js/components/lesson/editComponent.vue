@@ -64,20 +64,20 @@
                     <p class="main">タイトル</p>
                 </div>
                 <div class="c-list--td">
-                    <input type="" name="" placeholder="タイトルを入力してください">
+                    <input type="" name="" placeholder="タイトルを入力してください" v-model="lessonTitle">
                 </div>
             </div>
             <!-- case：放送タイプが動画埋め込みの場合 -->
-            <div class="c-list--tr">
+            <div class="c-list--tr" v-if="this.lesson.type === 0 || 1">
                 <div class="c-list--th">
                     <p class="main">URL</p>
                 </div>
                 <div class="c-list--td">
-                    <input type="" name="" placeholder="https://www.youtube.com/">
+                    <input type="" name="" placeholder="https://www.youtube.com/" v-model="lessonUrl">
                 </div>
             </div>
             <!-- case：放送タイプがスライドの場合 -->
-            <div class="c-list--tr">
+            <div class="c-list--tr" v-if="this.lesson.type === 2">
                 <div class="c-list--th">
                     <p class="main">スライドファイル（powerpoint）</p>
                 </div>
@@ -93,7 +93,14 @@
                     <div class="l-flex">
                         <div class="l-content--input__two">
                             <div class="l-content--input__headline">開始時間</div>
-                            <div class="l-flex l-start">
+                            <vue-timepicker
+                                hour-label="時間"
+                                minute-label="分"
+                                :value="lessonStart"
+                                @input="val => lessonStart = val"
+                                :minute-interval="5"
+                            ></vue-timepicker>
+                            <!-- <div class="l-flex l-start">
                                 <div class="l-content--input__two u-w100_pc">
                                     <select>
                                         <option v-for="item in 24">{{item - 1}}</option>
@@ -104,12 +111,21 @@
                                         <option v-for="item in 60">{{item - 1}}</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
 
                         </div>
                         <div class="l-content--input__two">
                             <div class="l-content--input__headline">終了時間</div>
-                            <div class="l-flex l-start">
+
+                            <vue-timepicker
+                                hour-label="時間"
+                                minute-label="分"
+                                :value="lessonFinish"
+                                @input="val => lessonFinish = val"
+                                :minute-interval="5"
+                            >
+                            </vue-timepicker>
+                            <!-- <div class="l-flex l-start">
                                 <div class="l-content--input__two u-w100_pc">
                                     <select>
                                         <option v-for="item in 24">{{item - 1}}</option>
@@ -120,7 +136,7 @@
                                         <option v-for="item in 24">{{item - 1}}</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -130,7 +146,7 @@
                     <p class="main">詳細</p>
                 </div>
                 <div class="c-list--td">
-                    <textarea></textarea>
+                    <textarea v-model="lessonDetail"></textarea>
                 </div>
             </div>
             <div class="c-list--tr">
@@ -138,7 +154,10 @@
                     <p class="main">金額</p>
                 </div>
                 <div class="c-list--td">
-                    <input type="" name="" placeholder="半角数字を入力してください">
+                    <div class="accesary-yen l-content--input__three">
+                        <input @input="validate" v-model="lessonPrice" type="text" placeholder="半角数字を入力してください">
+                    </div>
+                    <!-- <input type="" name="" placeholder="半角数字を入力してください"> -->
                 </div>
             </div>
             <div class="c-list--tr">
@@ -147,8 +166,11 @@
                 </div>
                 <div class="c-list--td">
                     <div class="c-selectBox u-w100">
-                        <select>
+                        <!-- <select>
                             <option v-for="item in 100">{{item}}%</option>
+                        </select> -->
+                        <select v-model="lessonCancelRate">
+                            <option v-for="(rate, index) in 100" :key="rate.id">{{ index }}</option>
                         </select>
                     </div>
                 </div>
@@ -178,7 +200,13 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
+    import axios from 'axios';
+    import moment from "moment"
+    import 'moment/locale/ja'
+
+    import VueTimepicker from './../../components/common/Vue2TimepickerComponent.vue'
+
+    import VuejsDatepickerComponent from "./../../components/common/VuejsDatepickerComponent.vue"
 	export default {
         props: {
             lesson: {
@@ -189,6 +217,8 @@ import axios from 'axios';
             },
         },
 		components: {
+            'vue-timepicker': VueTimepicker,
+            'vuejs-datepicker-component': VuejsDatepickerComponent,
 		},
 		data() {
 			return {
@@ -196,11 +226,18 @@ import axios from 'axios';
                 // 参加者詳細モーダル
                 isParticipantDetail: false,
                 currentUser: null,
+                lessonCancelRate: '',
             }
 		},
 		created: function() {
 			// 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
-
+            this.lessonTitle      = this.lesson.title ?? '';
+            this.lessonUrl        = this.lesson.url ?? '';
+            this.lessonDetail     = this.lesson.detail ?? '';
+            this.lessonStart      = this.lesson.start ?? '';
+            this.lessonFinish     = this.lesson.finish ?? '';
+            this.lessonPrice      = this.lesson.price ?? '';
+            this.lessonCancelRate = this.lesson.cancel_rate ?? '';
 		},
 		computed: {},
 		methods: {

@@ -20,7 +20,7 @@
 			<div class="l-wrap--main l-wrap--detail">
 				<div class="l-content--detail">
 					<div class="l-content--detail__inner">
-                        <p class="u-text--sentence u-mb10">返金リクエストが完了しました。<br>10営業日以内に、返金手続きを行います。</p>
+                        <p class="u-text--sentence u-mb10">出金リクエストが完了しました。<br>10営業日以内に、返金手続きを行います。</p>
                         @if($user_status == 0)
 						<a href="{{ route('mypage.u.attendance-lessons') }}" class="u-text--link">ダッシュボードへ戻る</a>
                         @elseif($user_status == 1)

@@ -65,7 +65,7 @@
                                 <div class="c-contentList__box__info">
                                     <div class="number l-flex">
                                         <p class="other">
-                                            <span class="stage">第{{ $lesson->number }}回</span>
+                                            <span class="stage">第{{ $lesson->rowNumber }}回</span>
                                             <span>{{ $lesson->user_point }}</span>
                                             <span class="date">{{ $lesson->add_week_date }} {{ $lesson->separate_hyphen_time }}</span>
                                         </p>

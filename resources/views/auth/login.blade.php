@@ -78,15 +78,15 @@
 
 @extends('layouts.single')
 
-<!-- タイトル・メタディスクリプション -->
+{{-- タイトル・メタディスクリプション --}}
 @section('title', 'ログイン画面 | おけいcom')
 @section('description', 'ログイン画面')
 
-<!-- CSS -->
+{{-- CSS --}}
 @push('css')
 @endpush
 
-<!-- 本文 -->
+{{-- 本文 --}}
 @section('content')
     @error('email')
         <div class="l-alart errorAlart" role="alert">

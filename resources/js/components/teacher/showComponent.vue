@@ -5,7 +5,7 @@
 				<div class="teacherDetail-profile-detail">
 					<div class="c-img--shadow">
 						<div class="c-img--cover c-img--round" v-if="user.img!=null">
-							<img v-bind:src="'/storage/profile/' + user.img">"
+							<img v-bind:src="'/storage/profile/' + user.img">
 						</div>
 					</div>
 					<p class="u-text--big u-mb10">{{ user.name }}</p>
@@ -17,18 +17,18 @@
 						<p class="review">レビュー {{ evalutions.length ? evalutions.length : 0 }}件</p>
 					</div>
 					<ul class="c-text--category u-mb5">
-						<li  v-if="user.cat1!=null">{{ user.cat1 }}</li>
-						<li  v-if="user.cat2!=null">{{ user.cat2 }}</li>
-						<li  v-if="user.cat3!=null">{{ user.cat3 }}</li>
-						<li  v-if="user.cat4!=null">{{ user.cat4 }}</li>
-						<li  v-if="user.cat5!=null">{{ user.cat5 }}</li>
+						<li v-if="user.cat1!=null">{{ user.cat1 }}</li>
+						<li v-if="user.cat2!=null">{{ user.cat2 }}</li>
+						<li v-if="user.cat3!=null">{{ user.cat3 }}</li>
+						<li v-if="user.cat4!=null">{{ user.cat4 }}</li>
+						<li v-if="user.cat5!=null">{{ user.cat5 }}</li>
 					</ul>
 					<div class="teacherDetail-profile-detail-tab u-mb10">
 						<div class="tabBox"><span>国籍</span>{{ user.country ? user.country : '未設定' }}</div>
 						<div class="tabBox"><span>言語</span>{{ user.lang ? user.lang : '未設定'}}</div>
 						<div class="tabBox"><span>都道府県</span>{{ user.pref ? user.pref : '未設定'}}</div>
 					</div>
-					<a href="{{ route}}" class="c-button--square__pink">メッセージを送る</a>
+					<a :href="message" class="c-button--square__pink">メッセージを送る</a>
 				</div>
 				<div class="teacherDetail-profile-text">
 					<p class="u-text--sentence">{{ user.profile }}</p>
@@ -90,7 +90,6 @@
 									<div class="c-img--cover c-img--round"  v-if="evalution.user_img!=null">
 										<img v-bind:src="'/storage/profile/' + evalution.user_img">"
 									</div>
-
 								</div>
 							</div>
 							<div class="l-content--review--text">
@@ -118,18 +117,33 @@
     import SidebarComponent from './../../components/common/sidebarComponent.vue'
 
 	export default {
+		props: {
+            user: Array,
+            lessons: Array,
+            evalutions: Array,
+        },
         components: {
             'sidebar-component': SidebarComponent,
         },
 		data() {
 			return {
-				isBarTab: '1',
+                isBarTab: '1',
+                message: '',
 			}
 		},
 		created: function() {
-			// 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
-			console.log(this.lessons)
-		},
+            // 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
+
+            // メッセージ詳細ページへのリンク生成
+            var messageUrl = '';
+            var talkUser = this.user.id;
+            if(this.user.status === 0) {
+                messageUrl = '/mypage/u/messages/';
+            } else if(this.user.status === 1) {
+                messageUrl = '/mypage/t/messages/';
+            }
+            this.message = messageUrl + this.user.id
+        },
 		computed: {},
 		methods: {
 			// 講師詳細のタブ切り替え
@@ -138,10 +152,5 @@
 			},
 		},
 		watch: {},
-		props: {
-            user: Array,
-            lessons: Array,
-            evalutions: Array,
-          },
 	}
 </script>

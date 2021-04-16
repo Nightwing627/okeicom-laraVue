@@ -1,9 +1,7 @@
 {
-    "version": 3,
-    "mappings": ";AAiCA,sBAAsB;AACtB,AAAA,kBAAkB,CAAC;EACf,QAAQ,EAAE,QAAQ;EAClB,SAAS,EAAE,KAAK;EAChB,WAAW,EAAE,GAAG;CACnB",
-    "sources": [
-        "userPayment.scss"
-    ],
-    "names": [],
-    "file": "userPayment.css"
+"version": 3,
+"mappings": "AA6CA,kBAAmB,CACf,QAAQ,CAAE,QAAQ,CAClB,SAAS,CAAE,KAAK,CAChB,WAAW,CAAE,GAAG",
+"sources": ["userPayment.scss"],
+"names": [],
+"file": "userPayment.css"
 }

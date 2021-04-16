@@ -1,5 +1,8 @@
 <div id="sidebar" class="pc-only">
 	<div class="sidebar-change">
+        <a href="" class="u-text--link">講師マニュアル</a>
+    </div>
+	<div class="sidebar-change">
 		<a href="{{ route('mypage.t.change') }}" class="u-text--link">受講者に切り替える</a>
 	</div>
 	<ul class="sidebar__list">

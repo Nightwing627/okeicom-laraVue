@@ -19,7 +19,7 @@
                 @if($user_status = 0)
                 <a onclick="uviewmessagelist()">
                 @elseif($user_status = 1)
-                <a  onclick="uviewmessagelist()">
+                <a  onclick="tviewmessagelist()">
                 @endif
                     <img src="/img/common/icon-arrow-left-blue.png">
                 </a>
@@ -86,7 +86,11 @@
                         //     echo '自分';
                         // }
                         echo '<div class="message-body-img"><div class="c-img--cover c-img--round"><img src="/storage/profile/' . $message_detail->users_img .'"></div></div>';
-                        echo '<div class="message-body-text"><p class="name"><a href="/mypage/u/messages/'. $partner_users_id .'" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p>';
+                        if($partner_users_id == $message_detail->user_send_id) {
+                            echo '<div class="message-body-text"><p class="name"><a href="/teachers/detail/'. $partner_users_id .'" class="u-text--link">'. $message_detail->users_name . '</a></p><p class="body">'. $message_detail->message_detail . '</p>';
+                        } else {
+                            echo '<div class="message-body-text"><p class="name">自分</p><p class="body">'. $message_detail->message_detail . '</p>';
+                        }
                         if($message_detail->file1) {
                             $target_file = pathinfo($message_detail->file1, PATHINFO_EXTENSION);
                             if($target_file == 'png' || $target_file == 'jpg' || $target_file == 'jpeg' || $target_file == 'gif') {
@@ -123,16 +127,15 @@
     </div>
 </div>
 <script>
-      document.onreadystatechange = function () {
-     if (document.readyState == "complete") {
-        var user_id =  document.getElementById("user_id").innerText;
-        if (user_id !=null) {
-            document.getElementById("message_detail").value = localStorage.getItem(user_id);
+    document.onreadystatechange = function () {
+        if (document.readyState == "complete") {
+            var user_id =  document.getElementById("user_id").innerText;
+            if (user_id !=null) {
+                document.getElementById("message_detail").value = localStorage.getItem(user_id);
+            }
         }
-   }
- }
-        
-    function uviewmessagelist(){          
+    }
+    function uviewmessagelist(){
         var message = document.getElementById("message_detail").value;
         var user_id =  document.getElementById("user_id").innerText;
         var names=new Array();

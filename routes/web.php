@@ -130,49 +130,51 @@ Route::prefix('teachers')->name('teachers.')->group(function () {
 
 // 講師管理画面
 Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
-    // コース一覧
-    Route::get('courses', [TeacherController::class, 'course'])->name('courses');
-    // コース詳細
-    Route::get('courses/detail/{courses_id}', [TeacherController::class, 'coursesDetail'])->name('courses.detail');
-    // コース編集
-    Route::post('courses/update', [TeacherController::class, 'updateCourses'])->name('courses.update');
-    // コース作成
-    Route::get('courses/create', [TeacherController::class, 'createCourse'])->name('courses.create');
-    Route::post('courses/store', [TeacherController::class, 'storeCourse'])->name('courses.store');
-    // レッスン作成
-    Route::get('lessons/create/{courses_id}', [TeacherController::class, 'createLessons'])->name('lessons.create');
-    Route::post('lessons/store', [TeacherController::class, 'storeLessons'])->name('lessons.store');
-    // レッスン編集
-    Route::get('lessons/edit/{lesson_id}', [TeacherController::class, 'editLessons'])->name('lessons.edit');
-    Route::post('lessons/update', [TeacherController::class, 'updateLessons'])->name('lessons.update');
-    // レッスン削除
-    Route::post('lessons/delete', [TeacherController::class, 'deleteLessons'])->name('lessons.delete');
-    // プロフィール
-    Route::get('profile', [StudentController::class, 'profile'])->name('profile');
-    Route::post('profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');
-    Route::get('profile/password', [StudentController::class, 'editPassword'])->name('profile.password.edit');
-    Route::post('profile/password', [StudentController::class, 'updatePassword'])->name('profile.password.update');
-    // レッスン参加状況
-    Route::get('lesson-participation', [TeacherController::class, 'lessonsParticipation'])->name('lessons.participation');
-    Route::get('lesson-participation/{lessons_id}', [TeacherController::class, 'lessonParticipationUsers'])->name('lessons.participation.users');
-    // キャンセルリクエスト
-    Route::get('cancel-requests', [TeacherController::class, 'cancelRequests'])->name('cancel-requests');
-    Route::post('cancel-requests', [TeacherController::class, 'doCancel'])->name('cancel.do');
-    Route::post('block-application', [TeacherController::class, 'doBlock'])->name('block.do');
-    // メッセージ
-    Route::get('messages', [StudentController::class, 'messages'])->name('messages');
-    Route::post('messages', [StudentController::class, 'sendMessages'])->name('messages.send');
-    Route::get('messages/{partner_users_id}', [StudentController::class, 'messageDetail'])->name('messages.detail');
-    // 入出金
-    Route::get('trade', [StudentController::class, 'trade'])->name('trade');
-    Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
-    Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
-    Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
-    // 退会
-    Route::get('withdrawal', [StudentController::class, 'createWithdrawal'])->name('withdrawal.create');
-    Route::post('withdrawal', [StudentController::class, 'storeWithdrawal'])->name('withdrawal.store');
-    // 切り替え
-    Route::get('change', [TeacherController::class, 'change'])->name('change');
+    Route::middleware('auth')->group(function () {
+        // コース一覧
+        Route::get('courses', [TeacherController::class, 'course'])->name('courses');
+        // コース詳細
+        Route::get('courses/detail/{courses_id}', [TeacherController::class, 'coursesDetail'])->name('courses.detail');
+        // コース編集
+        Route::post('courses/update', [TeacherController::class, 'updateCourses'])->name('courses.update');
+        // コース作成
+        Route::get('courses/create', [TeacherController::class, 'createCourse'])->name('courses.create');
+        Route::post('courses/store', [TeacherController::class, 'storeCourse'])->name('courses.store');
+        // レッスン作成
+        Route::get('lessons/create/{courses_id}', [TeacherController::class, 'createLessons'])->name('lessons.create');
+        Route::post('lessons/store', [TeacherController::class, 'storeLessons'])->name('lessons.store');
+        // レッスン編集
+        Route::get('lessons/edit/{lesson_id}', [TeacherController::class, 'editLessons'])->name('lessons.edit');
+        Route::post('lessons/update', [TeacherController::class, 'updateLessons'])->name('lessons.update');
+        // レッスン削除
+        Route::post('lessons/delete', [TeacherController::class, 'deleteLessons'])->name('lessons.delete');
+        // プロフィール
+        Route::get('profile', [StudentController::class, 'profile'])->name('profile');
+        Route::post('profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');
+        Route::get('profile/password', [StudentController::class, 'editPassword'])->name('profile.password.edit');
+        Route::post('profile/password', [StudentController::class, 'updatePassword'])->name('profile.password.update');
+        // レッスン参加状況
+        Route::get('lesson-participation', [TeacherController::class, 'lessonsParticipation'])->name('lessons.participation');
+        Route::get('lesson-participation/{lessons_id}', [TeacherController::class, 'lessonParticipationUsers'])->name('lessons.participation.users');
+        // キャンセルリクエスト
+        Route::get('cancel-requests', [TeacherController::class, 'cancelRequests'])->name('cancel-requests');
+        Route::post('cancel-requests', [TeacherController::class, 'doCancel'])->name('cancel.do');
+        Route::post('block-application', [TeacherController::class, 'doBlock'])->name('block.do');
+        // メッセージ
+        Route::get('messages', [StudentController::class, 'messages'])->name('messages');
+        Route::post('messages', [StudentController::class, 'sendMessages'])->name('messages.send');
+        Route::get('messages/{partner_users_id}', [StudentController::class, 'messageDetail'])->name('messages.detail');
+        // 入出金
+        Route::get('trade', [StudentController::class, 'trade'])->name('trade');
+        Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
+        Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
+        Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
+        // 退会
+        Route::get('withdrawal', [StudentController::class, 'createWithdrawal'])->name('withdrawal.create');
+        Route::post('withdrawal', [StudentController::class, 'storeWithdrawal'])->name('withdrawal.store');
+        // 切り替え
+        Route::get('change', [TeacherController::class, 'change'])->name('change');
+    });
 });
 
 // 受講者管理画面
@@ -188,7 +190,7 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
         Route::get('messages', [StudentController::class, 'messages'])->name('messages');
         Route::post('messages', [StudentController::class, 'sendMessages'])->name('messages.send');
         Route::get('messages/{partner_users_id}', [StudentController::class, 'messageDetail'])->name('messages.detail');
-        
+
         // プロフィール
         Route::get('profile', [StudentController::class, 'profile'])->name('profile');
         Route::post('profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');

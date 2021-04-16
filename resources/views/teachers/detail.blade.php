@@ -11,9 +11,9 @@
 
 {{-- 本文 --}}
 @section('content')
-
+    <!--
     <div class="l-wrap--title profile">
-        <!-- <div class="l-wrap">
+        <div class="l-wrap">
             <div class="teacherDetail-profile">
                 <div class="teacherDetail-profile-detail">
                     <div class="c-img--shadow">
@@ -47,7 +47,8 @@
                     <p class="u-text--sentence"></p>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
+    -->
     <teacher-show-component :user="{{$user}}" :lessons="{{$lessons}}" :evalutions="{{$evalutions}}"></teacher-show-component>
 @endsection

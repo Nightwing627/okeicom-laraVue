@@ -1,6 +1,6 @@
 <div id="sidebar" class="pc-only">
 	<div class="sidebar-change">
-		<a href="{{ route('mypage.u.change') }}" class="u-text--link">講師に切り替える</a>
+		<a href="{{ route('mypage.u.change') }}" class="u-text--link">講師に切り替える<span style="font-size: 10px; display: block; color: #777; margin-top: 10px;">講師としての活動をご希望の方は下記ボタンを押してください</span></a>
 	</div>
 	<ul class="sidebar__list">
 		<li class="@if(Request::is('mypage/u/attendance-lessons')) selected @endif"><a href="{{ route('mypage.u.attendance-lessons') }}">受講予定レッスン</a></li>

@@ -18,7 +18,7 @@
 				</ul>
 				<ul class="menu-user--content">
 					<!-- <li><a href="/news/">お知らせ</a></li> -->
-					<li><a href="mailto:contact@i-rick.co.jp">運営にお問い合わせ</a></li>
+					<li><a href="/contact">運営にお問い合わせ</a></li>
                     <li>
                         <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
                         <form id="logout-form" action="/logout" method="POST" style="display: none;">
@@ -63,13 +63,13 @@
 							<span>メニュー</span>
 						</a>
 					</li>
-					<li class="menu-profile">
+					<!-- <li class="menu-profile">
 						<a class="c-img--shadow" @click.prevent="toggleMenuUser">
 							<div class="c-img--cover c-img--round">
 								<img src="/img/common/screen-top.jpg" alt="メニューアイコン">
 							</div>
 						</a>
-					</li>
+					</li> -->
 				</ul>
 				<div class="header__search pc-only">
 					<form class="l-flex" action="/search" method="GET">
@@ -89,14 +89,28 @@
 								<span>チャット</span>
 							</a>
 						</li>
-						<li class="menu-profile">
+
+                        <li>
+                            <a @click.prevent="toggleMenuUser">
+                                <img src="/img/common/icon-header-menu-bold-pink.png" alt="ハンバーガーメニュー">
+                                <span>メニュー</span>
+                            </a>
+                        </li>
+						<!-- <li class="humberger-menu">
+                            <input id="drawer-checkbox" type="checkbox">
+                            <label id="drawer-icon" @click.prevent="toggleMenuUser">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </label>
+                        </li> -->
+						<!-- <li class="menu-profile">
 							<a class="c-img--shadow" @click.prevent="toggleMenuUser">
 								<div class="c-img--cover c-img--round">
-									<!-- <img src="/img/common/screen-top.jpg" alt="メニューアイコン"> -->
                                     <img :src="'/storage/profile/' + this.userImg" alt="メニューアイコン">
 								</div>
 							</a>
-						</li>
+						</li> -->
 					</ul>
 				</div>
 			</div>
@@ -110,13 +124,28 @@
 				<li><a href="/lessons/">レッスン一覧</a></li>
 				<li><a href="/teachers/">講師一覧</a></li>
 			</ul>
+			<p class="c-sp-headline nav--title">ログイン情報</p>
+			<ul class="nav-global__list">
+				<li><a href="/mypage/t/courses/">コース一覧</a></li>
+                <li><a href="/mypage/t/cancel-requests/">キャンセル依頼</a></li>
+                <li><a href="/mypage/t/messages/">メッセージ</a></li>
+                <li><a href="/mypage/t/profile/">プロフィール</a></li>
+                <li><a href="/mypage/t/trade/">入出金管理</a></li>
+                <li><a href="/mypage/t/withdrawal/">退会</a></li>
+                <li>
+                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
+                    <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                        <input type="hidden" name="_token" :value="csrf">
+                    </form>
+                </li>
+            </ul>
 			<p class="c-sp-headline nav--title">会社情報</p>
 			<ul class="nav-global__list">
 				<li><a href="/news/">お知らせ</a></li>
 				<!-- <li><a href="/company.php">会社概要</a></li> -->
 				<!-- <li><a href="/flow/">料金決済の流れ</a></li> -->
 				<li><a href="/tokushoho/">特定商取引法に基づく表記</a></li>
-				<li><a href="mailto:chankan77@gmail.com">お問い合わせ</a></li>
+				<li><a href="/contact">お問い合わせ</a></li>
 			</ul>
 			<p class="c-sp-headline nav--title">講師向け</p>
 			<ul class="nav-global__list">

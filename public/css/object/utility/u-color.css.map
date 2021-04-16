@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,aAAa,CAAC;EACb,KAAK,EAAE,kBAAkB;CACzB;;AACD,AAAA,cAAc,CAAC;EACd,KAAK,EAAE,kBAAkB;CACzB;;AACD,AAAA,kBAAkB,CAAC;EAClB,KAAK,EAAE,kBAAkB;CACzB;;AACD,AAAA,gBAAgB,CAAC;EAChB,KAAK,EAAE,kBAAkB;CACzB;;AACD,AAAA,eAAe,CAAC;EACf,KAAK,EAAE,kBAAkB;CACzB;;AACD,AAAA,cAAc,CAAC;EACd,KAAK,EAAE,kBAAkB;CACzB;;AACD,QAAQ;AACR,AAAA,iBAAiB,CAAC;EACjB,UAAU,EAAE,eAAe;CAC3B",
-    "sources": [
-        "u-color.scss"
-    ],
-    "names": [],
-    "file": "u-color.css"
-}

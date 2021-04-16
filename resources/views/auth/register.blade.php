@@ -13,6 +13,7 @@
 <div class="l-wrap--single">
     <div class="l-wrap--title">
         <h1 class="c-headline--screen u-textAlign__center">新規登録</h1>
+        <p style="margin-top: 1em;">受講者及び講師としての登録になります。<br>登録完了後、「コース」を作成すれば、自動的に講師としての登録が完了します。</p>
     </div>
     <div class="l-wrap--body">
         <div class="l-wrap--main l-wrap--detail">
@@ -22,43 +23,43 @@
                 @csrf
                     <div class="l-content--detail__inner">
                         <div class="l-content--input">
-                            <p class="l-content--input__headline">アカウント名</p>
-                            <input id="account" type="text" class="form-control @error('account') is-invalid @enderror" name="account" value="{{ old('account') }}" required autocomplete="account" autofocus placeholder="アカウント名">
+                            <p class="l-content--input__headline must">アカウント名（ログインするときに使用する名前 / ローマ字・半角数字のみ）</p>
+                            <input id="account" type="text" class="form-control @error('account') is-invalid @enderror" name="account" value="{{ old('account') }}" required autocomplete="account" autofocus placeholder="例）okeicom">
                             @error('account')
                                 <span class="u-color--red">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="l-content--input">
-                            <p class="l-content--input__headline">ユーザーネーム</p>
+                            <p class="l-content--input__headline must">ユーザーネーム（プロフィールで表示される名前）</p>
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="ユーザーネーム">
                             @error('name')
                                 <span class="u-color--red">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="l-content--input">
-                            <p class="l-content--input__headline">メールアドレス</p>
+                            <p class="l-content--input__headline must">メールアドレス</p>
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email }}" required autocomplete="email" readonly>
                         </div>
                         <div class="l-content--input">
-                            <p class="l-content--input__headline">電話番号</p>
+                            <p class="l-content--input__headline must">電話番号</p>
                             <input id="tel" type="text" class="form-control @error('tel') is-invalid @enderror" name="tel" value="{{ old('tel') }}" required autocomplete="tel" placeholder="00011112222">
                         </div>
                         <!--
                             メールアドレスは、認証で設定したメールアドレスを使用したいです！そのため、入力不要にしたいです。
                         -->
                         <div class="l-content--input">
-                            <p class="l-content--input__headline">パスワード</p>
+                            <p class="l-content--input__headline must">パスワード（半角数字8文字以上）</p>
                             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                             @error('password')
                                 <span class="u-color--red">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="l-content--input">
-                            <p class="l-content--input__headline">確認用パスワード</p>
+                            <p class="l-content--input__headline must">確認用パスワード</p>
                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                         </div>
                         <div class="l-content--input">
-                            <p class="l-content--input__headline">性別</p>
+                            <p class="l-content--input__headline must">性別</p>
                             <div class="c-selectBox u-w150">
                                 <select id="sex" name="sex" class="form-control @error('sex') is-invalid @enderror" required autocomplete="sex">
                                     @foreach ($sexes as $key => $value)
@@ -155,8 +156,8 @@
                             </div>
                         </div> --}}
                         <div class="l-content--input">
-                            <p class="l-content--input__headline">プロフィール</p>
-                            <textarea id="profile" class="form-control @error('profile') is-invalid @enderror" name="profile" required autocomplete="profile" cols="50" rows="10">{{ old('profile') }}</textarea>
+                            <p class="l-content--input__headline any">プロフィール</p>
+                            <textarea id="profile" class="form-control @error('profile') is-invalid @enderror" name="profile" autocomplete="profile" cols="50" rows="10">{{ old('profile') }}</textarea>
                             @error('profile')
                             <span class="u-color--red">{{ $message }}</span>
                             @enderror

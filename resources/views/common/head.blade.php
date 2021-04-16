@@ -3,7 +3,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <!-- CSRF Token -->
+    {{-- CSRF Token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') - おけいcom</title>
@@ -11,7 +11,7 @@
 
     <meta name="description" content="">
 
-    <!-- OGPタグ/twitterカード -->
+    {{-- OGPタグ/twitterカード --}}
     <meta property="og:url" content="ページのURL" />
     <meta property="og:title" content="ページのタイトル" />
     <meta property="og:type" content="ページのタイプ">
@@ -23,20 +23,20 @@
     <meta property="og:locale" content="ja_JP" />
     <meta property="fb:app_id" content="appIDを入力" />
     <link rel="shortcut icon" href="{{ asset('/img/common/favicon.png') }}" type="image/x-icon" />
-    <!-- スマホ用アイコン画像 -->
+    {{-- スマホ用アイコン画像 --}}
     <link rel="apple-touch-icon-precomposed" href="{{ asset('/img/common/favicon.png') }}" />
 
-    <!-- Windows用タイル設定 -->
+    {{-- Windows用タイル設定 --}}
     <meta name="msapplication-TileImage" content="画像のURL" />
     <meta name="msapplication-TileColor" content="カラーコード（例：#F89174）"/>
 
-    <!-- フィードページの指定 -->
+    {{-- フィードページの指定 --}}
     <link rel="alternate" type="application/rss+xml" title="フィード" href="フィードページのURL" />
 
-    <!-- css -->
+    {{-- css --}}
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     @stack('css')
-    <!-- vue -->
+    {{-- vue --}}
     @stack('js')
 
 </head>

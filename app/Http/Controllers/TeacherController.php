@@ -280,25 +280,39 @@ class TeacherController extends Controller
         $lessons = json_decode($request->lessons, true);
 
         // レッスンURLを配列で取得
-        $lessonUrls = Lesson::select(['lessons.view'])->get()->toArray();
-        foreach($lessonUrls as $lessonUrl) {
-            $urls[] = $lessonUrl['view'];
-        }
+        // $lessonUrls = Lesson::select(['lessons.view'])->get()->toArray();
+        // foreach($lessonUrls as $lessonUrl) {
+        //     $urls[] = $lessonUrl['view'];
+        // }
 
         // ランダムな整数を配列に入れる
-        for($i = 0; $i < count($lessons); $i++) {
-            if($lessonUrls) {
-                do{
-                    // 12桁のランダムな整数を作成
-                    $randams[$i] = substr(bin2hex(random_bytes(64)), 0, 64);
-                    // DBに登録されているnumberと12桁のランダムな整数が合致するか
-                    $key = in_array($randams[$i], $urls);
-                    // ランダムな整数がDBと同じ場合は、再度ランダムな整数を発行する
-                } while ($key == true);
-            } else {
-                $randams[$i] = substr(bin2hex(random_bytes(64)), 0, 64);
-            }
+        // for($i = 0; $i < count($lessons); $i++) {
+        //     if($lessonUrls) {
+        //         do{
+        //             // 12桁のランダムな整数を作成
+        //             $randams[$i] = substr(bin2hex(random_bytes(64)), 0, 64);
+        //             // DBに登録されているnumberと12桁のランダムな整数が合致するか
+        //             $key = in_array($randams[$i], $urls);
+        //             // ランダムな整数がDBと同じ場合は、再度ランダムな整数を発行する
+        //         } while ($key == true);
+        //     } else {
+        //         $randams[$i] = substr(bin2hex(random_bytes(64)), 0, 64);
+        //     }
+        // }
+
+
+        /* 追加 */
+        $urls[] = '';
+        foreach($lessons as $index => $lesson) {
+            do {
+                // 12桁のランダムな整数を作成
+                $randams[$index] = substr(bin2hex(random_bytes(64)), 0, 64);
+                // DBに登録されているnumberと12桁のランダムな整数が合致するか
+                $key = in_array($randams[$index], $urls);
+                // ランダムな整数がDBと同じ場合は、再度ランダムな整数を発行する
+            } while ($key == true);
         }
+
 
         // レッスンに必要な情報を入れる
         foreach ($lessons as $index => $lesson) {
@@ -432,18 +446,20 @@ class TeacherController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function storeLessons(LessonStoreRequest $request)
+    // public function storeLessons(Request $request)
     {
         $lesson = new Lesson();
         $lesson->fill([
             'user_id' => Auth::user()->id,
             'course_id' => $request->courses_id,
             'status' => $this->lesson::STATUS_PLANS,
-            'public' => 0,
+            'public' => $request->public,
             'type' => $request->type,
             'date' => $request->date,
             'start' => $request->start,
             'finish' => $request->finish,
             'price' => $request->price,
+            'view' => 'fdav9ub32ojbvdfavadf',
             'cancel_rate' => $request->cancel_rate,
             'title' => $request->title,
             'detail' => $request->detail,
@@ -576,7 +592,7 @@ class TeacherController extends Controller
             $application->status = 3;
             $application->deleted_at = date("Y-m-d");
             $application->save();
-            
+
             \App\Models\Cancel::create([
                 'application_id' => $application->id,
                 'user_id' => $request->userId,

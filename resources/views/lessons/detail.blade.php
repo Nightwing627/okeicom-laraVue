@@ -246,7 +246,7 @@
 										</div>
 									</div>
 									<div class="c-scroll__box__detail l-flex">
-										<span class="number">第{{ $relate->number}}回</span>
+										<span class="number">第{{ $relate->rowNumber}}回</span>
 										<span class="price">{{ $relate->separate_comma_price}}</span>
 									</div>
 									<div class="c-scroll__box__text">

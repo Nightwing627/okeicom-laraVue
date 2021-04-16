@@ -23,9 +23,21 @@ $breakpoint-down: (
         @content;
     }
 }
-$colorPink: #ED6C73;
+
+/* Color */
 $colorBlue: #373B50;
+$colorPink: #ED6C73;
+$colorGray: #797979;
+$colorGreem: #5CC964;
+$colorRed: #ED4646;
+
+/* BgColor */
 $bgMainColor: #F6F5F7;
+
+/* OtherColor */
+$colorTextLink: #3399ff;
+$colorBlackWhite: #1D1D1D;
+$colorBorderColor: #707070;
 
 /*  */
 .l-message {

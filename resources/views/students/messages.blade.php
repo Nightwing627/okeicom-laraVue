@@ -42,14 +42,11 @@
         @endif
     </div>
     <script>
-      
-        var names = JSON.parse(localStorage.getItem("users")); 
+        var names = JSON.parse(localStorage.getItem("users"));
         function iterate(item) {
             document.getElementById(item).innerHTML = localStorage.getItem(item);
         }
         names.forEach(iterate);
-        
-
     </script>
 @endsection
 

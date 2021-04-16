@@ -68,18 +68,26 @@ class Lesson extends Model
         // ユーザー一覧
         $user = new User();
         $evaluations = $user->getTeachersPointQuery();
+        $rowNumbers = $this->getLessonNumberQuery();
 
         // キーワード
         return self::query()
             ->select([
                 'lessons.*',
+                'courses.img1 as courses_img1',
+                'courses.img2 as courses_img2',
+                'courses.img3 as courses_img3',
+                'courses.img4 as courses_img4',
+                'courses.img5 as courses_img5',
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
                 'categories4.name as category4_name',
                 'categories5.name as category5_name',
-                'users.img as user_img',
+                'users.img as users_img',
+                'courses.img1 as course_img',
                 'evaluations.avg_point as evaluations_avg_point',
+                'rowNumbers.rowNumber'
             ])
 
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
@@ -111,6 +119,10 @@ class Lesson extends Model
                     $query->orwhere('lessons.date', '=', $params['select_date']);
                 });
             })
+            // 第何回か表示
+            ->leftJoinSub($rowNumbers, 'rowNumbers', function ($join) {
+                $join->on('lessons.id', '=', 'rowNumbers.lessonId');
+            })
             // [条件指定] 入力したキーワードから検索
             ->when(isset($params['keyword']), function($query) use ($params) {
                 $query->where(function ($query) use ($params) {
@@ -132,9 +144,16 @@ class Lesson extends Model
     {
         $user = new User();
         $evaluations = $user->getTeachersPointQuery();
+        $rowNumbers = $this->getLessonNumberQuery();
+
         return self::query()
             ->select([
                 'lessons.*',
+                'courses.img1 as courses_img1',
+                'courses.img2 as courses_img2',
+                'courses.img3 as courses_img3',
+                'courses.img4 as courses_img4',
+                'courses.img5 as courses_img5',
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
@@ -143,6 +162,7 @@ class Lesson extends Model
                 'users.img as user_img',
                 'courses.img1 as course_img',
                 'evaluations.avg_point as evaluations_avg_point',
+                'rowNumbers.rowNumber'
             ])
             // 今日の日付以降のレッスンを取得
             ->where('date', '>=', date("Y-m-d"))
@@ -150,6 +170,9 @@ class Lesson extends Model
             ->join('users', 'lessons.user_id', '=', 'users.id')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                 $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            ->leftJoinSub($rowNumbers, 'rowNumbers', function ($join) {
+                $join->on('lessons.id', '=', 'rowNumbers.lessonId');
             })
             ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
             ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
@@ -175,6 +198,11 @@ class Lesson extends Model
         return self::query()
             ->select([
                 'lessons.*',
+                'courses.img1 as courses_img1',
+                'courses.img2 as courses_img2',
+                'courses.img3 as courses_img3',
+                'courses.img4 as courses_img4',
+                'courses.img5 as courses_img5',
                 'categories1.name as category1_name',
                 'categories2.name as category2_name',
                 'categories3.name as category3_name',
@@ -216,6 +244,7 @@ class Lesson extends Model
         // 講師別の評価値を集計
         $user = new User();
         $evaluations = $user->getTeachersPointQuery();
+        $rowNumbers = $this->getLessonNumberQuery();
 
         return self::query()
             ->select([
@@ -232,6 +261,7 @@ class Lesson extends Model
                 'categories5.name as category5_name',
                 'users.img as users_img',
                 'evaluations.avg_point as evaluations_avg_point',
+                'rowNumbers.rowNumber'
             ])
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
             ->join('users', 'lessons.user_id', '=', 'users.id')
@@ -242,6 +272,9 @@ class Lesson extends Model
             ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                 $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
+            })
+            ->leftJoinSub($rowNumbers, 'rowNumbers', function ($join) {
+                $join->on('lessons.id', '=', 'rowNumbers.lessonId');
             })
             ->where('lessons.status', self::STATUS_PLANS)
             ->where('lessons.date', '>=', date("Y-m-d"))
@@ -262,12 +295,17 @@ class Lesson extends Model
     {
         $user = new User();
         $evaluations = $user->getTeachersPointQuery();
+        $rowNumbers = $this->getLessonNumberQuery();
+
         return self::query()
             ->where('lessons.user_id', $users_id)
             ->where('lessons.course_id', $courses_id)
             ->orderBy('lessons.date', 'asc')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {
                 $join->on('lessons.user_id', '=', 'evaluations.user_teacher_id');
+            })
+            ->leftJoinSub($rowNumbers, 'rowNumbers', function ($join) {
+                $join->on('lessons.id', '=', 'rowNumbers.lessonId');
             })
             ->get();
     }
@@ -753,6 +791,10 @@ class Lesson extends Model
             ->groupBy('applications.lesson_id');
     }
 
+    /**
+     * レッスンの番号を設定する
+     *
+     */
     public function getLessonNumberQuery()
     {
         // レッスン別の申込数を集計

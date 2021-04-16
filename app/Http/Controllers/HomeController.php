@@ -39,7 +39,6 @@ class HomeController extends Controller
         $popular_teachers = $this->user->getPopularTeachers();
         $new_arrival_teachers = $this->user->getNewArrivalTeachers();
         $categories = $this->category->getAll();
-
         return view('home',
             compact('today_lessons',
                 'popular_lessons',
@@ -47,6 +46,7 @@ class HomeController extends Controller
                 'new_arrival_lessons',
                 'popular_teachers',
                 'new_arrival_teachers',
-                'categories'));
+                'categories')
+            );
     }
 }

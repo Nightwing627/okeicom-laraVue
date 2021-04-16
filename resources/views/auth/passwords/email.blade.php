@@ -50,47 +50,49 @@
 
 @extends('layouts.single')
 
-<!-- タイトル・メタディスクリプション -->
+{{-- タイトル・メタディスクリプション --}}
 @section('title', 'パスワード再設定完了 | おけいcom')
 @section('description', 'パスワード再設定完了')
 
-<!-- CSS -->
+{{-- CSS --}}
 @push('css')
 @endpush
 
-<!-- 本文 -->
+{{-- 本文 --}}
 @section('content')
-<div class="l-wrap--single login">
+    @error('email')
+        <div class="l-alart errorAlart" role="alert">
+            <p>メールアドレスの登録がありません。</p>
+        </div>
+    @enderror
+    <div class="l-wrap--single login">
+        <div class="l-wrap--title">
+            <h1 class="c-headline--screen u-textAlign__center">パスワードを忘れた方</h1>
+        </div>
+        <div class="l-wrap--body">
+            <div class="l-wrap--main l-wrap--detail">
+                <div class="l-content--detail">
+                    <div class="l-content--detail__inner">
+                        <form method="POST" action="{{ route('password.email') }}">
+                            @csrf
 
-    <div class="l-wrap--title">
-        <h1 class="c-headline--screen u-textAlign__center">パスワードを忘れた方</h1>
-    </div>
-    <div class="l-wrap--body">
-        <div class="l-wrap--main l-wrap--detail">
-
-            <div class="l-content--detail">
-
-                <div class="l-content--detail__inner">
-
-                    <div class="l-content--input">
-                        <p class="l-content--input__headline">メールアドレス</p>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                    </div>
-                    <div class="l-button--submit">
-                        <button type="submit" class="c-button--square__pink">パスワード再登録URL送信</button>
-                        @error('email')
-                            <span class="u-color--red">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="l-content--inputLink">
-                        <ul>
-                            <li class="u-mb10"><a href="{{ route('login') }}" class="u-text--link">ログイン画面はコチラ</a></li>
-                            <li><a href="{{ route('email.verify') }}" class="u-text--link">新規登録はコチラ</a></li>
-                        </ul>
+                            <div class="l-content--input">
+                                <p class="l-content--input__headline">メールアドレス</p>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                            </div>
+                            <div class="l-button--submit">
+                                <button type="submit" class="c-button--square__pink">パスワード再登録URL送信</button>
+                            </div>
+                            <div class="l-content--inputLink">
+                                <ul>
+                                    <li class="u-mb10"><a href="{{ route('login') }}" class="u-text--link">ログイン画面はコチラ</a></li>
+                                    <li><a href="{{ route('email.verify') }}" class="u-text--link">新規登録はコチラ</a></li>
+                                </ul>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

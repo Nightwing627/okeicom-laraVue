@@ -1,33 +1,3 @@
-@charset "UTF-8";
-
-$breakpoint-up: (
-    'sm': 'screen and (min-width: 400px)',
-    'md': 'screen and (min-width: 896px)',
-    'lg': 'screen and (min-width: 1020px)',
-) !default;
-
-$breakpoint-down: (
-    'sm': 'screen and (max-width: 399px)',
-    'md': 'screen and (max-width: 897px)',
-    'lg': 'screen and (max-width: 1020px)',
-) !default;
-
-@mixin mq_up($breakpoint: md) {
-    @media #{map-get($breakpoint-up, $breakpoint)} {
-        @content;
-    }
-}
-
-@mixin mq_down($breakpoint: md) {
-    @media #{map-get($breakpoint-down, $breakpoint)} {
-        @content;
-    }
-}
-$colorGray: #797979;
-$colorTextLink: #3399ff;
-$colorBlackWhite: #1D1D1D;
-$colorBorderColor: #707070;
-
 /* detailのコンテンツ */
 .l-courseCreate--wrap {
     margin-top: 20px;
@@ -120,6 +90,25 @@ $colorBorderColor: #707070;
     font-size: 13px;
     font-weight: 700;
     margin-bottom: 5px;
+    &.must:before,
+    &.any:before {
+        display: inline-block;
+        color: #fff;
+        margin-right: 3px;
+        border-radius: 1px;
+        padding: 2px 5px;
+        font-weight: 400;
+        border-radius: 2px;
+        font-size: 10px;
+    }
+    &.must:before {
+        content: '必須';
+        background: #ED6C73;
+    }
+    &.any:before {
+        content: '任意';
+        background: #808080;
+    }
 }
 .l-content--inputLink {
     margin-top: 30px;

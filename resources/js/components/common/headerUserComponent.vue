@@ -77,12 +77,12 @@
 					</li>
 				</ul>
 				<div class="header__search pc-only">
-					<form class="l-flex">
+                    <form class="l-flex" action="/search" method="GET">
 						<div class="header__search__text">
-							<input class="c-input--gray" type="text" name="" placeholder="キーワードを入力">
+                            <input class="c-input--gray" type="text" name="keyword" placeholder="キーワードを入力">
 						</div>
 						<div class="header__search__submit">
-							<input type="submit" name="" value="検索">
+                            <button type="submit">検索</button>
 						</div>
 					</form>
 				</div>
@@ -94,13 +94,27 @@
 								<span>チャット</span>
 							</a>
 						</li>
-						<li class="menu-profile">
+                        <li>
+                            <a @click.prevent="toggleMenuUser">
+                                <img src="/img/common/icon-header-menu-bold-pink.png" alt="ハンバーガーメニュー">
+                                <span>メニュー</span>
+                            </a>
+                        </li>
+						<!-- <li class="humberger-menu">
+                            <input id="drawer-checkbox" type="checkbox">
+                            <label id="drawer-icon" @click.prevent="toggleMenuUser">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </label>
+                        </li> -->
+						<!-- <li class="menu-profile">
 							<a class="c-img--shadow" @click.prevent="toggleMenuUser">
 								<div class="c-img--cover c-img--round">
-									<img src="/img/common/screen-top.jpg" alt="メニューアイコン">
+                                    <img :src="'/storage/profile/' + this.userImg" alt="メニューアイコン">
 								</div>
 							</a>
-						</li>
+						</li> -->
 					</ul>
 				</div>
 			</div>
@@ -113,6 +127,21 @@
 				<li><a href="/">トップページ</a></li>
 				<li><a href="/attendance-lessons">レッスン一覧</a></li>
 				<li><a href="/teachers.php">講師一覧</a></li>
+			</ul>
+			<p class="c-sp-headline nav--title">ログイン情報</p>
+			<ul class="nav-global__list">
+                <li><a href="/mypage/u/attendance-lessons">受講予定レッスン</a></li>
+                <li><a href="/mypage/u/taken-lessons">受講済みレッスン</a></li>
+                <li><a href="/mypage/u/messages/">メッセージ</a></li>
+                <li><a href="/mypage/u/profile/">プロフィール</a></li>
+                <li><a href="/mypage/u/trade/">入出金管理</a></li>
+                <li><a href="/mypage/u/withdrawal/">退会</a></li>
+                <li>
+                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
+                    <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                        <input type="hidden" name="_token" v-bind:value="csrf">
+                    </form>
+                </li>
 			</ul>
 			<p class="c-sp-headline nav--title">会社情報</p>
 			<ul class="nav-global__list">

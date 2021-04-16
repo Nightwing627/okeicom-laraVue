@@ -85,7 +85,7 @@
 				<li><a href="/news/">お知らせ</a></li>
 				<!-- <li><a href="/flow/">料金決済の流れ</a></li> -->
 				<li><a href="/tokushoho/">特定商取引法に基づく表記</a></li>
-				<li><a href="mailto: chankan77@gmail.com">お問い合わせ</a></li>
+				<li><a href="/contact/">お問い合わせ</a></li>
 			</ul>
 			<p class="c-sp-headline nav--title">講師向け</p>
 			<ul class="nav-global__list">
