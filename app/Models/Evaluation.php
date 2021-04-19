@@ -22,6 +22,7 @@ class Evaluation extends Model
     protected $fillable = [
         'user_student_id',
         'user_teacher_id',
+        'url',
         'lesson_id',
         'point',
         'comment',

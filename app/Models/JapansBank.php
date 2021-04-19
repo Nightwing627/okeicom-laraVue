@@ -2,20 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class JapansBank extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = [
-        'user_id',
-        'mark',
-        'number',
-        'name',
-    ];
+    protected $guarded = ['created_at', 'updated_at'];
 
     /**
      * その他銀行情報を登録する

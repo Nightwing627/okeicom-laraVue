@@ -1,12 +1,12 @@
 <template>
 	<div class="c-button--tab top-tab two-tab">
 		<div class="c-button--tab--inner u-w400_pc">
-			<div class="c-button--tab--box" v-bind:class="{'selected': isBarTab === '1'}" @click.prevent="changeTab('1')">ゆうちょ</div>
-			<div class="c-button--tab--box" v-bind:class="{'selected': isBarTab === '2'}" @click.prevent="changeTab('2')">その他</div>
+			<div class="c-button--tab--box" v-bind:class="{'selected': isBarTab === '0'}" @click.prevent="changeTab('0')">ゆうちょ</div>
+			<div class="c-button--tab--box" v-bind:class="{'selected': isBarTab === '1'}" @click.prevent="changeTab('1')">その他</div>
 		</div>
 	</div>
 	<!-- tab：ゆうちょ -->
-	<div class="c-list--table" v-if="isBarTab === '1'">
+	<div class="c-list--table" v-if="isBarTab === '0'">
 		<!-- <div class="c-list--tr">
 			<div class="c-list--th">
 				<p class="main">振込方法</p>
@@ -37,7 +37,7 @@
 				<p class="main">口座記号</p>
 			</div>
 			<div class="c-list--td">
-				<input class="u-w300_pc" placeholder="12345">
+				<input class="u-w300_pc" type="number" name="yucho_mark" placeholder="12345" required="required" :value="this.bankDate.mark ?? ''">
 			</div>
 		</div>
 		<div class="c-list--tr">
@@ -45,7 +45,7 @@
 				<p class="main">口座番号</p>
 			</div>
 			<div class="c-list--td">
-				<input class="u-w300_pc" placeholder="1234567">
+				<input class="u-w300_pc" type="number" name="yucho_number" placeholder="1234567" required="required" :value="this.bankDate.japan_number ?? ''">
 			</div>
 		</div>
 		<div class="c-list--tr">
@@ -53,7 +53,7 @@
 				<p class="main">口座名義人</p>
 			</div>
 			<div class="c-list--td">
-				<input class="u-w300_pc" type="" name="" placeholder="ヤマダタロウ（全角カタカナ）">
+				<input class="u-w300_pc" type="text" name="yucho_name" placeholder="ヤマダタロウ（全角カタカナ）" required="required" :value="this.bankDate.japan_name ?? ''">
 			</div>
 		</div>
 		<!-- <div class="c-list--tr">
@@ -73,17 +73,17 @@
 			</div>
 		</div> -->
 		<div class="l-button--submit u-pb20_sp">
-			<input type="subit" name="" value="変更内容を保存する" class="c-button--square__pink">
+            <button type="submit" class="c-button--square__pink">変更内容を保存する</button>
 		</div>
 	</div>
 	<!-- tab：その他 -->
-	<div class="c-list--table" v-else-if="isBarTab === '2'">
+	<div class="c-list--table" v-else-if="isBarTab === '1'">
 		<div class="c-list--tr">
 			<div class="c-list--th">
 				<p class="main">金融機関名</p>
 			</div>
 			<div class="c-list--td">
-				<input class="u-w300_pc" type="" name="" placeholder="金融機関名を入力">
+				<input class="u-w300_pc" type="text" name="other_financial_name" placeholder="金融機関名を入力" :value="this.bankDate.financial_name ?? ''" required="required">
 			</div>
 		</div>
 		<div class="c-list--tr">
@@ -91,7 +91,15 @@
 				<p class="main">支店名</p>
 			</div>
 			<div class="c-list--td">
-				<input class="u-w300_pc" type="" name="" placeholder="支店名を入力">
+				<input class="u-w300_pc" type="text" name="other_branch_name" placeholder="支店名を入力" :value="this.bankDate.branch_name ?? ''" required="required">
+			</div>
+		</div>
+		<div class="c-list--tr">
+			<div class="c-list--th">
+				<p class="main">支店番号</p>
+			</div>
+			<div class="c-list--td">
+				<input class="u-w300_pc" type="number" name="other_branch_number" placeholder="000" :value="this.bankDate.branch_number ?? ''" required="required">
 			</div>
 		</div>
 		<div class="c-list--tr">
@@ -100,9 +108,10 @@
 			</div>
 			<div class="c-list--td">
 				<div class="c-selectBox u-w100">
-					<select>
-						<option>普通</option>
-						<option>当座</option>
+					<!-- <select name="other_type" v-model="banktype" required="required"> -->
+                    <select name="other_type" :value="banktype" required="required">
+						<option value="0">普通</option>
+						<option value="1">当座</option>
 					</select>
 				</div>
 			</div>
@@ -112,7 +121,15 @@
 				<p class="main">口座番号</p>
 			</div>
 			<div class="c-list--td">
-				<input class="u-w300_pc" type="" name="" placeholder="1234567">
+				<input class="u-w300_pc" type="number" name="other_number" placeholder="1234567" :value="this.bankDate.other_number" required="required">
+			</div>
+		</div>
+		<div class="c-list--tr">
+			<div class="c-list--th">
+				<p class="main">口座名義人</p>
+			</div>
+			<div class="c-list--td">
+				<input class="u-w300_pc" type="text" name="other_name" placeholder="口座名義人を入力" :value="this.bankDate.other_name" required="required">
 			</div>
 		</div>
 		<!-- <div class="c-list--tr">
@@ -132,23 +149,30 @@
 			</div>
 		</div> -->
 		<div class="l-button--submit u-pb20_sp">
-			<input type="subit" name="" value="変更内容を保存する" class="c-button--square__pink">
+            <button type="submit" class="c-button--square__pink">変更内容を保存する</button>
 		</div>
 	</div>
 </template>
 <script>
 	export default {
-        components: {
+        props: {
+            bankDate: {
+                type: Array
+            },
+            target: {
+                type: Number
+            },
         },
+        components: {},
 		data() {
 			return {
-				isBarTab: '1',
+                isBarTab: this.target ?? '0',
+                banktype: this.bankDate.type ?? '0',
 			}
 		},
 		created: function() {
-			// 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
-
-		},
+            // 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
+        },
 		computed: {},
 		methods: {
 			// 講師詳細：

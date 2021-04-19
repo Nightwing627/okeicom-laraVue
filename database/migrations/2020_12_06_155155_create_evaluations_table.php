@@ -18,8 +18,8 @@ class CreateEvaluationsTable extends Migration
             $table->unsignedInteger('user_student_id');
             $table->unsignedInteger('user_teacher_id');
             $table->unsignedInteger('lesson_id');
-            $table->unsignedTinyInteger('point');
-            $table->string('comment');
+            $table->unsignedTinyInteger('point')->nullable();
+            $table->string('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

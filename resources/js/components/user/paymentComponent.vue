@@ -46,34 +46,34 @@
             <div class="l-content--panel" v-if="isBankPanel === '1'">
                 <div class="l-content--input">
                     <p class="l-content--input__headline">口座記号</p>
-                    <input type="text" name="yucho_mark" placeholder="12345">
+                    <input type="text" name="yucho_mark" placeholder="12345" :value="this.bankDate.mark ?? ''" required="required">
                 </div>
                 <div class="l-content--input">
                     <p class="l-content--input__headline">口座番号</p>
-                    <input type="text" name="yucho_number" placeholder="1234567">
+                    <input type="text" name="yucho_number" placeholder="1234567" :value="this.bankDate.japan_number ?? ''" required="required">
                 </div>
                 <div class="l-content--input">
                     <p class="l-content--input__headline">口座名義人</p>
-                    <input type="text" name="yucho_name" placeholder="ヤマダタロウ（全角カタカナ）">
+                    <input type="text" name="yucho_name" placeholder="ヤマダタロウ（全角カタカナ）" :value="this.bankDate.japan_name ?? ''" required="required">
                 </div>
             </div>
             <div class="l-content--panel" v-else-if="isBankPanel === '2'">
                 <div class="l-content--input">
                     <p class="l-content--input__headline">金融機関名</p>
-                    <input type="text" name="other_financial_name" placeholder="ABC銀行">
-                </div>
-                <div class="l-content--input u-w50per">
-                    <p class="l-content--input__headline">支店番号</p>
-                    <input type="text" name="other_branch_number" placeholder="123">
+                    <input type="text" name="other_financial_name" placeholder="ABC銀行" :value="this.bankDate.financial_name ?? ''" required="required">
                 </div>
                 <div class="l-content--input u-w50per">
                     <p class="l-content--input__headline">支店名</p>
-                    <input type="text" name="other_branch_name" placeholder="本店">
+                    <input type="text" name="other_branch_name" placeholder="本店" :value="this.bankDate.branch_name ?? ''" required="required">
+                </div>
+                <div class="l-content--input u-w50per">
+                    <p class="l-content--input__headline">支店番号</p>
+                    <input type="text" name="other_branch_number" placeholder="123" :value="this.bankDate.branch_number ?? ''" required="required">
                 </div>
                 <div class="l-content--input u-w50per">
                     <p class="l-content--input__headline">口座種別</p>
                     <div class="c-selectBox">
-                        <select name="other_type">
+                        <select name="other_type" :value="bankType" required="required">
                             <option value="0">普通</option>
                             <option value="1">当座</option>
                         </select>
@@ -81,11 +81,11 @@
                 </div>
                 <div class="l-content--input">
                     <p class="l-content--input__headline">口座番号</p>
-                    <input type="text" name="other_number" placeholder="1234567">
+                    <input type="text" name="other_number" placeholder="1234567" :value="this.bankDate.other_number" required="required">
                 </div>
                 <div class="l-content--input">
                     <p class="l-content--input__headline">口座名義人</p>
-                    <input type="text" name="other_name" placeholder="ヤマダタロウ（全角カタカナ）">
+                    <input type="text" name="other_name" placeholder="ヤマダタロウ（全角カタカナ）" :value="this.bankDate.other_name" required="required">
                 </div>
             </div>
         </div>
@@ -93,6 +93,14 @@
 </template>
 <script>
 	export default {
+        props: {
+            bankDate: {
+                type: Array
+            },
+            target: {
+                type: Number
+            },
+        },
         components: {
         },
 		data() {
@@ -100,11 +108,11 @@
 				isBarTab: '1',
 				// ゆうちょ or その他銀行
                 isBankPanel: '1',
-                bank_type: 1,
+                bankType: this.bankDate.type ?? '0',
 			}
 		},
 		created: function() {
-			// 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
+            // 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
 		},
 		computed: {},
 		methods: {

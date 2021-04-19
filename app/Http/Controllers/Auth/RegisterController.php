@@ -75,7 +75,7 @@ class RegisterController extends Controller
         $email_verification = EmailVerification::build($request->email);
         $email_verification->save();
 
-        // メール送信
+        /* メール送信 */
         $email = new EmailVerify($email_verification);
         Mail::to($email_verification->email)->send($email);
 

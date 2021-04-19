@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="l-content--input__two">
                                     <div class="l-content--input__headline">有効期限（月）</div>
-                                    <input type="text" name="month" pattern="^[1-9][0-9]*$" placeholder="00" value="{{ old('month') }}">
+                                    <input type="text" name="month" pattern="^[0-1][0-9]*$" placeholder="00" value="{{ old('month') }}">
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                         </div>
                         <div class="l-content--input">
                             <p class="l-content--input__headline">セキュリティコード</p>
-                            <input type="text" name="cvv" class="u-w150" pattern="^[1-9][0-9]*$" placeholder="000" value="{{ old('cvv') }}">
+                            <input type="text" name="cvv" class="u-w150" pattern="^[0-9][0-9][0-9]*$" placeholder="000" value="{{ old('cvv') }}">
                         </div>
                     </div>
                 </div>

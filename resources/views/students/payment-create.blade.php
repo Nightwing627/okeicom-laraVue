@@ -30,7 +30,7 @@
                             </div>
                         </div>
                     </div>
-                    <user-payment-component></user-payment-component>
+                    <user-payment-component :bank-date={{ $bankDate }} target="{{ $target }}"></user-payment-component>
                 </div>
             </div>
             <div class="l-button--submit">

@@ -253,6 +253,7 @@ class StudentController extends Controller
     {
         $user = $this->user->query()->find(Auth::user()->id);
         $user->name = $request->name;
+        $user->email = $request->email;
         $user->profile = $request->profile;
         $user->country_id = $request->country_id;
         $user->language_id = $request->language_id;
@@ -260,7 +261,15 @@ class StudentController extends Controller
         $user->saveCategories($request);
         $user->saveImgs($request);
         $user->save();
-        return redirect(route('mypage.u.profile'));
+
+        // リダイレクト先を、現在のユーザー状態に合わせて変更
+        $url = '';
+        if(Auth::user()->status == 0) {
+            $url = 'mypage.u.profile';
+        } else {
+            $url = 'mypage.t.profile';
+        };
+        return redirect(route($url));
     }
 
     /**
@@ -412,9 +421,21 @@ class StudentController extends Controller
      */
     public function createPayment(Request $request)
     {
+        // 出金情報
         $user_status = Auth::user()->status;
         $holding_amount = $this->payment->getHoldingAmount();
-        return view('students.payment-create', compact('holding_amount', 'user_status'));
+
+        // DBから銀行情報を取得する
+        $bankDate = '';
+        $target = '';
+        if(JapansBank::where('user_id', Auth::id())->first()) {
+            $bankDate = JapansBank::where('user_id', Auth::id())->first();
+            $target = 0;
+        } elseif(OthersBank::where('user_id', Auth::id())->first()) {
+            $bankDate = OthersBank::where('user_id', Auth::id())->first();
+            $target = 1;
+        }
+        return view('students.payment-create', compact('holding_amount', 'user_status', 'bankDate', 'target'));
     }
 
     /**

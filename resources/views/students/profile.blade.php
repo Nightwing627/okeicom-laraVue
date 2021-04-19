@@ -11,7 +11,20 @@
 
 {{-- 本文 --}}
 @section('content')
-<form method="POST" action="{{ route('mypage.u.profile.update') }}" enctype="multipart/form-data">
+@if($errors->any())
+    <div class="l-alart errorAlart" role="alert">
+        @foreach ($errors->all() as $error)
+            <p>{{ $error ?? '' }}</p>
+        @endforeach
+    </div>
+@endif
+@if (session('flash_message'))
+    <div class="flash_message">
+        <p>{{ session('flash_message') }}</p>
+    </div>
+@endif
+
+<form method="POST" action="@if(Auth::user()->status == 0) {{ route('mypage.u.profile.update') }} @else {{ route('mypage.t.profile.update') }} @endif" enctype="multipart/form-data">
     @csrf
     <div class="c-list--table">
         <div class="c-list--tr">
@@ -43,6 +56,14 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
+            </div>
+        </div>
+        <div class="c-list--tr">
+            <div class="c-list--th">
+                <p class="main">メールアドレス</p>
+            </div>
+            <div class="c-list--td">
+                <input type="text" name="email" value="{{ $user->email }}">
             </div>
         </div>
         <div class="c-list--tr">

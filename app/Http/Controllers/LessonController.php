@@ -19,6 +19,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Http\Controllers\Controller,
     Session;
 use App\Http\Resources\LessonDetailResource;
+use App\Http\Requests\StoreEvaluation;
 
 use Carbon\Carbon;
 
@@ -579,8 +580,23 @@ class LessonController extends Controller
      * @param Request $request
      * @return Factory|View
      */
-    public function createEvaluation(Request $request)
+    public function createEvaluation($id, Request $request)
     {
+        $evaluation = Evaluation::where('url', $id)->first();
+        $user_id = Auth::id();
+
+        // 既に倫理削除している場合
+        if(!$evaluation) {
+            return redirect(route('lessons.evaluation.complete'));
+        }
+
+        // 担当のユーザーでない場合、トップページにリダイレクト
+        if($user_id !== $evaluation->user_student_id) {
+            return redirect(route('home'));
+        }
+
+        // セッションを入れる
+        $request->session()->put('id', $evaluation->id);
         return view('lessons.evaluation-create');
     }
 
@@ -590,13 +606,22 @@ class LessonController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function storeEvaluation(Request $request)
+    public function storeEvaluation(StoreEvaluation $request)
     {
+        // 対象の評価のID
+        $evaluation = Evaluation::find(session()->get('id'));
+
+        // 評価の更新
+        $evaluation->point   = $request['point'];
+        $evaluation->comment = $request['comment'];
+        $evaluation->delete();
+        $evaluation->save();
+
         return redirect(route('lessons.evaluation.complete'));
     }
 
     /**
-     * 講師評価完了ページ
+     * 講師評価完了ページStoreEvaluation
      *
      * @param Request $request
      * @return Factory|View

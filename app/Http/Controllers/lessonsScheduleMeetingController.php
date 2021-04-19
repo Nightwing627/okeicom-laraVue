@@ -20,7 +20,7 @@ class ScheduleMeetingController extends Controller
     {
 //        $schedules = Schedule::all();
 
-        return view('schedule_meeting', 
+        return view('schedule_meeting',
         [
             'schedules' => $schedules
         ]);
@@ -42,11 +42,10 @@ class ScheduleMeetingController extends Controller
         ]);
 
         $schedules = Schedule::all();
-        
 */
     var_dump($meetingInfo);
 
-        return view('schedule_meeting', 
+        return view('schedule_meeting',
                 [
                     'schedules' => $schedules
                 ]);
@@ -64,7 +63,7 @@ class ScheduleMeetingController extends Controller
         return $jwt_token;
     }
 
-    private function getUserId() 
+    private function getUserId()
     {
         $method = 'GET';
         $path = 'users';
@@ -76,7 +75,7 @@ class ScheduleMeetingController extends Controller
         return $user_id;
     }
 
-    private function createMeeting(Request $request) 
+    private function createMeeting(Request $request)
     {
         $user_id = getUserId();
         $params = [
@@ -111,8 +110,8 @@ class ScheduleMeetingController extends Controller
     {
         $client = new Client($client_params);
         $jwt_token = createJwtToken();
-        $response = $client->request($method, 
-                        $path, 
+        $response = $client->request($method,
+                        $path,
                         [
                           'headers' => [
                             'Content-Type' => 'application/json',

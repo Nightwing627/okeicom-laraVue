@@ -2,28 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OthersBank extends Model
 {
     use HasFactory, SoftDeletes;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'user_id',
-        'financial_name',
-        'branch_name',
-        'branch_number',
-        'type',
-        'number',
-        'name',
-    ];
+    protected $guarded = ['created_at', 'updated_at'];
+
 
     /**
      * その他銀行情報を登録する
@@ -31,10 +19,8 @@ class OthersBank extends Model
      *
      * @return string
      */
-    public function registerOtherbank($params, $id)
+    public function registerOtherBank($params, $id)
     {
-        // dd('その他だよ！');
-        // DB::table('others_banks')->create([
         $others_bank = new OthersBank();
         $others_bank::create([
             'user_id'           => $id,

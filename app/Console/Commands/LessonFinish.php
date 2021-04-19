@@ -3,11 +3,15 @@
 namespace App\Console\Commands;
 
 use Carbon\Carbon;
+use App\Mail\EvaluationRequest;
+use App\Models\User;
 use App\Models\Lesson;
 use App\Models\Payment;
 use App\Models\Application;
+use App\Models\Evaluation;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class LessonFinish extends Command
 {
@@ -92,9 +96,28 @@ class LessonFinish extends Command
                                 $payment->save();
                             }
                         }
-                        /* 予約を論理削除 */
+
+                        /* 予約情報から評価情報を登録する */
+                        // 過去のURLを全て取得する
+                        $evaluation = Evaluation::create([
+                            'user_student_id' => $application->user_id,
+                            'user_teacher_id' => $lesson->user_id,
+                            'lesson_id'       => $lesson_id,
+                            'url'             => substr(bin2hex(random_bytes(64)), 0, 24),
+                        ]);
+                        $url = $evaluation->url; // 評価URL
+
+                        /* 予約情報を論理削除 */
                         $application->delete();
                         $application->save();
+
+                        /* 講師を評価するメール自動送信 */
+                        $teacher = User::find($lesson->user_id)->name;
+                        $email = new EvaluationRequest($lesson, $teacher, $url);
+                        // 受講者のメールアドレスを取得する
+                        $user = User::find($application->user_id);
+                        $user_email = $user->email;
+                        Mail::to($user_email)->send($email);
                     }
                 }
                 // レッスンを論理削除

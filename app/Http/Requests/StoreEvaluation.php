@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class StoreEvaluation extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'img' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255', 'unique:users'],
-            'profile' => ['required', 'string', 'max:1000'],
+            'point'    => ['required'],
+            'comment'  => ['required', 'max:1000'],
         ];
     }
 
@@ -39,10 +37,8 @@ class UpdateRequest extends FormRequest
     public function attributes()
     {
         return [
-            'img' => 'プロフィール画像',
-            'name' => '名前',
-            'email' => 'メールアドレス',
-            'profile' => 'プロフィール',
+            'point'    => 'ポイント',
+            'comment'  => 'コメント',
         ];
     }
 }

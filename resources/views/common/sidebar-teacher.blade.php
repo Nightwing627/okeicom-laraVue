@@ -12,9 +12,9 @@
 		<li class="@if(Request::is('mypage/t/cancel-requests')) selected @endif"><a href="{{ route('mypage.t.cancel-requests') }}">キャンセル依頼</a></li>
 		<li class="@if(Request::is('mypage/t/messages')) selected @endif"><a href="{{ route('mypage.t.messages') }}">メッセージ</a></li>
 		<li class="@if(Request::is('mypage/t/profile')) selected @endif"><a href="{{ route('mypage.t.profile') }}">プロフィール</a></li>
-		{{-- <li class="@if(Request::is('mypage/u/trade')) selected @endif"><a href="{{ route('mypage.u.creditcards') }}">クレジットカード情報</a></li> --}}
-		{{-- <li class="@if(Request::is('mypage/u/bank')) selected @endif"><a href="{{ route('mypage.u.bank') }}">銀行口座情報</a></li> --}}
-		<li class="@if(Request::is('mypage/u/trade')) selected @endif"><a href="{{ route('mypage.u.trade') }}">入出金管理</a></li>
+		{{-- <li class="@if(Request::is('mypage/u/trade')) selected @endif"><a href="{{ route('mypage.t.creditcards') }}">クレジットカード情報</a></li> --}}
+		<li class="@if(Request::is('mypage/t/bank')) selected @endif"><a href="{{ route('mypage.t.bank.show') }}">銀行口座情報</a></li>
+		<li class="@if(Request::is('mypage/t/trade')) selected @endif"><a href="{{ route('mypage.t.trade') }}">入出金管理</a></li>
 		<li class="@if(Request::is('mypage/t/withdrawal')) selected @endif"><a href="{{ route('mypage.t.withdrawal.create') }}">退会</a></li>
 	</ul>
 </div>

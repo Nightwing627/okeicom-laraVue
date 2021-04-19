@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-<!-- タイトル・メタディスクリプション -->
+{{--  タイトル・メタディスクリプション  --}}
 @section('title', 'レッスン詳細')
 @section('description', 'おけいcomの詳細ページです。')
 
-<!-- CSS -->
+{{--  CSS  --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/lessonDetail.css') }}">
 @endpush
 
-<!-- 本文 -->
+{{-- 本文  --}}
 @section('content')
     {{--
     <lesson-show-component></lesson-show-component>
@@ -152,7 +152,7 @@
                                 </div>
                             </div>
                             @endforeach
-                            <!-- <div class="c-userComment__box">
+                            {{--  <div class="c-userComment__box">
                                 <div class="c-userComment__human l-flex l-start l-v__center">
                                     <div class="img">
                                         <div class="c-img--round c-img--cover">
@@ -170,7 +170,7 @@
                                 <div class="c-userComment__content">
                                     <p>レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細レッスン詳細</p>
                                 </div>
-                            </div> -->
+                            </div>  --}}
                         </div>
                     </div>
                 </div>
@@ -259,7 +259,7 @@
 								</a>
                             </div>
                             @endforeach
-							<!-- <div class="c-scroll__box" v-for="i in 5">
+							{{--  <div class="c-scroll__box" v-for="i in 5">
 								<a class="c-scroll__box__inner" href="">
 									<div class="c-scroll__box__img c-img--cover">
 										<img src="/img/common/screen-top.jpg">
@@ -287,7 +287,7 @@
 										<time>10:00-12:00</time>
 									</p>
 								</a>
-							</div> -->
+							</div>  --}}
 						</div>
 					</div>
 				</div>

@@ -1,15 +1,15 @@
 @extends('layouts.user')
 
-<!-- タイトル・メタディスクリプション -->
+{{--  タイトル・メタディスクリプション  --}}
 @section('title', 'プロフィール')
 @section('description', 'プロフィール')
 
-<!-- CSS -->
+{{--  CSS  --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/teacher.css') }}">
 @endpush
 
-<!-- 本文 -->
+{{--  本文  --}}
 @section('content')
 @error('old_password')
     <div class="l-alart errorAlart" role="alert">

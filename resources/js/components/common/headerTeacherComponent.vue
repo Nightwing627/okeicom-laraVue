@@ -12,7 +12,7 @@
 					<li><a href="/mypage/t/messages/">メッセージ</a></li>
 					<li><a href="/mypage/t/profile/">プロフィール</a></li>
 					<!-- <li><a href="">クレジットカード情報</a></li> -->
-					<!-- <li><a href="/mypage/t/bank/">銀行口座情報</a></li> -->
+					<li><a href="/mypage/t/bank/">銀行口座情報</a></li>
 					<li><a href="/mypage/t/trade/">入出金管理</a></li>
 					<li><a href="/mypage/t/withdrawal/">退会</a></li>
 				</ul>
@@ -40,6 +40,8 @@
 					<ul class="l-flex">
 						<li><a href="/lessons/">レッスン一覧</a></li>
 						<li><a href="/teachers/">講師一覧</a></li>
+                        <li><a href="">初めての方へ</a></li>
+                        <li><a href="">講師登録ご希望の方へ</a></li>
 					</ul>
 				</nav>
 			</div>

@@ -1,13 +1,14 @@
 @extends('layouts.single')
-<!-- タイトル・メタディスクリプション -->
+
+{{--  タイトル・メタディスクリプション  --}}
 @section('title', '評価完了')
 @section('description', '評価完了')
 
-<!-- CSS -->
+{{--  CSS  --}}
 @push('css')
 @endpush
 
-<!-- 本文 -->
+{{--  本文  --}}
 @section('content')
 	<div class="l-wrap--single">
 		<div class="l-wrap--title">
@@ -24,16 +25,3 @@
 		</div>
 	</div>
 @endsection
-
-{{-- @extends('layouts.app')
-
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <h2>講師の評価完了</h2>
-            </div>
-        </div>
-    </div>
-@endsection
- --}}

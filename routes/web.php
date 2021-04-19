@@ -12,6 +12,7 @@ use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\BankController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -111,11 +112,11 @@ Route::prefix('lessons')->name('lessons.')->group(function () {
         Route::get('application/cancel/complete', [LessonController::class, 'completeCancel'])->name('cancel.complete');
         // レッスン閲覧画面
         Route::get('browsing/{id}', [LessonController::class, 'browsing'])->name('browsing');
-        // 評価画面
-        Route::get('evaluation', [LessonController::class, 'createEvaluation'])->name('evaluation.create');
-        Route::post('evaluation', [LessonController::class, 'storeEvaluation'])->name('evaluation.update');
         // 評価完了
         Route::get('evaluation/complete', [LessonController::class, 'completeEvaluation'])->name('evaluation.complete');
+        // 評価画面
+        Route::get('evaluation/{id}', [LessonController::class, 'createEvaluation'])->name('evaluation.create');
+        Route::post('evaluation', [LessonController::class, 'storeEvaluation'])->name('evaluation.update');
     });
 });
 
@@ -169,6 +170,12 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
         Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
         Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
         Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
+
+        // 銀行口座
+        Route::get('bank', [BankController::class, 'show'])->name('bank.show');
+        Route::get('bank/edit', [BankController::class, 'edit'])->name('bank.edit');
+        Route::post('bank/update', [BankController::class, 'update'])->name('bank.update');
+
         // 退会
         Route::get('withdrawal', [StudentController::class, 'createWithdrawal'])->name('withdrawal.create');
         Route::post('withdrawal', [StudentController::class, 'storeWithdrawal'])->name('withdrawal.store');
@@ -196,12 +203,19 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
         Route::post('profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');
         Route::get('profile/password', [StudentController::class, 'editPassword'])->name('profile.password.edit');
         Route::post('profile/password', [StudentController::class, 'updatePassword'])->name('profile.password.update');
+
+        // 銀行口座
+        Route::get('bank', [BankController::class, 'show'])->name('bank.show');
+        Route::get('bank/edit', [BankController::class, 'edit'])->name('bank.edit');
+        Route::post('bank/update', [BankController::class, 'update'])->name('bank.update');
+
         // クレジットカード
-        Route::get('creditcards', [StudentController::class, 'creditcards'])->name('creditcards');
-        Route::get('creditcards/add', [StudentController::class, 'createCreditcards'])->name('creditcards.create');
-        Route::post('creditcards/store', [StudentController::class, 'storeCreditcards'])->name('creditcards.store');
-        Route::get('creditcards/edit', [StudentController::class, 'editCreditcards'])->name('creditcards.edit');
-        Route::post('creditcards/update', [StudentController::class, 'updateCreditcards'])->name('creditcards.update');
+        // Route::get('creditcards', [StudentController::class, 'creditcards'])->name('creditcards');
+        // Route::get('creditcards/add', [StudentController::class, 'createCreditcards'])->name('creditcards.create');
+        // Route::post('creditcards/store', [StudentController::class, 'storeCreditcards'])->name('creditcards.store');
+        // Route::get('creditcards/edit', [StudentController::class, 'editCreditcards'])->name('creditcards.edit');
+        // Route::post('creditcards/update', [StudentController::class, 'updateCreditcards'])->name('creditcards.update');
+
         // 入出金
         Route::get('trade', [StudentController::class, 'trade'])->name('trade');
         Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');

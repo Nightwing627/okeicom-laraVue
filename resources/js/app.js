@@ -48,6 +48,8 @@ createApp({ components:{
     'user-profile-upload-img-component': require('./components/user/ProfileUploadImgComponent.vue').default,
     // 共通管理画面：メッセージの画像の処理
     'user-profile-message-file-component': require('./components/user/ProfileMessageFileComponent.vue').default,
+    // 共通管理画面：銀行口座
+    'user-bank-component': require('./components/user/bankComponent.vue').default,
 
     // 受講者管理画面：受講済みレッスン一覧
     'user-lesson-component': require('./components/user/lessonComponent.vue').default,

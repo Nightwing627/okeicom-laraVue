@@ -147,15 +147,15 @@ class TeacherController extends Controller
         // ユーザーのレッスン一覧を取得する
         $lessons = User::find($id)->lessons;
 
-        $evalutions=Evaluation::where("user_teacher_id",$id)->orderBy("id","desc")->get();
+        $evalutions = Evaluation::where("user_teacher_id",$id)->orderBy("id","desc")->get();
         foreach ($evalutions as $key => $evalution) {
-            $evalution_user=User::find($evalution->user_student_id);
+            $evalution_user = User::find($evalution->user_student_id);
             if($evalution_user){
-                $evalution["user_name"]=$evalution_user["name"];
-                $evalution["user_img"]=$evalution_user["img"];
+                $evalution["user_name"] = $evalution_user["name"];
+                $evalution["user_img"]  = $evalution_user["img"];
             }
-            $evalution["date"]=substr($evalution["created_at"], 0,10);
-            $evalutions[$key]=$evalution;
+            $evalution["date"] = substr($evalution["created_at"], 0,10);
+            $evalutions[$key] = $evalution;
         }
 
         // ビュー画面

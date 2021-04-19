@@ -1,16 +1,17 @@
 @extends(($user_status == 0)?'layouts.user-single':'layouts.teacher-single')
 
-<!-- タイトル・メタディスクリプション -->
+{{--  タイトル・メタディスクリプション  --}}
 @section('title', 'キャンセル')
 @section('description', 'キャンセル')
 
-<!-- CSS -->
+{{--  CSS  --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/lessonCancel.css') }}">
 @endpush
 
-<!-- 本文 -->
+{{--  本文  --}}
 @section('content')
+
 {{--  エラーメッセージ  --}}
 @if ($errors->any())
 <div class="l-alart errorAlart" role="alert">

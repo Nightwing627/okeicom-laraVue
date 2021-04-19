@@ -1,15 +1,15 @@
 @extends('layouts.user')
 
-<!-- タイトル・メタディスクリプション -->
+{{--  タイトル・メタディスクリプション  --}}
 @section('title', 'ダッシュボード')
 @section('description', '受講者ダッシュボード')
 
-<!-- CSS -->
+{{--  CSS  --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/dashboard.css') }}">
 @endpush
 
-<!-- 本文 -->
+{{--  本文  --}}
 @section('content')
 <div class="dashboard">
     <div class="dashboard-content">
