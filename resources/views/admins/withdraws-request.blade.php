@@ -1,15 +1,15 @@
 
 @extends('layouts.owner')
 
-<!-- タイトル・メタディスクリプション -->
+{{--  タイトル・メタディスクリプション  --}}
 @section('title', '出金リクエスト | おけいcom')
 @section('description', '出金リクエスト')
 
-<!-- CSS -->
+{{--  CSS  --}}
 @push('css')
 @endpush
 
-<!-- 本文 -->
+{{--  本文  --}}
 @section('content')
 	<div class="l-wrap--owner--main">
 		<div class="l-wrap--owner--main--inner">

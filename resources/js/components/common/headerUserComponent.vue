@@ -20,10 +20,9 @@
 					<!-- <li><a href="/mypage/u/">クレジットカード情報</a></li> -->
 					<li><a href="/mypage/u/bank/">銀行口座情報</a></li>
 					<li><a href="/mypage/u/trade/">入出金管理</a></li>
+					<li><a href="/contact">運営にお問い合わせ</a></li>
 				</ul>
 				<ul class="menu-user--content">
-					<li><a href="/lessons/">レッスンを探す</a></li>
-					<li><a href="/teachers/">講師を探す</a></li>
 					<li>
                         <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
                         <form id="logout-form" action="/logout" method="POST" style="display: none;">
@@ -137,7 +136,6 @@
                 <li><a href="/mypage/u/messages/">メッセージ</a></li>
                 <li><a href="/mypage/u/profile/">プロフィール</a></li>
                 <li><a href="/mypage/u/trade/">入出金管理</a></li>
-                <li><a href="/mypage/u/withdrawal/">退会</a></li>
                 <li>
                     <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
                     <form id="logout-form" action="/logout" method="POST" style="display: none;">
@@ -151,7 +149,7 @@
 				<li><a href="/company.php">会社概要</a></li>
 				<!-- <li><a href="/contact-us.php">料金決済の流れ</a></li> -->
 				<li><a href="/contact-us.php">特定商取引法に基づく表記</a></li>
-				<li><a href="/contact-us.php">お問い合わせ</a></li>
+				<li><a href="/contact-us.php">運営にお問い合わせ</a></li>
 			</ul>
 			<p class="c-sp-headline nav--title">講師向け</p>
 			<ul class="nav-global__list">

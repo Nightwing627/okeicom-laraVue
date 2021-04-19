@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\User;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -21,14 +23,25 @@ class UpdateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
-        return [
-            'img' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255', 'unique:users'],
-            'profile' => ['required', 'string', 'max:1000'],
-        ];
+        // dd(Auth::user()->email);
+        // dd($request->email);
+        if(Auth::user()->email == $request->email) {
+            return [
+                'img'     => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
+                'name'    => ['required', 'string', 'max:255'],
+                'profile' => ['required', 'string', 'max:1000'],
+            ];
+        } else {
+            return [
+                'img'     => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
+                'name'    => ['required', 'string', 'max:255'],
+                'email'   => ['required', 'string', 'max:255', 'unique:users'],
+                'profile' => ['required', 'string', 'max:1000'],
+            ];
+        }
+
     }
 
     /**
@@ -39,9 +52,9 @@ class UpdateRequest extends FormRequest
     public function attributes()
     {
         return [
-            'img' => 'プロフィール画像',
-            'name' => '名前',
-            'email' => 'メールアドレス',
+            'img'     => 'プロフィール画像',
+            'name'    => '名前',
+            'email'   => 'メールアドレス',
             'profile' => 'プロフィール',
         ];
     }

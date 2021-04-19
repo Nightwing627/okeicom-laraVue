@@ -175,7 +175,6 @@
         },
 		computed: {},
 		methods: {
-			// 講師詳細：
 			changeTab: function(num){
 				this.isBarTab = num
 			},

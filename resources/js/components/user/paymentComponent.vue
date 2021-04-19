@@ -38,12 +38,12 @@
         <div class="l-content--detail__inner">
             <div class="c-button--tab two-tab">
                 <div class="c-button--tab--inner">
-                    <div class="c-button--tab--box" v-bind:class="{'selected': isBankPanel === '1'}" @click.prevent="changeBankTab('1')">ゆうちょ</div>
-                    <div class="c-button--tab--box" v-bind:class="{'selected': isBankPanel === '2'}" @click.prevent="changeBankTab('2')">その他</div>
-                    <input type="hidden" name="bank_type" v-model="bank_type">
+                    <div class="c-button--tab--box" v-bind:class="{'selected': isBankPanel === '0'}" @click.prevent="changeBankTab('0')">ゆうちょ</div>
+                    <div class="c-button--tab--box" v-bind:class="{'selected': isBankPanel === '1'}" @click.prevent="changeBankTab('1')">その他</div>
+                    <input type="hidden" name="bank_type" v-model="bankType">
                 </div>
             </div>
-            <div class="l-content--panel" v-if="isBankPanel === '1'">
+            <div class="l-content--panel" v-if="isBankPanel === '0'">
                 <div class="l-content--input">
                     <p class="l-content--input__headline">口座記号</p>
                     <input type="text" name="yucho_mark" placeholder="12345" :value="this.bankDate.mark ?? ''" required="required">
@@ -57,7 +57,7 @@
                     <input type="text" name="yucho_name" placeholder="ヤマダタロウ（全角カタカナ）" :value="this.bankDate.japan_name ?? ''" required="required">
                 </div>
             </div>
-            <div class="l-content--panel" v-else-if="isBankPanel === '2'">
+            <div class="l-content--panel" v-else-if="isBankPanel === '1'">
                 <div class="l-content--input">
                     <p class="l-content--input__headline">金融機関名</p>
                     <input type="text" name="other_financial_name" placeholder="ABC銀行" :value="this.bankDate.financial_name ?? ''" required="required">
@@ -105,7 +105,7 @@
         },
 		data() {
 			return {
-				isBarTab: '1',
+				isBarTab: this.target ?? '0',
 				// ゆうちょ or その他銀行
                 isBankPanel: '1',
                 bankType: this.bankDate.type ?? '0',
@@ -120,10 +120,10 @@
 			changeTab: function(num){
 				this.isBarTab = num
 			},
-			// ゆうちょ or　その他銀行
+			// ゆうちょ or その他銀行
 			changeBankTab: function(num){
                 this.isBankPanel = num
-                this.bank_type = num
+                this.bankType = num
 			},
 		},
 		watch: {},

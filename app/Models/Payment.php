@@ -188,6 +188,7 @@ class Payment extends Model
             ->unionAll($withdraw)
             ->leftJoin('applications', 'payments.application_id', '=', 'applications.id')
             ->leftJoin('lessons', 'applications.lesson_id', '=', 'lessons.id')
+            ->orderBy('created_at', 'asc')
             ->get();
         // 出金リクエスト一覧
         // $details = DB::table('withdrawals')

@@ -44,9 +44,6 @@ class ContactController extends Controller
         // バリデーション情報取得
         $validated = $request->validated();
 
-        // Mail::to($request->user())->send(new ContactMail($validated));
-        // Mail::to($request->user())->send(new ContactMail($validated));
-
         // 画像をstorageに保存する
         if($request['img']) {
             $file = $request->file('img');

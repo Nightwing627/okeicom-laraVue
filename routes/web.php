@@ -161,10 +161,12 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
         Route::get('cancel-requests', [TeacherController::class, 'cancelRequests'])->name('cancel-requests');
         Route::post('cancel-requests', [TeacherController::class, 'doCancel'])->name('cancel.do');
         Route::post('block-application', [TeacherController::class, 'doBlock'])->name('block.do');
+
         // メッセージ
         Route::get('messages', [StudentController::class, 'messages'])->name('messages');
         Route::post('messages', [StudentController::class, 'sendMessages'])->name('messages.send');
         Route::get('messages/{partner_users_id}', [StudentController::class, 'messageDetail'])->name('messages.detail');
+
         // 入出金
         Route::get('trade', [StudentController::class, 'trade'])->name('trade');
         Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
@@ -179,6 +181,7 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
         // 退会
         Route::get('withdrawal', [StudentController::class, 'createWithdrawal'])->name('withdrawal.create');
         Route::post('withdrawal', [StudentController::class, 'storeWithdrawal'])->name('withdrawal.store');
+
         // 切り替え
         Route::get('change', [TeacherController::class, 'change'])->name('change');
     });

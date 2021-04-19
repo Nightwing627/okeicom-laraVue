@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Mail\WithdrawalRequest;
 use App\Http\Requests\Message\SendRequest as MessageSendRequest;
 use App\Http\Requests\User\UpdateRequest as UserUpdateRequest;
 use App\Http\Requests\User\PasswordUpdateRequest as UserPasswordUpdateRequest;
@@ -21,6 +22,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
 use Jenssegers\Agent\Agent;
 
 class StudentController extends Controller
@@ -251,16 +254,19 @@ class StudentController extends Controller
      */
     public function updateProfile(UserUpdateRequest $request)
     {
-        $user = $this->user->query()->find(Auth::user()->id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->profile = $request->profile;
-        $user->country_id = $request->country_id;
-        $user->language_id = $request->language_id;
-        $user->prefecture_id = $request->prefecture_id;
-        $user->saveCategories($request);
-        $user->saveImgs($request);
-        $user->save();
+
+        DB::transaction(function () use($request) {
+            $user                   = $this->user->query()->find(Auth::user()->id);
+            $user->name             = $request->name;
+            $user->email            = $request->email;
+            $user->profile          = $request->profile;
+            $user->country_id       = $request->country_id;
+            $user->language_id      = $request->language_id;
+            $user->prefecture_id    = $request->prefecture_id;
+            $user->saveCategories($request);
+            $user->saveImgs($request);
+            $user->save();
+        });
 
         // リダイレクト先を、現在のユーザー状態に合わせて変更
         $url = '';
@@ -407,9 +413,9 @@ class StudentController extends Controller
     public function trade(Request $request)
     {
         $holding_amount = $this->payment->getHoldingAmount();
-        $trade_months = $this->payment->getMonths();
-        $trade_details = $this->payment->getDetail();
-        $user_status = Auth::user()->status;
+        $trade_months   = $this->payment->getMonths();
+        $trade_details  = $this->payment->getDetail();
+        $user_status    = Auth::user()->status;
         return view('students.trade', compact('holding_amount', 'trade_months', 'trade_details', 'user_status'));
     }
 
@@ -430,10 +436,19 @@ class StudentController extends Controller
         $target = '';
         if(JapansBank::where('user_id', Auth::id())->first()) {
             $bankDate = JapansBank::where('user_id', Auth::id())->first();
+            $bankDate['japan_name'] = $bankDate['name'];
+            $bankDate['japan_number'] = $bankDate['number'];
             $target = 0;
         } elseif(OthersBank::where('user_id', Auth::id())->first()) {
             $bankDate = OthersBank::where('user_id', Auth::id())->first();
+            $bankDate['other_name'] = $bankDate['name'];
+            $bankDate['other_number'] = $bankDate['number'];
             $target = 1;
+        }
+
+        // IDをセッションに保存（出金履歴の登録時に必要）
+        if($bankDate['id']) {
+            session(['id' => $bankDate['id']]);
         }
         return view('students.payment-create', compact('holding_amount', 'user_status', 'bankDate', 'target'));
     }
@@ -446,24 +461,38 @@ class StudentController extends Controller
      */
     public function storePayment(Request $request)
     {
-        // dd($request->all());
         $user_id = Auth::user()->id;
         $user_status = Auth::user()->status;
         $bank_type = $request->bank_type;
-        // １．銀行タイプから、条件分岐でゆうちょかそれ以外かに登録
-        // ２．情報を全て登録
-        if($bank_type == 1) {
-            // ゆうちょ銀行
-            $this->japans_bank->registerJapanBank($request, $user_id);
 
-        } elseif($bank_type == 2) {
-            // その他銀行
-            $this->others_bank->registerOtherBank($request, $user_id);
-        }
-        // ３．登録した銀行IDを取得
-        $id = DB::getPdo()->lastInsertId();
-        // ４．全てをwithdrawals tableに登録
-        $this->withdrawal->store($request, $user_id, $id);
+        // 銀行情報と出金リクエスト登録
+        DB::transaction(function () use($request, $user_id, $bank_type) {
+            // １．銀行タイプから、条件分岐でゆうちょかそれ以外かに登録
+            // ２．情報を全て登録
+            $id = '';
+            if(session()->has('id')) {
+                $id = session('id');
+            } else {
+                if($bank_type == 0) {
+                    // ゆうちょ銀行
+                    $this->japans_bank->registerJapanBank($request, $user_id);
+                } elseif($bank_type == 1) {
+                    // その他銀行
+                    $this->others_bank->registerOtherBank($request, $user_id);
+                }
+                // ３．登録した銀行IDを取得
+                $id = DB::getPdo()->lastInsertId();
+            }
+
+            // ４．全てをwithdrawals tableに登録
+            $this->withdrawal->store($request, $user_id, $id);
+
+            // ５．出金完了メール送信
+            $user = Auth::user();
+            $email = new WithdrawalRequest($user, $request);
+            Mail::to(Auth::user()->email)->send($email);
+        });
+
         // ５．取引履歴
         return view('students.payment-complete', compact('user_status'));
     }
