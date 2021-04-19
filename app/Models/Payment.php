@@ -77,49 +77,51 @@ class Payment extends Model
      */
     public function getHoldingAmount()
     {
-        // プラス金額(レッスンを購入された履歴)を取得
-        $user_id = Auth::user()->id;
-        $query_plus_amount = self::query()
-            ->select([
-                DB::raw('1 as id'),
-                DB::raw('sum(amount) as sum_amount')
-            ])
-            ->where('payments.user_teacher_id', $user_id)
-            ->groupBy([
-                'payments.id',
-            ]);
 
-        // マイナス金額(レッスンを購入したor出金した履歴)とプラス金額をUNION ALLで取得
-        // $query_amount = self::query()
+        // ユーザーID
+        $user_id = Auth::user()->id;
+        // プラス金額を全て取得
+        $query_plus_amount = self::where('user_teacher_id', $user_id)->sum('amount');
+
+        // マイナス金額を全て取得
+        $query_minus_amount = Withdrawal::where('user_id', $user_id)->sum('amount');
+
+        return intval($query_plus_amount) - intval($query_minus_amount);
+
+
+        // // プラス金額(レッスンを購入された履歴)を取得
+        // $user_id = Auth::user()->id;
+        // $query_plus_amount = self::query()
         //     ->select([
-        //         DB::raw('max(payments.id) as id'),
-        //         DB::raw('sum(amount) * -1 as sum_amount')
+        //         DB::raw('1 as id'),
+        //         DB::raw('sum(amount) as sum_amount')
         //     ])
-        //     ->where('payments.user_student_id', $user_id)
+        //     ->where('payments.user_teacher_igetMonthsd', $user_id)
         //     ->groupBy([
         //         'payments.id',
+        //     ]);
+
+        // // マイナス金額(レッスンを購入したor出金した履歴)とプラス金額をUNION ALLで取得
+        // $query_amount = Withdrawal::query()
+        //     ->select([
+        //         DB::raw('max(withdrawals.id) as id'),
+        //         DB::raw('sum(amount) * -1 as sum_amount')
+        //     ])
+        //     ->where('withdrawals.user_id', $user_id)
+        //     ->groupBy([
+        //         'withdrawals.user_id',
         //     ])
         //     ->unionAll($query_plus_amount);
-        $query_amount = Withdrawal::query()
-            ->select([
-                DB::raw('max(withdrawals.id) as id'),
-                DB::raw('sum(amount) * -1 as sum_amount')
-            ])
-            ->where('withdrawals.user_id', $user_id)
-            ->groupBy([
-                'withdrawals.user_id',
-            ])
-            ->unionAll($query_plus_amount);
 
-        // 総保有金額を取得
-        return self::query()
-            ->select([
-                DB::raw('sum(amounts.sum_amount) as amount')
-            ])
-            ->joinSub($query_amount, 'amounts', function ($join) {
-                $join->on('payments.id', '=', 'amounts.id');
-            })
-            ->first();
+        // // 総保有金額を取得
+        // return self::query()
+        //     ->select([
+        //         DB::raw('sum(amounts.sum_amount) as amount')
+        //     ])
+        //     ->joinSub($query_amount, 'amounts', function ($join) {
+        //         $join->on('payments.id', '=', 'amounts.id');
+        //     })
+        //     ->first();
     }
 
     /**

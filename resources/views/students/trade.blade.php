@@ -13,10 +13,10 @@
 @section('content')
     <div class="user-detaling-total">
         <div class="user-detaling-total--price">
-            <span>{{ $holding_amount->separate_comma_amount }}</span>
+            <span>¥{{ number_format($holding_amount) }}</span>
         </div>
         <div class="user-detaling-total--request">
-            <a href="{{ route('mypage.u.payment.create') }}" @if($holding_amount->separate_comma_amount == '¥0') class="disabled" disabled="disabled" tabindex="-1" @endif>出金リクエスト</a>
+            <a href="{{ route('mypage.u.payment.create') }}" @if($holding_amount === 0) class="disabled" disabled="disabled" tabindex="-1" @endif>出金リクエスト</a>
             {{--  <form method="POST" action="{{ route('mypage.u.payment.create') }}">
                 <button type="submit" class="c-button--square__pink" @if($holding_amount->separate_comma_amount == '¥0') disabled @endif>出金リクエスト</button>
             </form>  --}}
@@ -28,9 +28,8 @@
             <p class="u-color--grayNavy u-text--small">表示対象期間</p>
             <div class="c-selectBox">
                 <select id="months" name="months" class="form-control" autocomplete="months">
-                    <option value=""></option>
                     @foreach ($trade_months as $trade_month)
-                        <option value="{{ $trade_month->months }}" @if ($loop->first) selected  @endif>{{ $trade_month->months }}</option>
+                        <option value="{{ $trade_month->months }}" @if ($loop->first) selected  @endif>{{ date("Y年n月j日" ,strtotime($trade_month->months)) }}</option>
                     @endforeach
                 </select>
             </div>
