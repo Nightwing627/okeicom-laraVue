@@ -112,7 +112,7 @@
                             <p class="l-alart__text errorAlart u-color--red">{{ $message }}</p>
                             @enderror
                         </div>
-                        {{--  <div class="l-content--input">
+                        <div class="l-content--input">
                             <p class="l-content--input__headline">表示されている文字を入力してください。</p>
                             <div class="u-w50per u-mb10">
                                 {!! captcha_img() !!}
@@ -121,7 +121,7 @@
                             @error('captcha')
                             <p class="l-alart__text errorAlart u-color--red" role="alert">{{ $message }}</p>
                             @enderror
-                        </div>  --}}
+                        </div>
                         <div class="l-button--submit">
                             <button class="c-button--square__pink" type="submit">お問い合わせ送信</button>
                         </div>

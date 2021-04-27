@@ -74,7 +74,7 @@ class ContactController extends Controller
             // } else {
             //     $email = new ContactMail($validated);
             // }
-            Mail::to($validated['email'])->send($email);
+            Mail::to($validated['email'])->bcc('info@okeicom.com')->send($email);
             // 自社への受信メール
             // Mail::send(new \App\Mail\ContactMail([
             //     'to' => 'info@okeicom.com',
