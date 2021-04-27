@@ -47,7 +47,6 @@
 			</div>
 
 
-
 			<div class="l-wrap--main">
 				<!-- tab：レッスン一覧 -->
 				<div class="l-contentList__list__wrap" v-if="isBarTab === '1'">
@@ -56,7 +55,7 @@
 							<div class="c-contentList__box__img">
 
 								<div class="c-img--cover c-img--round"  v-if="lesson.courses_img1!=null">
-                                    <img v-bind:src="'/storage/courses/' + lesson.courses_img1">"
+                                    <img v-bind:src="'/storage/courses/' + lesson.courses_img1">
                                 </div>
 							</div>
 							<div class="c-contentList__box__info">
