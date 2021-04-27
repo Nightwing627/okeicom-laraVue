@@ -7,6 +7,7 @@ use App\Models\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -184,6 +185,121 @@ class Lesson extends Model
     }
 
     /**
+     * [Index] レッスン検索
+     *
+     * @param $params
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function searchLesson($params)
+    {
+        $user = new User();
+        $evaluations = $user->getTeachersPointQuery();
+        $rowNumbers = $this->getLessonNumberQuery();
+
+        // 条件検索
+        $is_sort       = $params['sort_param'] ?? '';
+        $is_categories = $params['categories_id'] ?? '';
+
+        return self::query()
+            ->select([
+                'lessons.*',
+                'courses.img1 as courses_img1',
+                'courses.img2 as courses_img2',
+                'courses.img3 as courses_img3',
+                'courses.img4 as courses_img4',
+                'courses.img5 as courses_img5',
+                'categories1.name as category1_name',
+                'categories2.name as category2_name',
+                'categories3.name as category3_name',
+                'categories4.name as category4_name',
+                'categories5.name as category5_name',
+                'users.img as user_img',
+                'courses.img1 as course_img',
+                'evaluations.avg_point as evaluations_avg_point',
+                'rowNumbers.rowNumber'
+            ])
+            // 今日の日付以降のレッスンを取得
+            ->where('date', '>=', date("Y-m-d"))
+            ->join('courses', 'lessons.course_id', '=', 'courses.id')
+            ->join('users', 'lessons.user_id', '=', 'users.id')
+            ->leftJoinSub($evaluations, 'evaluations', function ($join) {
+                $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            ->leftJoinSub($rowNumbers, 'rowNumbers', function ($join) {
+                $join->on('lessons.id', '=', 'rowNumbers.lessonId');
+            })
+            ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
+            ->leftJoin('categories as categories2', 'courses.category2_id', '=', 'categories2.id')
+            ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
+            ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
+            ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
+            ->ofSortParam($is_sort)
+            ->ofCategoryId($is_categories);
+            // ->orderBy('lessons.created_at', 'desc')
+            // ->paginate(Config::get('const.paginate.lesson'));
+    }
+
+    /**
+     * Scopeによる絞り込み：ソート機能
+     *
+     * @param Builder $query
+     * @param [integer] $key
+     * @return Builder
+     */
+    public function scopeOfSortParam(Builder $query, $key)
+    {
+        if (blank($key)) return;
+
+        if(isset($key) === 'newDate') {
+            // 新着順
+            return $query->orderby('lessons.created_at', 'asc');
+        } elseif($key === 'dateLate') {
+            // 開催日が近い順
+            return $query->orderby('lessons.date', 'asc')->orderby('lessons.start', 'asc');
+        } elseif($key === 'participantHigh') {
+            // 参加者が多い順
+            return $query->orderby('lessons.created_at', 'desc');
+        } elseif($key === 'evaluationHigh') {
+            // 評価が高い順
+            return $query->orderby('evaluations_avg_point', 'desc');
+        } elseif($key === 'priceLow') {
+            // 料金が安い順
+            return $query->orderby('lessons.price', 'asc');
+        } else {
+            // その他
+            return $query->orderby('lessons.created_at', 'desc');
+        };
+    }
+
+    /**
+     * Scopeによる絞り込み：カテゴリー
+     *
+     * @param Builder $query
+     * @param [integer] $key
+     * @return Builder
+     */
+    public function scopeOfCategoryId(Builder $query, $key)
+    {
+        if (blank($key)) return;
+        return $query->when($key > 0, function ($query) use ($key) {
+            $query->where(function ($query) use ($key) {
+                $query->orwhere('courses.category1_id', '=', $key)
+                    ->orwhere('courses.category2_id', '=', $key)
+                    ->orwhere('courses.category3_id', '=', $key)
+                    ->orwhere('courses.category4_id', '=', $key)
+                    ->orwhere('courses.category5_id', '=', $key);
+            });
+        });
+        // return $query->where(function ($query) use ($key) {
+        //     $query->orwhere('users.category1_id', '=', $key)
+        //         ->orwhere('users.category2_id', '=', $key)
+        //         ->orwhere('users.category3_id', '=', $key)
+        //         ->orwhere('users.category4_id', '=', $key)
+        //         ->orwhere('users.category5_id', '=', $key);
+        // });
+    }
+
+    /**
      * [Index] 指定カテゴリのレッスン取得
      *
      * @param int $categories_id
@@ -282,7 +398,6 @@ class Lesson extends Model
             ->limit(Config::get('const.top_thumbnail_count'))
             ->get();
     }
-
 
     /**
      * [Index] 指定コースのレッスン一覧を取得する
@@ -497,7 +612,7 @@ class Lesson extends Model
             return $query->orderby('evaluations_avg_point', 'desc');
         } elseif(isset($params['sort_param']) === 'priceLow') {
             // 料金が安い順
-            return $query->orderby('lessons.price', 'asc');
+            return $query->orderby('lessons.price', 'desc');
         } else {
             // その他
             return $query->orderby('lessons.created_at', 'desc');

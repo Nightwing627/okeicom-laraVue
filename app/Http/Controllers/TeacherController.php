@@ -128,7 +128,6 @@ class TeacherController extends Controller
         foreach ($users as $key => $value) {
             $new_users->push($value);
         }
-
         //表示
         return view('teachers.index',["users"=>$new_users,'categories'=>$categories,'count'=>$count,'order'=>$order,'sex'=>$request->input("sex"),'selected_category'=>$selected_category,'page'=>$page,'start'=>$start,'end'=>$end,'page_cnt'=>$page_cnt]);
     }

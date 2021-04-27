@@ -57,15 +57,24 @@ class LessonController extends Controller
     public function index(Request $request)
     {
         $params = [];
+        // dd($request->all());
         // カテゴリーがある場合、パラーメーターにカテゴリーを保存
-        if(isset($request->categories_id)) { $params['categories_id'] = $request->categories_id; }
+        if(isset($request->categories_id)) {
+            $params['categories_id'] = '';
+            $params['categories_id'] = $request->categories_id;
+        }
 
         // ソートに値がある場合、パラーメーターにソートを保存
-        if(isset($request->sort_param)) { $params['sort_param'] = $request->sort_param; }
+        if(isset($request->sort_param)) {
+            $params['sort_param'] = '';
+            $params['sort_param'] = $request->sort_param;
+        }
 
         // 全件検索 / 並び替え機能 / ページネーション機能
-        $lessons    = $this->lesson->search()->DynamicOrderBy($params)->paginate(20);
+        $lessons    = $this->lesson->searchLesson($params)->paginate(20);
         $categories = $this->category->getAll(true);
+
+        // dd($params);
         return view('lessons.index', compact('params', 'lessons', 'categories'));
     }
 
