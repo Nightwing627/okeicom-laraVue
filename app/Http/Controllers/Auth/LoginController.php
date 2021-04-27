@@ -48,10 +48,11 @@ class LoginController extends Controller
     public function redirectTo()
     {
         $agent = new Agent();
-        if($agent->isMobile()) {
-            return route('mypage.u.index');
-        } else {
-            return $this->redirectTo;
-        }
+        // if($agent->isMobile()) {
+        //     return route('mypage.u.index');
+        // } else {
+        //     return $this->redirectTo;
+        // }
+        return $this->redirectTo;
     }
 }

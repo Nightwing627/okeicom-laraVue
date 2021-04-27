@@ -24,7 +24,7 @@
         <div class="dashboard-content-list"><a href="{{ route('mypage.u.trade') }}">入出金管理</a></div>
     </div>
     <div class="dashboard-content">
-        <div class="dashboard-content-list"><a href="{{ route('news') }}">お知らせ</a></div>
+        {{--  <div class="dashboard-content-list"><a href="{{ route('news') }}">お知らせ</a></div>  --}}
         <div class="dashboard-content-list"><a href="{{ route('contact') }}">運営にお問い合わせ</a></div>
     </div>
     <div class="dashboard-content">

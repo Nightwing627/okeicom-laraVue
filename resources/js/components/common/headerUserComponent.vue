@@ -44,8 +44,8 @@
 					<ul class="l-flex">
 						<li><a href="/lessons/">レッスン一覧</a></li>
 						<li><a href="/teachers/">講師一覧</a></li>
-                        <li><a href="">初めての方へ</a></li>
-                        <li><a href="">講師登録ご希望の方へ</a></li>
+                        <!-- <li><a href="">初めての方へ</a></li>
+                        <li><a href="">講師登録ご希望の方へ</a></li> -->
 					</ul>
 				</nav>
 			</div>
@@ -69,13 +69,13 @@
 							<span>メニュー</span>
 						</a>
 					</li>
-					<li class="menu-profile">
+					<!-- <li class="menu-profile">
 						<a class="c-img--shadow" @click.prevent="toggleMenuUser">
 							<div class="c-img--cover c-img--round">
 								<img src="/img/common/screen-top.jpg" alt="メニューアイコン">
 							</div>
 						</a>
-					</li>
+					</li> -->
 				</ul>
 				<div class="header__search pc-only">
                     <form class="l-flex" action="/search" method="GET">
@@ -124,7 +124,7 @@
 			<div class="nav-global__back">
 				<a @click='closeDrawer'><img src="/img/common/icon-nav-back.png"></a>
 			</div>
-			<ul class="nav-global__list">
+			<!-- <ul class="nav-global__list">
 				<li><a href="/">トップページ</a></li>
 				<li><a href="/attendance-lessons">レッスン一覧</a></li>
 				<li><a href="/teachers.php">講師一覧</a></li>
@@ -147,7 +147,6 @@
 			<ul class="nav-global__list">
 				<li><a href="/news.php">お知らせ</a></li>
 				<li><a href="/company.php">会社概要</a></li>
-				<!-- <li><a href="/contact-us.php">料金決済の流れ</a></li> -->
 				<li><a href="/contact-us.php">特定商取引法に基づく表記</a></li>
 				<li><a href="/contact-us.php">運営にお問い合わせ</a></li>
 			</ul>
@@ -162,7 +161,16 @@
 				<li><a href="/terms-service.php">受講者規約</a></li>
 				<li><a href="/terms-point.php">受講者キャンセルポリシー</a></li>
 				<li><a href="/terms-user.php">受講者よくある質問</a></li>
-			</ul>
+			</ul> -->
+			<ul class="nav-global__list">
+				<li><a href="/lessons/">レッスン一覧</a></li>
+				<li><a href="/teachers/">講師一覧</a></li>
+                <!-- <li><a href="">初めての方へ</a></li>
+                <li><a href="">講師登録ご希望の方へ</a></li> -->
+                <li><a href="/faq-user/">受講者よくある質問</a></li>
+                <li><a href="/faq-teacher/">講師よくある質問</a></li>
+                <li><a href="/contact/">お問い合わせ</a></li>
+            </ul>
 		</nav>
 	</header>
 </template>

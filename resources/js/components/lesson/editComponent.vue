@@ -9,12 +9,12 @@
                     <div class="l-modal--header">
                         <div class="l-modal--header--img">
                             <div class="c-img--cover c-img--round">
-                                <img  v-bind:src="'/storage/profile/' + currentUser.img">
+                                <img :src="'/storage/profile/' + currentUser.img">
                             </div>
                         </div>
                         <div class="l-modal--header--button">
                             <ul>
-                                <li class="message"><a :href="`/mypage/t/messages/${currentUser.id}`">メッセージを送る</a></li>
+                                <li class="message"><a :href="`/mypage/t/messages/${ currentUser.user_id }`">メッセージを送る</a></li>
                                 <li class="reject"><a @click="remove()">参加を拒否する</a></li>
                             </ul>
                         </div>
@@ -29,7 +29,11 @@
                 <div class="l-modal--detail">
                     <div class="l-modal--detail--box l-modal--content">
                         <p class="sub">性別</p>
-                        <p class="main">{{ currentUser.sex == 0 ? "男性" : "女性" }}</p>
+                        <p class="main">
+                            <span v-if="currentUser.sex == 0">不明</span>
+                            <span v-if="currentUser.sex == 1">男性</span>
+                            <span v-if="currentUser.sex == 2">女性</span>
+                        </p>
                     </div>
                     <!-- <div class="l-modal--detail--box l-modal--content">
                         <p class="sub">年齢</p>
@@ -37,13 +41,13 @@
                     </div> -->
                     <div class="l-modal--detail--box l-modal--content">
                         <p class="sub">都道府県</p>
-                        <p class="main">{{ currentUser.age }}</p>
+                        <p class="main">{{ currentUser.pref ?? '未設定' }}</p>
                     </div>
                 </div>
                 <div class="l-modal--content border-none">
                     <div class="l-modal--profile">
                         <p class="sub">プロフィール</p>
-                        <p class="main">{{currentUser.profile}}</p>
+                        <p class="main">{{ currentUser.profile ?? '未設定' }}</p>
                     </div>
                 </div>
             </div>
@@ -190,30 +194,31 @@
                 <!-- <input type="subit" name="" value="変更内容を保存する" class="c-button--square__pink"> -->
             </div>
         </div>
-        <!-- tab：その他 -->
+        <!-- tab：参加者一覧 -->
         <div class="l-contentList__list__wrap"  v-if="isBarTab === '2'">
-            <div class="c-list--courseLesson" v-for="user in users">
+            <div class="c-list--courseLesson" v-for="(application, index) in applications">
                 <div class="c-list--courseLesson--num">
                     <div class="c-img--round c-img--cover">
-                        <img v-bind:src="'/storage/profile/' + user.img">
+                        <img v-bind:src="'/storage/profile/' + application.img">
                     </div>
                 </div>
                 <div class="c-list--courseLesson--title u-pl10">
-                    <p class="title u-text--big u-mb5">{{ user.name }}</p>
-                    <p class="date u-color--grayNavy u-text--small">{{ user.created_at }}</p>
+                    <p class="title u-text--big u-mb5">{{ application.name }}</p>
+                    <p class="date u-color--grayNavy u-text--small">{{ datetotime(application.created_at) }}</p>
                 </div>
                 <!-- 開催日を超えた現場は削除 -->
                 <div class="c-button--edit">
-                    <a class="c-button--edit--link edit" @click.prevent="openDetail(user)">詳細</a>
+                    <a class="c-button--edit--link edit" @click.prevent="openDetail(application)">詳細</a>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-    import axios from 'axios';
+    import axios from 'axios'
     import moment from "moment"
     import 'moment/locale/ja'
+    import { datetotime } from '../library/filters.ts'
 
     import VueTimepicker from './../../components/common/Vue2TimepickerComponent.vue'
 
@@ -223,8 +228,11 @@
             lesson: {
                 type: Object
             },
-            users: {
-                type: [Object]
+            // users: {
+            //     type: [Object]
+            // },
+            applications: {
+                type: Array
             },
         },
 		components: {
@@ -239,7 +247,6 @@
                 currentUser: null,
                 lessonCancelRate: '',
                 checkLesson: true,
-
                 // レッスン情報を代入
                 lessonTitle      : this.lesson.title ?? '',
                 lessonUrl        : this.lesson.url ?? '',
@@ -265,7 +272,12 @@
                     }
                 }
             )
-		},
+        },
+        setup () {
+            return {
+                datetotime
+            }
+        },
 		computed: {},
 		methods: {
             changeTab(tab) {

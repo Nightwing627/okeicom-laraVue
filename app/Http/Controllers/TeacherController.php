@@ -145,7 +145,8 @@ class TeacherController extends Controller
         $user = $this->user->getTeachersShow($id);
 
         // ユーザーのレッスン一覧を取得する
-        $lessons = User::find($id)->lessons;
+        // $lessons = User::find($id)->lessons->sortBy('created_at');
+        $lessons = $this->lesson->findLessonOfTeacherId($id);
 
         $evalutions = Evaluation::where("user_teacher_id",$id)->orderBy("id","desc")->get();
         foreach ($evalutions as $key => $evalution) {
@@ -477,10 +478,27 @@ class TeacherController extends Controller
     public function editLessons($id)
     {
         // 詳細取得
+        // レッスン一覧
         $lesson = Lesson::find($id);
-        $userids = Application::where('lesson_id', $id)->whereIn('status', [0,1])->pluck('user_id')->toArray();
-        $users = User::whereIn('id', $userids)->get();
-        return view('teachers.lesson-edit', compact('lesson', 'users'));
+        // $applications = Application::where('lesson_id', $id)->whereIn('status', [0,1])->get();
+        // $user_ids = Application::where('lesson_id', $id)->whereIn('status', [0,1])->pluck('user_id')->toArray();
+        // $users = User::whereIn('id', $user_ids)->get();
+        // return view('teachers.lesson-edit', compact('lesson', 'users', 'applications'));
+
+        // $applications = Application::select([
+        //                                 'applications.*',
+        //                                 'users.id as user_id',
+        //                                 'users.img as img',
+        //                                 'users.name as name',
+        //                                 'users.sex as sex',
+        //                                 'prefectures.name as pref',
+        //                             ])->where('applications.lesson_id', $id)
+        //                             ->whereIn('applications.status', [0,1])
+        //                             ->leftJoin('users', 'applications.user_id', '=', 'users.id')
+        //                             ->leftJoin('prefectures', 'users.prefecture_id', '=', 'prefectures.id')
+        //                             ->get();
+        $applications = $this->application->applicationListOfLesson($id);
+        return view('teachers.lesson-edit', compact('lesson', 'applications'));
     }
 
     /**

@@ -23,7 +23,7 @@
 					<ul class="footer__list__content">
 						{{-- <li><a href="/news">お知らせ</a></li> --}}
 						<li><a href="/tokushoho">特商法に基づく表示</a></li>
-                        <li><a href="mailto:contact@i-rick.co.jp">お問い合わせ</a></li>
+                        <li><a href="/contact/">お問い合わせ</a></li>
                         @if(Auth::user())
                             @if(Auth::user()->status == 0)
                                 <li><a href="{{ route('mypage.u.withdrawal.create') }}">退会</a></li>

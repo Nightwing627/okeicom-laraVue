@@ -56,6 +56,6 @@
 
     <form action="{{ route('mypage.t.lessons.update', ['lesson_id' => $lesson->id, 'courses_id' => $lesson->course_id, 'type' => $lesson->type]) }}" method="POST">
         @csrf
-        <lesson-edit-component :lesson="{{ $lesson }}" :users="{{ $users }}"></lesson-edit-component>
+        <lesson-edit-component :lesson="{{ $lesson }}" :applications="{{ json_encode($applications) }}"></lesson-edit-component>
     </form>
 @endsection

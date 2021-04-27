@@ -55,14 +55,14 @@
 						<a class="c-contentList__box__inner" :href="`/lessons/detail/${lesson.id}`">
 							<div class="c-contentList__box__img">
 
-								<div class="c-img--cover c-img--round"  v-if="lesson.course.img1!=null">
-										<img v-bind:src="'/storage/courses/' + lesson.course.img1">"
-									</div>
+								<div class="c-img--cover c-img--round"  v-if="lesson.courses_img1!=null">
+                                    <img v-bind:src="'/storage/courses/' + lesson.courses_img1">"
+                                </div>
 							</div>
 							<div class="c-contentList__box__info">
 								<div class="number l-flex">
 									<p class="other">
-										<span class="stage">第{{ index + 1 }}回</span>
+										<span class="stage">第{{ lesson.rowNumber }}回</span>
 										<span class="date">{{ lesson.formated_md_date }} {{ lesson.separate_hyphen_time }}</span>
 									</p>
 									<p class="price">￥{{ lesson.price }}</p>
@@ -70,11 +70,11 @@
 								<p class="title">{{ lesson.title }}</p>
 								<p class="detail pc-only">{{ lesson.detail }}</p>
 								<div class="category">
-									<span v-if="lesson.cat1!=null">{{ lesson.cat1 }}</span>
-									<span v-if="lesson.cat2!=null">{{ lesson.cat2 }}</span>
-									<span v-if="lesson.cat3!=null">{{ lesson.cat3 }}</span>
-									<span v-if="lesson.cat4!=null">{{ lesson.cat4 }}</span>
-									<span v-if="lesson.cat5!=null">{{ lesson.cat5 }}</span>
+									<span v-if="lesson.category1_name != null">{{ lesson.category1_name }}</span>
+									<span v-if="lesson.category2_name != null">{{ lesson.category2_name }}</span>
+									<span v-if="lesson.category3_name != null">{{ lesson.category3_name }}</span>
+									<span v-if="lesson.category4_name != null">{{ lesson.category4_name }}</span>
+									<span v-if="lesson.category5_name != null">{{ lesson.category5_name }}</span>
 								</div>
 							</div>
 						</a>

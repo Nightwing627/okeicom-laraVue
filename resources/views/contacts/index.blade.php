@@ -1,22 +1,23 @@
 @extends('layouts.single')
 
-<!-- タイトル・メタディスクリプション -->
+{{--  タイトル・メタディスクリプション  --}}
 @section('title', 'お問い合わせ | おけいcom')
 @section('description', 'お問い合わせ')
 
-<!-- CSS -->
+{{--  CSS  --}}
 @push('css')
 @endpush
 
-<!-- 本文 -->
+{{--  本文  --}}
 @section('content')
-@if (session('verify_failed'))
-    <div class="l-alart errorAlart">
-        <p> {{ session('verify_failed') }}</p>
-    </div>
+@if ($errors->any())
+<div class="l-alart errorAlart" role="alert">
+    @foreach ($errors->all() as $error)
+    <p>{{ $error }}</p>
+    @endforeach
+</div>
 @endif
 <div class="l-wrap--single login">
-
     <div class="l-wrap--title">
         <h1 class="c-headline--screen u-textAlign__center">お問い合わせ</h1>
     </div>
@@ -47,7 +48,7 @@
                                 <li class="u-mb15">
                                     <div class="c-checkbox--fashonable">
                                         <label>生徒
-                                            <input type="radio" name="class" value="0" required="required" @if(old('class') == 0) checked @endif>
+                                            <input type="radio" name="class" value="0" required="required" @if(old('class') == 0 || old('class') !== '') checked @endif>
                                             <div class="color-box"></div>
                                         </label>
                                     </div>
@@ -111,7 +112,7 @@
                             <p class="l-alart__text errorAlart u-color--red">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="l-content--input">
+                        {{--  <div class="l-content--input">
                             <p class="l-content--input__headline">表示されている文字を入力してください。</p>
                             <div class="u-w50per u-mb10">
                                 {!! captcha_img() !!}
@@ -120,7 +121,7 @@
                             @error('captcha')
                             <p class="l-alart__text errorAlart u-color--red" role="alert">{{ $message }}</p>
                             @enderror
-                        </div>
+                        </div>  --}}
                         <div class="l-button--submit">
                             <button class="c-button--square__pink" type="submit">お問い合わせ送信</button>
                         </div>

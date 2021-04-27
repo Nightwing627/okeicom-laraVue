@@ -13,15 +13,16 @@ class ContactMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $validated;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($content, $viewStr = 'to')
+    public function __construct($validated)
     {
-        $this->content = $content;
-        $this->viewStr = $viewStr;
+        $this->validated = $validated;
     }
 
     /**
@@ -38,13 +39,33 @@ class ContactMail extends Mailable
         //         'orderName' => $this->contact->name,
         //     ]);
 
-        return $this->text('emails.'.$this->viewStr)
-            ->to($this->content['to'], $this->content['to_name'])
-            ->from($this->content['from'], $this->content['from_name'])
-            ->subject($this->content['subject'])
-            ->with([
-                'content' => $this->content['body'],
-                'image' => $this->content['image'],
-            ]);
+        // return $this->text('emails.'.$this->viewStr)
+        //     ->to($this->content['to'], $this->content['to_name'])
+        //     ->from($this->content['from'], $this->content['from_name'])
+        //     ->subject($this->content['subject'])
+        //     ->with([
+        //         'content' => $this->content['body'],
+        //         'image' => $this->content['image'],
+        //     ]);
+
+        if(isset($this->validated['img'])) {
+            return $this
+                ->from('info@okeicom.com')
+                ->subject('【おけいcom】自動返信 お問い合わせ完了のお知らせ')
+                ->view('emails.to')
+                ->attach($this->validated['img'])
+                ->with([
+                    'content' => $this->validated,  // バリデーション情報
+                ]);
+        } else {
+            return $this
+                ->from('info@okeicom.com')
+                ->subject('【おけいcom】自動返信 お問い合わせ完了のお知らせ')
+                ->view('emails.to')
+                ->with([
+                    'content' => $this->validated,  // バリデーション情報
+                ]);
+        }
+
     }
 }

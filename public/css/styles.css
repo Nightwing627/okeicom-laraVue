@@ -2512,6 +2512,7 @@ template {
   border-radius: 3px;
   text-align: center;
   padding: 10px 0;
+  cursor: pointer;
 }
 .l-modal .l-modal--header--button li.message {
   margin-bottom: 5px;
@@ -2537,7 +2538,7 @@ template {
   flex-wrap: wrap;
 }
 .l-modal .l-modal--detail .l-modal--detail--box {
-  width: 33.3333%;
+  width: 50%;
 }
 .l-modal .l-modal--detail .l-modal--detail--box:not(:last-child) {
   border-right: 1px solid #F0F0F0;
@@ -3466,8 +3467,8 @@ template {
 }
 
 .c-scroll__box {
-  width: 207px;
-  min-width: 207px;
+  width: 130px;
+  min-width: 130px;
   margin-right: 10px;
   vertical-align: text-top;
   position: relative;
