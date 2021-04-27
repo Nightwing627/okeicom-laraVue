@@ -2,7 +2,7 @@
     <div class="l-modal" :class="{open: isParticipantDetail}" @click.self="openDetail">
         <div class="l-modal--wrap">
             <div class="close-button">
-                <span class="close-icon" @click.prevent="openDetail"><img src="/public/img/icon-batsu-white.png"></span>
+                <span class="close-icon" @click.prevent="openDetail"><img src="/img/common/icon-batsu-white.png"></span>
             </div>
             <div class="l-modal--wrap--inner" v-if="currentUser">
                 <div class="l-modal--content">
@@ -23,21 +23,21 @@
                 <div class="l-modal--content">
                     <div class="l-modal--name">
                         <p class="sub">アカウント名</p>
-                        <p class="main">{{currentUser.name}}</p>
+                        <p class="main">{{ currentUser.name }}</p>
                     </div>
                 </div>
                 <div class="l-modal--detail">
                     <div class="l-modal--detail--box l-modal--content">
                         <p class="sub">性別</p>
-                        <p class="main">{{currentUser.sex == 0 ? "男性"　: "女性" }}</p>
+                        <p class="main">{{ currentUser.sex == 0 ? "男性" : "女性" }}</p>
                     </div>
-                    <div class="l-modal--detail--box l-modal--content">
+                    <!-- <div class="l-modal--detail--box l-modal--content">
                         <p class="sub">年齢</p>
-                        <p class="main">{{currentUser.age}}歳</p>
-                    </div>
+                        <p class="main">{{ currentUser.age }}歳</p>
+                    </div> -->
                     <div class="l-modal--detail--box l-modal--content">
                         <p class="sub">都道府県</p>
-                        <p class="main">北海道</p>
+                        <p class="main">{{ currentUser.age }}</p>
                     </div>
                 </div>
                 <div class="l-modal--content border-none">
@@ -64,7 +64,7 @@
                     <p class="main">タイトル</p>
                 </div>
                 <div class="c-list--td">
-                    <input type="" name="" placeholder="タイトルを入力してください" v-model="lessonTitle">
+                    <input type="text" name="title" placeholder="タイトルを入力してください" v-model="lessonTitle">
                 </div>
             </div>
             <!-- case：放送タイプが動画埋め込みの場合 -->
@@ -73,7 +73,7 @@
                     <p class="main">URL</p>
                 </div>
                 <div class="c-list--td">
-                    <input type="" name="" placeholder="https://www.youtube.com/" v-model="lessonUrl">
+                    <input type="text" name="url" placeholder="https://www.youtube.com/" v-model="lessonUrl">
                 </div>
             </div>
             <!-- case：放送タイプがスライドの場合 -->
@@ -82,7 +82,7 @@
                     <p class="main">スライドファイル（powerpoint）</p>
                 </div>
                 <div class="c-list--td">
-                    <input type="file" name="" placeholder="スライドファイル" accept="application/vnd.openxmlformats-officedocument.presentationml.presentation,.pptx,application/vnd.ms-powerpoint,.ppt">
+                    <input type="file" name="slide" placeholder="スライドファイル" accept="application/vnd.openxmlformats-officedocument.presentationml.presentation,.pptx,application/vnd.ms-powerpoint,.ppt">
                 </div>
             </div>
             <div class="c-list--tr">
@@ -91,7 +91,38 @@
                 </div>
                 <div class="c-list--td">
                     <div class="l-flex">
-                        <div class="l-content--input__two">
+                        <div class="l-content--input__three u-w100per_sp u-mb21_sp">
+                            <div class="l-content--input__headline">開始日</div>
+                            <vuejs-datepicker-component
+                                name="date"
+                                :value="lessonDate"
+                                @input="val => lessonDate = val"
+                            ></vuejs-datepicker-component>
+                        </div>
+                        <div class="l-content--input__three u-w49per_sp">
+                            <div class="l-content--input__headline">開始時間</div>
+                            <vue-timepicker
+                                name="start"
+                                hour-label="時間"
+                                minute-label="分"
+                                :value="lessonStart"
+                                @input="val => lessonStart = val"
+                                :minute-interval="5"
+                            ></vue-timepicker>
+                        </div>
+                        <div class="l-content--input__three u-w49per_sp">
+                            <div class="l-content--input__headline">終了時間</div>
+                            <vue-timepicker
+                                name="finish"
+                                hour-label="時間"
+                                minute-label="分"
+                                :value="lessonFinish"
+                                @input="val => lessonFinish = val"
+                                :minute-interval="5"
+                            >
+                            </vue-timepicker>
+                        </div>
+                        <!-- <div class="l-content--input__two">
                             <div class="l-content--input__headline">開始時間</div>
                             <vue-timepicker
                                 hour-label="時間"
@@ -100,18 +131,6 @@
                                 @input="val => lessonStart = val"
                                 :minute-interval="5"
                             ></vue-timepicker>
-                            <!-- <div class="l-flex l-start">
-                                <div class="l-content--input__two u-w100_pc">
-                                    <select>
-                                        <option v-for="item in 24">{{item - 1}}</option>
-                                    </select>
-                                </div>
-                                <div class="l-content--input__two u-w100_pc">
-                                    <select>
-                                        <option v-for="item in 60">{{item - 1}}</option>
-                                    </select>
-                                </div>
-                            </div> -->
 
                         </div>
                         <div class="l-content--input__two">
@@ -125,19 +144,7 @@
                                 :minute-interval="5"
                             >
                             </vue-timepicker>
-                            <!-- <div class="l-flex l-start">
-                                <div class="l-content--input__two u-w100_pc">
-                                    <select>
-                                        <option v-for="item in 24">{{item - 1}}</option>
-                                    </select>
-                                </div>
-                                <div class="l-content--input__two u-w100_pc">
-                                    <select>
-                                        <option v-for="item in 24">{{item - 1}}</option>
-                                    </select>
-                                </div>
-                            </div> -->
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -146,7 +153,10 @@
                     <p class="main">詳細</p>
                 </div>
                 <div class="c-list--td">
-                    <textarea v-model="lessonDetail"></textarea>
+                    <textarea
+                        v-model="lessonDetail"
+                        name="detail"
+                    ></textarea>
                 </div>
             </div>
             <div class="c-list--tr">
@@ -155,7 +165,7 @@
                 </div>
                 <div class="c-list--td">
                     <div class="accesary-yen l-content--input__three">
-                        <input @input="validate" v-model="lessonPrice" type="text" placeholder="半角数字を入力してください">
+                        <input @input="validate" v-model="lessonPrice" type="text" name="price" placeholder="半角数字を入力してください">
                     </div>
                     <!-- <input type="" name="" placeholder="半角数字を入力してください"> -->
                 </div>
@@ -169,14 +179,15 @@
                         <!-- <select>
                             <option v-for="item in 100">{{item}}%</option>
                         </select> -->
-                        <select v-model="lessonCancelRate">
+                        <select v-model="lessonCancelRate" name="cancel_rate">
                             <option v-for="(rate, index) in 100" :key="rate.id">{{ index }}</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="l-button--submit">
-                <input type="subit" name="" value="変更内容を保存する" class="c-button--square__pink">
+                <button type="submit" class="c-button--square__pink" :disabled="checkLesson">変更内容を保存する</button>
+                <!-- <input type="subit" name="" value="変更内容を保存する" class="c-button--square__pink"> -->
             </div>
         </div>
         <!-- tab：その他 -->
@@ -188,8 +199,8 @@
                     </div>
                 </div>
                 <div class="c-list--courseLesson--title u-pl10">
-                    <p class="title u-text--big u-mb5">{{user.name}}</p>
-                    <p class="date u-color--grayNavy u-text--small">{{user.created_at}}</p>
+                    <p class="title u-text--big u-mb5">{{ user.name }}</p>
+                    <p class="date u-color--grayNavy u-text--small">{{ user.created_at }}</p>
                 </div>
                 <!-- 開催日を超えた現場は削除 -->
                 <div class="c-button--edit">
@@ -227,17 +238,33 @@
                 isParticipantDetail: false,
                 currentUser: null,
                 lessonCancelRate: '',
+                checkLesson: true,
+
+                // レッスン情報を代入
+                lessonTitle      : this.lesson.title ?? '',
+                lessonUrl        : this.lesson.url ?? '',
+                lessonDetail     : this.lesson.detail ?? '',
+                lessonDate       : this.lesson.date ?? '',
+                lessonStart      : moment(this.lesson.start).format() ?? '',
+                lessonFinish     : moment(this.lesson.finish).format() ?? '',
+                lessonPrice      : this.lesson.price ?? '',
+                lessonCancelRate : this.lesson.cancel_rate ?? '',
             }
 		},
 		created: function() {
 			// 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
-            this.lessonTitle      = this.lesson.title ?? '';
-            this.lessonUrl        = this.lesson.url ?? '';
-            this.lessonDetail     = this.lesson.detail ?? '';
-            this.lessonStart      = this.lesson.start ?? '';
-            this.lessonFinish     = this.lesson.finish ?? '';
-            this.lessonPrice      = this.lesson.price ?? '';
-            this.lessonCancelRate = this.lesson.cancel_rate ?? '';
+
+            // [レッスン追加]ボタンのバリデーションチェック
+            this.$watch(
+                () => [this.$data.lessonTitle, this.$data.lessonDate, this.$data.lessonStart, this.$data.lessonFinish, this.$data.lessonPrice, this.$data.lessonCancelRate],
+                (type, date, start, finish, price, cancel, title) => {
+                    if(!this.lessonTitle == '' && !this.lessonDate == '' && !this.lessonStart == '' && !this.lessonFinish == '' && !this.lessonPrice == '' && !this.lessonCancelRate == '') {
+                        this.checkLesson = false;
+                    } else {
+                        this.checkLesson = true;
+                    }
+                }
+            )
 		},
 		computed: {},
 		methods: {

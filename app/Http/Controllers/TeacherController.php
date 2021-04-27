@@ -491,7 +491,19 @@ class TeacherController extends Controller
      */
     public function updateLessons(LessonStoreRequest $request)
     {
-        // 更新
+        $lesson = Lesson::find($request['lesson_id']);
+        // レッスン更新処理
+        $lesson->update([
+            'title'         => $request['title'],
+            'date'          => $request['date'],
+            'start'         => $request['start'],
+            'finish'        => $request['finish'],
+            'detail'        => $request['detail'],
+            'price'         => $request['price'],
+            'cancel_rate'   => $request['cancel_rate'],
+        ]);
+        return back()->with('success', '更新が成功しました。');
+
     }
 
     /**

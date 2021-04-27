@@ -373,6 +373,8 @@ class Lesson extends Model
      */
     public function findByTakenLessonOfUsersId()
     {
+        $rowNumbers = $this->getLessonNumberQuery();
+
         return self::query()
             ->select([
                 'lessons.*',
@@ -383,6 +385,7 @@ class Lesson extends Model
                 'categories4.name as category4_name',
                 'categories5.name as category5_name',
                 'users.img as user_img',
+                'rowNumbers.rowNumber'
             ])
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
             ->join('applications', 'lessons.id', '=', 'applications.lesson_id')
@@ -392,8 +395,11 @@ class Lesson extends Model
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
             ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
             ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
+            ->leftJoinSub($rowNumbers, 'rowNumbers', function ($join) {
+                $join->on('lessons.id', '=', 'rowNumbers.lessonId');
+            })
             ->where('applications.user_id', Auth::user()->id)
-            ->where('applications.status', 0)
+            ->where('applications.status', 1)
             ->onlyTrashed()
             ->paginate(Config::get('const.paginate.attendanceLesson'));
     }

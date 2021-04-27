@@ -12,6 +12,15 @@
 
 {{-- 本文 --}}
 @section('content')
+{{--  エラーメッセージ  --}}
+@if ($errors->any())
+    <div class="l-alart errorAlart" role="alert">
+        @foreach ($errors->all() as $error)
+        <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif
+
 <div class="l-wrap--single">
 	<div class="l-wrap--body">
         <div class="message-header l-flex l-start">

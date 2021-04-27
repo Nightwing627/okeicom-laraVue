@@ -24,8 +24,8 @@
 						<li v-if="user.cat5!=null">{{ user.cat5 }}</li>
 					</ul>
 					<div class="teacherDetail-profile-detail-tab u-mb10">
-						<div class="tabBox"><span>国籍</span>{{ user.country ? user.country : '未設定' }}</div>
-						<div class="tabBox"><span>言語</span>{{ user.lang ? user.lang : '未設定'}}</div>
+						<div class="tabBox"><span>国籍</span>{{ user.country_id ? user.country_id : '未設定' }}</div>
+						<div class="tabBox"><span>言語</span>{{ user.language_id ? user.language_id : '未設定'}}</div>
 						<div class="tabBox"><span>都道府県</span>{{ user.pref ? user.pref : '未設定'}}</div>
 					</div>
 					<a :href="message" class="c-button--square__pink">メッセージを送る</a>

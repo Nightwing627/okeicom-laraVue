@@ -1656,6 +1656,7 @@ template {
 }
 .l-alart.successAlart {
   background: rgba(62, 137, 224, 0.8);
+  color: #fff;
 }
 .l-alart p {
   text-align: center;

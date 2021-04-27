@@ -107,10 +107,6 @@ class LessonFinish extends Command
                         ]);
                         $url = $evaluation->url; // 評価URL
 
-                        /* 予約情報を論理削除 */
-                        $application->delete();
-                        $application->save();
-
                         /* 講師を評価するメール自動送信 */
                         $teacher = User::find($lesson->user_id)->name;
                         $email = new EvaluationRequest($lesson, $teacher, $url);
@@ -118,6 +114,11 @@ class LessonFinish extends Command
                         $user = User::find($application->user_id);
                         $user_email = $user->email;
                         Mail::to($user_email)->send($email);
+
+                        /* 予約情報を論理削除 */
+                        $application->delete();
+                        $application->save();
+
                     }
                 }
                 // レッスンを論理削除

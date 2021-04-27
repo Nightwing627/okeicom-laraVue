@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Mail\WithdrawalRequest;
+use App\Mail\MessageReceive;
+
 use App\Http\Requests\Message\SendRequest as MessageSendRequest;
 use App\Http\Requests\User\UpdateRequest as UserUpdateRequest;
 use App\Http\Requests\User\PasswordUpdateRequest as UserPasswordUpdateRequest;
@@ -150,8 +152,6 @@ class StudentController extends Controller
         //         $lessons[] = $target;
         //     }
         // }
-
-
         // array_search(3, array_column($lessons, 'id')) + 1
 
         return view('students.taken-lessons', compact('lessons'));
@@ -194,10 +194,10 @@ class StudentController extends Controller
     {
         // ユーザー情報
         $partner_users_id = $request->partner_users_id;
-        $user_name = User::find($partner_users_id)->name;
-        $user_img = User::find($partner_users_id)->img;
-        $user_status = Auth::user()->status;
-        $message_details = $this->message->getConversation($partner_users_id);
+        $user_name        = User::find($partner_users_id)->name;
+        $user_img         = User::find($partner_users_id)->img;
+        $user_status      = Auth::user()->status;
+        $message_details  = $this->message->getConversation($partner_users_id);
         $message_received = $request->messages_detail;
         // 既読に更新(スマホ)
         DB::transaction(function () use ($message_details) {
@@ -214,20 +214,37 @@ class StudentController extends Controller
      */
     public function sendMessages(MessageSendRequest $request)
     {
-        $message = new Message();
-        $message->user_send_id = Auth::user()->id;
-        $message->user_receive_id = $request->partner_users_id;
-        $message->message_detail = $request->message_detail;
-        $message->saveImgs($request);
-        $message->save();
+        // メッセージ送信及びメール送信の処理
 
-        $agent = new Agent();
-        // if($agent->isMobile()) {
-        //     return redirect(route('mypage.u.messages.detail', ['partner_users_id' => $message->user_receive_id ]));
-        // } else {
-        //     return redirect(route('mypage.u.messages', ['partner_users_id' => $message->user_receive_id]));
-        // }
-        return redirect(route('mypage.u.messages.detail', ['partner_users_id' => $message->user_receive_id, 'messages_detail'=>$message->message_detail]));
+        DB::beginTransaction();
+        try {
+            // １．メッセージ送信処理
+            $message = new Message();
+            $message->user_send_id = Auth::user()->id;
+            $message->user_receive_id = $request->partner_users_id;
+            $message->message_detail = $request->message_detail;
+            $message->saveImgs($request);
+            $message->save();
+            $agent = new Agent();
+
+            // ２．メッセージ受信のメール送信処理
+            // メッセージ送信者
+            $sent_user = Auth::user();
+            // メッセージ受信者
+            $receive_user = User::find($request->partner_users_id);
+            $email = new MessageReceive($sent_user, $receive_user);
+            Mail::to($receive_user['email'])->send($email);
+
+            // トランザクションを通過してDBにcommit
+            DB::commit();
+
+            // リダイレクト設定
+            return redirect(route('mypage.u.messages.detail', ['partner_users_id' => $message->user_receive_id, 'messages_detail'=>$message->message_detail]));
+        } catch (\Exception $e) {
+            DB::rollback();
+            $error = 'メッセージが送信できませんでした。管理者へお問い合わせください。';
+            return back()->withErrors($error);
+        };
     }
 
     /**

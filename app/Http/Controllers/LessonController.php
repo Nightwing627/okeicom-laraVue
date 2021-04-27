@@ -9,12 +9,14 @@ use App\Models\Payment;
 use App\Models\Category;
 use App\Models\Evaluation;
 use App\Models\Application;
+use App\Mail\BuyLesson;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use App\Http\Controllers\Controller,
     Session;
@@ -385,6 +387,8 @@ class LessonController extends Controller
      */
     public function errorApplication(Request $request)
     {
+        // 指定したデータをセッションから削除する
+        session()->forget('lesson_id');
         return view('lessons.application-error');
     }
 
@@ -396,10 +400,18 @@ class LessonController extends Controller
      */
     public function completeApplication(Request $request)
     {
-        $user_id = Auth::user()->id;
-        $user = User::find($user_id);
-        $user_status = $user->status;
-        return view('lessons.application-complete', compact('user_status'));
+        // 講師側へ自動メール送信
+        $user = Auth::user();
+        $lesson = Lesson::find(session()->get('lesson_id'));
+        $teacher = User::find($lesson->user_id);
+        // 送信
+        $email = new BuyLesson($teacher, $lesson);
+        Mail::to($teacher->email)->send($email);
+
+        // 指定したデータをセッションから削除する
+        session()->forget('lesson_id');
+
+        return view('lessons.application-complete');
     }
 
     /**

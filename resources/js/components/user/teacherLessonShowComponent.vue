@@ -95,28 +95,27 @@
 							<div class="l-flex l-start">
 								<div class="l-content--input__two u-w100_pc">
 									<select>
-										<option v-for="i in 24">{{i}}}</option>
+										<option v-for="i in 24">{{ i }}</option>
 									</select>
 								</div>
 								<div class="l-content--input__two u-w100_pc">
 									<select>
-										<option v-for="i in 60">{{i}}}</option>
+										<option v-for="i in 60">{{ i }}</option>
 									</select>
 								</div>
 							</div>
-
 						</div>
 						<div class="l-content--input__two">
 							<div class="l-content--input__headline">終了時間</div>
 							<div class="l-flex l-start">
 								<div class="l-content--input__two u-w100_pc">
 									<select>
-										<option v-for="i in 24">{{i}}}</option>
+										<option v-for="i in 24">{{ i }}</option>
 									</select>
 								</div>
 								<div class="l-content--input__two u-w100_pc">
 									<select>
-										<option v-for="i in 60">{{i}}}</option>
+										<option v-for="i in 60">{{ i }}</option>
 									</select>
 								</div>
 							</div>

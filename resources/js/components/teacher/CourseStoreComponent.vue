@@ -64,7 +64,7 @@
                         </ul>
                     </div>
                     <div class="l-content--input" v-if="isType != 3">
-                        <p class="l-content--input__headline">動画URL</p>
+                        <p class="l-content--input__headline">動画もしくはZOOM URL</p>
                         <input type="text" v-model="lessonUrl" placeholder="https://www.youtube.com/">
                     </div>
                     <div class="l-content--input" v-if="isType === 3">
@@ -399,7 +399,7 @@
             addCheckbox: function() {
                 if (this.course.category  < 5) {
                     this.course.category += 1;
-                } 
+                }
             },
             reduceCheckbox: function() {
                 this.course.category -= 1;
@@ -503,7 +503,7 @@
                 // 日付をフォーマットの通りに変更する
                 const momentDate = moment(this.lessonDate).format('YYYY/MM/DD');
                 // courseLessonsデータに情報を保存する
-                this.courseLessons[this.currendEditIndex] = 
+                this.courseLessons[this.currendEditIndex] =
                     {
                         title           : this.lessonTitle,
                         public          : this.lessonPublic,
