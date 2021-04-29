@@ -135,8 +135,17 @@ class LessonController extends Controller
         // レッスン終了日時を取得
         $finishDate = $this->lesson->getBasicDate($lesson->date, $lesson->finish);
 
+        $currentDate = Carbon::create(
+            date("Y", strtotime(date("Y-m-d H:i:s"))),
+            date("m", strtotime(date("Y-m-d H:i:s"))),
+            date("d", strtotime(date("Y-m-d H:i:s"))),
+            date("H", strtotime(date("Y-m-d H:i:s"))),
+            date("i", strtotime(date("Y-m-d H:i:s"))),
+            date("s", strtotime(date("Y-m-d H:i:s")))
+        );
+
         // レッスンを登録する
-        return view('lessons.detail', compact('lesson_id', 'lesson', 'user', 'evaluations', 'relatedLessons', 'courseImgLists', 'checkPurchase', 'basicDate', 'finishDate'));
+        return view('lessons.detail', compact('lesson_id', 'lesson', 'user', 'evaluations', 'relatedLessons', 'courseImgLists', 'checkPurchase', 'basicDate', 'finishDate', 'currentDate'));
     }
 
     /**
@@ -589,7 +598,7 @@ class LessonController extends Controller
         $lessonInstance = new Lesson;
         $checkHistory = $lessonInstance->checkPurchaseLesson($lesson_id, $user_id);
         if($checkHistory) {
-            return view('lessons.browsing', $lesson);
+            return view('lessons.browsing', $lesson)->with('lesson', $lesson);
         } else {
             return back();
         }

@@ -29,9 +29,21 @@
         <div class="l-lessonDetail__browsing">
 			<div class="l-allWrapper">
                 {{-- 終了時間による条件分岐 --}}
-                @if(date("Y-m-d H:i:s") <= $finishDate)
-                    @if(date("Y-m-d H:i:s") >= $basicDate)
-                        <a href="{{ $lesson->url }}" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
+                @if($currentDate <= $finishDate)
+                    @if($currentDate >= $basicDate)
+                        @if($lesson->type == 2)
+                            @if($checkPurchase->status == 0)
+                            <a href="{{ route('lessons.browsing', $lesson->id) }}" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
+                            @else
+                            <a href="javascript:;" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
+                            @endif
+                        @else
+                            @if($checkPurchase->status == 0)
+                            <a href="{{ $lesson->url }}" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
+                            @else
+                            <a href="javascript:;" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
+                            @endif
+                        @endif
                     @else
                         <p class="lesson-wait">レッスン開始までお待ちください。</p>
                     @endif
@@ -56,7 +68,7 @@
                     >
                     </detail-img-list-component>
 					<div class="c-lessonDetail__info">
-						<div class="other l-flex l-v__center @if(date("Y-m-d H:i:s") >= $basicDate) l-start @endif">
+						<div class="other l-flex l-v__center @if($currentDate >= $basicDate) l-start @endif">
 							<div class="other__price">
 								<p class="price">{{ $lesson->separate_comma_price }}</p>
 								<p class="cancel">キャンセル手数料：{{ $lesson->cancel_rate }}%（¥{{ $lesson->comma_cancel_price }}）</p>
@@ -66,7 +78,7 @@
 							</div>
 
                             @if($checkPurchase)
-                                @if(date("Y-m-d H:i:s") <= $basicDate)
+                                @if($currentDate <= $basicDate)
                                 <div class="other_reserve">
                                     <a href="{{ route('lessons.cancel') }}">キャンセルする</a>
                                 </div>

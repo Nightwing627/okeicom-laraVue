@@ -21,6 +21,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
+use NcJoes\OfficeConverter\OfficeConverter;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 use Carbon\Carbon;
 
@@ -316,8 +319,30 @@ class TeacherController extends Controller
 
         // レッスンに必要な情報を入れる
         foreach ($lessons as $index => $lesson) {
+            // PDFの処理
+            $new_folder = time()."".rand();
+            Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
+            $base64_slide = explode(',',$lesson['slide']);
+            $real_slide = base64_decode($base64_slide[1]);
+            $new_filename = $lesson['title'];
+            Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
+            $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
+            $converter = new OfficeConverter($ppt_path);
+            $converter->convertTo($new_filename.'.pdf');
+
             // ランダムな整数を配列に入れる
             $models[$index] = Lesson::make($lesson);
+            $models[$index]->slide = $new_filename;
+            $models[$index]->title = $lesson['title'];
+            $models[$index]->public = $lesson['public'];
+            $models[$index]->type = $lesson['type'];
+            $models[$index]->url = $lesson['url'];
+            $models[$index]->date = $lesson['date'];
+            $models[$index]->start = $lesson['start'];
+            $models[$index]->finish = $lesson['finish'];
+            $models[$index]->price = $lesson['price'];
+            $models[$index]->cancel_rate = $lesson['cancel_rate'];
+            $models[$index]->detail = $lesson['detail'];
             $models[$index]->user_id = $course->user_id;
             $models[$index]->status = 0;
             // ランダムな整数を確認する

@@ -9,5 +9,6 @@
 		</main>
 	</div>
 	@include("../common/footer-user")
+	@yield('script')
 </body>
 </html>

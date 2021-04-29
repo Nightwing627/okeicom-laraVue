@@ -47,6 +47,11 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
+        // PDF用
+        'lesson' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/lesson'),
+        ],
 
         'public' => [
             'driver' => 'local',
