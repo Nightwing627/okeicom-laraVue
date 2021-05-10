@@ -28,20 +28,17 @@
 						</tr>
 					</thead>
 					<tbody>
-						<!-- レッスン受講料、取り消し可能 -->
-						<?php for($i=0;$i<20;$i++): ?>
-							<tr>
-								<td style="white-space: nowrap;">2020/12/12 12:00</td>
-								<td><a href="" class="u-text--link" target="_blank">タイトルタイトルタイトルタイトル</a></td>
-								<!-- 最初の100文字程度？ -->
-								<td>ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</td>
-								<td>
-									<div class="c-button--edit one-button">
-										<a href="" class="c-button--edit--link delete">削除</a>
-									</div>
-								</td>
-							</tr>
-						<?php endfor; ?>
+                        <tr>
+                            <td style="white-space: nowrap;">2020/12/12 12:00</td>
+                            <td><a href="" class="u-text--link" target="_blank">タイトルタイトルタイトルタイトル</a></td>
+                            <!-- 最初の100文字程度？ -->
+                            <td>ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</td>
+                            <td>
+                                <div class="c-button--edit one-button">
+                                    <a href="" class="c-button--edit--link delete">削除</a>
+                                </div>
+                            </td>
+                        </tr>
 					</tbody>
 				</table>
 			</div>

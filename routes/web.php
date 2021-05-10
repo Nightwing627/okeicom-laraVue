@@ -6,13 +6,14 @@ use App\Http\Controllers\Auth\ForgotPasswordController as UserForgotPassword;
 use App\Http\Controllers\Auth\RegisterController as UserRegister;
 use App\Http\Controllers\Auth\ResetPasswordController as UserResetPassword;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\BankController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,11 @@ Route::get('login', [UserLogin::class, 'showLoginForm'])->name('login');
 Route::post('login', [UserLogin::class, 'login']);
 Route::post('logout', [UserLogin::class, 'logout'])->name('logout');
 
+// 管理者認証
+Route::get('admin-login', [AdminLogin::class, 'showLoginForm'])->name('admin.login');
+Route::post('admin-login', [AdminLogin::class, 'login']);
+Route::post('admin-logout', [AdminLogin::class, 'logout'])->name('admin.logout');
+
 // パスワードリセット
 Route::get('password-reset', [UserForgotPassword::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password-email', [UserForgotPassword::class, 'sendResetLinkEmail'])->name('password.email');
@@ -39,13 +45,14 @@ Route::get('password-reset/new/{token}', [UserResetPassword::class, 'showResetFo
 Route::post('password-reset/new', [UserResetPassword::class, 'reset'])->name('password.update');
 Route::get('password-reset/complete', [UserResetPassword::class, 'complete'])->name('password.complete');
 
-// ログイン
+// ユーザーログイン
 Route::get('sign-up', [UserRegister::class, 'showEmailVerifyForm'])->name('email.verify');
 Route::post('email-send', [UserRegister::class, 'emailVerify'])->name('email.verify.send');
 Route::get('email-send/complete', [UserRegister::class, 'completeEmailSend'])->name('email.send.complete');
 Route::get('sign-up/register/{token}', [UserRegister::class, 'showRegistrationForm'])->name('sign-up.show');
 Route::post('sign-up/register/{token}', [UserRegister::class, 'register'])->name('sign-up.store');
 Route::get('sign-up/complete', [UserRegister::class, 'completeRegister'])->name('sign-up.complete');
+
 
 // 管理者認証
 Route::prefix('owner-admin')->name('admins.')->group(function () {
@@ -71,22 +78,31 @@ Route::prefix('owner-admin')->name('admins.')->group(function () {
         Route::post('users/update', [AdminController::class, 'updateUsers'])->name('users.update');
 
         // コース：一覧
-        Route::get('courses', [AdminController::class, 'indexCourses'])->name('courses.indnex');
+        Route::get('courses', [AdminController::class, 'indexCourses'])->name('courses.index');
         // コース：詳細
         Route::get('courses/detail/{id}', [AdminController::class, 'showCourses'])->name('courses.show');
 
         // メッセージ：一覧
-        Route::get('messages', [AdminController::class, 'indexMessages'])->name('messages.indnex');
+        Route::get('messages', [AdminController::class, 'indexMessages'])->name('messages.index');
 
         // 取引(確定前)：一覧
-        Route::get('deals-before', [AdminController::class, 'indexDealsBefore'])->name('deails-before.indnex');
+        Route::get('deals-before', [AdminController::class, 'indexDealsBefore'])->name('deails-before.index');
         // 取引(確定後)：一覧
         Route::get('deals-after', [AdminController::class, 'indexDealsAfter'])->name('deails-after.index');
 
         // お知らせ：一覧
         Route::get('news', [AdminController::class, 'indexNews'])->name('news.index');
+        // お知らせ：編集
+        Route::get('news/edit/', [AdminController::class, 'indexNews'])->name('news.index');
         // お知らせ：新規作成
         Route::get('news/add', [AdminController::class, 'createNews'])->name('news.create');
+
+        // クーポン：一覧
+        Route::get('coupons', [AdminController::class, 'indexCoupons'])->name('coupons.index');
+        // クーポン：編集
+        Route::get('coupons/edit/', [AdminController::class, 'editCoupons'])->name('coupons.edit');
+        // クーポン：新規作成
+        Route::get('coupons/add', [AdminController::class, 'createCoupons'])->name('coupons.create');
     });
 });
 

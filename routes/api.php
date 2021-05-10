@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ManageController;
 use App\Http\Controllers\Api\LessonsController;
+use App\Http\Controllers\Api\v1\AnnouncementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,9 @@ use App\Http\Controllers\Api\LessonsController;
 // レッスン一覧情報取得API
 Route::resource('v1/lessons', LessonsController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
+// お知らせ一覧
+Route::resource('v1/announcements', AnnouncementController::class)->only(['index', 'show', 'store', 'update', 'destroy']);// お知らせ一覧
+
 // 管理者認証
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
@@ -25,5 +29,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // 管理者
         Route::apiResource('/manages', ManageController::class);
+
     });
 });

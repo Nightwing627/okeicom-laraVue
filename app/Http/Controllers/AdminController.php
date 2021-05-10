@@ -162,6 +162,39 @@ class AdminController extends Controller
     {
         return view('admins.news-create');
     }
+
+    /**
+     * クーポン：一覧
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function indexCoupons(Request $request)
+    {
+        // return view('admins.news-index');
+    }
+
+    /**
+     * クーポン：編集
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function editCoupons(Request $request)
+    {
+        // return view('admins.news-create');
+    }
+
+    /**
+     * クーポン：追加
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function createCoupons(Request $request)
+    {
+        // return view('admins.news-create');
+    }
 }
 
 

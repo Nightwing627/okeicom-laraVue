@@ -48,25 +48,25 @@ class AddColumnsToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('account');
-            $table->dropColumn('status');
-            $table->dropColumn('sex');
-            $table->dropColumn('age');
-            $table->dropColumn('country_id');
-            $table->dropColumn('prefecture_id');
-            $table->dropColumn('language_id');
-            $table->dropColumn('img');
-            $table->dropColumn('profile');
-            $table->dropColumn('mailing');
-            $table->dropColumn('bank_type');
-            $table->dropColumn('bank_id');
-            $table->dropColumn('credit_id');
-            $table->dropColumn('category1_id');
-            $table->dropColumn('category2_id');
-            $table->dropColumn('category3_id');
-            $table->dropColumn('category4_id');
-            $table->dropColumn('category5_id');
-            $table->dropColumn('withdraw_reason');
+            // $table->dropColumn('account');
+            // $table->dropColumn('status');
+            // $table->dropColumn('sex');
+            // $table->dropColumn('age');
+            // $table->dropColumn('country_id');
+            // $table->dropColumn('prefecture_id');
+            // $table->dropColumn('language_id');
+            // $table->dropColumn('img');
+            // $table->dropColumn('profile');
+            // $table->dropColumn('mailing');
+            // $table->dropColumn('bank_type');
+            // $table->dropColumn('bank_id');
+            // $table->dropColumn('credit_id');
+            // $table->dropColumn('category1_id');
+            // $table->dropColumn('category2_id');
+            // $table->dropColumn('category3_id');
+            // $table->dropColumn('category4_id');
+            // $table->dropColumn('category5_id');
+            // $table->dropColumn('withdraw_reason');
             $table->dropSoftDeletes();
         });
     }
