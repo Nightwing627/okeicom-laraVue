@@ -170,6 +170,12 @@
                 <li><a href="/faq-user/">受講者よくある質問</a></li>
                 <li><a href="/faq-teacher/">講師よくある質問</a></li>
                 <li><a href="/contact/">お問い合わせ</a></li>
+                <li>
+                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
+                    <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                        <input type="hidden" name="_token" v-bind:value="csrf">
+                    </form>
+                </li>
             </ul>
 		</nav>
 	</header>
