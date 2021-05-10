@@ -49,8 +49,8 @@
 			<div class="header__right l-flex l-v__center">
 				<ul class="header__icon l-flex l-v__bottom sp-only">
 					<li>
-						<a class="/mypage/t/courses/">
-							<img src="/img/common/icon-add-pink.png" alt="検索アイコン">
+						<a href="/mypage/t/courses/create">
+							<img src="/img/common/icon-add-pink.png" alt="プラスアイコン">
 							<span>コース</span>
 						</a>
 					</li>
@@ -170,6 +170,12 @@
                 <li><a href="/faq-user/">受講者よくある質問</a></li>
                 <li><a href="/faq-teacher/">講師よくある質問</a></li>
                 <li><a href="/contact/">お問い合わせ</a></li>
+                <li>
+                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
+                    <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                        <input type="hidden" name="_token" v-bind:value="csrf">
+                    </form>
+                </li>
             </ul>
 		</nav>
 	</header>

@@ -14,16 +14,15 @@ class PaymentsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-
-        // for ($i = 1; $i < 20; $i++) {
-        //     Payment::create([
-        //         'user_teacher_id' => $i % 3,
-        //         'user_student_id' => $i % 7,
-        //         'user_student_id' => $i % 7,
-        //         'amount' => 1000 * $i,
-        //     ]);
-        // }
+        for ($i = 1; $i < 30; $i++) {
+            Payment::create([
+                'user_teacher_id' => 3,
+                'user_student_id' => 2,
+                'lesson_id' => 1,
+                'status' => 1,
+                'amount' => 100,
+            ]);
+        }
     }
 }
 

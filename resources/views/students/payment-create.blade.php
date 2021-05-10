@@ -19,15 +19,15 @@
         </div>
         <form method="POST" action="{{ route('mypage.t.payment.store') }}">
             @csrf
-            <input type="hidden" name="amount" value="{{ $holding_amount->amount }}">
             <div class="l-wrap--body">
                 <div class="l-wrap--main l-wrap--detail">
                     <div class="l-content--detail">
                         <div class="c-headline--block">出金額</div>
                         <div class="l-content--detail__inner">
-                            <div class="user-pament-total">
-                                <p>{{ $holding_amount->separate_comma_amount }}</p>
+                            <div class="user-pament-total" style="text-align: center;">
+                                <p>¥{{ number_format(Session::get('withdrawal_amount')) }}</p>
                             </div>
+                            <p class="u-mt5" style="text-align: center;">（手数料：¥{{ number_format(Session::get('fee')) }}）</p>
                         </div>
                     </div>
                     <user-payment-component :bank-date={{ $bankDate }} target="{{ $target }}"></user-payment-component>

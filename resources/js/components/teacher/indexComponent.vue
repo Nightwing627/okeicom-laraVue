@@ -1,5 +1,4 @@
 <template>
-
 	<div class="l-wrap--title">
 		<div class="l-wrap">
 			<h1 class="c-headline--screen">講師一覧</h1>
@@ -104,8 +103,8 @@
         },
 		data() {
 			return {
-		      link: '/teachers/category/',
-		    };
+                link: '/teachers/category/',
+            };
 		},
 		created: function() {
 			// 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
@@ -128,6 +127,6 @@
             start: Number,
             end: Number,
             page_cnt: Number,
-          },
+        },
 	}
 </script>

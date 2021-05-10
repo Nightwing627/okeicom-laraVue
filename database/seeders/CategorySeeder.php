@@ -14,6 +14,7 @@ class CategorySeeder extends Seeder {
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('categories')->truncate();
 
         $datas = [
@@ -45,5 +46,6 @@ class CategorySeeder extends Seeder {
                 'updated_at' => Carbon::now(),
             ]);
         }
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

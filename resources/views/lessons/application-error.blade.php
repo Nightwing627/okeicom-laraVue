@@ -13,16 +13,16 @@
 
 @extends('layouts.single')
 
-<!-- タイトル・メタディスクリプション -->
+{{-- タイトル・メタディスクリプション --}}
 @section('title', 'クレジットカード決済 | おけいcom')
 @section('description', 'おけいcomのクレジットカード決済ページです。')
 
-<!-- CSS -->
+{{-- CSS --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/lessonApplication.css') }}">
 @endpush
 
-<!-- 本文 -->
+{{-- 本文 --}}
 @section('content')
 <div class="l-wrap--single">
 	<div class="l-wrap--title">

@@ -60,6 +60,7 @@ Route::prefix('owner-admin')->name('admins.')->group(function () {
         Route::get('withdraw/request', [AdminController::class, 'requestWithdraws'])->name('withdraws.request');
         // 出金：履歴一覧
         Route::get('withdraw/history', [AdminController::class, 'historyWithdraws'])->name('withdraws.history');
+
         // ユーザー：一覧
         Route::get('users', [AdminController::class, 'indexUsers'])->name('users.index');
         // ユーザー：追加
@@ -68,16 +69,20 @@ Route::prefix('owner-admin')->name('admins.')->group(function () {
         // ユーザー：編集（詳細）
         Route::get('users/edit/{id}', [AdminController::class, 'editUsers'])->name('users.edit');
         Route::post('users/update', [AdminController::class, 'updateUsers'])->name('users.update');
+
         // コース：一覧
         Route::get('courses', [AdminController::class, 'indexCourses'])->name('courses.indnex');
         // コース：詳細
         Route::get('courses/detail/{id}', [AdminController::class, 'showCourses'])->name('courses.show');
+
         // メッセージ：一覧
         Route::get('messages', [AdminController::class, 'indexMessages'])->name('messages.indnex');
+
         // 取引(確定前)：一覧
         Route::get('deals-before', [AdminController::class, 'indexDealsBefore'])->name('deails-before.indnex');
         // 取引(確定後)：一覧
         Route::get('deals-after', [AdminController::class, 'indexDealsAfter'])->name('deails-after.index');
+
         // お知らせ：一覧
         Route::get('news', [AdminController::class, 'indexNews'])->name('news.index');
         // お知らせ：新規作成

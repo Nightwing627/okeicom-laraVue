@@ -51,15 +51,12 @@
                             @foreach ($params as $key => $value)
                                 <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                             @endforeach
-                            <button type="submit" name="is_sex" value="all">
-                                <div class="tab-box @empty($params['is_sex']) selected @endempty @if(isset($params['is_sex']) && $params['is_sex'] == 'all') selected @endif">全て</div>
-                            </button>
-                            <button type="submit" name="is_sex" value="man">
-                                <div class="tab-box @if(isset($params['is_sex']) && $params['is_sex'] == 'man') selected @endif">男性</div>
-                            </button>
-                            <button type="submit" name="is_sex" value="female">
-                                <div class="tab-box @if(isset($params['is_sex']) && $params['is_sex'] == 'female') selected @endif">女性</div>
-                            </button>
+                            {{-- <button class="tab-box" type="submit" name="is_sex" value="all">
+                                <div class="@empty($params['is_sex']) selected @endempty @if(isset($params['is_sex']) && $params['is_sex'] == 'all') selected @endif">全て</div>
+                            </button> --}}
+                            <button class="tab-box @empty($params['is_sex']) selected @endempty @if(isset($params['is_sex']) && $params['is_sex'] == 'all') selected @endif" type="submit" name="is_sex" value="all">全て</button>
+                            <button class="tab-box @if(isset($params['is_sex']) && $params['is_sex'] == 'man') selected @endif" type="submit" name="is_sex" value="man">男性</button>
+                            <button class="tab-box @if(isset($params['is_sex']) && $params['is_sex'] == 'female') selected @endif" type="submit" name="is_sex" value="female">女性</button>
                         </div>
                     </form>
                     @if($teachers)

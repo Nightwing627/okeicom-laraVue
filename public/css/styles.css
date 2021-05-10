@@ -797,7 +797,7 @@
   .sidebar__list li:nth-child(2n) {
     border-left: 1px solid #F0F0F0;
   }
-  .sidebar__list li a {
+  .sidebar__list li a, .sidebar__list li button {
     position: relative;
     display: block;
     height: 40px;
@@ -806,7 +806,7 @@
     padding: 0 0 0 30px;
     color: #3188FF;
   }
-  .sidebar__list li a:before {
+  .sidebar__list li a:before, .sidebar__list li button:before {
     content: "";
     display: block;
     width: 10px;
@@ -827,15 +827,15 @@
   #sidebar.sidebar__tab li {
     text-align: center;
   }
-  #sidebar.sidebar__tab li a {
+  #sidebar.sidebar__tab li a, #sidebar.sidebar__tab li button {
     font-weight: 700;
     height: 50px;
     line-height: 50px;
   }
-  #sidebar.sidebar__tab li.selected a {
+  #sidebar.sidebar__tab li.selected a, #sidebar.sidebar__tab li.selected button {
     color: #3C3C3B;
   }
-  #sidebar.sidebar__tab li.selected a:before {
+  #sidebar.sidebar__tab li.selected a:before, #sidebar.sidebar__tab li.selected button:before {
     transform: rotate(90deg) translateX(-50%);
   }
 }
@@ -851,7 +851,7 @@
   margin-bottom: 0;
   border-bottom: 1px solid #eee;
 }
-.login-user .sidebar__list li a {
+.login-user .sidebar__list li button, .login-user .sidebar__list li a {
   background: #fff;
   border-radius: 0;
   width: 100%;
@@ -861,7 +861,7 @@
 .sidebar-change {
   margin-bottom: 20px;
 }
-.sidebar-change a {
+.sidebar-change button, .sidebar-change a {
   display: block;
   width: 100%;
   padding: 20px;
@@ -1640,8 +1640,8 @@ template {
   z-index: 9998;
   padding: 20px;
   animation-name: alartFadeOut;
-  animation-duration: .5s;
-  animation-delay: 1.5s;
+  animation-duration: .7s;
+  animation-delay: 2.5s;
   animation-fill-mode: forwards;
 }
 @media screen and (min-width: 896px) {
@@ -1651,11 +1651,11 @@ template {
   }
 }
 .l-alart.errorAlart {
-  background: rgba(237, 70, 70, 0.8);
+  background: rgba(237, 70, 70, 0.95);
   color: #fff;
 }
 .l-alart.successAlart {
-  background: rgba(62, 137, 224, 0.8);
+  background: rgba(62, 137, 224, 0.95);
   color: #fff;
 }
 .l-alart p {
@@ -3073,6 +3073,7 @@ template {
   border-radius: 3px;
   background: #fff;
   text-align: center;
+  cursor: pointer;
 }
 .c-button--edit .c-button--edit--link:nth-child(2) {
   margin-left: 5px;

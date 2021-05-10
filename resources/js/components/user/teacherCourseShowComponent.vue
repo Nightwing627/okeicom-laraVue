@@ -118,7 +118,7 @@
 	</div>
 </template>
 <script>
-	
+
 	export default {
         components: {
         },
@@ -190,7 +190,7 @@
 								break
 							}
 							i += 1
-							
+
 						} else {
 							this.couseDetailFiles[index+i-1].url = ""
 							this.couseDetailFiles[index+i-1].isAdd = true

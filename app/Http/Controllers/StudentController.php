@@ -331,7 +331,6 @@ class StudentController extends Controller
     public function createWithdrawal(Request $request)
     {
         $user_status = Auth::user()->status;
-        // return view('students.withdrawal-create');
         return view('students.withdrawal-create', compact('user_status'));
     }
 
@@ -343,9 +342,13 @@ class StudentController extends Controller
      */
     public function storeWithdrawal(Request $request)
     {
-        DB::transaction(function () {
-            $this->withdraw->executeWithdraw();
-        });
+
+        // DBトランザクションをしいて削除処理
+
+        $target = $this->withdraw->executeWithdraw();
+        if($target != null) {
+            return back()->withErrors($target);
+        };
 
         // ログアウト
         Auth::guard()->logout();
@@ -444,9 +447,39 @@ class StudentController extends Controller
      */
     public function createPayment(Request $request)
     {
-        // 出金情報
         $user_status = Auth::user()->status;
+        // 出金合計金額
         $holding_amount = $this->payment->getHoldingAmount();
+
+        // 出金金額によって手数料率を算出する
+        $fee = '';
+        switch(true) {
+            case $holding_amount > 300001:
+                $fee = 25;
+                break;
+            case $holding_amount > 250001:
+                $fee = 23;
+                break;
+            case $holding_amount > 200001:
+                $fee = 20;
+                break;
+            case $holding_amount > 150001:
+                $fee = 18;
+                break;
+            case $holding_amount > 100001:
+                $fee = 15;
+                break;
+            default:
+                $fee = 13;
+                break;
+        }
+        // 出金額と手数料を表示
+        session()->put([
+            'holding_amount'    => $holding_amount,
+            'withdrawal_amount' => $holding_amount - $fee,
+            'fee'               => $fee,
+        ]);
+
 
         // DBから銀行情報を取得する
         $bankDate = '';
@@ -463,11 +496,12 @@ class StudentController extends Controller
             $target = 1;
         }
 
+
         // IDをセッションに保存（出金履歴の登録時に必要）
-        if($bankDate['id']) {
+        if(isset($bankDate['id'])) {
             session(['id' => $bankDate['id']]);
         }
-        return view('students.payment-create', compact('holding_amount', 'user_status', 'bankDate', 'target'));
+        return view('students.payment-create', compact('user_status', 'bankDate', 'target'));
     }
 
     /**

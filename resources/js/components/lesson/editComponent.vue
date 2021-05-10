@@ -56,13 +56,13 @@
 	<div class="l-wrap--main--inner">
         <div class="c-button--tab top-tab two-tab">
             <div class="c-button--tab--inner u-w400_pc">
-                <div class="c-button--tab--box" v-bind:class="{'selected': isBarTab === '1'}" @click.prevent="changeTab('1')">レッスン詳細</div>
-                <div class="c-button--tab--box" v-bind:class="{'selected': isBarTab === '2'}" @click.prevent="changeTab('2')">参加者一覧</div>
+                <div class="c-button--tab--box" v-bind:class="{'selected': isBarTab === 1}" @click.prevent="changeTab(1)">レッスン詳細</div>
+                <div class="c-button--tab--box" v-bind:class="{'selected': isBarTab === 2}" @click.prevent="changeTab(2)">参加者一覧</div>
             </div>
         </div>
         <!-- tab：レッスン詳細 -->
         <!-- <div class="c-list--table" v-if="isBarTab === '1'"> -->
-        <div class="c-list--table" v-if="isBarTab === '1'">
+        <div class="c-list--table" v-if="isBarTab === 1">
             <div class="c-list--tr">
                 <div class="c-list--th">
                     <p class="main">タイトル</p>
@@ -195,7 +195,7 @@
             </div>
         </div>
         <!-- tab：参加者一覧 -->
-        <div class="l-contentList__list__wrap"  v-if="isBarTab === '2'">
+        <div class="l-contentList__list__wrap"  v-if="isBarTab === 2">
             <div class="c-list--courseLesson" v-for="(application, index) in applications">
                 <div class="c-list--courseLesson--num">
                     <div class="c-img--round c-img--cover">
@@ -228,11 +228,11 @@
             lesson: {
                 type: Object
             },
-            // users: {
-            //     type: [Object]
-            // },
             applications: {
                 type: Array
+            },
+            param: {
+                type: String
             },
         },
 		components: {
@@ -241,7 +241,8 @@
 		},
 		data() {
 			return {
-                isBarTab: '1',
+                // isBarTab: '1',
+                isBarTab: this.param,
                 // 参加者詳細モーダル
                 isParticipantDetail: false,
                 currentUser: null,

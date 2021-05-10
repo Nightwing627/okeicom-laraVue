@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,8 @@ class Withdrawal extends Model
         'bank_type',
         'bank_id',
         'amount',
-        'verified',
+        'fee',
+        'verified_at',
     ];
 
     /**
@@ -32,7 +34,8 @@ class Withdrawal extends Model
             'user_id'   => $user_id,
             'bank_type' => $params->bank_type,
             'bank_id'   => $id,
-            'amount'    => $params->amount,
+            'amount'    => Session::get('amount'),
+            'fee'       => Session::get('fee'),
         ]);
     }
 }

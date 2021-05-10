@@ -24,7 +24,7 @@
     </div>
     {{--  tab：ゆうちょ  --}}
     <div class="l-list--deal">
-        <div class="l-list--deal--period">
+        {{-- <div class="l-list--deal--period">
             <p class="u-color--grayNavy u-text--small">表示対象期間</p>
             <div class="c-selectBox">
                 <select id="months" name="months" class="form-control" autocomplete="months">
@@ -33,6 +33,9 @@
                     @endforeach
                 </select>
             </div>
+        </div> --}}
+        <div class="l-list--deal--period">
+            <p class="u-color--grayNavy u-text--small">前月以前の履歴をダウンロード</p>
         </div>
         {{--  スマホ  --}}
         <div class="l-list--deal--detail sp-only">

@@ -3,7 +3,7 @@
 <br>
 レッスンが購入されました！<br>
 レッスンの参加者を確認する<br>
-<a href="https://okeicom.com/mypage/t/lessons/edit/1">https://okeicom.com/mypage/t/lessons/edit/1</a><br>
+<a href="https://okeicom.com/mypage/t/lessons/edit/{{ $lesson_id }}?param=2">https://okeicom.com/mypage/t/lessons/edit/{{ $lesson_id }}</a><br>
 <br>
 今後ともよろしくお願いいたします。<br>
 <br>

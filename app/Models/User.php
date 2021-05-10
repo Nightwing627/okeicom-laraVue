@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +14,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable;
 
     const STATUS_STUDENT = 0;
     const STATUS_TEACHER = 1;
@@ -52,7 +51,6 @@ class User extends Authenticatable
         'category3_id',
         'category4_id',
         'category5_id',
-        'withdraw_reason',
     ];
 
     /**
@@ -97,6 +95,14 @@ class User extends Authenticatable
     public function lessons()
     {
         return $this->hasMany(Lesson::class)->with('course');
+    }
+
+    /**
+     * リレーション：ユーザーの予約情報一覧
+     */
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
     }
 
     /**

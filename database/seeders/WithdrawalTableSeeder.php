@@ -19,7 +19,7 @@ class WithdrawalTableSeeder extends Seeder
             'bank_type' => 0,
             'bank_id'   => 1,
             'amount'    => 30000,
-            'verified'  => null,
+            'fee'       => 20,
         ]);
     }
 }

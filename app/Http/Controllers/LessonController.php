@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Evaluation;
 use App\Models\Application;
 use App\Mail\BuyLesson;
+use App\Mail\CancelLesson;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -215,7 +216,9 @@ class LessonController extends Controller
     }
 
     /**
+     *
      * クレジットカード決済ページ POST
+     * クレジットカード番号：5778689503669749
      *
      * @param Request $request
      * @return Factory|View
@@ -523,12 +526,13 @@ class LessonController extends Controller
 
         DB::beginTransaction();
         try {
+            $user_id = Auth::user()->id;
             // 予約情報を取得する
             $application = Application::find($application_id);
             // *** キャンセル登録 ***
             $cancelInstance = new Cancel;
             $cancelParams['application_id'] = $application_id;
-            $cancelParams['user_id']        = Auth::user()->id;
+            $cancelParams['user_id']        = $user_id;
             $cancelParams['reason']         = $request->reason;
             if($basicDate <= Carbon::now()->subHours(24)) {
                 // 24時間より前の場合
@@ -554,6 +558,12 @@ class LessonController extends Controller
             $application->cancel_id = $cancel_id;
             $application->save();
             $application->delete();
+
+            // *** メール送信 ***
+            $email = new CancelLesson();
+            $user = User::find($user_id);
+            $user_email = $user->email;
+            Mail::to($user_email)->send($email);
 
             // DBトランザクションをコミット
             DB::commit();

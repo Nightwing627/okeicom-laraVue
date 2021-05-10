@@ -35,8 +35,8 @@ class BuyLesson extends Mailable
             ->subject('【おけいcom】レッスン購入のお知らせ')
             ->view('emails.buy-lesson')
             ->with([
-                'teacher' => $this->teacher,    // ユーザー情報
-                'lesson'  => $this->lesson,  // 出金情報
+                'teacher'    => $this->teacher,    // ユーザー情報
+                'lesson_id'  => $this->lesson->id,  // 出金情報
             ]);
     }
 }

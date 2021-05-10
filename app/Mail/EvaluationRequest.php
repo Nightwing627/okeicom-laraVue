@@ -21,7 +21,6 @@ class EvaluationRequest extends Mailable
     public function __construct($lesson, $teacher, $url)
     // public function __construct()
     {
-        //
         $this->lesson   = $lesson;
         $this->teacher  = $teacher;
         $this->url      = $url;
