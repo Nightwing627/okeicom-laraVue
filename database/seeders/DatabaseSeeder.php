@@ -20,12 +20,12 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             // CourseSeeder::class,
             // EvaluationsTableSeeder::class,
-            LessonSeeder::class,
+            // LessonSeeder::class,
             // MessagesTableSeeder::class,
-            ManageSeeder::class,
-            PaymentsTableSeeder::class,
+            // ManageSeeder::class,
+            // PaymentsTableSeeder::class,
             PrefectureSeeder::class,
-            UserSeeder::class,
+            // UserSeeder::class,
             // WithdrawalTableSeeder::class,
         ]);
     }
