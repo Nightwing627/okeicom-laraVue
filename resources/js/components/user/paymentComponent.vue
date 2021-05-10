@@ -107,7 +107,7 @@
 			return {
 				isBarTab: this.target ?? '0',
 				// ゆうちょ or その他銀行
-                isBankPanel: '1',
+                isBankPanel: '0',
                 bankType: this.bankDate.type ?? '0',
 			}
 		},

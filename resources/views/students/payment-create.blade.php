@@ -25,9 +25,9 @@
                         <div class="c-headline--block">出金額</div>
                         <div class="l-content--detail__inner">
                             <div class="user-pament-total" style="text-align: center;">
-                                <p>¥{{ number_format(Session::get('withdrawal_amount')) }}</p>
+                                <p class="u-textAlign__center u-text--big">¥{{ number_format(Session::get('withdrawal_amount')) }}</p>
                             </div>
-                            <p class="u-mt5" style="text-align: center;">（手数料：¥{{ number_format(Session::get('fee')) }}）</p>
+                            <p class="u-mt5" style="text-align: center;">手数料：¥{{ number_format(Session::get('commission')) }}（{{ Session::get('fee') }}%）</p>
                         </div>
                     </div>
                     <user-payment-component :bank-date={{ $bankDate }} target="{{ $target }}"></user-payment-component>

@@ -474,9 +474,11 @@ class StudentController extends Controller
                 break;
         }
         // 出金額と手数料を表示
+        $commission = $holding_amount * $fee / 100;
         session()->put([
             'holding_amount'    => $holding_amount,
-            'withdrawal_amount' => $holding_amount - $fee,
+            'commission'         => $commission,
+            'withdrawal_amount' => $holding_amount - $commission,
             'fee'               => $fee,
         ]);
 
