@@ -1,7 +1,8 @@
 <template>
 	<!-- 検索モーダル -->
 	<div class="l-overlay l-modal--search" @click="closeSearch" v-show="searchShow">
-		<div class="l-modal--search__content" @click="stopEvent">
+		<!-- <div class="l-modal--search__content" @click="stopEvent"> -->
+        <div class="l-modal--search__content">
 			<form class="l-flex" action="/search" method="GET">
 				<div class="l-modal--search__input">
 					<input class="c-input--gray" type="text" name="keyword">
@@ -138,9 +139,9 @@
 			clickEvent: function() {
 				this.$emit('from-child')
 			},
-			stopEvent: function(){
-                event.stopPropagation()
-			},
+			// stopEvent: function(){
+            //     event.stopPropagation()
+			// },
 		},
     }
 </script>

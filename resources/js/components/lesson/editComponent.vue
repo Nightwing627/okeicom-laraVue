@@ -97,26 +97,26 @@
                     <div class="l-flex">
                         <div class="l-content--input__three u-w100per_sp u-mb21_sp">
                             <div class="l-content--input__headline">開始日</div>
-                            <vuejs-datepicker-component
+                            <!-- <vuejs-datepicker-component
                                 name="date"
                                 :value="lessonDate"
                                 @input="val => lessonDate = val"
-                            ></vuejs-datepicker-component>
+                            ></vuejs-datepicker-component> -->
                         </div>
                         <div class="l-content--input__three u-w49per_sp">
                             <div class="l-content--input__headline">開始時間</div>
-                            <vue-timepicker
+                            <!-- <vue-timepicker
                                 name="start"
                                 hour-label="時間"
                                 minute-label="分"
                                 :value="lessonStart"
                                 @input="val => lessonStart = val"
                                 :minute-interval="5"
-                            ></vue-timepicker>
+                            ></vue-timepicker> -->
                         </div>
                         <div class="l-content--input__three u-w49per_sp">
                             <div class="l-content--input__headline">終了時間</div>
-                            <vue-timepicker
+                            <!-- <vue-timepicker
                                 name="finish"
                                 hour-label="時間"
                                 minute-label="分"
@@ -124,7 +124,7 @@
                                 @input="val => lessonFinish = val"
                                 :minute-interval="5"
                             >
-                            </vue-timepicker>
+                            </vue-timepicker> -->
                         </div>
                         <!-- <div class="l-content--input__two">
                             <div class="l-content--input__headline">開始時間</div>
@@ -219,11 +219,10 @@
     import moment from "moment"
     import 'moment/locale/ja'
     import { datetotime } from '../library/filters.ts'
+    // import VueTimepicker from './../../components/common/Vue2TimepickerComponent.vue'
+    // import VuejsDatepickerComponent from "./../../components/common/VuejsDatepickerComponent.vue"
 
-    import VueTimepicker from './../../components/common/Vue2TimepickerComponent.vue'
-
-    import VuejsDatepickerComponent from "./../../components/common/VuejsDatepickerComponent.vue"
-	export default {
+    export default {
         props: {
             lesson: {
                 type: Object
@@ -236,8 +235,8 @@
             },
         },
 		components: {
-            'vue-timepicker': VueTimepicker,
-            'vuejs-datepicker-component': VuejsDatepickerComponent,
+            // 'vue-timepicker': VueTimepicker,
+            // 'vuejs-datepicker-component': VuejsDatepickerComponent,
 		},
 		data() {
 			return {
@@ -298,6 +297,5 @@
                     })
             }
         },
-		watch: {},
 	}
 </script>

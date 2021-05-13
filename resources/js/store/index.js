@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import vuejsDatepicker from './vuejs-datepicker';
 import actions from './actions'
 import mutations from './mutations'
 import getters from './getters'

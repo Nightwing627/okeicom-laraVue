@@ -20,7 +20,8 @@
 			</div>
 			<div class="l-wrap--owner--body">
 				<div class="l-wrap--owner--body--inner">
-					<table class="withdraw-request-table">
+                    <admin-withdrawal-index-component></admin-withdrawal-index-component>
+					{{--  <table class="withdraw-request-table">
 						<thead>
 							<tr>
 								<td>出金リクエスト日時</td>
@@ -45,7 +46,7 @@
 								</tr>
 							<?php endfor; ?>
 						</tbody>
-					</table>
+					</table>  --}}
 				</div>
 				<div class="pagenation-list">
 					<ul>

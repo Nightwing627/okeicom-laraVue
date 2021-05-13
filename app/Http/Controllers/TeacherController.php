@@ -307,7 +307,7 @@ class TeacherController extends Controller
 
         /* 追加 */
         $urls[] = '';
-        foreach($lessons as $index => $lesson) {
+        foreach((array)$lessons as $index => $lesson) {
             do {
                 // 12桁のランダムな整数を作成
                 $randams[$index] = substr(bin2hex(random_bytes(64)), 0, 64);
@@ -318,8 +318,9 @@ class TeacherController extends Controller
         }
 
 
+        $models[] = '';
         // レッスンに必要な情報を入れる
-        foreach ($lessons as $index => $lesson) {
+        foreach ((array)$lessons as $index => $lesson) {
             // 吉田豊が修正しました
             if($lesson['slide'] !== null){
 
