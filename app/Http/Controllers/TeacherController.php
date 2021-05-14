@@ -279,196 +279,28 @@ class TeacherController extends Controller
     public function storeCourse(CourseStoreRequest $request)
     {
 
+      DB::beginTransaction($request);
+      try {
         $course = new Course();
         $course->user_id = Auth::user()->id;
-        $lessons = json_decode($request->lessons, true);
+        // コース追加の処理
+        $course->title = $request->title;
+        $course->detail = $request->detail;
+        $course->saveCategories($request);
+        $course->saveImgs($request);
+        $course->save();
+        $last_insert_id = $course->id;
 
-        // レッスンURLを配列で取得
-        // $lessonUrls = Lesson::select(['lessons.view'])->get()->toArray();
-        // foreach($lessonUrls as $lessonUrl) {
-        //     $urls[] = $lessonUrl['view'];
-        // }
-
-        // ランダムな整数を配列に入れる
-        // for($i = 0; $i < count($lessons); $i++) {
-        //     if($lessonUrls) {
-        //         do{
-        //             // 12桁のランダムな整数を作成
-        //             $randams[$i] = substr(bin2hex(random_bytes(64)), 0, 64);
-        //             // DBに登録されているnumberと12桁のランダムな整数が合致するか
-        //             $key = in_array($randams[$i], $urls);
-        //             // ランダムな整数がDBと同じ場合は、再度ランダムな整数を発行する
-        //         } while ($key == true);
-        //     } else {
-        //         $randams[$i] = substr(bin2hex(random_bytes(64)), 0, 64);
-        //     }
-        // }
-
-
-        /* 追加 */
-        $urls[] = '';
-        foreach((array)$lessons as $index => $lesson) {
-            do {
-                // 12桁のランダムな整数を作成
-                $randams[$index] = substr(bin2hex(random_bytes(64)), 0, 64);
-                // DBに登録されているnumberと12桁のランダムな整数が合致するか
-                $key = in_array($randams[$index], $urls);
-                // ランダムな整数がDBと同じ場合は、再度ランダムな整数を発行する
-            } while ($key == true);
-        }
-
-
-        $models[] = '';
-        // レッスンに必要な情報を入れる
-        foreach ((array)$lessons as $index => $lesson) {
-            // 吉田豊が修正しました
-            if($lesson['slide'] !== null){
-
-                $new_folder = time()."".rand();
-                Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
-                $base64_slide = explode(',',$lesson['slide']);
-                $real_slide = base64_decode($base64_slide[1]);
-                $new_filename = $lesson['title'];
-                Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
-                $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
-
-                $converter = new OfficeConverter($ppt_path);
-
-                $converter->convertTo($new_filename.'.pdf');
-
-                // ランダムな整数を配列に入れる
-                $models[$index] = Lesson::make($lesson);
-                $models[$index]->slide = $new_filename;
-                $models[$index]->title = $lesson['title'];
-                $models[$index]->public = $lesson['public'];
-                $models[$index]->type = $lesson['type'];
-                $models[$index]->url = $lesson['url'];
-                $models[$index]->date = $lesson['date'];
-                $models[$index]->start = $lesson['start'];
-                $models[$index]->finish = $lesson['finish'];
-                $models[$index]->price = $lesson['price'];
-                $models[$index]->cancel_rate = $lesson['cancel_rate'];
-                // 吉田豊が修正しました
-                $models[$index]->detail = $lesson['detail'];
-                $models[$index]->user_id = $course->user_id;
-                $models[$index]->status = 0;
-                // ランダムな整数を確認する
-                // ランダムな整数がBDと同じか確認する
-                // ランダムな整数が同じ
-                $models[$index]->view = $new_folder;
-
-            }else{
-                // ランダムな整数を配列に入れる
-                $models[$index] = Lesson::make($lesson);
-                $models[$index]->user_id = $course->user_id;
-                $models[$index]->status = 0;
-                // ランダムな整数を確認する
-                // ランダムな整数がBDと同じか確認する
-                // ランダムな整数が同じ
-                $models[$index]->view = $randams[$index];
-            }
-        }
-
-
-
-        DB::transaction(function () use($course, $request, $models) {
-            // コース追加の処理
-            $course->title = $request->title;
-            $course->detail = $request->detail;
-            $course->saveCategories($request);
-            $course->saveImgs($request);
-            $course->save();
-
-            // ユーザーの講師処理
-            $user_id = Auth::id();
-            $user = User::find($user_id);
-            $user->is_teacher = 1;
-            $user->save();
-
-            // レッスンの処理
-            $course->lessons()->saveMany($models);
-            return $course->id;
-        });
-        return redirect(route('mypage.t.courses'));
-
-
-
-        // [Laravel] Recommend::make モデルを作成する
-        // 配列の詰め直し
-        foreach ($this->lessons as $index => $lesson) {
-            // $models[$index] = isset($lesson['id']) ? $lesson : Recommend::make($lesson);
-            // $models[$index]->order_column = $index;
-            $models[$index] = Lesson::make($lesson);
-        }
-        // [サンプル]
-        // トランザクジョンは片方で失敗した場合、両方が登録不可にする
-        // 「\」カーネル・エイリアス Laravel
-        \DB::transaction(function () use($course) {
-            // コースの処理
-            $course = new Course();
-            $course->user_id = Auth::user()->id;
-            $course->title = $request->title;
-            $course->detail = $request->detail;
-            $course->saveCategories($request);
-            $course->saveImgs($request);
-            $course->save();
-
-            // レッスンの処理
-            // $course_id = $course->id;
-            // $course->save();
-            // $course->lessons()->saveMany($models);
-            // return $course->id;
-        });
-
-        // レッスン登録処理
-        // $lesson = new Lesson();
-        // $lesson->user_id = Auth::user()->id;
-
-        return redirect(route('mypage.t.courses'));
-    }
-
-    /**
-     * コース詳細
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function coursesDetail(Request $request)
-    {
-        $course = Course::query()->find($request->courses_id);
-        $categories = $this->category->getAll();
-        $lessons = $this->lesson->findByCoursesId($request->courses_id, Auth::user()->id);
-        return view('teachers.course-detail', compact('course', 'categories', 'lessons'));
-    }
-
-    /**
-     * コースの更新/削除
-     *
-     * @param CourseUpdateRequest $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function updateCourses(CourseUpdateRequest $request)
-    {
-        $target_id = $request->courses_id;
-        $course = Course::query()->find($request->courses_id);
-        if($request->has('save')) {
-            // 更新
-            $course->title = $request->title;
-            $course->detail = $request->detail;
-            $course->saveCategories($request);
-            $course->saveImgs($request);
-            $course->save();
-            return redirect('/mypage/t/courses/detail/' . $target_id);
-        } elseif ($request->has('delete')) {
-            // 削除
-            DB::transaction(function () use ($course) {
-                $course->deleteImgs();
-                $this->lesson->deleteByCoursesId($course->id);
-                $course->delete();
-            });
-            return redirect(route('mypage.t.courses'));
-        }
-
+        // ユーザーの状態を講師にする処理
+        $user = User::find($course->user_id);
+        $user->is_teacher = 1;
+        $user->save();
+        DB::commit();
+        return redirect(route('mypage.t.lessons.create', ['courses_id' => $last_insert_id]));
+      } catch (\PDOException $e){
+        DB::rollBack();
+        return back()->withInput()->with('flash_message', 'コースの登録に失敗しました。');
+      }
     }
 
     /**
@@ -479,9 +311,127 @@ class TeacherController extends Controller
      */
     public function createLessons(Request $request)
     {
-        $courses_id = $request->courses_id;
-        $types = $this->lesson->getArrayTypes();
-        return view('teachers.lesson-create', compact('courses_id', 'types'));
+      $courses_id = $request->courses_id;
+      $types = $this->lesson->getArrayTypes();
+      return view('teachers.lesson-create', compact('courses_id', 'types'));
+    }
+
+    /**
+     * レッスンの作成
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function storeLesson(Request $request)
+    {
+
+      $lessons = json_decode($request->lessons, true);
+      /* 追加 */
+      $urls[] = '';
+      foreach((array)$lessons as $index => $lesson) {
+        do {
+          // 12桁のランダムな整数を作成
+          $randams[$index] = substr(bin2hex(random_bytes(64)), 0, 64);
+          // DBに登録されているnumberと12桁のランダムな整数が合致するか
+          $key = in_array($randams[$index], $urls);
+          // ランダムな整数がDBと同じ場合は、再度ランダムな整数を発行する
+        } while ($key == true);
+      }
+
+
+      $models[] = '';
+      // レッスンに必要な情報を入れる
+      foreach ((array)$lessons as $index => $lesson) {
+        // 吉田豊が修正しました
+        if($lesson['slide'] !== null){
+
+          $new_folder = time()."".rand();
+          Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
+          $base64_slide = explode(',',$lesson['slide']);
+          $real_slide = base64_decode($base64_slide[1]);
+          $new_filename = $lesson['title'];
+          Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
+          $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
+
+          $converter = new OfficeConverter($ppt_path);
+
+          $converter->convertTo($new_filename.'.pdf');
+
+          // ランダムな整数を配列に入れる
+          $models[$index] = Lesson::make($lesson);
+          $models[$index]->slide = $new_filename;
+          $models[$index]->title = $lesson['title'];
+          $models[$index]->public = $lesson['public'];
+          $models[$index]->type = $lesson['type'];
+          $models[$index]->url = $lesson['url'];
+          $models[$index]->date = $lesson['date'];
+          $models[$index]->start = $lesson['start'];
+          $models[$index]->finish = $lesson['finish'];
+          $models[$index]->price = $lesson['price'];
+          $models[$index]->cancel_rate = $lesson['cancel_rate'];
+          // 吉田豊が修正しました
+          $models[$index]->detail = $lesson['detail'];
+          $models[$index]->user_id = $course->user_id;
+          $models[$index]->status = 0;
+          // ランダムな整数を確認する
+          // ランダムな整数がBDと同じか確認する
+          // ランダムな整数が同じ
+          $models[$index]->view = $new_folder;
+
+        }else{
+          // ランダムな整数を配列に入れる
+          $models[$index] = Lesson::make($lesson);
+          $models[$index]->user_id = $course->user_id;
+          $models[$index]->status = 0;
+          // ランダムな整数を確認する
+          // ランダムな整数がBDと同じか確認する
+          // ランダムな整数が同じ
+          $models[$index]->view = $randams[$index];
+        }
+      }
+    }
+
+    /**
+     * コース詳細
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function coursesDetail(Request $request)
+    {
+      $course = Course::query()->find($request->courses_id);
+      $categories = $this->category->getAll();
+      $lessons = $this->lesson->findByCoursesId($request->courses_id, Auth::user()->id);
+      return view('teachers.course-detail', compact('course', 'categories', 'lessons'));
+    }
+
+    /**
+     * コースの更新/削除
+     *
+     * @param CourseUpdateRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function updateCourses(CourseUpdateRequest $request)
+    {
+      $target_id = $request->courses_id;
+      $course = Course::query()->find($request->courses_id);
+      if($request->has('save')) {
+        // 更新
+        $course->title = $request->title;
+        $course->detail = $request->detail;
+        $course->saveCategories($request);
+        $course->saveImgs($request);
+        $course->save();
+        return redirect('/mypage/t/courses/detail/' . $target_id);
+      } elseif ($request->has('delete')) {
+        // 削除
+        DB::transaction(function () use ($course) {
+            $course->deleteImgs();
+            $this->lesson->deleteByCoursesId($course->id);
+            $course->delete();
+        });
+        return redirect(route('mypage.t.courses'));
+      }
     }
 
     /**

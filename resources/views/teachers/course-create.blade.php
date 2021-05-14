@@ -21,14 +21,15 @@
     </div>
   @endif
   @if (session('flash_message'))
-    <div class="flash_message">
+    <div class="l-alart errorAlart" role="alert">
       <p>{{ session('flash_message') }}</p>
     </div>
   @endif
   <div class="l-wrap--single">
-    <form method="POST" action="/mypage/t/courses/store" enctype="multipart/form-data">
-      @csrf
-      <course-create-component :categories-list={{ $categories }} />
-    </form>
+    <course-create-component
+      :old={{ json_encode(Session::getOldInput()) }}
+      :categories-list={{ $categories }}
+      :csrf={{ json_encode(csrf_token()) }}
+    />
   </div>
 @endsection

@@ -57,7 +57,8 @@ createApp({ components:{
     'teacher-course-detail-component': require('./components/teacher/CourseDetailComponent.vue').default,
     // 講師管理画面：コース登録
     'course-create-component': require('./components/course/CourseCreate.vue').default,
-    // 講師管理画面：コース登録 - レッスン紐付け
+    // 講師管理画面：レッスン登録
+    'lesson-create-component': require('./components/lesson/LessonCreate.vue').default,
     // 'teacher-course-relate-lesson-component': require('./components/teacher/CourseRelateLessonComponent.vue').default,
 
     // 管理者画面：ユーザー編集
