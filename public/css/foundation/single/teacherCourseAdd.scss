@@ -173,23 +173,6 @@ $colorBorderColor: #707070;
     }
 }
 /* datapicker */
-.vdp-datepicker__clear-button {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    border-radius: 50%;
-    color: #fff;
-    background: #DBDBDB;
-    span {
-        font-style: initial !important
-    }
-}
 
 /* timepicker */
 .vue__time-picker {
@@ -206,13 +189,21 @@ $colorBorderColor: #707070;
             width: 100% !important;
         }
     }
+    input.vue__time-picker-input {
+        width: 100% !important;
+        padding: 10px !important;
+        height: auto !important;
+        border-radius: 3px !important;
+        border: 1px solid #B4B4B4 !important;
+        resize: none !important;
+    }
 }
-.vue__time-picker .dropdown ul li[disabled],
+
+
+
 .vue__time-picker .dropdown ul li[disabled]:hover,
-.vue__time-picker-dropdown ul li[disabled],
 .vue__time-picker-dropdown ul li[disabled]:hover {
     cursor: pointer !important;
-    opacity: 1 !important;
 }
 
 .vue__time-picker .dropdown ul li[disabled]:hover,

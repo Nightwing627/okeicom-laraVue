@@ -191,7 +191,10 @@
                 <div class="l-content--input__headline">
                   開始日
                 </div>
-                <vue-datepicker v-model="lesson.date" />
+                <vue-datepicker
+                  v-model="lesson.date"
+                  :locale="locale"
+                />
                 <!-- <vuejs-datepicker-component
                     name="select_date"
                     v-model="lessonDate"
@@ -292,6 +295,8 @@
   import 'moment/locale/ja'
   import VueTimepicker from 'vue3-timepicker'
   import VueDatepicker from 'vue3-datepicker'
+  import 'vue3-timepicker/dist/VueTimepicker.css'
+
 
   export default {
     components: {
