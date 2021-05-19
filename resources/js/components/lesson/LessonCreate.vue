@@ -4,6 +4,16 @@
     action="/mypage/t/lessons/store"
     @submit="checkForm"
   >
+    <input
+      type="hidden"
+      name="_token"
+      :value="csrf"
+    >
+    <input
+      v-model="lessons"
+      name="lessons"
+      type="hidden"
+    >
     <div class="l-wrap--title">
       <h1 class="c-headline--screen">
         レッスンを作成する
@@ -11,26 +21,28 @@
     </div>
     <div class="l-wrap--body">
       <div class="l-wrap--main l-wrap--detail">
-        <modal-add-lesson
-          @clicked-increase-button="incrementTotalCount"
-          @clicked-reduce-button="decrementTotalCount"
-        />
+        <modal-add-lesson @catch-lessons="setLessons" />
         <div class="l-button--submit">
           <div class="l-button--submit--two">
             <a
               href="/mypage/t/courses"
               class="c-button--square__gray"
-            >
-              コース一覧に戻る
+            >コース一覧に戻る
             </a>
           </div>
           <div class="l-button--submit--two">
-            <button
+            <!-- <button
               type="submit"
               name="save"
               :disabled="checkStore"
               class="c-button--square__pink"
               @click="registerCourse"
+            > -->
+            <button
+              type="submit"
+              name="save"
+              :disabled="checkStore"
+              class="c-button--square__pink"
             >
               レッスンを登録する
             </button>
@@ -47,10 +59,24 @@
     components: {
       'modal-add-lesson': ModalAddLesson, // レッスン作成のコンポーネント
     },
+    props: {
+      csrf: {
+        type: String,
+        required: true,
+      },
+    },
     data() {
       return {
-        checkStore: true,
-        lessonLength: 0,
+        lessons: [],
+      }
+    },
+    computed: {
+      checkStore: function() {
+        if(this.lessons.length == 0) {
+          return true
+        } else {
+          return false
+        }
       }
     },
     methods: {
@@ -88,14 +114,10 @@
         }
         e.preventDefault();
       },
-      //
-      incrementTotalCount: function () {
-        this.lessonLength += 1;
-        console.log(this.lessonLength);
-      },
-      decrementTotalCount: function () {
-        this.lessonLength -= 1;
-        console.log(this.lessonLength);
+
+      // 子要素から受け取ったlessonsをセットし直す
+      setLessons: function(lessons) {
+        this.lessons = JSON.stringify(lessons)
       },
     },
   }

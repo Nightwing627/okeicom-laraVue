@@ -17,7 +17,8 @@
         >
           <div class="teacher-course-add-lesson-list-detail">
             <p class="date">
-              {{ detail.date }}{{ detail.start }}-{{ detail.finish }}
+              <!-- {{ detail.date }} {{ detail.start['HH'] }}:{{ detail.start['mm'] }}-{{ detail.finish['HH'] }}:{{ detail.finish['mm'] }} -->
+              {{ detail.date }} {{ detail.start }}-{{ detail.finish }}
             </p>
             <p class="title">
               {{ detail.title }}
@@ -89,7 +90,7 @@
                   <div class="c-checkbox--fashonable">
                     <label>公開
                       <input
-                        v-model="lesson.publicType"
+                        v-model="lesson.public"
                         type="radio"
                         value="0"
                         :checked="true"
@@ -102,7 +103,7 @@
                   <div class="c-checkbox--fashonable">
                     <label>非公開
                       <input
-                        v-model="lesson.publicType"
+                        v-model="lesson.public"
                         value="1"
                         type="radio"
                       >
@@ -121,7 +122,7 @@
                   <div class="c-checkbox--fashonable">
                     <label>生放送
                       <input
-                        v-model="lesson.broadcastType"
+                        v-model="lesson.type"
                         type="radio"
                         value="0"
                         :checked="true"
@@ -135,7 +136,7 @@
                   <div class="c-checkbox--fashonable">
                     <label>動画埋め込み
                       <input
-                        v-model="lesson.broadcastType"
+                        v-model="lesson.type"
                         type="radio"
                         value="1"
                         @change.prevent="changeBroadcastType(2)"
@@ -148,7 +149,7 @@
                   <div class="c-checkbox--fashonable">
                     <label>スライド
                       <input
-                        v-model="lesson.broadcastType"
+                        v-model="lesson.type"
                         type="radio"
                         value="2"
                         @change.prevent="changeBroadcastType(3)"
@@ -167,7 +168,7 @@
                 動画もしくはZOOM URL
               </p>
               <input
-                v-model="lessonUrl"
+                v-model="lesson.url"
                 type="text"
                 placeholder="https://www.youtube.com/"
               >
@@ -194,32 +195,25 @@
                   </div>
                   <vue-datepicker
                     v-model="lesson.date"
-                    :locale="locale"
-                    lang="ja"
+                    type="date"
+                    :format="customFormatter"
+                    :language="ja"
+                    :disabled-dates="disabledDates"
+                    @closed="pickerClosed"
                   />
-                  <!-- <vuejs-datepicker-component
-                      name="select_date"
-                      v-model="lessonDate"
-                  ></vuejs-datepicker-component> -->
                 </div>
                 <div class="l-content--input__three u-w49per_sp">
                   <div class="l-content--input__headline">
                     開始時間
                   </div>
-                  <vue-datepicker
-                    lang="ja"
-                  />
-                  <!-- <vue-timepicker
+                  <vue-timepicker
                     v-model="lesson.start"
+                    format="HH:mm"
                     hour-label="時間"
                     minute-label="分"
                     :minute-interval="5"
-                  /> -->
-                  <!-- <vue-timepicker
-                    format="hh:mm"
-                    formatted="hh:mm"
-                    only-time
-                  /> -->
+                    :highlighted="highlighted"
+                  />
                 </div>
                 <div class="l-content--input__three u-w49per_sp">
                   <div class="l-content--input__headline">
@@ -227,15 +221,11 @@
                   </div>
                   <vue-timepicker
                     v-model="lesson.finish"
+                    format="HH:mm"
                     hour-label="時間"
                     minute-label="分"
                     :minute-interval="5"
                   />
-                  <!-- <vue-timepicker
-                    format="hh:mm"
-                    formatted="hh:mm"
-                    only-time
-                  /> -->
                 </div>
               </div>
             </div>
@@ -250,7 +240,7 @@
                 <p class="l-content--input__headline">
                   金額
                   <span class="u-text--small u-color--grayNavy">
-                    （半角数字のみ
+                    （半角数字のみ）
                   </span>
                 </p>
                 <div class="accesary-yen">
@@ -269,7 +259,7 @@
                   キャンセル手数料
                 </p>
                 <div class="accesary-percent">
-                  <select v-model="lesson.cancellationFee">
+                  <select v-model="lesson.cancel_rate">
                     <option
                       v-for="(rate, index) in 100"
                       :key="rate.id"
@@ -284,8 +274,9 @@
               <button
                 v-if="!changeModalEdit"
                 type="button"
+                :value="changeNumber"
                 class="c-button--square__pink"
-                :disabled="checkLesson"
+                :disabled="checkLessonSubmit"
                 @click="addLesson"
               >
                 レッスンを追加する
@@ -294,7 +285,7 @@
                 v-else-if="changeModalEdit"
                 type="button"
                 class="c-button--square__pink"
-                :disabled="checkLesson"
+                :disabled="checkLessonSubmit"
                 @click="updateLesson"
               >
                 編集内容を保存する
@@ -309,10 +300,10 @@
 <script>
   import moment from "moment"
   import 'moment/locale/ja'
-  import VueDatepicker from 'vue2-datepicker'
-  import 'vue2-datepicker/index.css';
+  import VueDatepicker from 'vuejs-datepicker'
   import VueTimepicker from 'vue2-timepicker'
   import 'vue2-timepicker/dist/VueTimepicker.css'
+  import {ja} from 'vuejs-datepicker/dist/locale'
 
   export default {
     components: {
@@ -320,35 +311,62 @@
       'vue-timepicker': VueTimepicker,
     },
     emits: [
-      'clicked-reduce-button',
-      'clicked-increase-button'
+      'catch-lessons'
     ],
     data() {
       return {
+        ja:ja,
         // レッスンモーダル
         isLessonModal: false,
+        changeModalEdit: false,
         // ブロードキャストナンバー
         isBroadcastType: 1,
+        // 編集時にどのlessonsを変更するか定義する処理
+        changeNumber: '',
+        // レッスンの日付を今日以降にする
+        disabledDates: {
+          to: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
+        },
+        highlighted: {
+          to: new Date
+        },
         // レッスンの配列
         lessons: [],
-
         // モーダルの初期設定
         lesson: {
           title: '',
-          publicType: 0,
-          broadcastType: 0,
+          public: 0,
+          type: 0,
           url: '',
           slide: '',
           date : moment(new Date).format('YYYY/MM/DD'),
-          start: null,
-          finish: null,
+          start: '12:00',
+          finish: '12:00',
           detail: '',
           price: 100,
-          cancellationFee: 20,
+          cancel_rate: 20,
         },
       }
     },
+    computed: {
+      checkLessonSubmit: function() {
+        if(this.lesson.title == '') {
+          return true
+        } else {
+          return false
+        }
+      }
+    },
     methods: {
+      // 開始日のフォーマット
+      customFormatter: function(date) {
+        return moment(date).format('YYYY/MM/DD')
+      },
+      pickerClosed: function() {
+        if(this.lesson.date){
+          this.lesson.date = moment(this.lesson.date).format('YYYY/MM/DD');
+        }
+      },
       // モーダル：表示
       showModal: function() {
         this.isLessonModal = true;
@@ -356,29 +374,186 @@
       // モーダル：非表示
       closeModal: function() {
         // モーダルを閉じる
-        this.$refs.lesson_add_modal.scrollTop = 0;
-        // 配列を初期化する
         this.isLessonModal = false;
+        this.$refs.lesson_add_modal.scrollTop = 0;
+
+        // 編集モードをオフにする
+        this.changeModalEdit = false
+
+        // レッスンを初期化
+        this.changeNumber = ''
+        this.lesson = []
+        this.lesson = {
+          public: 0,
+          type: 0,
+          date: moment(new Date).format('YYYY/MM/DD'),
+          start: '12:00',
+          finish: '12:00',
+          // start: {
+          //   HH: '12',
+          //   mm: '00'
+          // },
+          // finish: {
+          //   HH: '12',
+          //   mm: '00'
+          // },
+          price: 100,
+          cancel_rate: 20,
+        }
       },
       // レッスン：追加する
       addLesson: function() {
         // 連想配列を追加する
-        this.lessons.push(this.lesson);
-        // 親要素に追加の情報を渡す
-        this.$emit('clicked-increase-button');
+        this.lessons.push(this.lesson)
+
         // モーダルのトップに移動させる
-        this.$refs.lesson_add_modal.scrollTop = 0;
+        this.$refs.lesson_add_modal.scrollTop = 0
         // モーダルを閉じる
-        this.isLessonModal = false;
+        this.isLessonModal = false
+
+        // lessons連想配列の中身を日付順に並び替える
+        this.lessons.sort((a, b) => {
+          // dateの昇順
+          if(a.date > b.date) return 1;
+          if(a.date < b.date) return -1;
+          // startの降順
+          if(a.start > b.start) return -1;
+          if(a.start < b.start) return 1;
+          // finishの降順
+          if(a.finish > b.finish) return 1;
+          if(a.finish < b.finish) return -1;
+          return 0;
+        });
+
+        // レッスンを初期化
+        this.lesson = [],
+        this.lesson = {
+          public: 0,
+          type: 0,
+          date: moment(new Date).format('YYYY/MM/DD'),
+          start: '12:00',
+          finish: '12:00',
+          // start: {
+          //   HH: '12',
+          //   mm: '00'
+          // },
+          // finish: {
+          //   HH: '12',
+          //   mm: '00'
+          // },
+          price: 100,
+          cancel_rate: 20,
+        }
+
+        // 親に値を送る
+        this.$emit('catch-lessons', this.lessons)
+      },
+      // レッスン：編集する
+      editLesson: function(index) {
+        // 編集モードにする
+        this.changeModalEdit = true
+        // モーダルを表示する
+        this.isLessonModal = true
+        // 登録済みの値を入れる
+        this.lesson = {
+          title: this.lessons[index].title,
+          public: this.lessons[index].public,
+          type: this.lessons[index].type,
+          url: this.lessons[index].url,
+          slide: this.lessons[index].slide,
+          date : moment(this.lessons[index].date).format('YYYY/MM/DD'),
+          start: '12:00',
+          finish: '12:00',
+          // start: {
+          //   HH: this.lessons[index].start['HH'],
+          //   mm: this.lessons[index].start['mm']
+          // },
+          // finish: {
+          //   HH: this.lessons[index].start['HH'],
+          //   mm: this.lessons[index].start['mm']
+          // },
+          detail: this.lessons[index].detail,
+          price: this.lessons[index].price,
+          cancel_rate: this.lessons[index].cancel_rate,
+        }
+        // 変更するlessonsを定義する
+        this.changeNumber = index
+
+        // 親に値を送る
+        this.$emit('catch-lessons', this.lessons)
       },
       // レッスン：更新する
       updateLesson: function() {
+        // 編集モードをオフにする
+        this.changeModalEdit = false
+        // モーダルを表示する
+        this.isLessonModal = false
+
+        // レッスンを更新する
+        this.lessons[this.changeNumber] = {
+          title: this.lesson.title,
+          public: this.lesson.public,
+          type: this.lesson.type,
+          url: this.lesson.url,
+          slide: this.lesson.slide,
+          date : moment(this.lesson.date).format('YYYY/MM/DD'),
+          start: '12:00',
+          finish: '12:00',
+          // start: {
+          //   HH: this.lesson.start['HH'],
+          //   mm: this.lesson.start['mm']
+          // },
+          // finish: {
+          //   HH: this.lesson.start['HH'],
+          //   mm: this.lesson.start['mm']
+          // },
+          detail: this.lesson.detail,
+          price: this.lesson.price,
+          cancel_rate: this.lesson.cancel_rate,
+        }
+
+        // lessons連想配列の中身を日付順に並び替える
+        this.lessons.sort((a, b) => {
+          // dateの昇順
+          if(a.date > b.date) return 1;
+          if(a.date < b.date) return -1;
+          // startの降順
+          if(a.start > b.start) return 1;
+          if(a.start < b.start) return -1;
+          // finishの降順
+          if(a.finish > b.finish) return 1;
+          if(a.finish < b.finish) return -1;
+          return 0;
+        });
+
+        // レッスンを初期化
+        this.changeNumber = ''
+        this.lesson = []
+        this.lesson = {
+          date: moment(new Date).format('YYYY/MM/DD'),
+          start: '12:00',
+          finish: '12:00',
+          // start: {
+          //   HH: '12',
+          //   mm: '00'
+          // },
+          // finish: {
+          //   HH: '12',
+          //   mm: '00'
+          // },
+          price: 100,
+          cancel_rate: 20,
+        }
+
+        // 親に値を送る
+        this.$emit('catch-lessons', this.lessons)
       },
       // レッスン：削除する
       deleteLesson: function(index) {
         this.lessons.splice(index, 1);
-        // 親要素に削除の情報を渡す
-        this.$emit('clicked-reduce-button');
+
+        // 親に値を送る
+        this.$emit('catch-lessons', this.lessons)
       },
       // レッスンスライドを追加する
       onImageUploaded(e) {
@@ -387,13 +562,13 @@
         this.createImage(image)
       },
       changeBroadcastType: function(type) {
-        this.isBroadcastType = type;
-        this.lessonUrl = '';
-        this.lessonSlide = '';
+        this.isBroadcastType = type
+        this.lesson.url = ''
+        this.lesson.slide = ''
       },
       // 金額：半角数字のみのバリデーション
       priceValidate: function() {
-        this.lessonPrice = this.lessonPrice.replace(/\D/g, '')
+        this.lesson.price = this.lesson.price.replace(/\D/g, '')
       },
     }
   }

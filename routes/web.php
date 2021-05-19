@@ -164,7 +164,7 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
         Route::get('courses/create', [TeacherController::class, 'createCourse'])->name('courses.create');
         Route::post('courses/store', [TeacherController::class, 'storeCourse'])->name('courses.store');
         // // レッスン作成
-        Route::get('lessons/create/{courses_id}', [TeacherController::class, 'createLessons'])->name('lessons.create');
+        Route::get('lessons/create', [TeacherController::class, 'createLessons'])->name('lessons.create');
         Route::post('lessons/store', [TeacherController::class, 'storeLessons'])->name('lessons.store');
 
         // レッスン編集

@@ -9,21 +9,27 @@
     >
       <input
         :ref="'target' + index"
-        v-model="checkcategories"
         name="categories[]"
         type="checkbox"
         :checked="false"
         :value="category.id"
         @click="categorySubmit('target' + index)"
       >
+      <!-- <input
+        :ref="'target' + index"
+        v-model="checkcategories"
+        name="categories[]"
+        type="checkbox"
+        :checked="false"
+        :value="category.id"
+        @click="categorySubmit('target' + index)"
+      > -->
       <label>{{ category.name }}</label>
     </li>
   </ul>
 </template>
 <script>
     export default {
-    components: {},
-
     props: {
       categoriesList: {
         type: Array,
@@ -31,17 +37,21 @@
       },
       course: {
         type: String,
-        required: true
+        required: false,
+        default: ''
       },
       user: {
         type: String,
-        required: true
+        required: false,
+        default: ''
       },
       categories: {
         type: String,
-        required: true
+        required: false,
+        default: ''
       },
     },
+    emits: ['addCategory', 'reduceCategory'],
     data() {
       return {
         categoriesDate: this.categoriesList ?? '',

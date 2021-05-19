@@ -45,7 +45,7 @@
               <p class="l-content--input__headline">
                 タイトル
               </p>
-              <input
+              <!-- <input
                 id="title"
                 v-model="course.title"
                 name="title"
@@ -53,6 +53,14 @@
                 type="text"
                 placeholder="タイトルを入力してください"
                 @keyup="validationCheck"
+              > -->
+              <input
+                id="title"
+                v-model="course.title"
+                name="title"
+                class="form-control"
+                type="text"
+                placeholder="タイトルを入力してください"
               >
             </div>
             <div class="l-content--input">
@@ -100,13 +108,11 @@
         </div>
       </div>
     </div>
-    <div
-      class="l-button--submit"
-    >
+    <div class="l-button--submit">
       <button
         class="c-button--square__pink"
         type="submit"
-        :disabled="createCourse"
+        :disabled="checkSubmit"
       >
         コースを登録する
       </button>
@@ -139,8 +145,6 @@
     },
     data() {
       return {
-        // バリデーション
-        createCourse: true,
         errors: [],
         // コース
         course : {
@@ -151,24 +155,33 @@
         validationNumber: 0,
       }
     },
-    created: function() {
-      // コースを登録するボタンのバリデーションチェック
-      this.$watch(
-        () => [
-          this.$data.course.title,
-          this.$data.course.category,
-          this.validationNumber
-        ],
-        // valueやoldValueの型は上で返した配列になる
-        () => {
-          if(this.course.title == '' || this.course.category == 0 || this.validationNumber == 0) {
-            this.createCourse = true;
-          } else if (!this.course.title == '' && this.course.category > 0 && this.validationNumber > 0) {
-            this.createCourse = false;
-          }
+    computed: {
+      checkSubmit: function() {
+        if(this.course.title == '' || this.course.category == 0 || this.validationNumber == 0) {
+          return true
+        } else {
+          return false
         }
-      )
+      },
     },
+    // created: function() {
+    //   // コースを登録するボタンのバリデーションチェック
+    //   this.$watch(
+    //     () => [
+    //       this.$data.course.title,
+    //       this.$data.course.category,
+    //       this.validationNumber
+    //     ],
+    //     // valueやoldValueの型は上で返した配列になる
+    //     () => {
+    //       if(this.course.title == '' || this.course.category == 0 || this.validationNumber == 0) {
+    //         this.checkSubmit = true;
+    //       } else if (!this.course.title == '' && this.course.category > 0 && this.validationNumber > 0) {
+    //         this.checkSubmit = false;
+    //       }
+    //     }
+    //   )
+    // },
     methods: {
       // カテゴリーのチェックボックス処理：追加
       addCheckbox: function() {

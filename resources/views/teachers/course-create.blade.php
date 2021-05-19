@@ -26,10 +26,11 @@
     </div>
   @endif
   <div class="l-wrap--single">
-    <course-create-component
-      :old={{ json_encode(Session::getOldInput()) }}
-      :categories-list={{ $categories }}
-      :csrf={{ json_encode(csrf_token()) }}
-    />
+      <course-create-component
+        :old={{ json_encode(Session::getOldInput()) }}
+        :categories-list={{ $categories }}
+        :csrf={{ json_encode(csrf_token()) }}
+      />
+    </form>
   </div>
 @endsection

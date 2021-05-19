@@ -29,8 +29,14 @@
         <div class="header__left l-flex l-v__center">
           <div class="header__logo">
             <a href="/">
-              <img class="sp-only" src="/img/common/okeicom-logo-square.png">
-              <img class="pc-only" src="/img/common/okeicom-logo-side.png">
+              <img
+                class="sp-only"
+                src="/img/common/okeicom-logo-square.png"
+              >
+              <img
+                class="pc-only"
+                src="/img/common/okeicom-logo-side.png"
+              >
             </a>
           </div>
           <nav class="header__menu pc-only">
@@ -44,31 +50,47 @@
           <ul class="header__icon l-flex l-v__bottom sp-only">
             <li>
               <a @click="openSearch">
-                <img src="/img/common/icon-header-search-bold.png" alt="検索アイコン">
+                <img
+                  src="/img/common/icon-header-search-bold.png"
+                  alt="検索アイコン"
+                >
                 <span>検索</span>
               </a>
             </li>
             <li>
               <a href="/sign-up">
-                <img src="/img/common/icon-header-add-bold.png" alt="登録アイコン">
+                <img
+                  src="/img/common/icon-header-add-bold.png"
+                  alt="登録アイコン"
+                >
                 <span>新規登録</span>
               </a>
             </li>
             <li>
               <a href="/login">
-                <img src="/img/common/icon-header-login-bold.png" alt="ログインアイコン">
+                <img
+                  src="/img/common/icon-header-login-bold.png"
+                  alt="ログインアイコン"
+                >
                 <span>ログイン</span>
               </a>
             </li>
             <li>
               <a @click="openDrawer">
-                <img src="/img/common/icon-header-menu-bold.png" alt="ハンバーガーメニューアイコン">
+                <img
+                  src="/img/common/icon-header-menu-bold.png"
+                  alt="ハンバーガーメニューアイコン"
+                >
                 <span>メニュー</span>
               </a>
             </li>
           </ul>
           <div class="header__search pc-only l-flex">
-            <form class="l-flex" action="/search" method="GET">
+            <form
+              class="l-flex"
+              action="/search"
+              method="GET"
+            >
               <div class="header__search__text">
                 <input
                   class="c-input--gray"

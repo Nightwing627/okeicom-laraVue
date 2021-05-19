@@ -25,6 +25,8 @@ use NcJoes\OfficeConverter\OfficeConverter;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
+use App\Http\Controllers\Controller,
+    Session;
 use Carbon\Carbon;
 
 class TeacherController extends Controller
@@ -278,7 +280,6 @@ class TeacherController extends Controller
      */
     public function storeCourse(CourseStoreRequest $request)
     {
-
       DB::beginTransaction($request);
       try {
         $course = new Course();
@@ -295,8 +296,12 @@ class TeacherController extends Controller
         $user = User::find($course->user_id);
         $user->is_teacher = 1;
         $user->save();
+
+        // セッションにコースIDを登録する
+        session(['course_id' => $last_insert_id]);
+
         DB::commit();
-        return redirect(route('mypage.t.lessons.create', ['courses_id' => $last_insert_id]));
+        return redirect(route('mypage.t.lessons.create'));
       } catch (\PDOException $e){
         DB::rollBack();
         return back()->withInput()->with('flash_message', 'コースの登録に失敗しました。');
@@ -322,11 +327,15 @@ class TeacherController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function storeLesson(Request $request)
+    public function storeLessons(Request $request)
     {
-
+      // コースのクラス作成
+      $course = new Course();
+      $course->id = session('course_id');
+      $course->user_id = Auth::user()->id;
       $lessons = json_decode($request->lessons, true);
-      /* 追加 */
+
+      // レッスンの閲覧用ランダムな整数を設定する
       $urls[] = '';
       foreach((array)$lessons as $index => $lesson) {
         do {
@@ -338,13 +347,13 @@ class TeacherController extends Controller
         } while ($key == true);
       }
 
-
-      $models[] = '';
       // レッスンに必要な情報を入れる
-      foreach ((array)$lessons as $index => $lesson) {
-        // 吉田豊が修正しました
-        if($lesson['slide'] !== null){
+      $models[] = '';
 
+      // レッスンのスライド処理
+      foreach ((array)$lessons as $index => $lesson) {
+        // if($lesson['slide']){
+        if(!empty($lesson['slide'])){
           $new_folder = time()."".rand();
           Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
           $base64_slide = explode(',',$lesson['slide']);
@@ -352,11 +361,8 @@ class TeacherController extends Controller
           $new_filename = $lesson['title'];
           Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
           $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
-
           $converter = new OfficeConverter($ppt_path);
-
           $converter->convertTo($new_filename.'.pdf');
-
           // ランダムな整数を配列に入れる
           $models[$index] = Lesson::make($lesson);
           $models[$index]->slide = $new_filename;
@@ -369,7 +375,6 @@ class TeacherController extends Controller
           $models[$index]->finish = $lesson['finish'];
           $models[$index]->price = $lesson['price'];
           $models[$index]->cancel_rate = $lesson['cancel_rate'];
-          // 吉田豊が修正しました
           $models[$index]->detail = $lesson['detail'];
           $models[$index]->user_id = $course->user_id;
           $models[$index]->status = 0;
@@ -378,7 +383,7 @@ class TeacherController extends Controller
           // ランダムな整数が同じ
           $models[$index]->view = $new_folder;
 
-        }else{
+        } else {
           // ランダムな整数を配列に入れる
           $models[$index] = Lesson::make($lesson);
           $models[$index]->user_id = $course->user_id;
@@ -389,6 +394,17 @@ class TeacherController extends Controller
           $models[$index]->view = $randams[$index];
         }
       }
+
+      // レッスンの登録処理
+      DB::transaction(function () use($course, $models) {
+        // レッスンの処理
+        $course->lessons()->saveMany($models);
+      });
+
+      // セッション削除
+      session()->forget('course_id');
+      return redirect(route('mypage.t.courses'));
+
     }
 
     /**
@@ -434,34 +450,35 @@ class TeacherController extends Controller
       }
     }
 
-    /**
-     * レッスンの登録
-     *
-     * @param LessonStoreRequest $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function storeLessons(LessonStoreRequest $request)
-    // public function storeLessons(Request $request)
-    {
-        $lesson = new Lesson();
-        $lesson->fill([
-            'user_id' => Auth::user()->id,
-            'course_id' => $request->courses_id,
-            'status' => $this->lesson::STATUS_PLANS,
-            'public' => $request->public,
-            'type' => $request->type,
-            'date' => $request->date,
-            'start' => $request->start,
-            'finish' => $request->finish,
-            'price' => $request->price,
-            'view' => 'fdav9ub32ojbvdfavadf',
-            'cancel_rate' => $request->cancel_rate,
-            'title' => $request->title,
-            'detail' => $request->detail,
-        ])->save();
+    // /**
+    //  * レッスンの登録
+    //  *
+    //  * @param LessonStoreRequest $request
+    //  * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    //  */
+    // public function storeLessons(LessonStoreRequest $request)
+    // // public function storeLessons(Request $request)
+    // {
+    //   $targets = json_decode($request->get('lessons'), true);
 
-        return redirect(route('mypage.t.courses.detail', ['courses_id' => $request->courses_id]));
-    }
+    //   $lesson->fill([
+    //     'user_id' => Auth::user()->id,
+    //     'course_id' => $request->courses_id,
+    //     'status' => $this->lesson::STATUS_PLANS,
+    //     'public' => $request->public,
+    //     'type' => $request->type,
+    //     'date' => $request->date,
+    //     'start' => $request->start,
+    //     'finish' => $request->finish,
+    //     'price' => $request->price,
+    //     'view' => 'fdav9ub32ojbvdfavadf',
+    //     'cancel_rate' => $request->cancel_rate,
+    //     'title' => $request->title,
+    //     'detail' => $request->detail,
+    //   ])->save();
+
+    //   return redirect(route('mypage.t.courses.detail', ['courses_id' => $request->courses_id]));
+    // }
 
     /**
      * レッスンの編集
@@ -612,8 +629,8 @@ class TeacherController extends Controller
     public function doBlock(Request $request) {
         DB::transaction(function () use ($request) {
             $application = Application::where('lesson_id', $request->lessonId)
-                                        ->where('user_id', $request->userId)
-                                        ->first();
+              ->where('user_id', $request->userId)
+              ->first();
             $application->status = 3;
             $application->deleted_at = date("Y-m-d");
             $application->save();

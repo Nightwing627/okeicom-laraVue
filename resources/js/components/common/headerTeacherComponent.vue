@@ -259,10 +259,6 @@
         type: String,
         required: true,
 			},
-			teacherLink: {
-        type: String,
-        required: true,
-			},
 		},
 		data() {
 			return {

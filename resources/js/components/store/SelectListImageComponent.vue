@@ -22,10 +22,10 @@
           <input
             :id="'img' + (index + 1)"
             :ref="'file' + index"
-            type="file"
-            accept="image/*"
             :src="item.url"
             :name="'img' + (index + 1)"
+            type="file"
+            accept="image/*"
             @change="uploadFile(index)"
           >
         </span>
@@ -52,7 +52,19 @@
 </template>
 <script>
 	export default {
-    props: ['course', 'old'],
+    props: {
+      course: {
+        type: Array,
+        required: false,
+        default: () => []
+      },
+      old: {
+        type: Array,
+        required: false,
+        default: () => []
+      },
+    },
+    emits: ['remove', 'add'],
     data() {
       return {
         courseDate: this.course ?? '',
@@ -111,7 +123,8 @@
       uploadFile: function(index) {
         // // ファイルを取得する
         const files = this.$refs['file' + index]
-        const fileImg = files.files[0]
+        const fileImg = files[0].files[0]
+        // ファイルサイズが超えていた場合はアラートを出力する
         if (fileImg.size > 1048576) {
           alert('ファイルの上限サイズ1MBを超えています')
         } else {
@@ -130,6 +143,7 @@
           }
           // バリデーション用
           this.validationNumber += 1
+          this.$emit('add')
           // // 条件に応じて、アップロードを考える
           // if (fileImg.type.startsWith("image/")) {
           // 	if(index === 4) {
@@ -146,49 +160,40 @@
           // 		this.couseDetailFiles[index+1].isAdd = true
           // 	}
           // }
-          this.$emit('add');
         }
       },
       // 画像の変更
       changeFile: function(index) {
-        this.$refs['file' + index].click();
+        this.$refs['file' + index][0].click()
       },
       // 画像の削除
       deleteFile: function(index) {
+        // コースデータを定義
         const target = this.couseDetailFiles
-        // クリックした画像が最後の場合
         target[index].url = ""
+        // 現在設定されている画像の枚数を取得する
+        const coureImage = target.filter(element => {
+          return element.url !== ""
+        })
+        const targetNumber = coureImage.length
 
-        if(index == 4) {
-          target[index].url = ""
-          target[index].isAdd = true
-          target[index].isChange = false
-          target[index].isDelete = false
-        } else {
-          // クリックした画像が最後以外の場合
-          // クリックした画像の次の画像がない場合
-          if(target[index+1].isAdd == true) {
-            target[index].url = ""
-            target[index].isAdd = true
-            target[index].isChange = false
-            target[index].isDelete = false
-            target[index+1].isAdd = false
-          } else {
-            // クリックした画像の次に画像がある場合
-            let t = 0;
-            for(t; t < 5; t++) {
-              target[index+t].url = target[index+t+1].url
-              if( target[index+t+1].isAdd == true ) break;
-            }
-            target[index+t].url = ""
-            target[index+t].isAdd = true
-            target[index+t].isChange = false
-            target[index+t].isDelete = false
-            if(target[index+t+1].isAdd == true) {
-              target[index+t+1].isAdd = false
-            }
-          }
+        // 画像を設定し直す
+        coureImage.forEach(function(element, index) {
+          target[index].url = element.url
+        });
+
+        // 最後の画像の設定
+        target[targetNumber].url = ""
+        target[targetNumber].isAdd = true
+        target[targetNumber].isDelete = false
+        target[targetNumber].isChange = false
+
+        // 最後の次のプラスボタンがある場合の処理
+        if(targetNumber !== 4) {
+          target[targetNumber + 1].isAdd = false
         }
+
+        // バリデーション用の値を送る
         this.validationNumber -= 1
         this.$emit('remove');
       }
