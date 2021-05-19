@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Withdrawal;
 use App\Http\Controllers\Controller;
+use App\Models\Withdraw;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class WithdrawalController extends Controller
 {
@@ -15,7 +17,7 @@ class WithdrawalController extends Controller
      */
     public function index()
     {
-        $withdrawals = Withdrawal::all();
+        $withdrawals = Withdrawal::all()->where('verified_at', null);
         return $withdrawals;
     }
 
@@ -38,7 +40,8 @@ class WithdrawalController extends Controller
      */
     public function show($id)
     {
-        //
+        $withdrawal = Withdrawal::find($id);
+        return $withdrawal;
     }
 
     /**
@@ -48,9 +51,11 @@ class WithdrawalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
+        $withdrawal = Withdrawal::find($id);
+        $withdrawal->verified_at = Carbon::now();
+        $withdrawal->save();
     }
 
     /**
@@ -63,4 +68,5 @@ class WithdrawalController extends Controller
     {
         //
     }
+
 }

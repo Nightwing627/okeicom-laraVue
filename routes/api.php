@@ -18,7 +18,6 @@ use App\Http\Controllers\Api\v1\WithdrawalController;
 
 // レッスン一覧情報取得API
 Route::resource('v1/lessons', LessonsController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
-
 // 出金リクエスト
 Route::resource('v1/withdrawals', WithdrawalController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 // お知らせ
