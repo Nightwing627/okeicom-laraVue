@@ -1,484 +1,486 @@
 <template>
-  <!-- モーダル -->
-  <div
-    v-show="isLessonModal"
-    class="lesson-add-modal"
-    @click.self="closeModal"
-  >
-    <form
-      method="POST"
-      action="/mypage/t/lessons/store"
-      enctype="multipart/form-data"
-    >
-      <input
-        type="hidden"
-        name="_token"
-        :value="csrf"
-      >
-      <input
-        type="hidden"
-        name="courses_id"
-        :value="course.id"
-      >
-      <div class="lesson-add-modal-inner">
-        <div class="l-content--detail">
-          <div class="l-content--detail__inner">
-            <div class="l-wrap--title">
-              <h1 class="c-headline--screen">
-                レッスンを追加する
-              </h1>
-              <button
-                class="close-modal"
-                @click="closeModal"
-              >
-                <img src="/img/common/icon-batsu-white.png">
-              </button>
-            </div>
-            <div class="l-content--input">
-              <p class="l-content--input__headline">
-                タイトル
-              </p>
-              <input
-                v-model="lessonTitle"
-                type="text"
-                name="title"
-                placeholder="タイトルを入力してください"
-              >
-            </div>
-            <div class="l-content--input">
-              <p class="l-content--input__headline">
-                公開タイプ
-              </p>
-              <ul class="u-pl10">
-                <li class="u-mb15">
-                  <div class="c-checkbox--fashonable">
-                    <label>公開
-                      <input
-                        v-model="lessonPublic"
-                        type="radio"
-                        name="public"
-                        value="0"
-                        :checked="true"
-                      >
-                      <div class="color-box" />
-                    </label>
-                  </div>
-                </li>
-                <li class="u-mb15">
-                  <div class="c-checkbox--fashonable">
-                    <label>非公開
-                      <input
-                        v-model="lessonPublic"
-                        type="radio"
-                        name="public"
-                        value="1"
-                      >
-                      <div class="color-box" />
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="l-content--input">
-              <p class="l-content--input__headline">
-                放送タイプ
-              </p>
-              <ul class="u-pl10">
-                <li class="u-mb15">
-                  <div class="c-checkbox--fashonable">
-                    <label>生放送
-                      <input
-                        v-model="lessonType"
-                        type="radio"
-                        name="type"
-                        value="0"
-                        :checked="true"
-                        @change.prevent="changeType(1)"
-                      >
-                      <div class="color-box" />
-                    </label>
-                  </div>
-                </li>
-                <li class="u-mb15">
-                  <div class="c-checkbox--fashonable">
-                    <label>動画埋め込み
-                      <input
-                        v-model="lessonType"
-                        type="radio"
-                        name="url"
-                        value="1"
-                        @change.prevent="changeType(2)"
-                      >
-                      <div class="color-box" />
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div class="c-checkbox--fashonable">
-                    <label>スライド
-                      <input
-                        v-model="lessonType"
-                        type="radio"
-                        name="type"
-                        value="2"
-                        @change.prevent="changeType(3)"
-                      >
-                      <div class="color-box" />
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div
-              v-if="isType != 3"
-              class="l-content--input"
-            >
-              <p class="l-content--input__headline">
-                動画もしくはZOOM URL
-              </p>
-              <input
-                v-model="lessonUrl"
-                type="text"
-                name="url"
-                placeholder="https://www.youtube.com/"
-              >
-            </div>
-            <div
-              v-if="isType === 3"
-              class="l-content--input"
-            >
-              <p class="l-content--input__headline">
-                スライドファイル（powerpoint）
-              </p>
-              <input
-                type="file"
-                name="slide"
-                placeholder="スライドファイル"
-                accept="application/vnd.openxmlformats-officedocument.presentationml.presentation,.pptx,application/vnd.ms-powerpoint,.ppt,.pot"
-                @change="onImageUploaded"
-              >
-            </div>
-            <!-- <div class="l-content--input">
-                <p class="l-content--input__headline">開催日時</p>
-                <vuejs-datepicker-component name="select_date" value=""></vuejs-datepicker-component>
-            </div> -->
-            <div class="l-content--input">
-              <div class="l-flex">
-                <div class="l-content--input__three u-w100per_sp u-mb21_sp">
-                  <div class="l-content--input__headline">
-                    開始日
-                  </div>
-                  <!-- <vuejs-datepicker-component
-                      name="date"
-                      :value="lessonDate"
-                      @input="val => lessonDate = val"
-                  ></vuejs-datepicker-component> -->
-                  <!-- <vuejs-datepicker-component
-                      name="select_date"
-                      v-model="lessonDate"
-                  ></vuejs-datepicker-component> -->
-                </div>
-                <div class="l-content--input__three u-w49per_sp">
-                  <div class="l-content--input__headline">
-                    開始時間
-                  </div>
-                  <!-- <vue-timepicker
-                      name="start"
-                      hour-label="時間"
-                      minute-label="分"
-                      :value="lessonStart"
-                      @input="val => lessonStart = val"
-                      :minute-interval="5"
-                  ></vue-timepicker> -->
-                </div>
-                <div class="l-content--input__three u-w49per_sp">
-                  <div class="l-content--input__headline">
-                    終了時間
-                  </div>
-                  <!-- <vue-timepicker
-                      name="finish"
-                      hour-label="時間"
-                      minute-label="分"
-                      :value="lessonFinish"
-                      @input="val => lessonFinish = val"
-                      :minute-interval="5"
-                  >
-                  </vue-timepicker> -->
-                </div>
-              </div>
-            </div>
-            <div class="l-content--input">
-              <p class="l-content--input__headline">
-                詳細
-              </p>
-              <textarea
-                v-model="lessonDetail"
-                name="detail"
-              />
-            </div>
-            <div class="l-content--input">
-              <div class="l-content--input__three">
-                <p class="l-content--input__headline">
-                  金額
-                  <span class="u-text--small u-color--grayNavy">
-                    （半角数字のみ）
-                  </span>
-                </p>
-                <div class="accesary-yen">
-                  <input
-                    v-model="lessonPrice"
-                    type="text"
-                    name="price"
-                    placeholder="半角数字を入力してください"
-                    @input="validate"
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="l-content--input">
-              <div class="l-content--input__three">
-                <p class="l-content--input__headline">
-                  キャンセル手数料
-                </p>
-                <div class="accesary-percent">
-                  <select
-                    v-model="lessonCancelRate"
-                    name="cancel_rate"
-                  >
-                    <option
-                      v-for="(rate, index) in 100"
-                      :key="rate.id"
-                    >
-                      {{ index }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="l-button--submit">
-              <!-- <button v-if="!changeModalEdit" type="button" @click="addLesson" class="c-button--square__pink" :disabled="checkLesson">レッスンを追加する</button> -->
-              <button
-                v-if="!changeModalEdit"
-                type="submit"
-                class="c-button--square__pink"
-                :disabled="checkLesson"
-              >
-                レッスンを追加する
-              </button>
-              <button
-                v-else-if="changeModalEdit"
-                type="button"
-                :disabled="checkLesson"
-                class="c-button--square__pink"
-                @click="updateLesson"
-              >
-                編集内容を保存する
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-
-
-
-  <!-- 本文 -->
-  <div class="l-wrap--main--inner">
-    <div class="c-button--tab top-tab two-tab">
-      <div class="c-button--tab--inner u-w400_pc">
-        <div
-          class="c-button--tab--box"
-          :class="{'selected': isBarTab === '1'}"
-          @click.prevent="changeTab('1')"
-        >
-          コース詳細
-        </div>
-        <div
-          class="c-button--tab--box"
-          :class="{'selected': isBarTab === '2'}"
-          @click.prevent="changeTab('2')"
-        >
-          レッスン一覧
-        </div>
-      </div>
-    </div>
-    <!-- tab：コース詳細 -->
+  <div>
+    <!-- モーダル -->
     <div
-      v-if="isBarTab === '1'"
-      class="c-list--table"
+      v-show="isLessonModal"
+      class="lesson-add-modal"
+      @click.self="closeModal"
     >
       <form
         method="POST"
-        action="/mypage/t/courses/update"
+        action="/mypage/t/lessons/store"
         enctype="multipart/form-data"
       >
-        <input
-          type="hidden"
-          name="courses_id"
-          :value="course.id"
-        >
         <input
           type="hidden"
           name="_token"
           :value="csrf"
         >
-        <!-- <div class="c-list--tr">
-            <div class="c-list--th">
-                <p class="main">URL</p>
+        <input
+          type="hidden"
+          name="courses_id"
+          :value="course.id"
+        >
+        <div class="lesson-add-modal-inner">
+          <div class="l-content--detail">
+            <div class="l-content--detail__inner">
+              <div class="l-wrap--title">
+                <h1 class="c-headline--screen">
+                  レッスンを追加する
+                </h1>
+                <button
+                  class="close-modal"
+                  @click="closeModal"
+                >
+                  <img src="/img/common/icon-batsu-white.png">
+                </button>
+              </div>
+              <div class="l-content--input">
+                <p class="l-content--input__headline">
+                  タイトル
+                </p>
+                <input
+                  v-model="lessonTitle"
+                  type="text"
+                  name="title"
+                  placeholder="タイトルを入力してください"
+                >
+              </div>
+              <div class="l-content--input">
+                <p class="l-content--input__headline">
+                  公開タイプ
+                </p>
+                <ul class="u-pl10">
+                  <li class="u-mb15">
+                    <div class="c-checkbox--fashonable">
+                      <label>公開
+                        <input
+                          v-model="lessonPublic"
+                          type="radio"
+                          name="public"
+                          value="0"
+                          :checked="true"
+                        >
+                        <div class="color-box" />
+                      </label>
+                    </div>
+                  </li>
+                  <li class="u-mb15">
+                    <div class="c-checkbox--fashonable">
+                      <label>非公開
+                        <input
+                          v-model="lessonPublic"
+                          type="radio"
+                          name="public"
+                          value="1"
+                        >
+                        <div class="color-box" />
+                      </label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="l-content--input">
+                <p class="l-content--input__headline">
+                  放送タイプ
+                </p>
+                <ul class="u-pl10">
+                  <li class="u-mb15">
+                    <div class="c-checkbox--fashonable">
+                      <label>生放送
+                        <input
+                          v-model="lessonType"
+                          type="radio"
+                          name="type"
+                          value="0"
+                          :checked="true"
+                          @change.prevent="changeType(1)"
+                        >
+                        <div class="color-box" />
+                      </label>
+                    </div>
+                  </li>
+                  <li class="u-mb15">
+                    <div class="c-checkbox--fashonable">
+                      <label>動画埋め込み
+                        <input
+                          v-model="lessonType"
+                          type="radio"
+                          name="url"
+                          value="1"
+                          @change.prevent="changeType(2)"
+                        >
+                        <div class="color-box" />
+                      </label>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="c-checkbox--fashonable">
+                      <label>スライド
+                        <input
+                          v-model="lessonType"
+                          type="radio"
+                          name="type"
+                          value="2"
+                          @change.prevent="changeType(3)"
+                        >
+                        <div class="color-box" />
+                      </label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div
+                v-if="isType != 3"
+                class="l-content--input"
+              >
+                <p class="l-content--input__headline">
+                  動画もしくはZOOM URL
+                </p>
+                <input
+                  v-model="lessonUrl"
+                  type="text"
+                  name="url"
+                  placeholder="https://www.youtube.com/"
+                >
+              </div>
+              <div
+                v-if="isType === 3"
+                class="l-content--input"
+              >
+                <p class="l-content--input__headline">
+                  スライドファイル（powerpoint）
+                </p>
+                <input
+                  type="file"
+                  name="slide"
+                  placeholder="スライドファイル"
+                  accept="application/vnd.openxmlformats-officedocument.presentationml.presentation,.pptx,application/vnd.ms-powerpoint,.ppt,.pot"
+                  @change="onImageUploaded"
+                >
+              </div>
+              <!-- <div class="l-content--input">
+                  <p class="l-content--input__headline">開催日時</p>
+                  <vuejs-datepicker-component name="select_date" value=""></vuejs-datepicker-component>
+              </div> -->
+              <div class="l-content--input">
+                <div class="l-flex">
+                  <div class="l-content--input__three u-w100per_sp u-mb21_sp">
+                    <div class="l-content--input__headline">
+                      開始日
+                    </div>
+                    <!-- <vuejs-datepicker-component
+                        name="date"
+                        :value="lessonDate"
+                        @input="val => lessonDate = val"
+                    ></vuejs-datepicker-component> -->
+                    <!-- <vuejs-datepicker-component
+                        name="select_date"
+                        v-model="lessonDate"
+                    ></vuejs-datepicker-component> -->
+                  </div>
+                  <div class="l-content--input__three u-w49per_sp">
+                    <div class="l-content--input__headline">
+                      開始時間
+                    </div>
+                    <!-- <vue-timepicker
+                        name="start"
+                        hour-label="時間"
+                        minute-label="分"
+                        :value="lessonStart"
+                        @input="val => lessonStart = val"
+                        :minute-interval="5"
+                    ></vue-timepicker> -->
+                  </div>
+                  <div class="l-content--input__three u-w49per_sp">
+                    <div class="l-content--input__headline">
+                      終了時間
+                    </div>
+                    <!-- <vue-timepicker
+                        name="finish"
+                        hour-label="時間"
+                        minute-label="分"
+                        :value="lessonFinish"
+                        @input="val => lessonFinish = val"
+                        :minute-interval="5"
+                    >
+                    </vue-timepicker> -->
+                  </div>
+                </div>
+              </div>
+              <div class="l-content--input">
+                <p class="l-content--input__headline">
+                  詳細
+                </p>
+                <textarea
+                  v-model="lessonDetail"
+                  name="detail"
+                />
+              </div>
+              <div class="l-content--input">
+                <div class="l-content--input__three">
+                  <p class="l-content--input__headline">
+                    金額
+                    <span class="u-text--small u-color--grayNavy">
+                      （半角数字のみ）
+                    </span>
+                  </p>
+                  <div class="accesary-yen">
+                    <input
+                      v-model="lessonPrice"
+                      type="text"
+                      name="price"
+                      placeholder="半角数字を入力してください"
+                      @input="validate"
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="l-content--input">
+                <div class="l-content--input__three">
+                  <p class="l-content--input__headline">
+                    キャンセル手数料
+                  </p>
+                  <div class="accesary-percent">
+                    <select
+                      v-model="lessonCancelRate"
+                      name="cancel_rate"
+                    >
+                      <option
+                        v-for="(rate, index) in 100"
+                        :key="rate.id"
+                      >
+                        {{ index }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="l-button--submit">
+                <!-- <button v-if="!changeModalEdit" type="button" @click="addLesson" class="c-button--square__pink" :disabled="checkLesson">レッスンを追加する</button> -->
+                <button
+                  v-if="!changeModalEdit"
+                  type="submit"
+                  class="c-button--square__pink"
+                  :disabled="checkLesson"
+                >
+                  レッスンを追加する
+                </button>
+                <button
+                  v-else-if="changeModalEdit"
+                  type="button"
+                  :disabled="checkLesson"
+                  class="c-button--square__pink"
+                  @click="updateLesson"
+                >
+                  編集内容を保存する
+                </button>
+              </div>
             </div>
-            <div class="c-list--td">
-                <input id="url" class="c-input--fixed" type="text" class="form-control" name="url" value="" readonly>
-            </div>
-        </div> -->
-        <div class="c-list--tr">
-          <div class="c-list--th">
-            <p class="main">
-              画像
-            </p>
-          </div>
-          <div class="c-list--td">
-            <select-image
-              :course="course"
-            />
-          </div>
-        </div>
-        <div class="c-list--tr">
-          <div class="c-list--th">
-            <p class="main">
-              カテゴリー
-            </p>
-          </div>
-          <div class="c-list--td">
-            <select-category
-              :course="course"
-              :categorieslists="categoriesList"
-            />
-          </div>
-        </div>
-        <div class="c-list--tr">
-          <div class="c-list--th">
-            <p class="main">
-              タイトル
-            </p>
-          </div>
-          <div class="c-list--td">
-            <input
-              name="title"
-              :value="courseDate.title"
-              requred
-            >
-          </div>
-        </div>
-        <div class="c-list--tr">
-          <div class="c-list--th">
-            <p class="main">
-              詳細
-            </p>
-          </div>
-          <div class="c-list--td">
-            <textarea
-              v-model="courseDate.detail"
-              name="detail"
-              autocomplete="detail"
-            />
-          </div>
-        </div>
-        <div class="l-button--submit">
-          <div class="l-button--submit--two">
-            <button
-              type="submit"
-              name="save"
-              class="c-button--square__blue"
-            >
-              保存する
-            </button>
-          </div>
-          <div class="l-button--submit--two">
-            <button
-              type="submit"
-              name="delete"
-              class="c-button--square__pink"
-            >
-              削除する
-            </button>
           </div>
         </div>
       </form>
     </div>
-    <!-- tab：その他 -->
-    <div
-      v-else-if="isBarTab === '2'"
-      class="l-contentList__list__wrap"
-    >
-      <div class="c-button--add c-list--courseLesson">
-        <a @click="showModal">
-          レッスンを追加する
-        </a>
-      </div>
-      <div
-        v-for="(lesson, index) in lessons"
-        :key="index.id"
-        class="c-list--courseLesson"
-      >
-        <div class="c-list--courseLesson--num">
-          <span>
-            # {{ index + 1 }}
-          </span>
-        </div>
-        <div class="c-list--courseLesson--title">
-          <p class="title u-text--big u-mb5">
-            {{ lesson.title }}
-          </p>
-          <p class="date u-color--grayNavy u-text--small">
-            {{ moment(lesson.date).format('M/D') }} {{ moment(lesson.start).format('H:mm') }}-{{ moment(lesson.finish).format('H:mm') }}
-          </p>
-        </div>
-        <!-- 開催日を超えた現場は削除 -->
-        <div class="c-button--edit">
-          <a class="c-button--edit--link delete">
-            <form
-              method="POST"
-              action="/mypage/t/lessons/delete"
-            >
-              <input
-                type="hidden"
-                name="_token"
-                :value="csrf"
-              >
-              <input
-                type="hidden"
-                name="lesson_id"
-                :value="lesson.id"
-              >
-              <input
-                type="hidden"
-                name="user_id"
-                :value="lesson.user_id"
-              >
-              <input
-                type="hidden"
-                name="course_id"
-                :value="lesson.course_id"
-              >
-              <button
-                name="delete"
-                type="submit"
-              >
-                削除
-              </button>
-            </form>
-          </a>
-          <!-- <a :href="'/mypage/t/lessons/edit/' + lesson.id" class="c-button--edit--link edit">編集</a> -->
-          <a
-            :href="`/mypage/t/lessons/edit/${lesson.id}`"
-            class="c-button--edit--link edit"
+
+
+
+    <!-- 本文 -->
+    <div class="l-wrap--main--inner">
+      <div class="c-button--tab top-tab two-tab">
+        <div class="c-button--tab--inner u-w400_pc">
+          <div
+            class="c-button--tab--box"
+            :class="{'selected': isBarTab === '1'}"
+            @click.prevent="changeTab('1')"
           >
-            編集
-          </a>
+            コース詳細
+          </div>
+          <div
+            class="c-button--tab--box"
+            :class="{'selected': isBarTab === '2'}"
+            @click.prevent="changeTab('2')"
+          >
+            レッスン一覧
+          </div>
         </div>
       </div>
-      <!-- {{ courseDate.category1_id }} -->
+      <!-- tab：コース詳細 -->
+      <div
+        v-if="isBarTab === '1'"
+        class="c-list--table"
+      >
+        <form
+          method="POST"
+          action="/mypage/t/courses/update"
+          enctype="multipart/form-data"
+        >
+          <input
+            type="hidden"
+            name="courses_id"
+            :value="course.id"
+          >
+          <input
+            type="hidden"
+            name="_token"
+            :value="csrf"
+          >
+          <!-- <div class="c-list--tr">
+              <div class="c-list--th">
+                  <p class="main">URL</p>
+              </div>
+              <div class="c-list--td">
+                  <input id="url" class="c-input--fixed" type="text" class="form-control" name="url" value="" readonly>
+              </div>
+          </div> -->
+          <div class="c-list--tr">
+            <div class="c-list--th">
+              <p class="main">
+                画像
+              </p>
+            </div>
+            <div class="c-list--td">
+              <select-image
+                :course="course"
+              />
+            </div>
+          </div>
+          <div class="c-list--tr">
+            <div class="c-list--th">
+              <p class="main">
+                カテゴリー
+              </p>
+            </div>
+            <div class="c-list--td">
+              <select-category
+                :course="course"
+                :categorieslists="categoriesList"
+              />
+            </div>
+          </div>
+          <div class="c-list--tr">
+            <div class="c-list--th">
+              <p class="main">
+                タイトル
+              </p>
+            </div>
+            <div class="c-list--td">
+              <input
+                name="title"
+                :value="courseDate.title"
+                requred
+              >
+            </div>
+          </div>
+          <div class="c-list--tr">
+            <div class="c-list--th">
+              <p class="main">
+                詳細
+              </p>
+            </div>
+            <div class="c-list--td">
+              <textarea
+                v-model="courseDate.detail"
+                name="detail"
+                autocomplete="detail"
+              />
+            </div>
+          </div>
+          <div class="l-button--submit">
+            <div class="l-button--submit--two">
+              <button
+                type="submit"
+                name="save"
+                class="c-button--square__blue"
+              >
+                保存する
+              </button>
+            </div>
+            <div class="l-button--submit--two">
+              <button
+                type="submit"
+                name="delete"
+                class="c-button--square__pink"
+              >
+                削除する
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- tab：その他 -->
+      <div
+        v-else-if="isBarTab === '2'"
+        class="l-contentList__list__wrap"
+      >
+        <div class="c-button--add c-list--courseLesson">
+          <a @click="showModal">
+            レッスンを追加する
+          </a>
+        </div>
+        <div
+          v-for="(lesson, index) in lessons"
+          :key="index.id"
+          class="c-list--courseLesson"
+        >
+          <div class="c-list--courseLesson--num">
+            <span>
+              # {{ index + 1 }}
+            </span>
+          </div>
+          <div class="c-list--courseLesson--title">
+            <p class="title u-text--big u-mb5">
+              {{ lesson.title }}
+            </p>
+            <p class="date u-color--grayNavy u-text--small">
+              {{ moment(lesson.date).format('M/D') }} {{ moment(lesson.start).format('H:mm') }}-{{ moment(lesson.finish).format('H:mm') }}
+            </p>
+          </div>
+          <!-- 開催日を超えた現場は削除 -->
+          <div class="c-button--edit">
+            <a class="c-button--edit--link delete">
+              <form
+                method="POST"
+                action="/mypage/t/lessons/delete"
+              >
+                <input
+                  type="hidden"
+                  name="_token"
+                  :value="csrf"
+                >
+                <input
+                  type="hidden"
+                  name="lesson_id"
+                  :value="lesson.id"
+                >
+                <input
+                  type="hidden"
+                  name="user_id"
+                  :value="lesson.user_id"
+                >
+                <input
+                  type="hidden"
+                  name="course_id"
+                  :value="lesson.course_id"
+                >
+                <button
+                  name="delete"
+                  type="submit"
+                >
+                  削除
+                </button>
+              </form>
+            </a>
+            <!-- <a :href="'/mypage/t/lessons/edit/' + lesson.id" class="c-button--edit--link edit">編集</a> -->
+            <a
+              :href="`/mypage/t/lessons/edit/${lesson.id}`"
+              class="c-button--edit--link edit"
+            >
+              編集
+            </a>
+          </div>
+        </div>
+        <!-- {{ courseDate.category1_id }} -->
+      </div>
     </div>
   </div>
 </template>

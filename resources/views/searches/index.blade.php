@@ -7,7 +7,6 @@
 <!-- CSS -->
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/searchResult.css') }}">
-<link rel="stylesheet" href="{{ asset('/css/npm/vue3-datepicker.css') }}">
 @endpush
 
 <!-- 本文 -->

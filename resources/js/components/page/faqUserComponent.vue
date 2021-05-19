@@ -1,40 +1,42 @@
 <template>
-  <div
-    v-for="(faq, index) in studentFaqs"
-    :key="index"
-    class="l-content--detail__box"
-  >
-    <p class="u-text--big">
-      {{ faq.title }}
-    </p>
-    <ul class="c-list--question">
-      <li
-        v-for="(body, content) in faq.bodys"
-        :key="content"
-      >
-        <div
-          class="question"
+  <div>
+    <div
+      v-for="(faq, index) in studentFaqs"
+      :key="index"
+      class="l-content--detail__box"
+    >
+      <p class="u-text--big">
+        {{ faq.title }}
+      </p>
+      <ul class="c-list--question">
+        <li
+          v-for="(body, content) in faq.bodys"
+          :key="content"
         >
-          {{ body.question }}
-        </div>
-        <div
-          class="answer"
-          :class="{ open: body.isAnswerOpen }"
-        >
-          {{ body.answer }}
-        </div>
-        <span
-          class="toggleAnswerPanelButton"
-          :class="{ rotate: body.isAnswerOpen }"
-          @click.stop="toggleStudentAnswer(index, content)"
-        />
-      </li>
-    </ul>
+          <div
+            class="question"
+          >
+            {{ body.question }}
+          </div>
+          <div
+            class="answer"
+            :class="{ open: body.isAnswerOpen }"
+          >
+            {{ body.answer }}
+          </div>
+          <span
+            class="toggleAnswerPanelButton"
+            :class="{ rotate: body.isAnswerOpen }"
+            @click.stop="toggleStudentAnswer(index, content)"
+          />
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 <script>
 	export default {
-        components: {},
+    components: {},
 		data() {
 			return {
 				// 生徒のよくある質問
