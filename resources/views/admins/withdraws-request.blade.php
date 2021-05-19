@@ -20,7 +20,7 @@
 			</div>
 			<div class="l-wrap--owner--body">
 				<div class="l-wrap--owner--body--inner">
-                    <admin-withdrawal-index-component></admin-withdrawal-index-component>
+          <admin-withdrawal-index-component />
 					{{--  <table class="withdraw-request-table">
 						<thead>
 							<tr>

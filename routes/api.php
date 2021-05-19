@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ManageController;
 use App\Http\Controllers\Api\LessonsController;
 use App\Http\Controllers\Api\v1\AnnouncementController;
-
+use App\Http\Controllers\Api\v1\WithdrawalController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,8 +19,10 @@ use App\Http\Controllers\Api\v1\AnnouncementController;
 // レッスン一覧情報取得API
 Route::resource('v1/lessons', LessonsController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
-// お知らせ一覧
-Route::resource('v1/announcements', AnnouncementController::class)->only(['index', 'show', 'store', 'update', 'destroy']);// お知らせ一覧
+// 出金リクエスト
+Route::resource('v1/withdrawals', WithdrawalController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
+// お知らせ
+Route::resource('v1/announcements', AnnouncementController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
 
 // 管理者認証
 Route::prefix('admin')->name('admin.')->group(function () {
