@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 // use App\Models\OthersBank;
 // use App\Models\JapansBank;
+use App\Models\Bank;
 use App\Models\BankJapan;
 use App\Models\BankOther;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class BankController extends Controller
         // OthersBank $others_bank,
         // JapansBank $japans_bank,
         BankJapan $bank_japan,
-        BankOther $bank_other,
+        BankOther $bank_other
     )
     {
         $this->others_bank = $bank_other;
@@ -40,17 +41,22 @@ class BankController extends Controller
     {
         // DBから銀行情報を取得する
         $userId = Auth::id();
+        $bankNew = new Bank();
+        $bank = $bankNew->showBank($userId);
+        dd($bank);
+        return view('users.banks_show', compact('bank'));
         // 銀行情報を取得する
-        $bankDate = '';
-        $target = '';
-        if(JapansBank::where('user_id', $userId)->first()) {
-            $bankDate = JapansBank::where('user_id', $userId)->first();
-            $target = 0;
-        } elseif(OthersBank::where('user_id', $userId)->first()) {
-            $bankDate = OthersBank::where('user_id', $userId)->first();
-            $target = 1;
-        }
-        return view('users.banks_show', compact('bankDate', 'target'));
+
+        // $bankDate = '';
+        // $target = '';
+        // if(JapansBank::where('user_id', $userId)->first()) {
+        //     $bankDate = JapansBank::where('user_id', $userId)->first();
+        //     $target = 0;
+        // } elseif(OthersBank::where('user_id', $userId)->first()) {
+        //     $bankDate = OthersBank::where('user_id', $userId)->first();
+        //     $target = 1;
+        // }
+        // return view('users.banks_show', compact('bankDate', 'target'));
     }
 
     /**

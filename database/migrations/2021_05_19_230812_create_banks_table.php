@@ -20,6 +20,7 @@ class CreateBanksTable extends Migration
             $table->unsignedTinyInteger('number')->comment('口座番号');
             $table->string('name', 255)->comment('口座名義人');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
