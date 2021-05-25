@@ -4,15 +4,15 @@
       <div class="c-button--tab--inner u-w400_pc">
         <div
           class="c-button--tab--box"
-          :class="{'selected': isBarTab === '0'}"
-          @click.prevent="changeTab('0')"
+          :class="{'selected': isBarTab === 'japan'}"
+          @click.prevent="changeTab('japan')"
         >
           ゆうちょ
         </div>
         <div
           class="c-button--tab--box"
-          :class="{'selected': isBarTab === '1'}"
-          @click.prevent="changeTab('1')"
+          :class="{'selected': isBarTab === 'other'}"
+          @click.prevent="changeTab('other')"
         >
           その他
         </div>
@@ -20,7 +20,7 @@
     </div>
     <!-- tab：ゆうちょ -->
     <div
-      v-if="isBarTab === '0'"
+      v-if="isBarTab === 'japan'"
       class="c-list--table"
     >
       <!-- <div class="c-list--tr">
@@ -126,7 +126,7 @@
     </div>
     <!-- tab：その他 -->
     <div
-      v-else-if="isBarTab === '1'"
+      v-else-if="isBarTab === 'other'"
       class="c-list--table"
     >
       <div class="c-list--tr">
@@ -270,22 +270,19 @@
     props: {
       bankDate: {
         type: Array,
-        required: true
-      },
-      target: {
-        type: Number,
-        required: true
+        required: false,
+        default: () => []
       },
     },
 		data() {
 			return {
-        isBarTab: this.target ?? '0',
-        banktype: this.bankDate.type ?? '0',
+        isBarTab: this.bankDate.type ?? 'japan',
+        banktype: this.bankDate.type ?? 'japan',
 			}
 		},
 		methods: {
-			changeTab: function(num){
-				this.isBarTab = num
+			changeTab: function(type){
+				this.isBarTab = type
 			},
 		},
 	}

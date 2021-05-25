@@ -43,7 +43,6 @@ class BankController extends Controller
         $userId = Auth::id();
         $bankNew = new Bank();
         $bank = $bankNew->showBank($userId);
-        dd($bank);
         return view('users.banks_show', compact('bank'));
         // 銀行情報を取得する
 
@@ -68,32 +67,36 @@ class BankController extends Controller
     {
         // DBから銀行情報を取得する
         $userId = Auth::id();
+        $bankNew = new Bank();
+        $bank = $bankNew->showBank($userId);
+
+        return view('users.banks_edit', compact('bank'));
 
         // 銀行情報を取得する
-        $bankDate = '';
-        $target = '';
-        if(JapansBank::where('user_id', $userId)->first()) {
-            // ゆうちょ銀行
-            $bankDate = JapansBank::where('user_id', $userId)->first();
-            $bankDate['japan_name'] = $bankDate['name'];
-            $bankDate['japan_number'] = $bankDate['number'];
-            $target = 0;
-        } elseif(OthersBank::where('user_id', $userId)->first()) {
-            // その他銀行
-            $bankDate = OthersBank::where('user_id', $userId)->first();
-            $bankDate['other_name'] = $bankDate['name'];
-            $bankDate['other_number'] = $bankDate['number'];
-            $target = 1;
-        }
+        // $bankDate = '';
+        // $target = '';
+        // if(JapansBank::where('user_id', $userId)->first()) {
+        //     // ゆうちょ銀行
+        //     $bankDate = JapansBank::where('user_id', $userId)->first();
+        //     $bankDate['japan_name'] = $bankDate['name'];
+        //     $bankDate['japan_number'] = $bankDate['number'];
+        //     $target = 0;
+        // } elseif(OthersBank::where('user_id', $userId)->first()) {
+        //     // その他銀行
+        //     $bankDate = OthersBank::where('user_id', $userId)->first();
+        //     $bankDate['other_name'] = $bankDate['name'];
+        //     $bankDate['other_number'] = $bankDate['number'];
+        //     $target = 1;
+        // }
 
-        if($bankDate) {
-            session([
-                'bank_type' => $target,
-                'bank_id'   => $bankDate->id,
-            ]);
-        }
+        // if($bankDate) {
+        //     session([
+        //         'bank_type' => $target,
+        //         'bank_id'   => $bankDate->id,
+        //     ]);
+        // }
 
-        return view('users.banks_edit', compact('bankDate', 'target'));
+        // return view('users.banks_edit', compact('bankDate', 'target'));
     }
 
     /**
@@ -102,57 +105,106 @@ class BankController extends Controller
      *
      */
     public function update(UpdateBank $request)
+    // public function update(request $request)
     {
-        /* パラーメーター設定 */
-        // バリデーションの値を取得する
-        $validated = $request->validated();
-        // ユーザーID
-        $user_id = Auth::id();
+        $banks = $request->validated();
+        $userId = Auth::id();
+        dd($banks);
 
-        // dd(isset($validated['other_financial_name']));
-        /* トランザクションをしく */
-        // DBに登録
-        DB::transaction(function () use($validated, $request, $user_id) {
-            // １．登録済みの銀行の情報を削除
-            if(JapansBank::find(session('bank_id'))) {
-                $register_bank = JapansBank::find(session('bank_id'));
-                if($register_bank) {
-                    $register_bank->delete();
-                    $register_bank->save();
-                }
+        DB::beginTransaction();
+        try {
+            $bankNew = new Bank();
+            if($banks['yucho_mark']) {
+                // 銀行テーブル登録
+                $bankNew->user_id = $userId;
+                $bankNew->type    = 'japan';
+                $bankNew->number  = $banks['yucho_number'];
+                $bankNew->name    = $banks['yucho_name'];
+                $bankNew->save();
+                $lastId = $bankNew->id;
+
+                // ゆうちょテーブル登録
+                $bankNewJapan = new BankJapan();
+                $bankNewJapan->bank_id = $lastId;
+                $bankNewJapan->mark    = $banks['yucho_mark'];
+                $bankNewJapan->save();
+            } else {
+                // 銀行テーブル登録
+                $bankNew->user_id = $userId;
+                $bankNew->type    = 'other';
+                $bankNew->number  = $banks['other_number'];
+                $bankNew->name    = $banks['other_name'];
+                $bankNew->save();
+                $lastId = $bankNew->id;
+
+                // その他テーブル登録
+                $bankNewOther = new BankOther();
+                $bankNewOther->bank_id        = $banks['other_number'];
+                $bankNewOther->financial_name = $banks['other_number'];
+                $bankNewOther->branch_name    = $banks['other_number'];
+                $bankNewOther->branch_number  = $banks['other_number'];
+                $bankNewOther->type           = $banks['other_number'];
             }
-            if(OthersBank::find(session('bank_id'))) {
-                // 登録済み情報を論理削除
-                $register_bank = OthersBank::find(session('bank_id'));
-                if($register_bank) {
-                    $register_bank->delete();
-                    $register_bank->save();
-                }
-            }
-
-            // ２．銀行の登録
-            if(isset($validated['yucho_mark'])) {
-                $japan_bank = new JapansBank();
-                $date = $japan_bank->registerJapanBank($request, $user_id);
-            }
-            // その他銀行の登録作業
-            if(isset($validated['other_financial_name'])) {
-                $other_bank = new OthersBank();
-                $date = $other_bank->registerOtherBank($request, $user_id);
-            };
-        });
-
-        // セッションをリセット
-        $request->session()->forget('bank_type');
-        $request->session()->forget('bank_id');
-
-        // 銀行の編集画面にリダイレクト処理
-        $url = '';
-        if(Auth::user()->status == 0) {
-            $url = 'mypage.u.bank.show';
-        } else {
-            $url = 'mypage.t.bank.show';
+            DB::commit();
+            return redirect(route('mypage.t.bank.show'));
+        } catch(\Exception $e) {
+            DB::rollBack();
+            $error = '決済に失敗しました。再度、ご登録をお願いいたします。';
+            return back()->withInput()->withErrors($error);
         }
-        return redirect(route($url));
+        $error = '不明なエラーが発生しました。管理者へお問い合わせください。';
+        return back()->withInput()->withErrors($error);
+        // // バージョン1
+        // /* パラーメーター設定 */
+        // // バリデーションの値を取得する
+        // $validated = $request->validated();
+        // // ユーザーID
+        // $user_id = Auth::id();
+
+        // // dd(isset($validated['other_financial_name']));
+        // /* トランザクションをしく */
+        // // DBに登録
+        // DB::transaction(function () use($validated, $request, $user_id) {
+        //     // １．登録済みの銀行の情報を削除
+        //     if(JapansBank::find(session('bank_id'))) {
+        //         $register_bank = JapansBank::find(session('bank_id'));
+        //         if($register_bank) {
+        //             $register_bank->delete();
+        //             $register_bank->save();
+        //         }
+        //     }
+        //     if(OthersBank::find(session('bank_id'))) {
+        //         // 登録済み情報を論理削除
+        //         $register_bank = OthersBank::find(session('bank_id'));
+        //         if($register_bank) {
+        //             $register_bank->delete();
+        //             $register_bank->save();
+        //         }
+        //     }
+
+        //     // ２．銀行の登録
+        //     if(isset($validated['yucho_mark'])) {
+        //         $japan_bank = new JapansBank();
+        //         $date = $japan_bank->registerJapanBank($request, $user_id);
+        //     }
+        //     // その他銀行の登録作業
+        //     if(isset($validated['other_financial_name'])) {
+        //         $other_bank = new OthersBank();
+        //         $date = $other_bank->registerOtherBank($request, $user_id);
+        //     };
+        // });
+
+        // // セッションをリセット
+        // $request->session()->forget('bank_type');
+        // $request->session()->forget('bank_id');
+
+        // // 銀行の編集画面にリダイレクト処理
+        // $url = '';
+        // if(Auth::user()->status == 0) {
+        //     $url = 'mypage.u.bank.show';
+        // } else {
+        //     $url = 'mypage.t.bank.show';
+        // }
+        // return redirect(route($url));
     }
 }

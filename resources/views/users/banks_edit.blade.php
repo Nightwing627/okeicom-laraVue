@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends((Auth::user()->status == 0)?'layouts.user':'layouts.teacher')
 
 {{--  タイトル・メタディスクリプション  --}}
 @section('title', '銀行情報編集')
@@ -24,8 +24,13 @@
         </div>
     @endif
 
-    <form method="post" action="@if(Auth::user()->status == 0) {{ route('mypage.u.bank.update') }} @else(Auth::user()->status == 1) {{ route('mypage.t.bank.update') }} @endif">
+    <form method="post" action="{{ route('mypage.t.bank.update') }}">
+    {{--  <form method="post" action="@if(Auth::user()->status == 0) {{ route('mypage.u.bank.update') }} @else(Auth::user()->status == 1) {{ route('mypage.t.bank.update') }} @endif">  --}}
         @csrf
-        <user-bank-component :bank-date={{ $bankDate }} target="{{ $target }}"></user-bank-component>
+        @if($bank)
+            <user-bank-component :bank-date={{ $bank ?? '' }} />
+        @else
+            <user-bank-component />
+        @endif
     </form>
 @endsection
