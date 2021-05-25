@@ -177,6 +177,7 @@
                 </div>
                 <vue-datepicker
                   v-model="lessonDate"
+                  name="date"
                   type="date"
                   :format="customFormatter"
                   :language="ja"
@@ -190,6 +191,7 @@
                 </div>
                 <vue-timepicker
                   v-model="lessonStart"
+                  name="start"
                   format="HH:mm"
                   hour-label="時間"
                   minute-label="分"
@@ -203,6 +205,7 @@
                 </div>
                 <vue-timepicker
                   v-model="lessonFinish"
+                  name="finish"
                   format="HH:mm"
                   hour-label="時間"
                   minute-label="分"
@@ -427,7 +430,7 @@
       },
       pickerClosed: function() {
         if(this.lessonDate){
-          this.lessonDate = moment(this.lesson.date).format('YYYY/MM/DD');
+          this.lessonDate = moment(this.lessonDate).format('YYYY/MM/DD');
         }
       },
       changeTab(tab) {

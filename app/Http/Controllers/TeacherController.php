@@ -518,8 +518,10 @@ class TeacherController extends Controller
      * @param LessonStoreRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function updateLessons(LessonStoreRequest $request)
+    // public function updateLessons(LessonStoreRequest $request)
+    public function updateLessons(Request $request)
     {
+        dd($request->all());
         $lesson = Lesson::find($request['lesson_id']);
         // レッスン更新処理
         $lesson->update([

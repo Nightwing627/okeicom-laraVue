@@ -65,6 +65,8 @@ Vue.component('teacher-course-detail-component', require('./components/teacher/C
 Vue.component('course-create-component', require('./components/course/CourseCreate.vue').default);
 // レッスン登録
 Vue.component('lesson-create-component', require('./components/lesson/LessonCreate.vue').default);
+// レッスン追加のモーダル
+Vue.component('modal-add-lesson', require('./components/modal/AddLesson.vue').default);
 
 /* [管理者画面] */
 // ユーザー編集

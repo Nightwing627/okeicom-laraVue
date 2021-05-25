@@ -349,6 +349,7 @@
       }
     },
     computed: {
+      // レッスン追加のバリデーションチェック
       checkLessonSubmit: function() {
         if(this.lesson.title == '') {
           return true
@@ -362,6 +363,7 @@
       customFormatter: function(date) {
         return moment(date).format('YYYY/MM/DD')
       },
+      // Datapickerを閉じる処理
       pickerClosed: function() {
         if(this.lesson.date){
           this.lesson.date = moment(this.lesson.date).format('YYYY/MM/DD');
@@ -560,6 +562,15 @@
         // event(=e)から画像データを取得する
         const image = e.target.files[0]
         this.createImage(image)
+      },
+      createImage(image) {
+        const reader = new FileReader()
+        // imageをreaderにDataURLとしてattachする
+        reader.readAsDataURL(image)
+        // readAdDataURLが完了したあと実行される処理
+        reader.onload = () => {
+          this.lesson.slide = reader.result
+        }
       },
       changeBroadcastType: function(type) {
         this.isBroadcastType = type

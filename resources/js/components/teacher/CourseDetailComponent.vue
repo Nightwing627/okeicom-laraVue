@@ -231,7 +231,7 @@
                       type="text"
                       name="price"
                       placeholder="半角数字を入力してください"
-                      @input="validate"
+                      @input="priceValidate"
                     >
                   </div>
                 </div>
@@ -339,7 +339,7 @@
               </p>
             </div>
             <div class="c-list--td">
-              <select-image
+              <select-list-image-component
                 :course="course"
               />
             </div>
@@ -351,9 +351,9 @@
               </p>
             </div>
             <div class="c-list--td">
-              <select-category
+              <select-list-category-component
                 :course="course"
-                :categorieslists="categoriesList"
+                :categories-list="categoriesList"
               />
             </div>
           </div>
@@ -488,21 +488,14 @@
 <script>
   import moment from "moment"
   import 'moment/locale/ja'
-  // import VueTimepicker from './../../components/common/Vue2TimepickerComponent.vue'
-  // import VuejsDatepickerComponent from "./../../components/common/VuejsDatepickerComponent.vue"
-  import SelectCategory from './../../components/store/SelectListCategoryComponent.vue'
-  import SelectImage from './../../components/store/SelectListImageComponent.vue'
+
   export default {
     components: {
-      SelectCategory,
-      SelectImage,
-      // 'vue-timepicker': VueTimepicker,
-      // 'vuejs-datepicker-component': VuejsDatepickerComponent,
     },
 
     props: {
       course: {
-        type: String,
+        type: Object,
         required: true
       },
       categoriesList: {
@@ -751,6 +744,10 @@
         this.arrayCourseLessons = JSON.stringify(this.lessonsDate);
         this.isLessonModal = false;
         this.changeModalEdit = false;
+      },
+      // 金額：半角数字のみのバリデーション
+      priceValidate: function() {
+        this.lessonPrice = this.lessonPrice.replace(/\D/g, '')
       },
 		},
   }

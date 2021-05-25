@@ -54,11 +54,11 @@
 </template>
 
 <script>
-  import ModalAddLesson from '../modal/AddLesson.vue'
+  // import ModalAddLesson from '../modal/AddLesson.vue'
   export default {
-    components: {
-      'modal-add-lesson': ModalAddLesson, // レッスン作成のコンポーネント
-    },
+    // components: {
+    //   'modal-add-lesson': ModalAddLesson, // レッスン作成のコンポーネント
+    // },
     props: {
       csrf: {
         type: String,

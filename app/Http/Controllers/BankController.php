@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\OthersBank;
-use App\Models\JapansBank;
+// use App\Models\OthersBank;
+// use App\Models\JapansBank;
+use App\Models\BankJapan;
+use App\Models\BankOther;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateBank;
 use Illuminate\Support\Facades\Auth;
@@ -13,16 +15,20 @@ use Illuminate\Support\Facades\Session;
 
 class BankController extends Controller
 {
-    private $others_bank;
-    private $japans_bank;
+    // private $others_bank;
+    // private $japans_bank;
+    private $bank_japan;
+    private $bank_other;
 
     public function __construct(
-        OthersBank $others_bank,
-        JapansBank $japans_bank,
+        // OthersBank $others_bank,
+        // JapansBank $japans_bank,
+        BankJapan $bank_japan,
+        BankOther $bank_other,
     )
     {
-        $this->others_bank = $others_bank;
-        $this->japans_bank = $japans_bank;
+        $this->others_bank = $bank_other;
+        $this->japans_bank = $bank_japan;
     }
 
     /**

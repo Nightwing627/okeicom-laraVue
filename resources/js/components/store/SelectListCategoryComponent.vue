@@ -36,7 +36,7 @@
         required: true
       },
       course: {
-        type: String,
+        type: Object,
         required: false,
         default: ''
       },
