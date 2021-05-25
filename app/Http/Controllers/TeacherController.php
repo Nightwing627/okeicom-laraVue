@@ -361,7 +361,7 @@ class TeacherController extends Controller
           $new_filename = $lesson['title'];
           Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
           $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
-          $converter = new OfficeConverter($ppt_path);
+          $converter = new OfficeConverter($ppt_path, null, '/Applications/LibreOffice.app/Contents/MacOS/soffice', true);
           $converter->convertTo($new_filename.'.pdf');
           // ランダムな整数を配列に入れる
           $models[$index] = Lesson::make($lesson);

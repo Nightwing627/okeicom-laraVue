@@ -16,7 +16,7 @@ class CreateBankJapansTable extends Migration
         Schema::create('bank_japans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('bank_id')->comment('銀行ID')->constrained();
-            $table->unsignedTinyInteger('mark')->comment('口座記号');
+            $table->unsignedInteger('mark')->comment('口座記号');
             $table->timestamps();
         });
     }

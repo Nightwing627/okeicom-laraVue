@@ -17,7 +17,7 @@ class CreateBanksTable extends Migration
             $table->id();
             $table->foreignId('user_id')->comment('ユーザーID')->constrained();
             $table->string('type', 5)->comment('口座タイプ');
-            $table->unsignedTinyInteger('number')->comment('口座番号');
+            $table->unsignedInteger('number')->comment('口座番号');
             $table->string('name', 255)->comment('口座名義人');
             $table->timestamps();
             $table->softDeletes();

@@ -41,7 +41,7 @@
                         <p class="main">口座記号</p>
                     </div>
                     <div class="c-list--td">
-                        <p>@if(isset($bankDate->mark))  {{ $bankDate->mark }}  @endif</p>
+                        <p>@if(isset($bank->japan_mark)) {{ $bank->japan_mark }} @endif</p>
                     </div>
                 </div>
                 <div class="c-list--tr">
@@ -49,7 +49,7 @@
                         <p class="main">口座番号</p>
                     </div>
                     <div class="c-list--td">
-                        <p>@if(isset($bankDate->number)) {{ $bankDate->number }} @endif</p>
+                        <p>@if(isset($bank->number)) {{ $bank->number }} @endif</p>
                     </div>
                 </div>
                 <div class="c-list--tr">
@@ -57,7 +57,7 @@
                         <p class="main">口座名義人</p>
                     </div>
                     <div class="c-list--td">
-                        <p>@if(isset($bankDate->name)) {{ $bankDate->name }} @endif</p>
+                        <p>@if(isset($bank->name)) {{ $bank->name }} @endif</p>
                     </div>
                 </div>
             @elseif($bank->type === 'other')

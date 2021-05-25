@@ -56,12 +56,12 @@
         </div>
         <div class="c-list--td">
           <input
+            v-model="bank.yuchoMark"
             class="u-w300_pc"
             type="number"
             name="yucho_mark"
             placeholder="12345"
             required="required"
-            :value="bankDate.mark"
           >
         </div>
       </div>
@@ -73,12 +73,12 @@
         </div>
         <div class="c-list--td">
           <input
+            v-model="bank.yuchoNumber"
             class="u-w300_pc"
             type="number"
             name="yucho_number"
             placeholder="1234567"
             required="required"
-            :value="bankDate.japan_number"
           >
         </div>
       </div>
@@ -90,12 +90,12 @@
         </div>
         <div class="c-list--td">
           <input
+            v-model="bank.yuchoName"
             class="u-w300_pc"
             type="text"
             name="yucho_name"
             placeholder="ヤマダタロウ（全角カタカナ）"
             required="required"
-            :value="bankDate.japan_name"
           >
         </div>
       </div>
@@ -137,11 +137,11 @@
         </div>
         <div class="c-list--td">
           <input
+            v-model="bank.financialName"
             class="u-w300_pc"
             type="text"
             name="other_financial_name"
             placeholder="金融機関名を入力"
-            :value="bankDate.financial_name"
             required="required"
           >
         </div>
@@ -154,11 +154,11 @@
         </div>
         <div class="c-list--td">
           <input
+            v-model="bank.branchName"
             class="u-w300_pc"
             type="text"
             name="other_branch_name"
             placeholder="支店名を入力"
-            :value="bankDate.branch_name"
             required="required"
           >
         </div>
@@ -171,11 +171,11 @@
         </div>
         <div class="c-list--td">
           <input
+            v-model="bank.branchNumber"
             class="u-w300_pc"
             type="number"
             name="other_branch_number"
             placeholder="000"
-            :value="bankDate.branch_number"
             required="required"
           >
         </div>
@@ -190,8 +190,8 @@
           <div class="c-selectBox u-w100">
             <!-- <select name="other_type" v-model="banktype" required="required"> -->
             <select
+              v-model="bank.otherType"
               name="other_type"
-              :value="banktype"
               required="required"
             >
               <option value="0">
@@ -212,11 +212,11 @@
         </div>
         <div class="c-list--td">
           <input
+            v-model="bank.otherNumber"
             class="u-w300_pc"
             type="number"
             name="other_number"
             placeholder="1234567"
-            :value="bankDate.other_number"
             required="required"
           >
         </div>
@@ -229,11 +229,11 @@
         </div>
         <div class="c-list--td">
           <input
+            v-model="bank.otherName"
             class="u-w300_pc"
             type="text"
             name="other_name"
-            placeholder="口座名義人を入力"
-            :value="bankDate.other_name"
+            placeholder="ヤマダタロウ（全角カタカナ）"
             required="required"
           >
         </div>
@@ -269,17 +269,52 @@
 	export default {
     props: {
       bankDate: {
-        type: Array,
+        type: Object,
         required: false,
-        default: () => []
+        default: () => ({})
+      },
+      old: {
+        type: Object,
+        required: false,
+        default: () => ({})
       },
     },
 		data() {
 			return {
-        isBarTab: this.bankDate.type ?? 'japan',
-        banktype: this.bankDate.type ?? 'japan',
+        bank: {
+          yuchoMark: this.old.yucho_mark ?? '',
+          yuchoNumber: this.old.yucho_number ?? '',
+          yuchoName: this.old.yucho_name ?? '',
+          financialName: this.old.other_financial_name ?? '',
+          branchName: this.old.other_branch_name ?? '',
+          branchNumber: this.old.other_branch_number ?? '',
+          otherType: this.old.other_type ?? 0,
+          otherNumber: this.old.other_number ?? '',
+          otherName: this.old.other_name ?? '',
+        },
+        isBarTab: this.old.bankDate ?? 'japan',
+        banktype: this.old.bankDate ?? 'japan',
 			}
-		},
+    },
+    created: function () {
+      // if(this.old.yucho_mark) {
+      //   this.isBarTab = 'japan'
+      // } else if(this.old.other_financial_name) {
+      //   this.isBarTab = 'other'
+      // }
+      if(this.bankDate.type === 'japan') {
+          this.bank.yuchoMark = this.bankDate.japan_mark ?? ''
+          this.bank.yuchoNumber = this.bankDate.number ?? ''
+          this.bank.yuchoName = this.bankDate.name ?? ''
+      } else if(this.bankDate.type === 'other') {
+          this.bank.financialName = this.obankDateld.yucho_mark ?? ''
+          this.bank.branchName = this.bankDate.yucho_mark ?? ''
+          this.bank.branchNumber = this.bankDate.yucho_mark ?? ''
+          this.bank.otherType = this.bankDate.yucho_mark ?? ''
+          this.bank.otherNumber = this.bankDate.yucho_mark ?? ''
+          this.bank.otherName = this.bankDate.yucho_mark ?? ''
+      }
+    },
 		methods: {
 			changeTab: function(type){
 				this.isBarTab = type
