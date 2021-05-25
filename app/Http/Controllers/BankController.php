@@ -43,6 +43,7 @@ class BankController extends Controller
         $userId = Auth::id();
         $bankNew = new Bank();
         $bank = $bankNew->showBank($userId);
+
         return view('users.banks_show', compact('bank'));
         // 銀行情報を取得する
 
@@ -60,7 +61,7 @@ class BankController extends Controller
 
     /**
      *
-     * 銀行口座情報 編集
+     * 銀行口座情報 編集画面
      *
      */
     public function edit()
@@ -110,66 +111,18 @@ class BankController extends Controller
         $banks = $request->validated();
         $userId = Auth::id();
 
-        DB::beginTransaction();
-        try {
-            // 前の銀行情報を物理削除
-            $oldBank = Bank::where('user_id' ,$userId)->first();
-            if($oldBank) {
-                $oldBankId = $oldBank->id;
-                // ゆうちょの銀行情報
-                if($oldBank->type === 'japan') {
-                    BankJapan::where('bank_id', $oldBankId)->delete();
-                // その他の銀行情報
-                } else if($oldBank->type === 'other') {
-                    BankOther::where('bank_id', $oldBankId)->delete();
-                }
-                $oldBank->delete();
-            }
-            // 新しく銀行情報を登録する
-            $bankNew = new Bank();
-            if($banks['yucho_mark']) {
-                // 銀行テーブル登録
-								$bankLast = $bankNew::create([
-										'user_id' => $userId,
-										'type' 		=> 'japan',
-										'number'  => $banks['yucho_number'],
-										'name'    => $banks['yucho_name'],
-                ]);
-                $lastId = $bankLast->id;
+        // 銀行情報の登録処理を呼び出す
+        $bankNew = new Bank();
+        $target = $bankNew->storeBank($banks, $userId);
 
-                // ゆうちょテーブル登録
-                $bankJapanNew = new BankJapan();
-								$bankJapanNew::create([
-										'bank_id'  => $lastId,
-										'mark'     => $banks['yucho_mark'],
-                ]);
-            } else {
-								dd('NO');
-                // 銀行テーブル登録
-                $bankNew->user_id = $userId;
-                $bankNew->type    = 'other';
-                $bankNew->number  = $banks['other_number'];
-                $bankNew->name    = $banks['other_name'];
-                $bankNew->save();
-                $lastId = $bankNew->id;
-
-                // その他テーブル登録
-                $bankNewOther = new BankOther();
-                $bankNewOther->bank_id        = $banks['other_number'];
-                $bankNewOther->financial_name = $banks['other_number'];
-                $bankNewOther->branch_name    = $banks['other_number'];
-                $bankNewOther->branch_number  = $banks['other_number'];
-                $bankNewOther->type           = $banks['other_number'];
-						}
-            DB::commit();
+        // エラーがあるか確認の処理
+        if($target === 'true') {
             return redirect(route('mypage.t.bank.show'));
-        } catch(\Exception $e) {
-            DB::rollBack();
-            $error = '登録に失敗しました。再度、ご登録をお願いいたします。';
-            return back()->withInput()->withErrors($error);
+        } else {
+            return back()->withInput()->withErrors($target);
         }
-        $error = '不明なエラーが発生しました。管理者へお問い合わせください。';
-        return back()->withInput()->withErrors($error);
+
+
         // // バージョン1
         // /* パラーメーター設定 */
         // // バリデーションの値を取得する

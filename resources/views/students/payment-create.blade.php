@@ -1,4 +1,5 @@
-@extends(($user_status == 0)?'layouts.user-single':'layouts.teacher-single')
+{{--  @extends(($user_status == 0)?'layouts.user-single':'layouts.teacher-single')  --}}
+@extends('layouts.teacher-single')
 
 {{-- タイトル・メタディスクリプション --}}
 @section('title', '出金リクエスト')
@@ -30,7 +31,14 @@
                             <p class="u-mt5" style="text-align: center;">手数料：¥{{ number_format(Session::get('commission')) }}（{{ Session::get('fee') }}%）</p>
                         </div>
                     </div>
-                    <user-payment-component :bank-date={{ $bankDate }} target="{{ $target }}"></user-payment-component>
+                    {{--  <user-payment-component
+                      :bank-date={{ $bankDate }}
+                      target="{{ $target }}"
+                    />  --}}
+                    <user-payment-component
+                      :bank-date={{ $bankDate }}
+                      :old="{{ json_encode(Session::getOldInput()) }}"
+                    />
                 </div>
             </div>
             <div class="l-button--submit">

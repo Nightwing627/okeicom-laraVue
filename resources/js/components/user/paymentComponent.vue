@@ -42,27 +42,22 @@
         <div class="c-button--tab--inner">
           <div
             class="c-button--tab--box"
-            :class="{'selected': isBankPanel === '0'}"
-            @click.prevent="changeBankTab('0')"
+            :class="{'selected': isBarTab === 'japan'}"
+            @click.prevent="changeTab('japan')"
           >
             ゆうちょ
           </div>
           <div
             class="c-button--tab--box"
-            :class="{'selected': isBankPanel === '1'}"
-            @click.prevent="changeBankTab('1')"
+            :class="{'selected': isBarTab === 'other'}"
+            @click.prevent="changeTab('other')"
           >
             その他
           </div>
-          <input
-            v-model="bankType"
-            type="hidden"
-            name="bank_type"
-          >
         </div>
       </div>
       <div
-        v-if="isBankPanel === '0'"
+        v-if="isBarTab === 'japan'"
         class="l-content--panel"
       >
         <div class="l-content--input">
@@ -70,10 +65,10 @@
             口座記号
           </p>
           <input
+            v-model="bank.yuchoMark"
             type="text"
             name="yucho_mark"
             placeholder="12345"
-            :value="bankDate.mark"
             required="required"
           >
         </div>
@@ -82,10 +77,10 @@
             口座番号
           </p>
           <input
+            v-model="bank.yuchoNumber"
             type="text"
             name="yucho_number"
             placeholder="1234567"
-            :value="bankDate.japan_number"
             required="required"
           >
         </div>
@@ -94,16 +89,16 @@
             口座名義人
           </p>
           <input
+            v-model="bank.yuchoName"
             type="text"
             name="yucho_name"
             placeholder="ヤマダタロウ（全角カタカナ）"
-            :value="bankDate.japan_name"
             required="required"
           >
         </div>
       </div>
       <div
-        v-else-if="isBankPanel === '1'"
+        v-else-if="isBarTab === 'other'"
         class="l-content--panel"
       >
         <div class="l-content--input">
@@ -111,10 +106,10 @@
             金融機関名
           </p>
           <input
+            v-model="bank.financialName"
             type="text"
             name="other_financial_name"
-            placeholder="ABC銀行"
-            :value="bankDate.financial_name"
+            placeholder="金融機関名を入力"
             required="required"
           >
         </div>
@@ -123,10 +118,10 @@
             支店名
           </p>
           <input
+            v-model="bank.branchName"
             type="text"
             name="other_branch_name"
-            placeholder="本店"
-            :value="bankDate.branch_name"
+            placeholder="支店名を入力"
             required="required"
           >
         </div>
@@ -135,21 +130,21 @@
             支店番号
           </p>
           <input
+            v-model="bank.branchNumber"
             type="text"
             name="other_branch_number"
-            placeholder="123"
-            :value="bankDate.branch_number"
+            placeholder="000"
             required="required"
           >
         </div>
         <div class="l-content--input u-w50per">
           <p class="l-content--input__headline">
-            口座種別
+            預金種目
           </p>
           <div class="c-selectBox">
             <select
+              v-model="bank.otherType"
               name="other_type"
-              :value="bankType"
               required="required"
             >
               <option value="0">
@@ -166,10 +161,10 @@
             口座番号
           </p>
           <input
+            v-model="bank.otherNumber"
             type="text"
             name="other_number"
             placeholder="1234567"
-            :value="bankDate.other_number"
             required="required"
           >
         </div>
@@ -178,10 +173,10 @@
             口座名義人
           </p>
           <input
+            v-model="bank.otherName"
             type="text"
             name="other_name"
             placeholder="ヤマダタロウ（全角カタカナ）"
-            :value="bankDate.other_name"
             required="required"
           >
         </div>
@@ -193,34 +188,52 @@
 	export default {
     props: {
       bankDate: {
-        type: Array,
-        required: true
+        type: Object,
+        required: false,
+        default: () => ({})
       },
-      target: {
-        type: Number,
-        required: true
+      old: {
+        type: Object,
+        required: false,
+        default: () => ({})
       },
     },
 		data() {
 			return {
-				isBarTab: this.target ?? '0',
-				// ゆうちょ or その他銀行
-        isBankPanel: '0',
-        bankType: this.bankDate.type ?? '0',
+        bank: {
+          yuchoMark: this.old.yucho_mark ?? '',
+          yuchoNumber: this.old.yucho_number ?? '',
+          yuchoName: this.old.yucho_name ?? '',
+          financialName: this.old.other_financial_name ?? '',
+          branchName: this.old.other_branch_name ?? '',
+          branchNumber: this.old.other_branch_number ?? '',
+          otherType: this.old.other_type ?? 0,
+          otherNumber: this.old.other_number ?? '',
+          otherName: this.old.other_name ?? '',
+        },
+        isBarTab: this.old.bankDate ?? 'japan',
+        banktype: this.old.bankDate ?? 'japan',
 			}
 		},
 		created: function() {
       // 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
+      if(this.bankDate.type === 'japan') {
+          this.bank.yuchoMark = this.bankDate.japan_mark ?? ''
+          this.bank.yuchoNumber = this.bankDate.number ?? ''
+          this.bank.yuchoName = this.bankDate.name ?? ''
+      } else if(this.bankDate.type === 'other') {
+          this.bank.financialName = this.bankDate.financial_name ?? ''
+          this.bank.branchName = this.bankDate.branch_name ?? ''
+          this.bank.branchNumber = this.bankDate.branch_number ?? ''
+          this.bank.otherType = this.bankDate.other_type ?? ''
+          this.bank.otherNumber = this.bankDate.number ?? ''
+          this.bank.otherName = this.bankDate.name ?? ''
+      }
 		},
 		methods: {
 			// 講師詳細：
-			changeTab: function(num){
-				this.isBarTab = num
-			},
-			// ゆうちょ or その他銀行
-			changeBankTab: function(num){
-        this.isBankPanel = num
-        this.bankType = num
+			changeTab: function(type){
+				this.isBarTab = type
 			},
 		},
 	}

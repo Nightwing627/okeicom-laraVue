@@ -14,6 +14,6 @@ class BankOther extends Model
         'financial_name',
         'branch_name',
         'branch_number',
-        'type',
+        'other_type',
     ];
 }

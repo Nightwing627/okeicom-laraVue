@@ -19,7 +19,7 @@ class CreateBankOthersTable extends Migration
             $table->string('financial_name', 255)->comment('金融機関名');
             $table->string('branch_name', 255)->comment('支店名');
             $table->string('branch_number', 255)->comment('支店番号');
-            $table->unsignedInteger('type')->comment('口座種別');
+            $table->unsignedInteger('other_type')->comment('口座種別');
             $table->timestamps();
         });
     }

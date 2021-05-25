@@ -303,16 +303,20 @@
       //   this.isBarTab = 'other'
       // }
       if(this.bankDate.type === 'japan') {
+          this.isBarTab = 'japan',
+          this.banktype = 'japan',
           this.bank.yuchoMark = this.bankDate.japan_mark ?? ''
           this.bank.yuchoNumber = this.bankDate.number ?? ''
           this.bank.yuchoName = this.bankDate.name ?? ''
       } else if(this.bankDate.type === 'other') {
-          this.bank.financialName = this.obankDateld.yucho_mark ?? ''
-          this.bank.branchName = this.bankDate.yucho_mark ?? ''
-          this.bank.branchNumber = this.bankDate.yucho_mark ?? ''
-          this.bank.otherType = this.bankDate.yucho_mark ?? ''
-          this.bank.otherNumber = this.bankDate.yucho_mark ?? ''
-          this.bank.otherName = this.bankDate.yucho_mark ?? ''
+          this.isBarTab = 'other',
+          this.banktype = 'other',
+          this.bank.financialName = this.bankDate.financial_name ?? ''
+          this.bank.branchName = this.bankDate.branch_name ?? ''
+          this.bank.branchNumber = this.bankDate.branch_number ?? ''
+          this.bank.otherType = this.bankDate.other_type ?? ''
+          this.bank.otherNumber = this.bankDate.number ?? ''
+          this.bank.otherName = this.bankDate.name ?? ''
       }
     },
 		methods: {
