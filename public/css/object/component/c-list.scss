@@ -211,7 +211,7 @@ content
     }
     .c-list--td {
         flex: 1;
-        input:not([type=checkbox]):not([type=radio]),
+        input:not([type=checkbox]):not([type=radio]):not([type=file]),
         select,
         textarea {
             border: 1px solid #B4B4B4;

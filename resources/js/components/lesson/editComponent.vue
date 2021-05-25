@@ -126,7 +126,7 @@
         </div>
         <!-- case：放送タイプが動画埋め込みの場合 -->
         <div
-          v-if="lesson.type === 0 || 1"
+          v-if="lesson.type !== 2"
           class="c-list--tr"
         >
           <div class="c-list--th">
@@ -145,7 +145,7 @@
         </div>
         <!-- case：放送タイプがスライドの場合 -->
         <div
-          v-if="lesson.type === 2"
+          v-else-if="lesson.type === 2"
           class="c-list--tr"
         >
           <div class="c-list--th">
@@ -159,6 +159,7 @@
               name="slide"
               placeholder="スライドファイル"
               accept="application/vnd.openxmlformats-officedocument.presentationml.presentation,.pptx,application/vnd.ms-powerpoint,.ppt"
+              @change="onImageUploaded"
             >
           </div>
         </div>
@@ -174,29 +175,39 @@
                 <div class="l-content--input__headline">
                   開始日
                 </div>
-                <!-- <vuejs-datepicker-component
-                    name="date"
-                    :value="lessonDate"
-                    @input="val => lessonDate = val"
-                ></vuejs-datepicker-component> -->
+                <vue-datepicker
+                  v-model="lessonDate"
+                  type="date"
+                  :format="customFormatter"
+                  :language="ja"
+                  :disabled-dates="disabledDates"
+                  @closed="pickerClosed"
+                />
               </div>
               <div class="l-content--input__three u-w49per_sp">
                 <div class="l-content--input__headline">
                   開始時間
                 </div>
-                <!-- <vue-timepicker
-                    name="start"
-                    hour-label="時間"
-                    minute-label="分"
-                    :value="lessonStart"
-                    @input="val => lessonStart = val"
-                    :minute-interval="5"
-                ></vue-timepicker> -->
+                <vue-timepicker
+                  v-model="lessonStart"
+                  format="HH:mm"
+                  hour-label="時間"
+                  minute-label="分"
+                  :minute-interval="5"
+                  :highlighted="highlighted"
+                />
               </div>
               <div class="l-content--input__three u-w49per_sp">
                 <div class="l-content--input__headline">
                   終了時間
                 </div>
+                <vue-timepicker
+                  v-model="lessonFinish"
+                  format="HH:mm"
+                  hour-label="時間"
+                  minute-label="分"
+                  :minute-interval="5"
+                />
                 <!-- <vue-timepicker
                     name="finish"
                     hour-label="時間"
@@ -259,7 +270,7 @@
                 type="text"
                 name="price"
                 placeholder="半角数字を入力してください"
-                @input="validate"
+                @input="priceValidate"
               >
             </div>
             <!-- <input type="" name="" placeholder="半角数字を入力してください"> -->
@@ -340,11 +351,18 @@
   import axios from 'axios'
   import moment from "moment"
   import 'moment/locale/ja'
-  import { datetotime } from '../library/filters.ts'
+  import VueDatepicker from 'vuejs-datepicker'
+  import VueTimepicker from 'vue2-timepicker'
+  import 'vue2-timepicker/dist/VueTimepicker.css'
+  import {ja} from 'vuejs-datepicker/dist/locale'
   // import VueTimepicker from './../../components/common/Vue2TimepickerComponent.vue'
   // import VuejsDatepickerComponent from "./../../components/common/VuejsDatepickerComponent.vue"
 
   export default {
+    components: {
+      'vue-datepicker': VueDatepicker,
+      'vue-timepicker': VueTimepicker,
+    },
     props: {
       lesson: {
         type: Object,
@@ -355,17 +373,22 @@
         required: true
       },
       param: {
-        type: String,
+        type: Number,
         required: true
-      },
+      }
     },
-		setup () {
-			return {
-				datetotime
-			}
-		},
 		data() {
 			return {
+        // Datepickerを日本語化する
+        ja:ja,
+        // レッスンの日付を今日以降にする
+        disabledDates: {
+          to: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
+        },
+        // ハイライトを付与する
+        highlighted: {
+          to: new Date
+        },
         // isBarTab: '1',
         isBarTab: this.param,
         // 参加者詳細モーダル
@@ -398,6 +421,15 @@
       )
     },
 		methods: {
+      // 開始日のフォーマット
+      customFormatter: function(date) {
+        return moment(date).format('YYYY/MM/DD')
+      },
+      pickerClosed: function() {
+        if(this.lessonDate){
+          this.lessonDate = moment(this.lesson.date).format('YYYY/MM/DD');
+        }
+      },
       changeTab(tab) {
         this.isBarTab = tab
       },
@@ -415,7 +447,17 @@
           .catch(result => {
             console.log(result);
           })
-      }
+      },
+      // レッスンスライドを追加する
+      onImageUploaded(e) {
+        // event(=e)から画像データを取得する
+        const image = e.target.files[0]
+        this.createImage(image)
+      },
+      // 金額：半角数字のみのバリデーション
+      priceValidate: function() {
+        this.lessonPrice = this.lessonPrice.replace(/\D/g, '')
+      },
     },
 	}
 </script>

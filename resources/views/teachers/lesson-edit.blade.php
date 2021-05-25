@@ -52,13 +52,12 @@
             <p>{{ session('success') }}</p>
         </div>
     @endif
-
-    <form action="{{ route('mypage.t.lessons.update', ['lesson_id' => $lesson->id, 'courses_id' => $lesson->course_id, 'type' => $lesson->type]) }}" method="POST">
+    <form action="{{ route('mypage.t.lessons.update', ['lesson' => $lesson, 'lesson_id' => $lesson->id, 'courses_id' => $lesson->course_id]) }}" method="POST">
         @csrf
         <lesson-edit-component
             :lesson="{{ $lesson }}"
             :applications="{{ json_encode($applications) }}"
             :param="{{ $_GET['param'] ?? 1 }}"
-        ></lesson-edit-component>
+        />
     </form>
 @endsection

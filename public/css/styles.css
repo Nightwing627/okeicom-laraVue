@@ -3114,7 +3114,7 @@ content
     margin-top: .5em; } }
 .c-list--table .c-list--td {
   flex: 1; }
-.c-list--table .c-list--td input:not([type=checkbox]):not([type=radio]), .c-list--table .c-list--td select, .c-list--table .c-list--td textarea {
+.c-list--table .c-list--td input:not([type=checkbox]):not([type=radio]):not([type=file]), .c-list--table .c-list--td select, .c-list--table .c-list--td textarea {
   border: 1px solid #B4B4B4;
   width: 100%;
   padding: 10px;
