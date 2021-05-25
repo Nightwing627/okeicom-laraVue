@@ -24,5 +24,5 @@
 
 <!-- 本文 -->
 @section('content')
-	<admin-user-edit-component></admin-user-edit-component>
+	<admin-user-edit-component :user-id="{{ $userId }}"/>
 @endsection

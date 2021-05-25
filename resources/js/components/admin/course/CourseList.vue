@@ -26,7 +26,12 @@
         </td>
         <td>{{ course.detail }}</td>
         <td>
-          {{ course.user_name ? course.user_name : '' }}
+          <a
+            :href="`/owner-admin/users/edit/${course.user_id}`"
+            class="u-text--link"
+          >
+            {{ course.user_name ? course.user_name : '' }}
+          </a>
         </td>
         <!-- <td>
           <div class="c-button--edit">
@@ -60,9 +65,7 @@
       axios.get('/api/v1/courses', {})
         .then(result => {
           // 管理者の承認が実行されていない出金リクエストを取得する
-          this.courses = result.data.filter(date => {
-            return date.verified_at == null;
-          });
+          this.courses = result.data;
         })
         .catch(result => {
           console.log(result)

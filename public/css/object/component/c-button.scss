@@ -218,7 +218,7 @@
     @include mq_up(md) {
         margin-bottom: 20px;
     }
-    a {
+    a, button {
         position: relative;
         display: inline-block;
         padding: 10px 60px 10px 30px;
@@ -226,6 +226,7 @@
         border: 1px solid #ED6C73;
         color: #ED6C73;
         font-weight: 700;
+        background: #fff;
         &:before {
             content: "";
             display: block;

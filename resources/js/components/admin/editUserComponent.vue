@@ -1,181 +1,361 @@
 <template>
-	<div class="l-wrap--owner--main single-page">
-		<div class="l-wrap--owner--main--inner">
-			<div class="l-wrap--owner--header">
-				<div class="l-wrap--owner--header--title">
-					<a href="" class="c-link--back">ユーザー一覧へ戻る</a>
-					<p>ユーザー詳細</p>
-				</div>
-				<div class="l-wrap--owner--header--button">
-					<div class="c-button--minus">
-						<a href="">ユーザーを削除する</a>
-					</div>
-				</div>
-			</div>
-			<div class="l-wrap--owner--body">
-				<div class="l-wrap--owner--body--inner">
-					<div class="c-list--table">
-						<div class="c-list--tr">
-							<div class="c-list--th">
-								<p class="main">プロフィール画像</p>
-							</div>
-							<div class="c-list--td">
-								<div class="c-img--preview u-ml0_pc">
-									<div class="c-img--preview--image c-img--cover">
-										<img :src="data.image">
-									</div>
-									<span class="c-img--preview--button">
-										<div class="c-img--preview--button--inner">
-											<img src="/img/common/icon-camera-black.png">
-											<input type="file" ref="file" @change="setImage"/>
-										</div>
-									</span>
-								</div>
-							</div>
-						</div>
-						<div class="c-list--tr">
-							<div class="c-list--th">
-								<p class="main">アカウント名</p>
-								<p class="sub">アカウント名は変更できません。</p>
-							</div>
-							<div class="c-list--td">
-								<input type="" name="" class="c-input--fixed" disabled value="aaaa">
-							</div>
-						</div>
-						<div class="c-list--tr">
-							<div class="c-list--th">
-								<p class="main">ユーザーネーム</p>
-								<p class="sub">サイトに表示する名前です。<br>20文字以内です。</p>
-							</div>
-							<div class="c-list--td">
-								<input type="" name="" value="中澤　寛">
-							</div>
-						</div>
-						<div class="c-list--tr">
-							<div class="c-list--th">
-								<p class="main">パスワード</p>
-							</div>
-							<div class="c-list--td">
-								<input type="" name="" value="強制的に上書きされます">
-							</div>
-						</div>
-						<div class="c-list--tr">
-							<div class="c-list--th">
-								<p class="main">性別</p>
-								<p class="sub">性別は変更できません。</p>
-							</div>
-							<div class="c-list--td">
-								<input type="" name="" class="c-input--fixed" disabled value="男性">
-							</div>
-						</div>
-						<div class="c-list--tr">
-							<div class="c-list--th">
-								<p class="main">国籍</p>
-							</div>
-							<div class="c-list--td">
-								<input type="" name="" value="日本">
-							</div>
-						</div>
-						<div class="c-list--tr">
-							<div class="c-list--th">
-								<p class="main">言語</p>
-							</div>
-							<div class="c-list--td">
-								<input type="" name="" value="日本語">
-							</div>
-						</div>
-						<div class="c-list--tr">
-							<div class="c-list--th">
-								<p class="main">都道府県</p>
-							</div>
-							<div class="c-list--td">
-								<div class="c-selectBox">
-									<select>
-										<option>東京</option>
-										<option>北海道</option>
-										<option>北海道</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="c-list--tr">
-							<div class="c-list--th">
-								<p class="main">カテゴリー</p>
-							</div>
-							<div class="c-list--td">
-								<div class="c-selectBox u-mb5">
-									<select>
-										<option>カテゴリー1</option>
-										<option>カテゴリー2</option>
-										<option>カテゴリー3</option>
-									</select>
-								</div>
-								<div class="c-selectBox u-mb5">
-									<select>
-										<option>カテゴリー1</option>
-										<option>カテゴリー2</option>
-										<option>カテゴリー3</option>
-									</select>
-								</div>
-								<div class="c-selectBox u-mb5">
-									<select>
-										<option>カテゴリー1</option>
-										<option>カテゴリー2</option>
-										<option>カテゴリー3</option>
-									</select>
-								</div>
-								<div class="c-selectBox u-mb5">
-									<select>
-										<option>カテゴリー1</option>
-										<option>カテゴリー2</option>
-										<option>カテゴリー3</option>
-									</select>
-								</div>
-								<div class="c-selectBox">
-									<select>
-										<option>カテゴリー1</option>
-										<option>カテゴリー2</option>
-										<option>カテゴリー3</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="c-list--tr">
-							<div class="c-list--th">
-								<p class="main">プロフィール</p>
-								<p class="sub">1000文字以内です。</p>
-							</div>
-							<div class="c-list--td">
-								<textarea value="あああ"></textarea>
-							</div>
-						</div>
-					</div>
-				</div>
+  <div class="l-wrap--owner--main single-page">
+    <div class="l-wrap--owner--main--inner">
+      <div class="l-wrap--owner--header">
+        <div class="l-wrap--owner--header--title">
+          <a
+            href="/owner-admin/users/"
+            class="c-link--back"
+          >
+            ユーザー一覧へ戻る
+          </a>
+          <p>ユーザー詳細</p>
+        </div>
+        <div class="l-wrap--owner--header--button">
+          <div class="c-button--minus">
+            <button
+              type="button"
+              @click.prevent="deleteUser(user.id)"
+            >
+              ユーザーを削除する
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="l-wrap--owner--body">
+        <div class="l-wrap--owner--body--inner">
+          <div class="c-list--table">
+            <div class="c-list--tr">
+              <div class="c-list--th">
+                <p class="main">
+                  プロフィール画像
+                </p>
+              </div>
+              <div class="c-list--td">
+                <div class="c-img--preview u-ml0_pc">
+                  <div class="c-img--preview--image c-img--cover">
+                    <img :src="data.image">
+                  </div>
+                  <span class="c-img--preview--button">
+                    <div class="c-img--preview--button--inner">
+                      <img src="/img/common/icon-camera-black.png">
+                      <input
+                        ref="file"
+                        type="file"
+                        @change="setImage"
+                      >
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="c-list--tr">
+              <div class="c-list--th">
+                <p class="main">
+                  アカウント名
+                </p>
+                <p class="sub">
+                  アカウント名は変更できません。
+                </p>
+              </div>
+              <div class="c-list--td">
+                <input
+                  v-model="user.account"
+                  type="text"
+                  name="account"
+                  class="c-input--fixed"
+                  disabled
+                >
+              </div>
+            </div>
+            <div class="c-list--tr">
+              <div class="c-list--th">
+                <p class="main">
+                  ユーザーネーム
+                </p>
+                <p class="sub">
+                  サイトに表示する名前です。
+                  <br>
+                  20文字以内です。
+                </p>
+              </div>
+              <div class="c-list--td">
+                <input
+                  v-model="user.name"
+                  type="text"
+                  name="name"
+                >
+              </div>
+            </div>
+            <!-- <div class="c-list--tr">
+              <div class="c-list--th">
+                <p class="main">
+                  パスワード
+                </p>
+              </div>
+              <div class="c-list--td">
+                <input
+                  v-model="user.password"
+                  type="password"
+                  name="password"
+                  class="c-input--fixed"
+                  disabled
+                >
+              </div>
+            </div> -->
+            <div class="c-list--tr">
+              <div class="c-list--th">
+                <p class="main">
+                  性別
+                </p>
+                <p class="sub">
+                  性別は変更できません。
+                </p>
+              </div>
+              <div class="c-list--td">
+                <input
+                  v-model="user.sex"
+                  type="text"
+                  name="sex"
+                  class="c-input--fixed"
+                  disabled
+                >
+              </div>
+            </div>
+            <div class="c-list--tr">
+              <div class="c-list--th">
+                <p class="main">
+                  国籍
+                </p>
+              </div>
+              <div class="c-list--td">
+                <input
+                  v-model="user.country_id"
+                  type="text"
+                  name="country_id"
+                  value="日本"
+                >
+              </div>
+            </div>
+            <div class="c-list--tr">
+              <div class="c-list--th">
+                <p class="main">
+                  言語
+                </p>
+              </div>
+              <div class="c-list--td">
+                <input
+                  v-model="user.language_id"
+                  type="text"
+                  name="language_id"
+                >
+              </div>
+            </div>
+            <div class="c-list--tr">
+              <div class="c-list--th">
+                <p class="main">
+                  都道府県
+                </p>
+              </div>
+              <div class="c-list--td">
+                <div class="c-selectBox">
+                  <select v-model="user.prerectire_id">
+                    <option
+                      v-for="(prefecture, index) in prefectures"
+                      :key="index"
+                      :value="prefecture.id"
+                    >
+                      {{ prefecture.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="c-list--tr">
+              <div class="c-list--th">
+                <p class="main">
+                  手数料
+                </p>
+              </div>
+              <div class="c-list--td">
+                <input
+                  v-model="user.commition_rate"
+                  type="text"
+                  name="commition_rate"
+                >
+              </div>
+            </div>
+            <div class="c-list--tr">
+              <div class="c-list--th">
+                <p class="main">
+                  カテゴリー
+                </p>
+              </div>
+              <div class="c-list--td">
+                <div class="c-selectBox u-mb5">
+                  <select v-model="user.category1_id">
+                    <option
+                      v-for="(category, index) in categories"
+                      :key="index"
+                      :value="category.id"
+                    >
+                      {{ category.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="c-selectBox u-mb5">
+                  <select v-model="user.category1_id">
+                    <option
+                      v-for="(category, index) in categories"
+                      :key="index"
+                      :value="category.id"
+                    >
+                      {{ category.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="c-selectBox u-mb5">
+                  <select v-model="user.category2_id">
+                    <option
+                      v-for="(category, index) in categories"
+                      :key="index"
+                      :value="category.id"
+                    >
+                      {{ category.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="c-selectBox u-mb5">
+                  <select v-model="user.category3_id">
+                    <option
+                      v-for="(category, index) in categories"
+                      :key="index"
+                      :value="category.id"
+                    >
+                      {{ category.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="c-selectBox u-mb5">
+                  <select v-model="user.category4_id">
+                    <option
+                      v-for="(category, index) in categories"
+                      :key="index"
+                      :value="category.id"
+                    >
+                      {{ category.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="c-list--tr">
+              <div class="c-list--th">
+                <p class="main">
+                  プロフィール
+                </p>
+                <p class="sub">
+                  1000文字以内です。
+                </p>
+              </div>
+              <div class="c-list--td">
+                <textarea
+                  v-model="user.profile"
+                  name="profile"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
-				<div class="l-button--submit">
-					<input type="subit" name="" value="変更内容を保存する" class="c-button--square__pink">
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="l-button--submit">
+          <button
+            type="button"
+            class="c-button--square__pink"
+            @click.prevent="updateUser(user.id)"
+          >
+            変更内容を保存する
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-	export default {
-        components: {
+  import axios from 'axios'
 
-        },
+	export default {
+    props: {
+      userId: {
+        type: Number,
+        required: true
+      }
+    },
 		data() {
 			return {
 				// 新規登録画像
 				data: {
 					image: "/img/sample-human.png",
 					name: "",
-				},
+        },
+        user: [],
+        prefectures: [],
+        categories: [],
 			}
 		},
-		created: function() {},
-		computed: {},
+    created: function() {
+      // ユーザー詳細取得処理
+      const userId = this.userId
+
+      // ユーザー詳細取得API
+      axios.get(`/api/v1/users/${userId}`)
+        .then(result => {
+          // 管理者の承認が実行されていない出金リクエストを取得する
+          this.user = result.data
+          if(this.user.sex === 0) {
+            this.user.sex = '不明'
+          } else if(this.user.sex === 1) {
+            this.user.sex = '男性'
+          } else if(this.user.sex === 2) {
+            this.user.sex = '女性'
+          }
+          console.log(this.user)
+        })
+        .catch(result => {
+          console.log(result)
+          alert('ユーザー詳細取得時にエラーが発生しました。')
+        })
+
+      // 都道府県一覧取得API
+      axios.get('/api/v1/prefectures')
+        .then(result => {
+          // 管理者の承認が実行されていない出金リクエストを取得する
+          this.prefectures = result.data;
+        })
+        .catch(result => {
+          console.log(result)
+          alert('都道府県一覧取得時にエラーが発生しました。')
+        })
+
+      // カテゴリー一覧取得API
+      axios.get('/api/v1/categories')
+        .then(result => {
+          this.categories = result.data;
+        })
+        .catch(result => {
+          console.log(result)
+          alert('カテゴリー一覧取得時にエラーが発生しました。')
+        })
+    },
 		methods: {
+      // ユーザー削除API
+      deleteUser(id) {
+        console.log(id)
+      },
+      // ユーザー更新API
+      updateUser(id) {
+
+      },
 			// ユーザーの画像
 			setImage(e) {
 				const files = this.$refs.file;
@@ -187,6 +367,5 @@
 				}
 			},
 		},
-		watch: {},
 	}
 </script>

@@ -27,8 +27,8 @@
           <li><a href="/mypage/u/messages/">メッセージ</a></li>
           <li><a href="/mypage/u/profile/">プロフィール</a></li>
           <!-- <li><a href="/mypage/u/">クレジットカード情報</a></li> -->
-          <li><a href="/mypage/u/bank/">銀行口座情報</a></li>
-          <li><a href="/mypage/u/trade/">入出金管理</a></li>
+          <!-- <li><a href="/mypage/u/bank/">銀行口座情報</a></li>
+          <li><a href="/mypage/u/trade/">入出金管理</a></li> -->
           <li><a href="/contact">運営にお問い合わせ</a></li>
         </ul>
         <ul class="menu-user--content">

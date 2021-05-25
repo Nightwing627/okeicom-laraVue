@@ -22,9 +22,9 @@ class UserSeeder extends Seeder
         $datas = [
             [
                 'name' => 'ユーザー1',
-                'email' => 'user1@example.com',
+                'email' => 'test1@test.com',
                 'tel' => '00000000000',
-                'password' => 'secret01',
+                'password' => 'password',
                 'account' => 'user1',
                 'status' => 1,
                 'is_teacher' => 1,
@@ -33,9 +33,9 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'ユーザー2',
-                'email' => 'user2@example.com',
+                'email' => 'test2@test.com',
                 'tel' => '00000000001',
-                'password' => 'secret02',
+                'password' => 'password',
                 'account' => 'user2',
                 'status' => 1,
                 'is_teacher' => 1,
@@ -44,9 +44,9 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'ユーザー3',
-                'email' => 'user3@example.com',
+                'email' => 'test3@test.com',
                 'tel' => '00000000002',
-                'password' => 'secret03',
+                'password' => 'password',
                 'account' => 'user3',
                 'status' => 0,
                 'is_teacher' => 0,

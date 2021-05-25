@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Models\Course;
+use App\Models\Prefecture;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CourseController extends Controller
+class PrefectureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +15,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courseNew = new Course();
-        $courses = $courseNew->courseList();
-        // $courses = Course::all();
-        return $courses;
+        $prefectures = Prefecture::all();
+        return $prefectures;
     }
 
     /**

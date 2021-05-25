@@ -49,7 +49,8 @@ class AdminController extends Controller
      */
     public function editUsers(Request $request)
     {
-        return view('admins.users-edit');
+        $userId = $request->id;
+        return view('admins.users-edit', compact('userId'));
     }
 
     /**
