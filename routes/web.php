@@ -197,8 +197,8 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
         Route::get('trade', [StudentController::class, 'trade'])->name('trade');
         Route::post('csv/export', [WithdrawalController::class, 'csvExport'])->name('trade.csv.export');
         Route::get('trade/withdrawal', [WithdrawalController::class, 'withdrawalRequest'])->name('payment.create');
-        Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
-        Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
+        Route::post('trade/withdrawal', [WithdrawalController::class, 'withdrawalRequestConfirmed'])->name('payment.store');
+        Route::get('trade/withdrawal/complete', [WithdrawalController::class, 'withdrawalRequestCompleted'])->name('payment.complete');
 
         // 銀行口座
         Route::get('bank', [BankController::class, 'show'])->name('bank.show');

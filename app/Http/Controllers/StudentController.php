@@ -439,62 +439,6 @@ class StudentController extends Controller
         return view('students.trade', compact('holding_amount', 'trade_months', 'trade_details', 'user_status'));
     }
 
-
-    /**
-     * 出金リクエスト処理
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function storePayment(Request $request)
-    {
-        $user_id = Auth::user()->id;
-        $user_status = Auth::user()->status;
-        $bank_type = $request->bank_type;
-
-        // 銀行情報と出金リクエスト登録
-        DB::transaction(function () use($request, $user_id, $bank_type) {
-            // １．銀行タイプから、条件分岐でゆうちょかそれ以外かに登録
-            // ２．情報を全て登録
-            $id = '';
-            if(session()->has('id')) {
-                $id = session('id');
-            } else {
-                if($bank_type == 0) {
-                    // ゆうちょ銀行
-                    $this->japans_bank->registerJapanBank($request, $user_id);
-                } elseif($bank_type == 1) {
-                    // その他銀行
-                    $this->others_bank->registerOtherBank($request, $user_id);
-                }
-                // ３．登録した銀行IDを取得
-                $id = DB::getPdo()->lastInsertId();
-            }
-
-            // ４．全てをwithdrawals tableに登録
-            $this->withdrawal->store($request, $user_id, $id);
-
-            // ５．出金完了メール送信
-            $user = Auth::user();
-            $email = new WithdrawalRequest($user, $request);
-            Mail::to(Auth::user()->email)->send($email);
-        });
-
-        // ５．取引履歴
-        return view('students.payment-complete', compact('user_status'));
-    }
-
-    /**
-     * 出金リクエスト完了ページ
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function completePayment(Request $request)
-    {
-        return view('students.payment-complete');
-    }
-
     /**
      * ステータス変更
      *

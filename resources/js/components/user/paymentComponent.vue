@@ -218,10 +218,14 @@
 		created: function() {
       // 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
       if(this.bankDate.type === 'japan') {
+          this.isBarTab = 'japan',
+          this.banktype = 'japan',
           this.bank.yuchoMark = this.bankDate.japan_mark ?? ''
           this.bank.yuchoNumber = this.bankDate.number ?? ''
           this.bank.yuchoName = this.bankDate.name ?? ''
       } else if(this.bankDate.type === 'other') {
+          this.isBarTab = 'other',
+          this.banktype = 'other',
           this.bank.financialName = this.bankDate.financial_name ?? ''
           this.bank.branchName = this.bankDate.branch_name ?? ''
           this.bank.branchNumber = this.bankDate.branch_number ?? ''

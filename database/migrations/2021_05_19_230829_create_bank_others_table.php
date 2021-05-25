@@ -21,6 +21,7 @@ class CreateBankOthersTable extends Migration
             $table->string('branch_number', 255)->comment('支店番号');
             $table->unsignedInteger('other_type')->comment('口座種別');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

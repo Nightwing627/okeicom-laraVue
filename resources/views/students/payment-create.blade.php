@@ -13,6 +13,13 @@
 
 {{-- 本文 --}}
 @section('content')
+    @if ($errors->any())
+    <div class="l-alart errorAlart" role="alert">
+        @foreach ($errors->all() as $error)
+        <p>{{ $error }}</p>
+        @endforeach
+    </div>
+    @endif
     <div class="l-wrap--single">
         <div class="l-wrap--title">
             <a class="c-link--back u-mb5" href="{{ url()->previous() }}">取引一覧へ戻る</a>
@@ -35,10 +42,16 @@
                       :bank-date={{ $bankDate }}
                       target="{{ $target }}"
                     />  --}}
-                    <user-payment-component
-                      :bank-date={{ $bankDate }}
-                      :old="{{ json_encode(Session::getOldInput()) }}"
-                    />
+                    @if($bankDate)
+                      <user-payment-component
+                        :bank-date={{ $bankDate }}
+                        :old="{{ json_encode(Session::getOldInput()) }}"
+                      />
+                    @else
+                      <user-payment-component
+                        :old="{{ json_encode(Session::getOldInput()) }}"
+                      />
+                    @endif
                 </div>
             </div>
             <div class="l-button--submit">

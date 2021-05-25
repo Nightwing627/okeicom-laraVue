@@ -31,7 +31,7 @@
               class="c-button--edit--link delete"
               @click="verifiedButton(withdrawal.id)"
             >
-              振込完了
+              完了
             </button>
           </div>
         </td>

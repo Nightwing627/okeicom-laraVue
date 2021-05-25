@@ -13,7 +13,6 @@ class Withdrawal extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'user_id',
-        'bank_type',
         'bank_id',
         'amount',
         'fee',
@@ -26,15 +25,14 @@ class Withdrawal extends Model
      *
      * @return string
      */
-    public function store($params, $user_id, $id)
+    public function store($id, $userId)
     {
         // DB::table('withdrawals')->create([
         $withdrawal = new Withdrawal();
         $withdrawal::create([
-            'user_id'   => $user_id,
-            'bank_type' => $params->bank_type,
+            'user_id'   => $userId,
             'bank_id'   => $id,
-            'amount'    => Session::get('amount'),
+            'amount'    => Session::get('holding_amount'),
             'fee'       => Session::get('fee'),
         ]);
     }

@@ -113,14 +113,31 @@ class BankController extends Controller
 
         // 銀行情報の登録処理を呼び出す
         $bankNew = new Bank();
-        $target = $bankNew->storeBank($banks, $userId);
+        DB::beginTransaction();
+        try {
+          // 銀行情報を登録して、レスポンスを受け取る
+          $res = $bankNew->storeBank($banks, $userId);
+          if(is_numeric($res)) {
+            // レスポンスが登録成功の場合
+            DB::commit();
+            return redirect(route('mypage.t.bank.show'));
+          } else {
+            // レスポンスが登録失敗の場合
+            DB::rollBack();
+            return back()->withInput()->withErrors($res);
+          }
+        } catch(\Exception $e) {
+          // 予期せぬエラーの場合
+          $res = '予期せぬエラーが発生しました。管理者へお問い合わせください。';
+          return back()->withInput()->withErrors($res);
+        }
 
         // エラーがあるか確認の処理
-        if($target === 'true') {
-            return redirect(route('mypage.t.bank.show'));
-        } else {
-            return back()->withInput()->withErrors($target);
-        }
+        // if(is_numeric($res)) {
+        //     return redirect(route('mypage.t.bank.show'));
+        // } else {
+        //     return back()->withInput()->withErrors($res);
+        // }
 
 
         // // バージョン1

@@ -1,15 +1,15 @@
-@extends(($user_status == 0)?'layouts.user-single':'layouts.teacher-single')
+@extends('layouts.teacher-single')
 
-<!-- タイトル・メタディスクリプション -->
+{{--  タイトル・メタディスクリプション  --}}
 @section('title', '出金リクエスト完了')
 @section('description', '出金リクエスト完了')
 
-<!-- CSS -->
+{{--  CSS  --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/teacher.css') }}">
 @endpush
 
-<!-- 本文 -->
+{{--  本文  --}}
 @section('content')
 	<div class="l-wrap--single">
 		<div class="l-wrap--title">
@@ -20,12 +20,8 @@
 			<div class="l-wrap--main l-wrap--detail">
 				<div class="l-content--detail">
 					<div class="l-content--detail__inner">
-                        <p class="u-text--sentence u-mb10">出金リクエストが完了しました。<br>10営業日以内に、返金手続きを行います。</p>
-                        @if($user_status == 0)
-						<a href="{{ route('mypage.u.attendance-lessons') }}" class="u-text--link">ダッシュボードへ戻る</a>
-                        @elseif($user_status == 1)
-                        <a href="{{ route('mypage.t.courses') }}" class="u-text--link">ダッシュボードへ戻る</a>
-                        @endif
+            <p class="u-text--sentence u-mb10">出金リクエストが完了しました。<br>10営業日以内に、返金手続きを行います。</p>
+            <a href="{{ route('mypage.t.courses') }}" class="u-text--link">ダッシュボードへ戻る</a>
 					</div>
 				</div>
 			</div>
