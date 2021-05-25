@@ -216,12 +216,15 @@
         <li><a href="/faq-student">受講者よくある質問</a></li>
       </ul> -->
       <ul class="nav-global__list">
-        <li><a href="/lessons/">レッスン一覧</a></li>
-        <li><a href="/teachers/">講師一覧</a></li>
-        <!-- <li><a href="">初めての方へ</a></li>
-        <li><a href="">講師登録ご希望の方へ</a></li> -->
-        <li><a href="/faq-user/">受講者よくある質問</a></li>
-        <li><a href="/faq-teacher/">講師よくある質問</a></li>
+        <li><a href="/mypage/t/change">受講者に切り替える</a></li>
+        <!-- <li><a href="/">講師マニュアル</a></li> -->
+        <li><a href="/mypage/t/courses/">コース一覧</a></li>
+        <li><a href="/mypage/t/courses/create/">コース作成</a></li>
+        <li><a href="/mypage/t/cancel-requests/">キャンセル依頼</a></li>
+        <li><a href="/mypage/t/messages/">メッセージ</a></li>
+        <li><a href="/mypage/t/profile/">プロフィール</a></li>
+        <li><a href="/mypage/t/bank/">銀行口座情報</a></li>
+        <li><a href="/mypage/t/trade/">入出金管理</a></li>
         <li><a href="/contact/">お問い合わせ</a></li>
         <li>
           <a
