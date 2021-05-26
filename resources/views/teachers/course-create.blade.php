@@ -28,7 +28,7 @@
   <div class="l-wrap--single">
       <course-create-component
         :old={{ json_encode(Session::getOldInput()) }}
-        :categories-list={{ $categories }}
+        :category-list={{ $categories }}
         :csrf={{ json_encode(csrf_token()) }}
       />
     </form>

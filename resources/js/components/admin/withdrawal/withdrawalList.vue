@@ -14,17 +14,27 @@
         v-for="(withdrawal, index) in withdrawals"
         :key="index"
       >
-        <td>{{ withdrawal.created_at }}</td>
+        <td>{{ customDate(withdrawal.created_at) }}</td>
         <td>
           <a
-            href=""
+            :href="`/owner-admin/users/edit/${withdrawal.user_id}`"
             class="u-text--link"
           >
-            アカウント名
+            {{ withdrawal.user_account }}
           </a>
         </td>
-        <td>ゆうちょ銀行<br>その他情報</td>
-        <td style="white-space: nowrap;">¥{{ withdrawal.withdrawal }}<br>¥{{ withdrawal.amount }} / ¥{{ withdrawal.fee }}</td>
+        <td>
+          {{ withdrawal.bank_type == 'japan' ? 'ゆうちょ銀行' : withdrawal.financial_name }}
+          <br>
+          {{ withdrawal.japan_mark ? withdrawal.japan_mark : '' }}
+          {{ withdrawal.financial_name ? withdrawal.financial_name : '' }}
+          {{ withdrawal.branch_name ? withdrawal.branch_name : '' }}
+          {{ withdrawal.branch_number ? withdrawal.branch_number : '' }}</td>
+        <td style="white-space: nowrap;">
+          {{ customPrice(withdrawal.amount - withdrawal.fee) }}
+          <br>
+          {{ customPrice(withdrawal.amount) }} / {{ customPrice(withdrawal.fee) }}
+        </td>
         <td>
           <div class="c-button--edit">
             <button
@@ -53,18 +63,12 @@
     }
   },
   created: function() {
-    axios.get('/api/v1/withdrawals', {})
+    axios.get('/api/v1/withdrawals')
       .then(result => {
         // 出金リクエスト
-        this.withdrawals = []
-        this.withdrawals = result.data
-        // 出金リクエスト一覧の値を加工する
-        this.withdrawals.forEach((value, i) => {
-          this.withdrawals[i].created_at = moment(this.withdrawals[i].created_at).format('Y年M月D日 HH:mm:ss');
-          this.withdrawals[i].withdrawal = Number(this.withdrawals[i].amount - this.withdrawals[i].fee).toLocaleString();
-          this.withdrawals[i].amount     = this.withdrawals[i].amount.toLocaleString();
-          this.withdrawals[i].fee        = this.withdrawals[i].fee.toLocaleString();
-        })
+        this.withdrawals =  result.data.filter(function(date) {
+            return date.verified_at == null;
+        });
       })
       .catch(result => {
         console.log(result)
@@ -75,11 +79,23 @@
       verifiedButton: function(id) {
         axios.put(`/api/v1/withdrawals/${id}`)
           .then((response) => {
+            alert('出金リクエストが完了しました。')
+            location.reload()
             console.log(response)
           })
           .catch((error) => {
+            alert('出金リクエストにエラーが発生しました。')
             console.log(error)
           })
+      },
+
+      // カスタマイズ：日付
+      customDate: function(date) {
+        return moment(date).format('YYYY/MM/DD HH:mm:SS')
+      },
+      // カスタマイズ：金額
+      customPrice: function(price) {
+        return `¥${Number(price).toLocaleString()}`
       },
     },
 	}

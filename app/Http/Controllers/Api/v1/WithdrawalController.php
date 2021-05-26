@@ -17,7 +17,9 @@ class WithdrawalController extends Controller
      */
     public function index()
     {
-        $withdrawals = Withdrawal::all()->where('verified_at', null);
+        // $withdrawals = Withdrawal::all();
+        $withdrawalNew = new Withdrawal();
+        $withdrawals = $withdrawalNew->withdrawalList();
         return $withdrawals;
     }
 

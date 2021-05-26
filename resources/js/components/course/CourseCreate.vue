@@ -100,7 +100,7 @@
               @reduceCategory="reduceCheckbox"
             /> -->
             <select-category
-              :categories-list="categoriesList"
+              :category-list="categoriesList"
               @addCategory="addCheckbox"
               @reduceCategory="reduceCheckbox"
             />

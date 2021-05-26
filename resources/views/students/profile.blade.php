@@ -124,7 +124,7 @@
             <div class="c-list--td">
                 <select-list-category-component
                     :user={{ $user }}
-                    :categories-list={{ $categories }}
+                    :category-list={{ $categories }}
                 />
             </div>
         </div>

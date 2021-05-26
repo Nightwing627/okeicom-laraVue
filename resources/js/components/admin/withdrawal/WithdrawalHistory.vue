@@ -10,27 +10,27 @@
     </thead>
     <tbody>
       <tr
-        v-for="(target, index) in withdrawalHistories"
+        v-for="(withdrawal, index) in withdrawalHistories"
         :key="index"
       >
-        <td>{{ customDate(target.created_at) }}<br>{{ customDate(target.verified_at) }}</td>
+        <td>{{ customDate(withdrawal.created_at) }}<br>{{ customDate(withdrawal.verified_at) }}</td>
         <td>
           <a
-            href=""
+            :href="`/owner-admin/users/edit/${withdrawal.user_id}`"
             class="u-text--link"
           >
-            {{ target.user_name }}
+            {{ withdrawal.user_account }}
           </a>
         </td>
         <td>
-          {{ target.bank_type == 'japan' ? 'ゆうちょ銀行' : target.financial_name }}
+          {{ withdrawal.bank_type == 'japan' ? 'ゆうちょ銀行' : withdrawal.financial_name }}
           <br>
-          {{ target.japan_mark ? target.japan_mark : '' }}
-          {{ target.financial_name ? target.financial_name : '' }}
-          {{ target.branch_name ? target.branch_name : '' }}
-          {{ target.branch_number ? target.branch_number : '' }}
+          {{ withdrawal.japan_mark ? withdrawal.japan_mark : '' }}
+          {{ withdrawal.financial_name ? withdrawal.financial_name : '' }}
+          {{ withdrawal.branch_name ? withdrawal.branch_name : '' }}
+          {{ withdrawal.branch_number ? withdrawal.branch_number : '' }}
         </td>
-        <td style="white-space: nowrap;">{{ customPrice(target.amount - target.fee) }}<br>{{ customPrice(target.amount) }} / {{ customPrice(target.fee) }}</td>
+        <td style="white-space: nowrap;">{{ customPrice(withdrawal.amount - withdrawal.fee) }}<br>{{ customPrice(withdrawal.amount) }} / {{ customPrice(withdrawal.fee) }}</td>
       </tr>
     </tbody>
   </table>
@@ -51,8 +51,8 @@
       axios.get('/api/v1/withdrawals', {})
         .then(result => {
           // 管理者の承認が実行されていない出金リクエストを取得する
-          this.withdrawalHistories = result.data.filter(date => {
-            return date.verified_at !== null;
+          this.withdrawalHistories =  result.data.filter(function(date) {
+              return date.verified_at !== null;
           });
         })
         .catch(error => {

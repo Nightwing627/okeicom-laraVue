@@ -34,9 +34,10 @@
               <div class="c-list--td">
                 <div class="c-img--preview u-ml0_pc">
                   <div class="c-img--preview--image c-img--cover">
-                    <img :src="data.image">
+                    <!-- <img :src="data.image"> -->
+                    <img :src="`/storage/profile/${user.img}`">
                   </div>
-                  <span class="c-img--preview--button">
+                  <!-- <span class="c-img--preview--button">
                     <div class="c-img--preview--button--inner">
                       <img src="/img/common/icon-camera-black.png">
                       <input
@@ -46,7 +47,7 @@
                         @change="setImage"
                       >
                     </div>
-                  </span>
+                  </span> -->
                 </div>
               </div>
             </div>
@@ -85,6 +86,8 @@
                   v-model="user.name"
                   type="text"
                   name="name"
+                  class="c-input--fixed"
+                  disabled
                 >
               </div>
             </div>
@@ -99,6 +102,8 @@
                   v-model="user.email"
                   type="text"
                   name="email"
+                  class="c-input--fixed"
+                  disabled
                 >
               </div>
             </div>
@@ -123,9 +128,6 @@
                 <p class="main">
                   性別
                 </p>
-                <p class="sub">
-                  性別は変更できません。
-                </p>
               </div>
               <div class="c-list--td">
                 <input
@@ -148,7 +150,8 @@
                   v-model="user.country_id"
                   type="text"
                   name="country_id"
-                  value="日本"
+                  class="c-input--fixed"
+                  disabled
                 >
               </div>
             </div>
@@ -163,6 +166,8 @@
                   v-model="user.language_id"
                   type="text"
                   name="language_id"
+                  class="c-input--fixed"
+                  disabled
                 >
               </div>
             </div>
@@ -173,7 +178,7 @@
                 </p>
               </div>
               <div class="c-list--td">
-                <div class="c-selectBox">
+                <!-- <div class="c-selectBox">
                   <select v-model="user.prefecture_id">
                     <option
                       v-for="(prefecture, index) in prefectures"
@@ -183,7 +188,14 @@
                       {{ prefecture.name }}
                     </option>
                   </select>
-                </div>
+                </div> -->
+                <input
+                  v-model="userDate.pref"
+                  type="text"
+                  name="language_id"
+                  class="c-input--fixed"
+                  disabled
+                >
               </div>
             </div>
             <div class="c-list--tr">
@@ -210,12 +222,17 @@
                 </p>
               </div>
               <div class="c-list--td">
-                <select-list-category-component
+                <span v-if="user.category1_id">{{ userDate.category1_name }}</span>
+                <span v-if="user.category2_id"> / {{ userDate.category2_name }}</span>
+                <span v-if="user.category3_id"> / {{ userDate.category3_name }}</span>
+                <span v-if="user.category4_id"> / {{ userDate.category4_name }}</span>
+                <span v-if="user.category5_id"> / {{ userDate.category5_name }}</span>
+                <!-- <select-list-category-component
                   :user="user"
-                  :categories-list="categories"
-                />
+                  :category-list="categoryList"
+                /> -->
                 <!-- <div class="c-selectBox u-mb5">
-                  <select v-model="user.category1_id">
+                  <select v-m odel="user.category1_id">
                     <option
                       v-for="(category, index) in categories"
                       :key="index"
@@ -284,6 +301,8 @@
                 <textarea
                   v-model="user.profile"
                   name="profile"
+                  class="c-input--fixed"
+                  disabled
                 />
               </div>
             </div>
@@ -295,7 +314,7 @@
             class="c-button--square__pink"
             @click.prevent="updateUser(user.id)"
           >
-            変更内容を保存する
+            出金手数料を設定する
           </button>
         </div>
       </div>
@@ -304,38 +323,43 @@
 </template>
 <script>
   import axios from 'axios'
-  import selectListCategoryComponent from './../../store/SelectListCategoryComponent.vue'
+  // import selectListCategoryComponent from './../../store/SelectListCategoryComponent.vue'
 
 	export default {
     components: {
-      'select-list-category-component': selectListCategoryComponent,
+      // 'select-list-category-component': selectListCategoryComponent,
     },
     props: {
-      userId: {
-        type: Number,
+      userDate: {
+        type: Object,
         required: true
       },
-      lessons: {
+      categoryList: {
         type: Array,
-        required: false,
-        default: () => []
-      }
+        required: true
+      },
+      // lessons: {
+      //   type: Array,
+      //   required: false,
+      //   default: () => []
+      // }
     },
 		data() {
 			return {
-				// 新規登録画像
+        // 新規登録画像
+        user: {},
+        // user: this.userDate,
 				data: {
 					image: "/img/sample-human.png",
 					name: "",
         },
-        user: '',
         prefectures: [],
         categories: [],
 			}
 		},
     created: function() {
       // ユーザー詳細取得API
-      axios.get(`/api/v1/users/${this.userId}`)
+      axios.get(`/api/v1/users/${this.userDate.id}`)
         .then(result => {
           // 管理者の承認が実行されていない出金リクエストを取得する
           this.user = result.data
@@ -346,6 +370,7 @@
           } else if(this.user.sex === 2) {
             this.user.sex = '女性'
           }
+          console.log(this.user)
         })
         .catch(error => {
           console.log(error)
@@ -363,18 +388,21 @@
           alert('都道府県一覧取得時にエラーが発生しました。')
         })
 
-      // カテゴリー一覧取得API
-      axios.get('/api/v1/categories')
-        .then(result => {
-          this.categories = result.data;
-        })
-        .catch(error => {
-          console.log(error)
-          alert('カテゴリー一覧取得時にエラーが発生しました。')
-        })
+      // カテゴリーを配列に入れる
+      this.user['categories'] = []
+      for(let i = 1; i < 6; i++) {
+        if(this.user['category' + i + '_id'] !== null) {
+          this.user['categories'].push(this.user['category' + i + '_id'])
+        }
+      }
+
+      // 数字が小さい順に並び替える
+      this.user['categories'].sort(function(first, second){
+        return first - second;
+      });
     },
     methods: {
-    // ユーザー削除
+     // ユーザー削除
       deleteUser: function(id) {
         axios.delete(`/api/v1/users/${id}`)
           .then(result => {
@@ -389,11 +417,12 @@
       },
       // ユーザー更新API
       updateUser() {
+        console.log(this.user['categories'])
         axios
-          .put(`/api/v1/users/${this.userId}`, this.user)
+          .put(`/api/v1/users/${this.user.id}`, this.user)
           .then(result => {
             alert('ユーザーの更新に成功しました。')
-            console.log(result)
+            // console.log(result)
             location.reload()
           })
           .catch(error => {

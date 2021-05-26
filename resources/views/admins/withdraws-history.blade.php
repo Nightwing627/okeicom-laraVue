@@ -19,7 +19,8 @@
 		</div>
 		<div class="l-wrap--owner--body">
 			<div class="l-wrap--owner--body--inner">
-				<table class="withdraw-request-table">
+                <admin-withdrawal-history />
+                {{--  <table class="withdraw-request-table">
 					<thead>
 						<tr>
 							<td>出金リクエスト日時<br>出金完了日</td>
@@ -38,16 +39,16 @@
 							</tr>
 						<?php endfor; ?>
 					</tbody>
-				</table>
+				</table>  --}}
 			</div>
-			<div class="pagenation-list">
+			{{--  <div class="pagenation-list">
 				<ul>
 					<li class="now">１</li>
 					<?php for($i=2;$i<10;$i++): ?>
 						<li><a href=""><?php echo $i; ?></a></li>
 					<?php endfor; ?>
 				</ul>
-			</div>
+			</div>  --}}
 		</div>
 	</div>
 @endsection

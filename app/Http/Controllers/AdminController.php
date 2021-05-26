@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Course;
+use App\Models\User;
 use App\Models\Lesson;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
@@ -52,7 +54,11 @@ class AdminController extends Controller
     public function editUsers(Request $request)
     {
         $userId = $request->id;
-        return view('admins.users-edit', compact('userId'));
+        // $userDate = User::find($userId);
+        $userNew = new User();
+        $userDate = $userNew->getTeachersShow($userId);
+        $categories = Category::all();
+        return view('admins.users-edit', compact('userDate', 'categories'));
     }
 
     /**

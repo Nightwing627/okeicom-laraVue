@@ -271,7 +271,6 @@ class StudentController extends Controller
      */
     public function updateProfile(UserUpdateRequest $request)
     {
-
         DB::transaction(function () use($request) {
             $user                   = $this->user->query()->find(Auth::user()->id);
             $user->name             = $request->name;

@@ -41,6 +41,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        // $userNew = new User();
+        // $user = $userNew->getTeachersShow($id);
+        // return $user
+
         $user = User::find($id);
         return $user;
     }
@@ -52,21 +56,26 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        $user = User::where('id', $user->id)->first();
+        $user = User::where('id', $request->id)->first();
         // 画像以外処理
         $user->update([
-            'name'           => $request['name'],
-            'country_id'     => $request['country_id'],
-            'language_id'    => $request['language_id'],
-            'prefecture_id'  => $request['prefecture_id'],
+            // 'name'           => $request['name'],
+            // 'country_id'     => $request['country_id'],
+            // 'language_id'    => $request['language_id'],
+            // 'prefecture_id'  => $request['prefecture_id'],
             'commition_rate' => number_format($request['commition_rate']),
-            'email'          => $request['email'],
-            'profile'        => $request['profile'],
+            // 'email'          => $request['email'],
+            // 'profile'        => $request['profile'],
+            // 'category1_id'   => $request['categories'][0] ?? NULL,
+            // 'category2_id'   => $request['categories'][1] ?? NULL,
+            // 'category3_id'   => $request['categories'][2] ?? NULL,
+            // 'category4_id'   => $request['categories'][3] ?? NULL,
+            // 'category5_id'   => $request['categories'][4] ?? NULL,
         ]);
         // カテゴリー保存処理
-        $user->saveCategories($request);
+        // $target = $user->saveCategories($request);
         // 画像保存処理
         $user->saveImgs($request);
         $user->save();

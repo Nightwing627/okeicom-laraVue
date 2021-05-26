@@ -10,7 +10,7 @@
 
 <!-- 本文 -->
 @section('content')
-<div class="l-wrap--owner--main">
+    <div class="l-wrap--owner--main">
 		<div class="l-wrap--owner--header">
 			<div class="l-wrap--owner--header--title">
 				<p>コース一覧</p>

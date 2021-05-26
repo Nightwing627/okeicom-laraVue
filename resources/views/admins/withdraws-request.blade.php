@@ -20,8 +20,8 @@
 			</div>
 			<div class="l-wrap--owner--body">
 				<div class="l-wrap--owner--body--inner">
-          <admin-withdrawal-index-component />
-        </div>
+                    <admin-withdrawal-list />
+                </div>
 			</div>
 		</div>
 	</div>

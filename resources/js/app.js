@@ -76,13 +76,18 @@ Vue.component('admin-user-list', require('./components/admin/user/UserList.vue')
 Vue.component('admin-user-edit', require('./components/admin/user/UserEdit.vue').default);
 // 詳細
 Vue.component('admin-user-show-course-component', require('./components/admin/showCourseComponent.vue').default);
-// ユーザー新規追加
+// 新規追加
 Vue.component('admin-user-create-component', require('./components/admin/createUserComponent.vue').default);
+
 /* コース */
 // 一覧
 Vue.component('admin-course-list', require('./components/admin/course/CourseList.vue').default);
-// 出金リクエスト一覧
-Vue.component('admin-withdrawal-index-component', require('./components/admin/withdrawal/withdrawalList.vue').default);
+
+/* 出金リクエスト */
+// 一覧
+Vue.component('admin-withdrawal-list', require('./components/admin/withdrawal/WithdrawalList.vue').default);
+// 一覧
+Vue.component('admin-withdrawal-history', require('./components/admin/withdrawal/WithdrawalHistory.vue').default);
 
 
 const app = new Vue({

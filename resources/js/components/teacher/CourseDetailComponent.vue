@@ -353,7 +353,7 @@
             <div class="c-list--td">
               <select-list-category-component
                 :course="course"
-                :categories-list="categoriesList"
+                :categories-list="categories"
               />
             </div>
           </div>

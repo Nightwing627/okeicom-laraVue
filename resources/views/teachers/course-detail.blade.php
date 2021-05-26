@@ -59,7 +59,7 @@
     @endif
     <teacher-course-detail-component
         :course={{ $course }}
-        :categories-list={{ $categories }}
+        :category-list={{ $categories }}
         :lessons={{ $lessons }}
         :csrf="{{json_encode(csrf_token())}}"
     >

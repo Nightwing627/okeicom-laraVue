@@ -10,5 +10,5 @@
 
 <!-- 本文 -->
 @section('content')
-	<admin-user-edit :user-id="{{ $userId }}" />
+	<admin-user-edit :user-date="{{ $userDate }}" :category-list={{ $categories }} />
 @endsection
