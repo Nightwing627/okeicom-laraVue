@@ -53,7 +53,20 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // User::where('id', $id)
+        //   ->update([
+        //     'name'           => $request['name'],
+        //     'country_id'     => $request['country_id'],
+        //     'language_id'    => $request['language_id'],
+        //     'prefecture_id'  => $request['prefecture_id'],
+        //     'commition_rate' => $request['commition_rate'],
+        //     'category1_id'   => $request['category1_id'],
+        //     'category2_id'   => $request['category2_id'],
+        //     'category3_id'   => $request['category3_id'],
+        //     'category4_id'   => $request['category4_id'],
+        //     'category5_id'   => $request['category5_id'],
+        //     'profile'        => $request['profile'],
+        //   ])
     }
 
     /**
@@ -64,9 +77,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
-
-        $user->delete();
+        User::where('user_id', $id)->delete();
 
     }
 }

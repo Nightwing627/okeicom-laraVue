@@ -159,7 +159,7 @@
               </div>
               <div class="c-list--td">
                 <div class="c-selectBox">
-                  <select v-model="user.prerectire_id">
+                  <select v-model="user.prerecture_id">
                     <option
                       v-for="(prefecture, index) in prefectures"
                       :key="index"
@@ -289,7 +289,7 @@
       userId: {
         type: Number,
         required: true
-      }
+      },
     },
 		data() {
 			return {
@@ -304,11 +304,8 @@
 			}
 		},
     created: function() {
-      // ユーザー詳細取得処理
-      const userId = this.userId
-
       // ユーザー詳細取得API
-      axios.get(`/api/v1/users/${userId}`)
+      axios.get(`/api/v1/users/${this.userId}`)
         .then(result => {
           // 管理者の承認が実行されていない出金リクエストを取得する
           this.user = result.data
@@ -319,7 +316,6 @@
           } else if(this.user.sex === 2) {
             this.user.sex = '女性'
           }
-          console.log(this.user)
         })
         .catch(result => {
           console.log(result)
@@ -353,9 +349,44 @@
         console.log(id)
       },
       // ユーザー更新API
-      updateUser(id) {
-
+      updateUser() {
+        const params = this.user;
+        axios
+          .put(`/api/v1/users/${this.userId}`, params)
+          // .put(`/api/v1/users/${this.userId}`, params {
+          //   name: this.user.name,
+          //   country_id: this.user.country_id,
+          //   language_id: this.user.language_id,
+          //   prefecture_id: this.user.prefecture_id,
+          //   commition_rate: this.user.commition_rate,
+          //   category1_id: this.user.category1_id,
+          //   category2_id: this.user.category2_id,
+          //   category3_id: this.user.category3_id,
+          //   category4_id: this.user.category4_id,
+          //   category5_id: this.user.category5_id,
+          //   profile: this.user.profile,
+          // })
+          .then(result => {
+            alert('ユーザーの更新に成功しました。')
+            console.log(result)
+          })
+          .catch(error => {
+            aler('ユーザーの更新に失敗しました。')
+            console.log(error)
+          })
       },
+      deleteUser() {
+        axios
+          .delete(`/api/v1/users/${this.userId}`)
+          .then(result => {
+            alert('ユーザーの削除に成功しました。')
+            location.href='/owner-admin/users/'
+          })
+          .catch(error => {
+            alert('ユーザーの削除に失敗しました。')
+            console.log(error)
+          })
+      }
 			// ユーザーの画像
 			setImage(e) {
 				const files = this.$refs.file;
