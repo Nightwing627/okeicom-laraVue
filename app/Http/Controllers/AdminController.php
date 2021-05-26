@@ -52,8 +52,7 @@ class AdminController extends Controller
     public function editUsers(Request $request)
     {
         $userId = $request->id;
-        $lessons = Lesson::where('user_id', $userId)->whereNull('deleted_at')->get();
-        return view('admins.users-edit', compact('userId', 'lessons'));
+        return view('admins.users-edit', compact('userId'));
     }
 
     /**

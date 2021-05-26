@@ -191,6 +191,9 @@
                 <p class="main">
                   出金時の手数料
                 </p>
+                <p class="sub">
+                  100以下の半角数字のみです。
+                </p>
               </div>
               <div class="c-list--td">
                 <input
@@ -286,7 +289,6 @@
             </div>
           </div>
         </div>
-
         <div class="l-button--submit">
           <button
             type="button"
@@ -302,7 +304,7 @@
 </template>
 <script>
   import axios from 'axios'
-  import selectListCategoryComponent from './../store/SelectListCategoryComponent.vue'
+  import selectListCategoryComponent from './../../store/SelectListCategoryComponent.vue'
 
 	export default {
     components: {
@@ -326,7 +328,7 @@
 					image: "/img/sample-human.png",
 					name: "",
         },
-        user: [],
+        user: '',
         prefectures: [],
         categories: [],
 			}
@@ -344,67 +346,61 @@
           } else if(this.user.sex === 2) {
             this.user.sex = '女性'
           }
-          console.log(this.user)
         })
         .catch(error => {
           console.log(error)
           alert('ユーザー詳細取得時にエラーが発生しました。')
         })
 
-        // 都道府県一覧取得API
-        axios.get('/api/v1/prefectures')
-          .then(result => {
-            // 管理者の承認が実行されていない出金リクエストを取得する
-            this.prefectures = result.data;
-          })
-          .catch(error => {
-            console.log(error)
-            alert('都道府県一覧取得時にエラーが発生しました。')
-          })
+      // 都道府県一覧取得API
+      axios.get('/api/v1/prefectures')
+        .then(result => {
+          // 管理者の承認が実行されていない出金リクエストを取得する
+          this.prefectures = result.data;
+        })
+        .catch(error => {
+          console.log(error)
+          alert('都道府県一覧取得時にエラーが発生しました。')
+        })
 
-        // カテゴリー一覧取得API
-        axios.get('/api/v1/categories')
+      // カテゴリー一覧取得API
+      axios.get('/api/v1/categories')
+        .then(result => {
+          this.categories = result.data;
+        })
+        .catch(error => {
+          console.log(error)
+          alert('カテゴリー一覧取得時にエラーが発生しました。')
+        })
+    },
+    methods: {
+    // ユーザー削除
+      deleteUser: function(id) {
+        axios.delete(`/api/v1/users/${id}`)
           .then(result => {
-            this.categories = result.data;
+            alert(result.data)
+            // リロード
+            location.reload()
           })
           .catch(error => {
+            alert('ユーザーの削除に失敗しました。')
             console.log(error)
-            alert('カテゴリー一覧取得時にエラーが発生しました。')
           })
       },
-      methods: {
-        // ユーザー削除API
-        deleteUser(id) {
-          if(this.lessons) {
-              alert('レッスンが残っているので、削除できません。')
-          } else {
-            axios
-              .delete(`/api/v1/users/${id}`)
-              .then(result => {
-                alert('ユーザーの削除に成功しました。')
-                location.href='/owner-admin/users/'
-                console.log(result)
-              })
-              .catch(error => {
-                alert('ユーザーの削除に失敗しました。')
-                console.log(error)
-              })
-          }
-        },
-        // ユーザー更新API
-        updateUser() {
-          axios
-            .put(`/api/v1/users/${this.userId}`, this.user)
-            .then(result => {
-              alert('ユーザーの更新に成功しました。')
-              console.log(result)
-              location.reload()
-            })
-            .catch(error => {
-              alert('ユーザーの更新に失敗しました。')
-              console.log(error)
-            })
-        },
+      // ユーザー更新API
+      updateUser() {
+        axios
+          .put(`/api/v1/users/${this.userId}`, this.user)
+          .then(result => {
+            alert('ユーザーの更新に成功しました。')
+            console.log(result)
+            location.reload()
+          })
+          .catch(error => {
+            alert('ユーザーの更新に失敗しました。')
+            console.log(error)
+          })
+      },
 			// ユーザーの画像
 			setImage() {
 				const files = this.$refs.file;

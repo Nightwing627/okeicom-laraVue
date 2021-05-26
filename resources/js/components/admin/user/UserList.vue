@@ -6,7 +6,7 @@
         <td>メールアドレス<br>電話番号</td>
         <td>性別 / カテゴリー<br>国籍 / 言語 / 都道府県</td>
         <td>プロフィール</td>
-        <!-- <td /> -->
+        <td />
       </tr>
     </thead>
     <tbody>
@@ -31,13 +31,8 @@
         <td>{{ user.profile ? user.profile : '未設定' }}</td>
         <td>
           <div class="c-button--edit">
-            <!-- <a href="" class="c-button--edit--link edit">編集</a> -->
-            <!-- <a
-              class="c-button--edit--link delete"
-              @click="deleteUser(user.id)"
-            >
-              削除
-            </a> -->
+            <button @click="deleteUser(user.id)" class="c-button--edit--link delete">削除</button>
+            <a :href="`/owner-admin/users/edit/${user.id}`" class="c-button--edit--link edit">編集</a>
           </div>
         </td>
       </tr>
@@ -57,7 +52,7 @@
     },
     created: function() {
       // 出金履歴一覧取得処理
-      axios.get('/api/v1/users', {})
+      axios.get('/api/v1/users')
         .then(result => {
           // 管理者の承認が実行されていない出金リクエストを取得する
           this.users = result.data;
@@ -73,18 +68,17 @@
         return moment(date).format('YYYY/MM/DD HH:mm:SS')
       },
       // ユーザー削除
-      // deleteUser: function(user_id) {
-      //   axios.delete(`/api/v1/users/${user_id}`)
-      //     .then(result => {
-      //       console.log(result)
-      //       alert("ユーザーを削除しました。")
-      //       location.reload()
-      //     })
-      //     .catch(error => {
-      //       console.log(error)
-      //       alert('ユーザーの削除に失敗しました。')
-      //     })
-      // }
+      deleteUser: function(id) {
+        axios.delete(`/api/v1/users/${id}`)
+          .then(result => {
+            alert(result.data)
+            location.reload()
+          })
+          .catch(error => {
+            alert('ユーザーの削除に失敗しました。')
+            console.log(error)
+          })
+      }
     }
   }
 </script>

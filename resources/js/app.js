@@ -69,15 +69,18 @@ Vue.component('lesson-create-component', require('./components/lesson/LessonCrea
 Vue.component('modal-add-lesson', require('./components/modal/AddLesson.vue').default);
 
 /* [管理者画面] */
+/* ユーザー */
+// 一覧
+Vue.component('admin-user-list', require('./components/admin/user/UserList.vue').default);
+// 編集
+Vue.component('admin-user-edit', require('./components/admin/user/UserEdit.vue').default);
+// 詳細
+Vue.component('admin-user-show-course-component', require('./components/admin/showCourseComponent.vue').default);
+// ユーザー新規追加
+Vue.component('admin-user-create-component', require('./components/admin/createUserComponent.vue').default);
 /* コース */
 // 一覧
 Vue.component('admin-course-list', require('./components/admin/course/CourseList.vue').default);
-// 詳細
-Vue.component('admin-user-show-course-component', require('./components/admin/showCourseComponent.vue').default);
-// 編集
-Vue.component('admin-user-edit-component', require('./components/admin/editUserComponent.vue').default);
-// ユーザー新規追加
-Vue.component('admin-user-create-component', require('./components/admin/createUserComponent.vue').default);
 // 出金リクエスト一覧
 Vue.component('admin-withdrawal-index-component', require('./components/admin/withdrawal/withdrawalList.vue').default);
 

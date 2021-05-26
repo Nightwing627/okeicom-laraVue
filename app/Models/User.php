@@ -99,14 +99,6 @@ class User extends Authenticatable
     }
 
     /**
-     * リレーション：ユーザーの予約情報一覧
-     */
-    public function applications()
-    {
-        return $this->hasMany(Application::class);
-    }
-
-    /**
      * 条件検索した講師一覧を取得
      *
      * @param $value

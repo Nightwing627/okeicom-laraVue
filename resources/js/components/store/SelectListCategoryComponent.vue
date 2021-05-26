@@ -4,7 +4,7 @@
     class="c-list--category"
   >
     <li
-      v-for="(category, index) in categoriesDate"
+      v-for="(category, index) in this.categoriesList"
       :key="category.id"
     >
       <input
@@ -20,7 +20,7 @@
   </ul>
 </template>
 <script>
-    export default {
+  export default {
     props: {
       categoriesList: {
         type: Array,
@@ -44,33 +44,31 @@
     emits: ['addCategory', 'reduceCategory'],
     data() {
       return {
-        categoriesDate: this.categoriesList ?? '',
-        courseDate: this.course ?? '',
-        userDate: this.user ?? '',
         // バリデーション カテゴリー確認
         checkbox: 0,
       }
     },
     mounted: function () {
       // [初期設定] コースの持つカテゴリーと同じカテゴリーをチェック
-      if(this.courseDate) {
-        for(let i = 0; i < this.categoriesDate.length; i++) {
+      if(this.course) {
+        for(let i = 0; i < this.categoriesList.length; i++) {
           // checkboxのvalueを取得
           const checkTarget = this.$refs['target' + i];
           for(let t = 1; t < 6; t++) {
-            const checkValidation = this.courseDate['category' + t + '_id'];
+            const checkValidation = this.course['category' + t + '_id'];
             if(checkTarget.value == checkValidation) {
               checkTarget.checked = true;
             }
           }
         }
       }
-      if(this.userDate) {
-        for(let i = 0; i < this.categoriesDate.length; i++) {
+      console.log(this.user)
+      if(this.user) {
+        for(let i = 0; i < this.categoriesList.length; i++) {
           // checkboxのvalueを取得
           const checkTarget = this.$refs['target' + i];
           for(let t = 1; t < 6; t++) {
-            const checkValidation = this.userDate['category' + t + '_id'];
+            const checkValidation = this.user['category' + t + '_id'];
             if(checkTarget.value == checkValidation) {
               checkTarget.checked = true;
             }
@@ -79,6 +77,7 @@
       }
     },
     methods: {
+      // バリデーションチェック
       categorySubmit: function(ref) {
         // const vals = $('input[name~"categories"]:checked').map(function() {
         //     return $(this).val();

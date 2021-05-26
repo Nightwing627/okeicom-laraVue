@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Models\Lesson;
 use App\Models\Course;
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -17,8 +18,7 @@ class UserController extends Controller
     public function index()
     {
         // ユーザー一覧を取得
-        $userNew = new User();
-        $users = $userNew->userList();
+        $users = User::all();
         return $users;
     }
 
@@ -63,11 +63,6 @@ class UserController extends Controller
             'prefecture_id'  => $request['prefecture_id'],
             'commition_rate' => number_format($request['commition_rate']),
             'email'          => $request['email'],
-            // 'category1_id'   => $request['category1_id'],
-            // 'category2_id'   => $request['category2_id'],
-            // 'category3_id'   => $request['category3_id'],
-            // 'category4_id'   => $request['category4_id'],
-            // 'category5_id'   => $request['category5_id'],
             'profile'        => $request['profile'],
         ]);
         // カテゴリー保存処理
@@ -86,6 +81,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::find($id)->delete();
+        $lessons = Lesson::where('user_id', $id)->whereNull('deleted_at')->first();
+        if($lessons) {
+            return 'ユーザーに登録済みのレッスンがあるため、削除できません。';
+        } else {
+            User::find($id)->delete();
+            return 'ユーザーの削除に成功しました。';
+        }
     }
 }
