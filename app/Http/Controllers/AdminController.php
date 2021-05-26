@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Lesson;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -50,7 +52,8 @@ class AdminController extends Controller
     public function editUsers(Request $request)
     {
         $userId = $request->id;
-        return view('admins.users-edit', compact('userId'));
+        $lessons = Lesson::where('user_id', $userId)->whereNull('deleted_at')->get();
+        return view('admins.users-edit', compact('userId', 'lessons'));
     }
 
     /**

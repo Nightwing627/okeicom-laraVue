@@ -42,6 +42,7 @@
                       <input
                         ref="file"
                         type="file"
+                        name="img"
                         @change="setImage"
                       >
                     </div>
@@ -87,22 +88,36 @@
                 >
               </div>
             </div>
-            <!-- <div class="c-list--tr">
+            <div class="c-list--tr">
               <div class="c-list--th">
                 <p class="main">
-                  パスワード
+                  メールアドレス
                 </p>
               </div>
               <div class="c-list--td">
                 <input
-                  v-model="user.password"
-                  type="password"
-                  name="password"
-                  class="c-input--fixed"
-                  disabled
+                  v-model="user.email"
+                  type="text"
+                  name="email"
                 >
               </div>
-            </div> -->
+            </div>
+            <!-- <div class="c-list--tr">
+                  <div class="c-list--th">
+                      <p class="main">
+                      パスワード
+                      </p>
+                  </div>
+                  <div class="c-list--td">
+                      <input
+                      v-model="user.password"
+                      type="password"
+                      name="password"
+                      class="c-input--fixed"
+                      disabled
+                      >
+                  </div>
+              </div> -->
             <div class="c-list--tr">
               <div class="c-list--th">
                 <p class="main">
@@ -159,7 +174,7 @@
               </div>
               <div class="c-list--td">
                 <div class="c-selectBox">
-                  <select v-model="user.prerecture_id">
+                  <select v-model="user.prefecture_id">
                     <option
                       v-for="(prefecture, index) in prefectures"
                       :key="index"
@@ -174,13 +189,13 @@
             <div class="c-list--tr">
               <div class="c-list--th">
                 <p class="main">
-                  手数料
+                  出金時の手数料
                 </p>
               </div>
               <div class="c-list--td">
                 <input
                   v-model="user.commition_rate"
-                  type="text"
+                  type="number"
                   name="commition_rate"
                 >
               </div>
@@ -192,18 +207,11 @@
                 </p>
               </div>
               <div class="c-list--td">
-                <div class="c-selectBox u-mb5">
-                  <select v-model="user.category1_id">
-                    <option
-                      v-for="(category, index) in categories"
-                      :key="index"
-                      :value="category.id"
-                    >
-                      {{ category.name }}
-                    </option>
-                  </select>
-                </div>
-                <div class="c-selectBox u-mb5">
+                <select-list-category-component
+                  :user="user"
+                  :categories-list="categories"
+                />
+                <!-- <div class="c-selectBox u-mb5">
                   <select v-model="user.category1_id">
                     <option
                       v-for="(category, index) in categories"
@@ -247,6 +255,17 @@
                     </option>
                   </select>
                 </div>
+                <div class="c-selectBox u-mb5">
+                  <select v-model="user.category5_id">
+                    <option
+                      v-for="(category, index) in categories"
+                      :key="index"
+                      :value="category.id"
+                    >
+                      {{ category.name }}
+                    </option>
+                  </select>
+                </div> -->
               </div>
             </div>
             <div class="c-list--tr">
@@ -283,13 +302,22 @@
 </template>
 <script>
   import axios from 'axios'
+  import selectListCategoryComponent from './../store/SelectListCategoryComponent.vue'
 
 	export default {
+    components: {
+      'select-list-category-component': selectListCategoryComponent,
+    },
     props: {
       userId: {
         type: Number,
         required: true
       },
+      lessons: {
+        type: Array,
+        required: false,
+        default: () => []
+      }
     },
 		data() {
 			return {
@@ -316,79 +344,69 @@
           } else if(this.user.sex === 2) {
             this.user.sex = '女性'
           }
+          console.log(this.user)
         })
-        .catch(result => {
-          console.log(result)
+        .catch(error => {
+          console.log(error)
           alert('ユーザー詳細取得時にエラーが発生しました。')
         })
 
-      // 都道府県一覧取得API
-      axios.get('/api/v1/prefectures')
-        .then(result => {
-          // 管理者の承認が実行されていない出金リクエストを取得する
-          this.prefectures = result.data;
-        })
-        .catch(result => {
-          console.log(result)
-          alert('都道府県一覧取得時にエラーが発生しました。')
-        })
+        // 都道府県一覧取得API
+        axios.get('/api/v1/prefectures')
+          .then(result => {
+            // 管理者の承認が実行されていない出金リクエストを取得する
+            this.prefectures = result.data;
+          })
+          .catch(error => {
+            console.log(error)
+            alert('都道府県一覧取得時にエラーが発生しました。')
+          })
 
-      // カテゴリー一覧取得API
-      axios.get('/api/v1/categories')
-        .then(result => {
-          this.categories = result.data;
-        })
-        .catch(result => {
-          console.log(result)
-          alert('カテゴリー一覧取得時にエラーが発生しました。')
-        })
-    },
-		methods: {
-      // ユーザー削除API
-      deleteUser(id) {
-        console.log(id)
-      },
-      // ユーザー更新API
-      updateUser() {
-        const params = this.user;
-        axios
-          .put(`/api/v1/users/${this.userId}`, params)
-          // .put(`/api/v1/users/${this.userId}`, params {
-          //   name: this.user.name,
-          //   country_id: this.user.country_id,
-          //   language_id: this.user.language_id,
-          //   prefecture_id: this.user.prefecture_id,
-          //   commition_rate: this.user.commition_rate,
-          //   category1_id: this.user.category1_id,
-          //   category2_id: this.user.category2_id,
-          //   category3_id: this.user.category3_id,
-          //   category4_id: this.user.category4_id,
-          //   category5_id: this.user.category5_id,
-          //   profile: this.user.profile,
-          // })
+        // カテゴリー一覧取得API
+        axios.get('/api/v1/categories')
           .then(result => {
-            alert('ユーザーの更新に成功しました。')
-            console.log(result)
+            this.categories = result.data;
           })
           .catch(error => {
-            aler('ユーザーの更新に失敗しました。')
             console.log(error)
+            alert('カテゴリー一覧取得時にエラーが発生しました。')
           })
       },
-      deleteUser() {
-        axios
-          .delete(`/api/v1/users/${this.userId}`)
-          .then(result => {
-            alert('ユーザーの削除に成功しました。')
-            location.href='/owner-admin/users/'
-          })
-          .catch(error => {
-            alert('ユーザーの削除に失敗しました。')
-            console.log(error)
-          })
-      }
+      methods: {
+        // ユーザー削除API
+        deleteUser(id) {
+          if(this.lessons) {
+              alert('レッスンが残っているので、削除できません。')
+          } else {
+            axios
+              .delete(`/api/v1/users/${id}`)
+              .then(result => {
+                alert('ユーザーの削除に成功しました。')
+                location.href='/owner-admin/users/'
+                console.log(result)
+              })
+              .catch(error => {
+                alert('ユーザーの削除に失敗しました。')
+                console.log(error)
+              })
+          }
+        },
+        // ユーザー更新API
+        updateUser() {
+          axios
+            .put(`/api/v1/users/${this.userId}`, this.user)
+            .then(result => {
+              alert('ユーザーの更新に成功しました。')
+              console.log(result)
+              location.reload()
+            })
+            .catch(error => {
+              alert('ユーザーの更新に失敗しました。')
+              console.log(error)
+            })
+        },
 			// ユーザーの画像
-			setImage(e) {
+			setImage() {
 				const files = this.$refs.file;
 				const fileImg = files.files[0];
 				if (fileImg.type.startsWith("image/")) {

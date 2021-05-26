@@ -14,7 +14,7 @@ class AddCommitionRateToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedTinyInteger('commition_rate')->nullable()->default(NULL)->comment('手数料率')->after('mailing');
+            $table->unsignedTinyInteger('commition_rate')->nullable()->comment('手数料率')->after('mailing');
         });
     }
 

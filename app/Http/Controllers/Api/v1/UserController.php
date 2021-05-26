@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Models\Course;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -51,22 +52,30 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        // User::where('id', $id)
-        //   ->update([
-        //     'name'           => $request['name'],
-        //     'country_id'     => $request['country_id'],
-        //     'language_id'    => $request['language_id'],
-        //     'prefecture_id'  => $request['prefecture_id'],
-        //     'commition_rate' => $request['commition_rate'],
-        //     'category1_id'   => $request['category1_id'],
-        //     'category2_id'   => $request['category2_id'],
-        //     'category3_id'   => $request['category3_id'],
-        //     'category4_id'   => $request['category4_id'],
-        //     'category5_id'   => $request['category5_id'],
-        //     'profile'        => $request['profile'],
-        //   ])
+        $user = User::where('id', $user->id)->first();
+        // 画像以外処理
+        $user->update([
+            'name'           => $request['name'],
+            'country_id'     => $request['country_id'],
+            'language_id'    => $request['language_id'],
+            'prefecture_id'  => $request['prefecture_id'],
+            'commition_rate' => number_format($request['commition_rate']),
+            'email'          => $request['email'],
+            // 'category1_id'   => $request['category1_id'],
+            // 'category2_id'   => $request['category2_id'],
+            // 'category3_id'   => $request['category3_id'],
+            // 'category4_id'   => $request['category4_id'],
+            // 'category5_id'   => $request['category5_id'],
+            'profile'        => $request['profile'],
+        ]);
+        // カテゴリー保存処理
+        $user->saveCategories($request);
+        // 画像保存処理
+        $user->saveImgs($request);
+        $user->save();
+        return $user;
     }
 
     /**
@@ -77,7 +86,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::where('user_id', $id)->delete();
-
+        User::find($id)->delete();
     }
 }

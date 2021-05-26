@@ -18,6 +18,7 @@ module.exports = {
         "vue"
     ],
     "rules": {
+        "indent": "off",
         "vue/no-multiple-template-root": "off",
     }
 };

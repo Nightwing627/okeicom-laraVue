@@ -43,6 +43,7 @@ class User extends Authenticatable
         'img',
         'profile',
         'mailing',
+        'commition_rate',
         // 'bank_type',
         // 'bank_id',
         // 'credit_id',

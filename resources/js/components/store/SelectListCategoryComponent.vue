@@ -15,15 +15,6 @@
         :value="category.id"
         @click="categorySubmit('target' + index)"
       >
-      <!-- <input
-        :ref="'target' + index"
-        v-model="checkcategories"
-        name="categories[]"
-        type="checkbox"
-        :checked="false"
-        :value="category.id"
-        @click="categorySubmit('target' + index)"
-      > -->
       <label>{{ category.name }}</label>
     </li>
   </ul>
@@ -38,12 +29,11 @@
       course: {
         type: Object,
         required: false,
-        default: ''
+        default () {}
       },
       user: {
-        type: String,
-        required: false,
-        default: ''
+        type: Object,
+        required: true,
       },
       categories: {
         type: String,
