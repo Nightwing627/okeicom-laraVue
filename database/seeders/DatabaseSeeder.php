@@ -23,11 +23,11 @@ class DatabaseSeeder extends Seeder
             // LessonSeeder::class,
             // MessagesTableSeeder::class,
             ManageSeeder::class,
-            PaymentsTableSeeder::class,
+            // PaymentsTableSeeder::class,
             PrefectureSeeder::class,
-            UserSeeder::class,
-            WithdrawalTableSeeder::class,
-            AnnouncementSeeder::class,
+            // UserSeeder::class,
+            // WithdrawalTableSeeder::class,
+            // AnnouncementSeeder::class,
         ]);
     }
 }
