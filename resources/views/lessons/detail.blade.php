@@ -196,7 +196,6 @@
                         <div class="teacher__img">
                             <a href="/teachers/detail/{{ $user->id }}">
                                 <div class="teacher__img__inner c-img--round c-img--cover">
-                                    <img src="/img/common/screen-top.jpg">
                                     <img src="{{ asset('/storage/profile/' . $user->img ) }}">
                                 </div>
                             </a>
