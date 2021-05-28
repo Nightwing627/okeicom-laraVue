@@ -100,7 +100,7 @@
               @reduceCategory="reduceCheckbox"
             /> -->
             <select-category
-              :category-list="categoriesList"
+              :category-list="categoryList"
               @addCategory="addCheckbox"
               @reduceCategory="reduceCheckbox"
             />
@@ -130,7 +130,7 @@
       'select-image': SelectImage, // 画像選択のコンポーネント
     },
     props: {
-      categoriesList: {
+      categoryList: {
         type: Array,
         required: true
       },
@@ -164,24 +164,24 @@
         }
       },
     },
-    // created: function() {
-    //   // コースを登録するボタンのバリデーションチェック
-    //   this.$watch(
-    //     () => [
-    //       this.$data.course.title,
-    //       this.$data.course.category,
-    //       this.validationNumber
-    //     ],
-    //     // valueやoldValueの型は上で返した配列になる
-    //     () => {
-    //       if(this.course.title == '' || this.course.category == 0 || this.validationNumber == 0) {
-    //         this.checkSubmit = true;
-    //       } else if (!this.course.title == '' && this.course.category > 0 && this.validationNumber > 0) {
-    //         this.checkSubmit = false;
-    //       }
-    //     }
-    //   )
-    // },
+    created: function() {
+      // コースを登録するボタンのバリデーションチェック
+      this.$watch(
+        () => [
+          this.$data.course.title,
+          this.$data.course.category,
+          this.validationNumber
+        ],
+        // valueやoldValueの型は上で返した配列になる
+        () => {
+          if(this.course.title == '' || this.course.category == 0 || this.validationNumber == 0) {
+            this.checkSubmit = true;
+          } else if (!this.course.title == '' && this.course.category > 0 && this.validationNumber > 0) {
+            this.checkSubmit = false;
+          }
+        }
+      )
+    },
     methods: {
       // カテゴリーのチェックボックス処理：追加
       addCheckbox: function() {

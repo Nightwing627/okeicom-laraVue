@@ -11,6 +11,7 @@ use App\Models\Evaluation;
 use App\Models\Application;
 use App\Mail\BuyLesson;
 use App\Mail\CancelLesson;
+use App\Mail\LessonDetail;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -382,6 +383,9 @@ class LessonController extends Controller
                 $paymentParams['amount']          = $lesson->price;
                 $paymentInstance->create($paymentParams);
 
+                // 送信者にメールを送る
+
+
                 DB::commit();
                 return redirect(route('lessons.application.complete'));
             } catch (\Exception $e) {
@@ -428,6 +432,11 @@ class LessonController extends Controller
         // 送信
         $email = new BuyLesson($teacher, $lesson);
         Mail::to($teacher->email)->send($email);
+
+        // 受講者へ自動メール送信
+        // 送信
+        $userEmail = new LessonDetail($user, $lesson);
+        Mail::to($user->email)->send($userEmail);
 
         // 指定したデータをセッションから削除する
         session()->forget('lesson_id');

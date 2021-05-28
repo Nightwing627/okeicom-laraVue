@@ -220,6 +220,7 @@ class Lesson extends Model
             ])
             // 今日の日付以降のレッスンを取得
             ->where('date', '>=', date("Y-m-d"))
+            ->whereNull('lessons.deleted_at')
             ->join('courses', 'lessons.course_id', '=', 'courses.id')
             ->join('users', 'lessons.user_id', '=', 'users.id')
             ->leftJoinSub($evaluations, 'evaluations', function ($join) {

@@ -75,8 +75,7 @@
 							</div>
 							<div class="other__date">
 								<p class="date">{{ $lesson->date_slash }}<span class="week">({{ $lesson->week }})</span><br>{{ $lesson->separate_hyphen_time}}</p>
-							</div>
-
+                            </div>
                             @if($checkPurchase)
                                 @if($currentDate <= $basicDate)
                                 <div class="other_reserve">
@@ -84,9 +83,12 @@
                                 </div>
                                 @endif
                             @else
+                                @if($currentDate <= $basicDate)
                                 <div class="other_reserve">
                                     <a href="{{ route('lessons.application') }}">予約する</a>
                                 </div>
+                                @else
+                                @endif
                             @endif
 						</div>
                     </div>

@@ -280,32 +280,32 @@ class TeacherController extends Controller
      */
     public function storeCourse(CourseStoreRequest $request)
     {
-      DB::beginTransaction($request);
-      try {
-        $course = new Course();
-        $course->user_id = Auth::user()->id;
-        // コース追加の処理
-        $course->title = $request->title;
-        $course->detail = $request->detail;
-        $course->saveCategories($request);
-        $course->saveImgs($request);
-        $course->save();
-        $last_insert_id = $course->id;
+        DB::beginTransaction($request);
+        try {
+            $course = new Course();
+            $course->user_id = Auth::user()->id;
+            // コース追加の処理
+            $course->title = $request->title;
+            $course->detail = $request->detail;
+            $course->saveCategories($request);
+            $course->saveImgs($request);
+            $course->save();
+            $last_insert_id = $course->id;
 
-        // ユーザーの状態を講師にする処理
-        $user = User::find($course->user_id);
-        $user->is_teacher = 1;
-        $user->save();
+            // ユーザーの状態を講師にする処理
+            $user = User::find($course->user_id);
+            $user->is_teacher = 1;
+            $user->save();
 
-        // セッションにコースIDを登録する
-        session(['course_id' => $last_insert_id]);
+            // セッションにコースIDを登録する
+            session(['course_id' => $last_insert_id]);
 
-        DB::commit();
-        return redirect(route('mypage.t.lessons.create'));
-      } catch (\PDOException $e){
-        DB::rollBack();
-        return back()->withInput()->with('flash_message', 'コースの登録に失敗しました。');
-      }
+            DB::commit();
+            return redirect(route('mypage.t.lessons.create'));
+        } catch (\PDOException $e){
+            DB::rollBack();
+            return back()->withInput()->with('flash_message', 'コースの登録に失敗しました。');
+        }
     }
 
     /**

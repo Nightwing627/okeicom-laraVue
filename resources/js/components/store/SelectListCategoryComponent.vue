@@ -7,13 +7,21 @@
       v-for="(category, index) in categories"
       :key="category.id"
     >
-      <input
+      <!-- <input
         ref="targetCheckcbox"
         name="categories[]"
         type="checkbox"
         :checked="false"
         :value="index"
         @click="categorySubmit('target' + index)"
+      > -->
+      <input
+        ref="targetCheckcbox"
+        name="categories[]"
+        type="checkbox"
+        :checked="false"
+        :value="index"
+        @click="categorySubmit(index)"
       >
       <label>{{ category.name }}</label>
     </li>
@@ -92,7 +100,7 @@
       // }
     },
     methods: {
-      categorySubmit: function(ref) {
+      categorySubmit: function(id) {
         // const vals = $('input[name~"categories"]:checked').map(function() {
         //     return $(this).val();
         // }).get();
@@ -107,6 +115,17 @@
         //   this.$emit("reduceCategory")
         //   this.checkbox -= 1
         // }
+        if(this.$refs.targetCheckcbox[id]['checked']) {
+          if (this.checkbox < 5) {
+            this.checkbox += 1
+            this.$emit("addCategory")
+          } else {
+            this.$refs.targetCheckcbox[id]['checked'] = false
+          }
+        } else {
+          this.$emit("reduceCategory")
+          this.checkbox -= 1
+        }
       }
     },
   }
