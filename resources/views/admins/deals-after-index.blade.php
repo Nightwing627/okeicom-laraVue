@@ -18,7 +18,8 @@
 		</div>
 		<div class="l-wrap--owner--body">
 			<div class="l-wrap--owner--body--inner">
-				<table>
+                <admin-application-after-list />
+				{{--  <table>
 					<thead>
 						<tr>
 							<td>支払い者</td>
@@ -40,7 +41,7 @@
 							</tr>
 						<?php endfor; ?>
 					</tbody>
-				</table>
+				</table>  --}}
 			</div>
 			<div class="pagenation-list">
 				<ul>

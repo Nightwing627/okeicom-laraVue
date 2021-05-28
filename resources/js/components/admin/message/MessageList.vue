@@ -15,7 +15,7 @@
       >
         <td style="white-space: nowrap;">
           <a
-            href=""
+            :href="`/owner-admin/users/edit/${message.send_id}`"
             class="u-text--link"
           >
             {{ message.send_name ? message.send_name : '' }}
@@ -23,7 +23,7 @@
         </td>
         <td style="white-space: nowrap;">
           <a
-            href=""
+            :href="`/owner-admin/users/edit/${message.receive_id}`"
             class="u-text--link"
           >
             {{ message.receive_name ? message.receive_name : '' }}
@@ -56,7 +56,7 @@
     },
     created: function() {
       // メッセージ一覧取得処理
-      axios.get('/api/v1/messages', {})
+      axios.get('/api/v1/messages')
         .then(result => {
           this.messages = result.data;
         })

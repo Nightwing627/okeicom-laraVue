@@ -41,7 +41,7 @@
     },
     created: function() {
       // 出金リクエスト一覧取得処理
-      axios.get('/api/v1/applications', {})
+      axios.get('/api/v1/applications')
         .then(result => {
           // 管理者の承認が実行されていない出金リクエストを取得する
           this.applications = result.data.filter(date => {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\User;
@@ -158,7 +159,49 @@ class AdminController extends Controller
      */
     public function indexNews(Request $request)
     {
-        return view('admins.news-index');
+        $announcements = Announcement::all();
+        return view('admins.news-index', compact('announcements'));
+    }
+
+    /**
+     * お知らせ：削除
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function deleteNews(Request $request)
+    {
+        $announcement = Announcement::find($request->get('id'))->delete();
+        return redirect(route('admins.news.index'));
+    }
+
+    /**
+     * お知らせ：編集
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function editNews($id)
+    {
+        $announcement = Announcement::find($id)->first();
+        return view('admins.news-edit', compact('announcement'));
+    }
+
+    /**
+     * お知らせ：更新
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function updateNews(Request $request, $id)
+    {
+        Announcement::where('id', $id)
+            ->update([
+                'title' => $request->title,
+                'thumbnail' => $request->thumbnail,
+                'detail' => $request->detail,
+            ]);
+        return redirect(route('admins.news.edit', $id));
     }
 
     /**
@@ -170,6 +213,23 @@ class AdminController extends Controller
     public function createNews(Request $request)
     {
         return view('admins.news-create');
+    }
+
+    /**
+     * お知らせ：投稿
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View
+     */
+    public function postNews(Request $request)
+    {
+        $AnnouncementNew = new Announcement();
+        $AnnouncementNew->create([
+            'title' => $request->title,
+            'thumbnail' => $request->thumbnail,
+            'detail' => $request->detail,
+        ]);
+        return redirect(route('admins.news.index'));
     }
 
     /**
@@ -205,5 +265,7 @@ class AdminController extends Controller
         // return view('admins.news-create');
     }
 }
+
+
 
 

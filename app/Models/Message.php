@@ -58,6 +58,25 @@ class Message extends Model
     {
         return $this->created_at->format("H:i");
     }
+    /**
+     *
+     * ファイル保存処理
+     * @return Array
+     *
+     */
+    public function messageList()
+    {
+        return Message::select([
+            'messages.*',
+            'receiver.account as receive_name',
+            'receiver.id as receive_id',
+            'sender.account as send_name',
+            'sender.id as send_id',
+        ])
+        ->leftJoin('users as receiver', 'messages.user_receive_id', '=', 'receiver.id')
+        ->leftJoin('users as sender', 'messages.user_send_id', '=', 'sender.id')
+        ->get();
+    }
 
     /**
      * ファイル保存処理

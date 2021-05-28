@@ -93,10 +93,13 @@ Route::prefix('owner-admin')->name('admins.')->group(function () {
 
         // お知らせ：一覧
         Route::get('news', [AdminController::class, 'indexNews'])->name('news.index');
+        Route::post('news', [AdminController::class, 'deleteNews'])->name('news.delete');
         // お知らせ：編集
-        Route::get('news/edit/', [AdminController::class, 'indexNews'])->name('news.index');
+        Route::get('news/edit/{id}', [AdminController::class, 'editNews'])->name('news.edit');
+        Route::post('news/update/{id}', [AdminController::class, 'updateNews'])->name('news.update');
         // お知らせ：新規作成
         Route::get('news/add', [AdminController::class, 'createNews'])->name('news.create');
+        Route::post('news/add', [AdminController::class, 'postNews'])->name('news.post');
 
         // クーポン：一覧
         Route::get('coupons', [AdminController::class, 'indexCoupons'])->name('coupons.index');

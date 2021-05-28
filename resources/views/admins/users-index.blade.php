@@ -16,11 +16,11 @@
 				<div class="l-wrap--owner--header--title">
 					<p>ユーザー一覧</p>
 				</div>
-				<div class="l-wrap--owner--header--button">
+				{{--  <div class="l-wrap--owner--header--button">
 					<div class="c-button--add">
 						<a href="">ユーザーを追加する</a>
 					</div>
-				</div>
+				</div>  --}}
 			</div>
 			<div class="l-wrap--owner--body">
 				<div class="l-wrap--owner--body--inner">

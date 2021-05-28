@@ -83,15 +83,25 @@ Vue.component('admin-user-create-component', require('./components/admin/createU
 // 一覧
 Vue.component('admin-course-list', require('./components/admin/course/CourseList.vue').default);
 
+/* 取引 */
+// 確定前
+Vue.component('admin-application-before-list', require('./components/admin/application/ApplicationBeforeList.vue').default);
+// 確定後
+
+Vue.component('admin-application-after-list', require('./components/admin/application/ApplicationAfterList.vue').default);
+
 /* 出金リクエスト */
 // 一覧
 Vue.component('admin-withdrawal-list', require('./components/admin/withdrawal/WithdrawalList.vue').default);
 // 一覧
 Vue.component('admin-withdrawal-history', require('./components/admin/withdrawal/WithdrawalHistory.vue').default);
 
+/* メッセージ */
+Vue.component('admin-message-list', require('./components/admin/message/MessageList.vue').default);
+
 
 const app = new Vue({
-  el: '#app',
+    el: '#app',
 });
 
 /* eslint-enable */
