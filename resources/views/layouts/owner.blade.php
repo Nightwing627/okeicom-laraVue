@@ -7,6 +7,10 @@
 		@include("../common/sidebar-owner")
         @yield('content')
 	</div>
-	@include("../common/footer-owner")
+    @include("../common/footer-owner")
+    <script src="{{ asset('ckeditor/ckeditor.js')}}"></script>
+    <script>
+        CKEDITOR.replace('ckeditor');
+    </script>
 </body>
 </html>

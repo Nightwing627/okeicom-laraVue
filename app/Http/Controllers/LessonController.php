@@ -10,6 +10,8 @@ use App\Models\Category;
 use App\Models\Evaluation;
 use App\Models\Application;
 use App\Mail\BuyLesson;
+use App\Mail\CancelLesson;
+use App\Mail\LessonDetail;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -215,7 +217,9 @@ class LessonController extends Controller
     }
 
     /**
+     *
      * クレジットカード決済ページ POST
+     * クレジットカード番号：5778689503669749
      *
      * @param Request $request
      * @return Factory|View
@@ -379,6 +383,9 @@ class LessonController extends Controller
                 $paymentParams['amount']          = $lesson->price;
                 $paymentInstance->create($paymentParams);
 
+                // 送信者にメールを送る
+
+
                 DB::commit();
                 return redirect(route('lessons.application.complete'));
             } catch (\Exception $e) {
@@ -425,6 +432,11 @@ class LessonController extends Controller
         // 送信
         $email = new BuyLesson($teacher, $lesson);
         Mail::to($teacher->email)->send($email);
+
+        // 受講者へ自動メール送信
+        // 送信
+        $userEmail = new LessonDetail($user, $lesson);
+        Mail::to($user->email)->send($userEmail);
 
         // 指定したデータをセッションから削除する
         session()->forget('lesson_id');
@@ -523,12 +535,13 @@ class LessonController extends Controller
 
         DB::beginTransaction();
         try {
+            $user_id = Auth::user()->id;
             // 予約情報を取得する
             $application = Application::find($application_id);
             // *** キャンセル登録 ***
             $cancelInstance = new Cancel;
             $cancelParams['application_id'] = $application_id;
-            $cancelParams['user_id']        = Auth::user()->id;
+            $cancelParams['user_id']        = $user_id;
             $cancelParams['reason']         = $request->reason;
             if($basicDate <= Carbon::now()->subHours(24)) {
                 // 24時間より前の場合
@@ -554,6 +567,12 @@ class LessonController extends Controller
             $application->cancel_id = $cancel_id;
             $application->save();
             $application->delete();
+
+            // *** メール送信 ***
+            $email = new CancelLesson();
+            $user = User::find($user_id);
+            $user_email = $user->email;
+            Mail::to($user_email)->send($email);
 
             // DBトランザクションをコミット
             DB::commit();

@@ -1,18 +1,42 @@
 <template>
-	<div class="l-content--detail__box" v-for="(faq, index) in studentFaqs" :key="index">
-		<p class="u-text--big">{{ faq.title }}</p>
-		<ul class="c-list--question">
-			<li v-for="(body, content) in faq.bodys" :key="content">
-				<div class="question" v-html="body.question"></div>
-				<div class="answer" v-html="body.answer" :class="{open: body.isAnswerOpen}"></div>
-				<span class="toggleAnswerPanelButton" :class="{ rotate: body.isAnswerOpen }" @click.stop="toggleStudentAnswer(index, content)"></span>
-			</li>
-		</ul>
-	</div>
+  <div>
+    <div
+      v-for="(faq, index) in studentFaqs"
+      :key="index"
+      class="l-content--detail__box"
+    >
+      <p class="u-text--big">
+        {{ faq.title }}
+      </p>
+      <ul class="c-list--question">
+        <li
+          v-for="(body, content) in faq.bodys"
+          :key="content"
+        >
+          <div
+            class="question"
+          >
+            {{ body.question }}
+          </div>
+          <div
+            class="answer"
+            :class="{ open: body.isAnswerOpen }"
+          >
+            {{ body.answer }}
+          </div>
+          <span
+            class="toggleAnswerPanelButton"
+            :class="{ rotate: body.isAnswerOpen }"
+            @click.stop="toggleStudentAnswer(index, content)"
+          />
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
 <script>
 	export default {
-        components: {},
+    components: {},
 		data() {
 			return {
 				// 生徒のよくある質問
@@ -158,14 +182,14 @@
 		created: function() {
 			// 必要に応じて、初期表示時に使用するLaravelのAPIを呼び出すメソッドを定義
 		},
-		computed: {},
+
 		methods: {
-			
+
 			// 受講者向けよくある質問ボタン
 			toggleStudentAnswer: function(index, content) {
 				this.studentFaqs[index].bodys[content].isAnswerOpen = !this.studentFaqs[index].bodys[content].isAnswerOpen;
 			},
 		},
-		watch: {},
+
 	}
 </script>

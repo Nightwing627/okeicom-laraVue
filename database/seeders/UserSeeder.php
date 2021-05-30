@@ -16,14 +16,15 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('users')->truncate();
 
         $datas = [
             [
                 'name' => 'ユーザー1',
-                'email' => 'user1@example.com',
+                'email' => 'test1@test.com',
                 'tel' => '00000000000',
-                'password' => 'secret01',
+                'password' => 'password',
                 'account' => 'user1',
                 'status' => 1,
                 'is_teacher' => 1,
@@ -32,9 +33,9 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'ユーザー2',
-                'email' => 'user2@example.com',
+                'email' => 'test2@test.com',
                 'tel' => '00000000001',
-                'password' => 'secret02',
+                'password' => 'password',
                 'account' => 'user2',
                 'status' => 1,
                 'is_teacher' => 1,
@@ -43,9 +44,9 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'ユーザー3',
-                'email' => 'user3@example.com',
+                'email' => 'test3@test.com',
                 'tel' => '00000000002',
-                'password' => 'secret03',
+                'password' => 'password',
                 'account' => 'user3',
                 'status' => 0,
                 'is_teacher' => 0,
@@ -67,42 +68,7 @@ class UserSeeder extends Seeder
             $manage->mailing = $data['mailing'];
             $manage->save();
         }
-        // for ($i = 1; $i < 10; $i++) {
-        //     User::create([
-        //         'name' => 'ユーザー'.$i,
-        //         'email' => 'user'.$i.'@example.com',
-        //         'password' => 'secret'.$i,
-        //         'account' => 'user'.$i,
-        //         'status' => 0,
-        //         'prefecture_id' => $i,
-        //         'profile' => 'ユーザー'.$i.'のプロフィール',
-        //         'mailing' => '0',
-        //     ]);
-        // }
-        // for ($i = 11; $i < 20; $i++) {
-        //     User::create([
-        //         'name' => 'ユーザー'.$i,
-        //         'email' => 'user'.$i.'@example.com',
-        //         'password' => 'secret'.$i,
-        //         'account' => 'user'.$i,
-        //         'status' => 1,
-        //         'prefecture_id' => $i,
-        //         'profile' => 'ユーザー'.$i.'のプロフィール',
-        //         'mailing' => '0',
-        //     ]);
-        // }
-        // for ($i = 21; $i < 30; $i++) {
-        //     User::create([
-        //         'name' => 'ユーザー'.$i,
-        //         'email' => 'user'.$i.'@example.com',
-        //         'password' => 'secret'.$i,
-        //         'account' => 'user'.$i,
-        //         'status' => 2,
-        //         'prefecture_id' => $i,
-        //         'profile' => 'ユーザー'.$i.'のプロフィール',
-        //         'mailing' => '0',
-        //     ]);
-        // }
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
 }

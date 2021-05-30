@@ -1,175 +1,284 @@
 @extends('layouts.user-single')
-​
+
 <!-- タイトル・メタディスクリプション -->
-@section('title', 'レッスン閲覧画面')
-@section('description', 'レッスン閲覧画面')
-​
+@section('title', 'レッスン閲覧画面') @section('description', 'レッスン閲覧画面')
+
 <!-- CSS -->
 @push('css')
 <!-- 吉田豊が修正しました -->
-<link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+	<style>
+		.all-body {
+		    width:100%;
+		    margin:auto;
+		    max-width: 1200px;
+		}
+		.d_title {
+		    text-align:center;
+		}
+		.viewer_pdf {
+		    width:100%;
+		    margin:auto;
+		}
+		.canvas-content {
+		    margin:auto;
+		    width: 100%;
+		    overflow: auto;
+		    text-align: center;
+		    border: solid 3px;
+		}
+		​
+		.prev-button {
+		    padding: 10px;
+		    width:100px;
+		    background: #373B50;
+		    color: white;
+		    border-radius: 10px;
+		}
+		.next-button {
+		    padding: 10px;
+		    width:100px;
+		    background: #373B50;
+		    color: white;
+		    border-radius: 10px;
+		}
+		.control-body {
+		    text-align:center;
+		    margin-top:50px;
+		}
+		.zoom-body {
+		    text-align:center;
+		    margin-top:10px;
+		}
+		.zoom-in {
+		    padding: 10px;
+		    width:50px;
+		    background: #373B50;
+		    color: white;
+		    border-radius: 10px;
+		}
+		.zoom-out {
+		    padding: 10px;
+		    width:50px;
+		    background: #373B50;
+		    color: white;
+		    border-radius: 10px;
+		    margin-left:50px;
+		}
+		#pdf_renderer {
+		    width:100%;
+		}
+		@media(max-width:780px){
+		    .all-body{
+		        width:100%;
+		        margin:auto;
+		    }
+		    .viewer_pdf {
+		        width:100%;
+		        margin:auto;
+		    }
+		    #pdf_renderer {
+		        width:100%;
+		    }
+		    .canvas-content {
+		        margin:auto;
+		        width: 100%;
+		        height: auto;
+		        overflow: auto;
+		        text-align: center;
+		        border: solid 3px;
+		    }
+		    .prev-button {
+		        padding: 10px;
+		        width:50px;
+		        background: #373B50;
+		        color: white;
+		        border-radius: 10px;
+		    }
+		    .next-button {
+		        padding: 10px;
+		        width:50px;
+		        background: #373B50;
+		        color: white;
+		        border-radius: 10px;
+		    }
+		    .page {
+		        width:50px;
+		    }
+		    .control-body {
+		        text-align:center;
+		        margin-top:50px;
+		    }
+		    .zoom-body {
+		        text-align:center;
+		        margin-top:10px;
+		        display: none;
+		    }
+		    .zoom-in {
+		        padding: 10px;
+		        width:50px;
+		        background: #373B50;
+		        color: white;
+		        border-radius: 10px;
+		    }
+		    .zoom-out {
+		        padding: 10px;
+		        width:50px;
+		        background: #373B50;
+		        color: white;
+		        border-radius: 10px;
+		        margin-left:50px;
+		    }
+		}
+	</style>
 @endpush
-​
+
 <!-- 本文 -->
 @section('content')
 <!-- 吉田豊が修正しました -->
-	@if($lesson->type == 2)
-	<div class="all-body" >
-		<div class="l-wrap--title d_title">
-	@else
-	<div class="l-wrap--single">
-		<div class="l-wrap--title">
-	@endif
 
-			<h1 class="c-headline--screen">レッスン受講画面</h1>
-		</div>
-		@if($lesson->type !== 2)
-		<div class="l-wrap--body">
-			<div class="l-wrap--main l-wrap--detail">
-				<div class="l-content--detail">
-					<div class="l-content--detail__inner">
-                        <div class="browsing-url">
-                            <a class="u-text--link" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=rOho8r3Y2_k">https://www.youtube.com/watch?v=rOho8r3Y2_k</a>
-                        </div>
-					</div>
-				</div>
-			</div>
-		</div>
-		@else
-		<div id="my_pdf_viewer" class="viewer_pdf">
-			<div id="canvas_container" class="canvas-content">
-				<canvas id="pdf_renderer"></canvas>
-			</div>
+<div class="l-wrap l-flex">
+    <div class="l-wrap--title">
+        <h1 class="c-headline--screen">レッスン受講画面</h1>
+    </div>
+    @if($lesson->type !== 2)
+    <div class="l-wrap--body">
+        <div class="l-wrap--main l-wrap--detail">
+            <div class="l-content--detail">
+                <div class="l-content--detail__inner">
+                    <div class="browsing-url">
+                        <a class="u-text--link" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=rOho8r3Y2_k">https://www.youtube.com/watch?v=rOho8r3Y2_k</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @else
+    <div id="my_pdf_viewer">
+        <div id="canvas_container" class="canvas-content">
+            <canvas id="pdf_renderer"></canvas>
+        </div>
 
-			<div id="navigation_controls" class="control-body">
-				<button class="prev-button" id="go_previous" type="button">前へ</button>
-				<input id="current_page" value="1" type="number" class="page"/>
-				<button class="next-button" id="go_next" type="button">次へ</button>
-​
-			</div>
+        <div id="navigation_controls" class="control-body">
+            <button class="prev-button" id="go_previous" type="button">前へ</button>
+            <input id="current_page" value="1" type="number" class="page" />
+            <button class="next-button" id="go_next" type="button">次へ</button>
 
-			<!-- <div id="zoom_controls" class="zoom-body">
+        </div>
+
+        <!-- <div id="zoom_controls" class="zoom-body">
 				<button id="zoom_in" class="zoom-in">+</button>
 				<button id="zoom_out" class="zoom-out">-</button>
 			</div> -->
-		</div>
-		<!-- 吉田豊が修正しました -->
-		@endif
-	</div>
-@endsection
-​
-@section('script')
+    </div>
+    <!-- 吉田豊が修正しました -->
+    @endif
+</div>
+@endsection @section('script')
 <!-- 吉田豊が修正しました -->
-<script
-    src="http://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js">
 </script>
 <script>
-        var myState = {
-            pdf: null,
-            currentPage: 1,
-            zoom: 1.4
-        }
+    var myState = {
+        pdf: null,
+        currentPage: 1,
+        zoom: 1.4
+    }
 
-        pdfjsLib.getDocument("{{ asset('storage/lesson/'. $lesson->view.'/'.$lesson->slide.'.pdf')}}").then((pdf) => {
+    pdfjsLib.getDocument("{{ asset('storage/lesson/'. $lesson->view.'/'.$lesson->slide.'.pdf')}}").then((pdf) => {
 
-            myState.pdf = pdf;
-            render();
+        myState.pdf = pdf;
+        render();
 
-        });
+    });
 
-        function render() {
-            myState.pdf.getPage(myState.currentPage).then((page) => {
+    function render() {
+        myState.pdf.getPage(myState.currentPage).then((page) => {
 
-                var canvas = document.getElementById("pdf_renderer");
-                var ctx = canvas.getContext('2d');
+            var canvas = document.getElementById("pdf_renderer");
+            var ctx = canvas.getContext('2d');
 
-                var viewport = page.getViewport(myState.zoom);
+            var viewport = page.getViewport(myState.zoom);
 
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
 
-                page.render({
-                    canvasContext: ctx,
-                    viewport: viewport
-                });
+            page.render({
+                canvasContext: ctx,
+                viewport: viewport
             });
-        }
-
-        document.getElementById('go_previous').addEventListener('click', (e) => {
-            prev_event();
         });
+    }
 
-		function prev_event(){
-            if(myState.pdf == null || myState.currentPage == 1)
+    document.getElementById('go_previous').addEventListener('click', (e) => {
+        prev_event();
+    });
+
+    function prev_event() {
+        if (myState.pdf == null || myState.currentPage == 1)
             return;
-            myState.currentPage -= 1;
+        myState.currentPage -= 1;
+        document.getElementById("current_page").value = myState.currentPage;
+        render();
+    }
+
+    document.getElementById('go_next').addEventListener('click', (e) => {
+        next_event();
+    });
+
+    function next_event() {
+
+        if (myState.pdf == null || myState.currentPage == myState.pdf._pdfInfo.numPages) {
+
+        } else {
+            myState.currentPage += 1;
             document.getElementById("current_page").value = myState.currentPage;
             render();
-		}
+        }
+    }
 
-        document.getElementById('go_next').addEventListener('click', (e) => {
+    document.addEventListener('keydown', (e) => {
+
+        var code = (e.keyCode ? e.keyCode : e.which);
+        console.log(code)
+        if (code == 37) {
+            prev_event();
+        }
+        if (code == 39) {
             next_event();
-        });
-​
-		function next_event(){
+        }
+        if (code == 38) {
+            zoom_in();
+        }
+        if (code == 40) {
+            zoom_out();
+        }
+    });
 
-			if(myState.pdf == null || myState.currentPage == myState.pdf._pdfInfo.numPages) {
+    document.getElementById('current_page').addEventListener('keypress', (e) => {
+        if (myState.pdf == null) return;
 
-			}else{
-				myState.currentPage += 1;
-				document.getElementById("current_page").value = myState.currentPage;
-				render();
-			}
-		}
-
-		document.addEventListener('keydown', (e) =>{
-
-			var code = (e.keyCode ? e.keyCode : e.which);
-			console.log(code)
-			if(code == 37){
-				prev_event();
-			}
-			if(code == 39){
-				next_event();
-			}
-			if(code == 38){
-				zoom_in();
-			}
-			if(code == 40){
-				zoom_out();
-			}
-		});
-
-        document.getElementById('current_page').addEventListener('keypress', (e) => {
-            if(myState.pdf == null) return;
-
-            // Get key code
-            var code = (e.keyCode ? e.keyCode : e.which);
-			console.log(code)
+        // Get key code
+        var code = (e.keyCode ? e.keyCode : e.which);
+        console.log(code)
             // If key code matches that of the Enter key
-            if(code == 13) {
-                var desiredPage =
+        if (code == 13) {
+            var desiredPage =
                 document.getElementById('current_page').valueAsNumber;
 
-                if(desiredPage >= 1 && desiredPage <= myState.pdf._pdfInfo.numPages) {
-                    myState.currentPage = desiredPage;
-                    document.getElementById("current_page").value = desiredPage;
-                    render();
-                }
+            if (desiredPage >= 1 && desiredPage <= myState.pdf._pdfInfo.numPages) {
+                myState.currentPage = desiredPage;
+                document.getElementById("current_page").value = desiredPage;
+                render();
             }
+        }
 
-        });
+    });
 
-        document.getElementById('zoom_in').addEventListener('click', (e) => {
-            zoom_in();
-        });
-​
-		function zoom_in(){
-			if(myState.pdf == null) return;
-            myState.zoom += 0.5;
-            render();
-		}
+    document.getElementById('zoom_in').addEventListener('click', (e) => {
+        zoom_in();
+    });
 
+<<<<<<< HEAD
         document.getElementById('zoom_out').addEventListener('click', (e) => {
             zoom_out();
         });
@@ -181,3 +290,23 @@
 		}
     </script>
 @endsection
+=======
+    function zoom_in() {
+        if (myState.pdf == null) return;
+        myState.zoom += 0.5;
+        render();
+    }
+
+    document.getElementById('zoom_out').addEventListener('click', (e) => {
+        zoom_out();
+    });
+
+    function zoom_out() {
+        if (myState.pdf == null) return;
+        myState.zoom -= 0.5;
+        render();
+    }
+</script>
+<!-- 吉田豊が修正しました -->
+@endsection
+>>>>>>> f3112d1301224170fbfd7427cb219894a2ef8ab7

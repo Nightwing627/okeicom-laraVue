@@ -36,6 +36,25 @@ class Application extends Model
     /**
      * 退会による申込状態の更新
      */
+    public function applicationList()
+    {
+        return self::select([
+                'applications.*',
+                'users.id as user_id',
+                'users.img as img',
+                'users.name as name',
+                'users.sex as sex',
+                'prefectures.name as pref',
+            ])
+            ->whereIn('applications.status', [0,1])
+            ->leftJoin('users', 'applications.user_id', '=', 'users.id')
+            ->leftJoin('prefectures', 'users.prefecture_id', '=', 'prefectures.id')
+            ->get();
+    }
+
+    /**
+     * 退会による申込状態の更新
+     */
     public function applicationListOfLesson($id)
     {
         return self::select([

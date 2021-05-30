@@ -271,7 +271,6 @@ class StudentController extends Controller
      */
     public function updateProfile(UserUpdateRequest $request)
     {
-
         DB::transaction(function () use($request) {
             $user                   = $this->user->query()->find(Auth::user()->id);
             $user->name             = $request->name;
@@ -331,7 +330,6 @@ class StudentController extends Controller
     public function createWithdrawal(Request $request)
     {
         $user_status = Auth::user()->status;
-        // return view('students.withdrawal-create');
         return view('students.withdrawal-create', compact('user_status'));
     }
 
@@ -343,9 +341,13 @@ class StudentController extends Controller
      */
     public function storeWithdrawal(Request $request)
     {
-        DB::transaction(function () {
-            $this->withdraw->executeWithdraw();
-        });
+
+        // DBトランザクションをしいて削除処理
+
+        $target = $this->withdraw->executeWithdraw();
+        if($target != null) {
+            return back()->withErrors($target);
+        };
 
         // ログアウト
         Auth::guard()->logout();
@@ -434,95 +436,6 @@ class StudentController extends Controller
         $trade_details  = $this->payment->getDetail();
         $user_status    = Auth::user()->status;
         return view('students.trade', compact('holding_amount', 'trade_months', 'trade_details', 'user_status'));
-    }
-
-    /**
-     * 出金リクエストページ
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function createPayment(Request $request)
-    {
-        // 出金情報
-        $user_status = Auth::user()->status;
-        $holding_amount = $this->payment->getHoldingAmount();
-
-        // DBから銀行情報を取得する
-        $bankDate = '';
-        $target = '';
-        if(JapansBank::where('user_id', Auth::id())->first()) {
-            $bankDate = JapansBank::where('user_id', Auth::id())->first();
-            $bankDate['japan_name'] = $bankDate['name'];
-            $bankDate['japan_number'] = $bankDate['number'];
-            $target = 0;
-        } elseif(OthersBank::where('user_id', Auth::id())->first()) {
-            $bankDate = OthersBank::where('user_id', Auth::id())->first();
-            $bankDate['other_name'] = $bankDate['name'];
-            $bankDate['other_number'] = $bankDate['number'];
-            $target = 1;
-        }
-
-        // IDをセッションに保存（出金履歴の登録時に必要）
-        if($bankDate['id']) {
-            session(['id' => $bankDate['id']]);
-        }
-        return view('students.payment-create', compact('holding_amount', 'user_status', 'bankDate', 'target'));
-    }
-
-    /**
-     * 出金リクエスト処理
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function storePayment(Request $request)
-    {
-        $user_id = Auth::user()->id;
-        $user_status = Auth::user()->status;
-        $bank_type = $request->bank_type;
-
-        // 銀行情報と出金リクエスト登録
-        DB::transaction(function () use($request, $user_id, $bank_type) {
-            // １．銀行タイプから、条件分岐でゆうちょかそれ以外かに登録
-            // ２．情報を全て登録
-            $id = '';
-            if(session()->has('id')) {
-                $id = session('id');
-            } else {
-                if($bank_type == 0) {
-                    // ゆうちょ銀行
-                    $this->japans_bank->registerJapanBank($request, $user_id);
-                } elseif($bank_type == 1) {
-                    // その他銀行
-                    $this->others_bank->registerOtherBank($request, $user_id);
-                }
-                // ３．登録した銀行IDを取得
-                $id = DB::getPdo()->lastInsertId();
-            }
-
-            // ４．全てをwithdrawals tableに登録
-            $this->withdrawal->store($request, $user_id, $id);
-
-            // ５．出金完了メール送信
-            $user = Auth::user();
-            $email = new WithdrawalRequest($user, $request);
-            Mail::to(Auth::user()->email)->send($email);
-        });
-
-        // ５．取引履歴
-        return view('students.payment-complete', compact('user_status'));
-    }
-
-    /**
-     * 出金リクエスト完了ページ
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function completePayment(Request $request)
-    {
-        return view('students.payment-complete');
     }
 
     /**

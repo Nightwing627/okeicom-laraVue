@@ -1,4 +1,5 @@
-@extends(($user_status == 0)?'layouts.user':'layouts.teacher')
+
+@extends('layouts.owner')
 
 <!-- タイトル・メタディスクリプション -->
 @section('title', 'メッセージ一覧 | おけいcom')
@@ -18,7 +19,8 @@
 		</div>
 		<div class="l-wrap--owner--body">
 			<div class="l-wrap--owner--body--inner">
-				<table>
+                <admin-message-list />
+				{{--  <table>
 					<thead>
 						<tr>
 							<td>送り先</td>
@@ -41,16 +43,16 @@
 							</tr>
 						<?php endfor; ?>
 					</tbody>
-				</table>
+				</table>  --}}
 			</div>
-			<div class="pagenation-list">
+			{{--  <div class="pagenation-list">
 				<ul>
 					<li class="now">１</li>
 					<?php for($i=2;$i<10;$i++): ?>
 						<li><a href=""><?php echo $i; ?></a></li>
 					<?php endfor; ?>
 				</ul>
-			</div>
+			</div>  --}}
 		</div>
 	</div>
 @endsection

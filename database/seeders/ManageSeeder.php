@@ -21,18 +21,18 @@ class ManageSeeder extends Seeder
         $datas = [
             [
                 'name' => '管理者1',
-                'email' => 'manage1@example.com',
-                'password' => 'secret1',
+                'email' => 'test1@test.com',
+                'password' => 'password',
             ],
             [
                 'name' => '管理者2',
-                'email' => 'manage2@example.com',
-                'password' => 'secret2',
+                'email' => 'test2@test.com',
+                'password' => 'password',
             ],
             [
                 'name' => '管理者3',
-                'email' => 'manage3@example.com',
-                'password' => 'secret3',
+                'email' => 'test3@test.com',
+                'password' => 'password',
             ],
         ];
 

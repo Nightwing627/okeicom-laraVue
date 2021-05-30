@@ -25,8 +25,9 @@ class DatabaseSeeder extends Seeder
             ManageSeeder::class,
             // PaymentsTableSeeder::class,
             PrefectureSeeder::class,
-            UserSeeder::class,
+            // UserSeeder::class,
             // WithdrawalTableSeeder::class,
+            // AnnouncementSeeder::class,
         ]);
     }
 }

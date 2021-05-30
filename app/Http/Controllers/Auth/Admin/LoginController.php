@@ -28,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/owner-admin/withdraw/request';
 
     /**
      * Create a new controller instance.
@@ -41,7 +41,10 @@ class LoginController extends Controller
     }
 
     /**
+     *
+     * ログインフォーム
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     *
      */
     public function showLoginForm()
     {
@@ -49,6 +52,7 @@ class LoginController extends Controller
     }
 
     /**
+     *
      * Guardの認証方法を指定
      *
      * @return mixed
@@ -59,6 +63,8 @@ class LoginController extends Controller
     }
 
     /**
+     *
+     * ログアウト
      * @param Request $request
      *
      * @return mixed
@@ -77,6 +83,6 @@ class LoginController extends Controller
      */
     public function loggedOut(Request $request)
     {
-        return redirect(route('home'));
+        return redirect(route('admin.login'));
     }
 }

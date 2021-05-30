@@ -15,7 +15,6 @@
         .vue__time-picker .dropdown ul li[disabled]:hover {
             background: #ddd !important;
         }
-
         .vdp-datepicker__clear-button {
             position: absolute;
             right: 10px;
@@ -41,21 +40,24 @@
 
     {{--  エラーメッセージ  --}}
     @if ($errors->any())
-    <div class="l-alart errorAlart" role="alert">
-        @foreach ($errors->all() as $error)
-        <p>{{ $error }}</p>
-        @endforeach
-    </div>
+        <div class="l-alart errorAlart" role="alert">
+            @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+            @endforeach
+        </div>
     @endif
     {{--  成功メッセージ  --}}
     @if (session('success'))
-    <div class="l-alart successAlart" role="alert">
-        <p>{{ session('success') }}</p>
-    </div>
+        <div class="l-alart successAlart" role="alert">
+            <p>{{ session('success') }}</p>
+        </div>
     @endif
-
-    <form action="{{ route('mypage.t.lessons.update', ['lesson_id' => $lesson->id, 'courses_id' => $lesson->course_id, 'type' => $lesson->type]) }}" method="POST">
+    <form action="{{ route('mypage.t.lessons.update', ['lesson' => $lesson, 'lesson_id' => $lesson->id, 'courses_id' => $lesson->course_id]) }}" method="POST">
         @csrf
-        <lesson-edit-component :lesson="{{ $lesson }}" :applications="{{ json_encode($applications) }}"></lesson-edit-component>
+        <lesson-edit-component
+            :lesson="{{ $lesson }}"
+            :applications="{{ json_encode($applications) }}"
+            :param="{{ $_GET['param'] ?? 1 }}"
+        />
     </form>
 @endsection

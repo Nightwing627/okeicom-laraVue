@@ -7,16 +7,59 @@
 {{--  CSS  --}}
 @push('css')
 <link rel="stylesheet" href="{{ asset('/css/foundation/single/userDealing.css') }}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remodal/1.1.1/remodal-default-theme.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remodal/1.1.1/remodal.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+@endpush
+
+{{--  JS  --}}
+@push('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remodal/1.1.1/remodal.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/l10n/ja.js" defer></script>
 @endpush
 
 {{-- 本文  --}}
 @section('content')
+    <!-- remodal -->
+    <div class="remodal w80" data-remodal-id="modal">
+        <form id='csvform' action="{{ route('mypage.t.trade.csv.export') }}" method="POST">
+            @csrf
+            <div class='row mb-3'>
+                <div class="col-md-5">
+                    <label class='h4'>エクスポートの開始日</label>
+                </div>
+                <div class="col-md-2 h2 d-flex justify-content-center align-items-center"></div>
+                <div class="col-md-5">
+                    <label class='h4'>エクスポートの終端日</label>
+                </div>
+                </div> <!-- row -->
+                <div class='row mb-3'>
+                <!--datepicker-->
+                <div class="col-md-5">
+                    <input data-provide="datepicker" class="form-control datepicker js-start-date" type="datetime"
+                    placeholder="出力開始日" name="start_date" value="" dusk='datepicker_first'>
+                </div>
+                <div class="col-md-2 h2 d-flex justify-content-center align-items-center">
+                    〜
+                </div>
+                <div class="col-md-5">
+                    <input data-provide="datepicker" class="form-control datepicker js-end-date" type="datetime" placeholder="出力終了日"
+                    name="end_date" value="" dusk='datepicker_last'>
+                </div>
+            </div> <!-- row -->
+
+            <button data-remodal-action="cancel" class="btn btn-secondary">キャンセル</button>
+            <button type='submit' class="btn btn-primary">ダウンロード</button>
+        </form>
+    </div> <!-- remodal -->
+
     <div class="user-detaling-total">
         <div class="user-detaling-total--price">
             <span>¥{{ number_format($holding_amount) }}</span>
         </div>
         <div class="user-detaling-total--request">
-            <a href="{{ route('mypage.u.payment.create') }}" @if($holding_amount === 0) class="disabled" disabled="disabled" tabindex="-1" @endif>出金リクエスト</a>
+            <a href="{{ route('mypage.t.payment.create') }}" @if($holding_amount === 0) class="disabled" disabled="disabled" tabindex="-1" @endif>出金リクエスト</a>
             {{--  <form method="POST" action="{{ route('mypage.u.payment.create') }}">
                 <button type="submit" class="c-button--square__pink" @if($holding_amount->separate_comma_amount == '¥0') disabled @endif>出金リクエスト</button>
             </form>  --}}
@@ -24,7 +67,7 @@
     </div>
     {{--  tab：ゆうちょ  --}}
     <div class="l-list--deal">
-        <div class="l-list--deal--period">
+        {{-- <div class="l-list--deal--period">
             <p class="u-color--grayNavy u-text--small">表示対象期間</p>
             <div class="c-selectBox">
                 <select id="months" name="months" class="form-control" autocomplete="months">
@@ -33,17 +76,26 @@
                     @endforeach
                 </select>
             </div>
+        </div> --}}
+        <div class="l-list--deal--period">
+            <p class="u-color--grayNavy u-text--small"><a href="#modal">取引履歴をCSVファイルでダウンロード</a></p>
         </div>
         {{--  スマホ  --}}
         <div class="l-list--deal--detail sp-only">
             @foreach ($trade_details as $trade_detail)
             <div class="l-list--deal--detail--content">
                 <div class="price">
-                    <p class="trade add">{{ $trade_detail->separate_comma_point_add_sign_amount }}</p>
-                    <p class="balance">（残：{{ $trade_detail->separate_comma_point_amount }}）</p>
+
+                    @if($trade_detail->add_sign_amount < 0)
+                        <p class="trade minus">{{ $trade_detail->separate_comma_point_add_sign_amount }}</p>
+                    @else
+                        <p class="trade add">{{ $trade_detail->separate_comma_point_add_sign_amount }}</p>
+                    @endif
+                    {{--  <p class="trade minus">{{ $trade_detail->separate_comma_point_add_sign_amount }}</p>  --}}
+                    <p class="balance">（残 {{ $trade_detail->separate_comma_point_amount }}）</p>
                 </div>
                 <div class="detail">
-                    <p class="time"></p>
+                    <p class="time">{{ $trade_detail->formated_ymd_created_at }}</p>
                     @if($trade_detail->lessons_title == '出金')
                     <p class="item">出金</p>
                     <p class="deal"></p>
@@ -68,16 +120,6 @@
                     </tr>
                 </thead>
                 @foreach ($trade_details as $trade_detail)
-                {{--
-                <tr>
-                    <td>1日</td>
-                    <td>購入</td>
-                    <td>「レッスン名レッスン名レッスン名レッスン名」</td>
-                    <td class="u-textAlign__right">-</td>
-                    <td class="u-textAlign__right">¥23,334</td>
-                    <td class="u-textAlign__right">¥335,906</td>
-                </tr>
-                --}}
                 <tr>
                     <td>{{ $trade_detail->formated_ymd_created_at }}</td>
                     @if($trade_detail->lessons_title == '出金')
@@ -89,7 +131,6 @@
                     <td class="u-textAlign__right">{{ $trade_detail->separate_comma_amount }}</td>
                     <td></td>
                     @endif
-                    {{-- <td class="u-textAlign__right"></td> --}}
                     <td class="u-textAlign__right">{{ $trade_detail->separate_comma_point_amount }}</td>
                 </tr>
                 @endforeach

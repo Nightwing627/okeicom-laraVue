@@ -169,7 +169,7 @@ class RegisterController extends Controller
             'account' => ['required', 'regex:/^[a-zA-Z0-9]+$/', 'max:255'],
             'sex' => ['required', 'numeric'],
             // 'sex' => ['required', 'numeric'],
-            'profile' => ['required', 'string'],
+            // 'profile' => ['required', 'string'],
         ]);
     }
 

@@ -6,13 +6,15 @@ use App\Http\Controllers\Auth\ForgotPasswordController as UserForgotPassword;
 use App\Http\Controllers\Auth\RegisterController as UserRegister;
 use App\Http\Controllers\Auth\ResetPasswordController as UserResetPassword;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\BankController;
+use App\Http\Controllers\WithdrawalController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +34,11 @@ Route::get('login', [UserLogin::class, 'showLoginForm'])->name('login');
 Route::post('login', [UserLogin::class, 'login']);
 Route::post('logout', [UserLogin::class, 'logout'])->name('logout');
 
+// 管理者認証
+Route::get('admin-login', [AdminLogin::class, 'showLoginForm'])->name('admin.login');
+Route::post('admin-login', [AdminLogin::class, 'login']);
+Route::post('admin-logout', [AdminLogin::class, 'logout'])->name('admin.logout');
+
 // パスワードリセット
 Route::get('password-reset', [UserForgotPassword::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password-email', [UserForgotPassword::class, 'sendResetLinkEmail'])->name('password.email');
@@ -39,13 +46,14 @@ Route::get('password-reset/new/{token}', [UserResetPassword::class, 'showResetFo
 Route::post('password-reset/new', [UserResetPassword::class, 'reset'])->name('password.update');
 Route::get('password-reset/complete', [UserResetPassword::class, 'complete'])->name('password.complete');
 
-// ログイン
+// ユーザーログイン
 Route::get('sign-up', [UserRegister::class, 'showEmailVerifyForm'])->name('email.verify');
 Route::post('email-send', [UserRegister::class, 'emailVerify'])->name('email.verify.send');
 Route::get('email-send/complete', [UserRegister::class, 'completeEmailSend'])->name('email.send.complete');
 Route::get('sign-up/register/{token}', [UserRegister::class, 'showRegistrationForm'])->name('sign-up.show');
 Route::post('sign-up/register/{token}', [UserRegister::class, 'register'])->name('sign-up.store');
 Route::get('sign-up/complete', [UserRegister::class, 'completeRegister'])->name('sign-up.complete');
+
 
 // 管理者認証
 Route::prefix('owner-admin')->name('admins.')->group(function () {
@@ -60,6 +68,7 @@ Route::prefix('owner-admin')->name('admins.')->group(function () {
         Route::get('withdraw/request', [AdminController::class, 'requestWithdraws'])->name('withdraws.request');
         // 出金：履歴一覧
         Route::get('withdraw/history', [AdminController::class, 'historyWithdraws'])->name('withdraws.history');
+
         // ユーザー：一覧
         Route::get('users', [AdminController::class, 'indexUsers'])->name('users.index');
         // ユーザー：追加
@@ -68,20 +77,36 @@ Route::prefix('owner-admin')->name('admins.')->group(function () {
         // ユーザー：編集（詳細）
         Route::get('users/edit/{id}', [AdminController::class, 'editUsers'])->name('users.edit');
         Route::post('users/update', [AdminController::class, 'updateUsers'])->name('users.update');
+
         // コース：一覧
-        Route::get('courses', [AdminController::class, 'indexCourses'])->name('courses.indnex');
+        Route::get('courses', [AdminController::class, 'indexCourses'])->name('courses.index');
         // コース：詳細
         Route::get('courses/detail/{id}', [AdminController::class, 'showCourses'])->name('courses.show');
+
         // メッセージ：一覧
-        Route::get('messages', [AdminController::class, 'indexMessages'])->name('messages.indnex');
+        Route::get('messages', [AdminController::class, 'indexMessages'])->name('messages.index');
+
         // 取引(確定前)：一覧
-        Route::get('deals-before', [AdminController::class, 'indexDealsBefore'])->name('deails-before.indnex');
+        Route::get('deals-before', [AdminController::class, 'indexDealsBefore'])->name('deails-before.index');
         // 取引(確定後)：一覧
         Route::get('deals-after', [AdminController::class, 'indexDealsAfter'])->name('deails-after.index');
+
         // お知らせ：一覧
         Route::get('news', [AdminController::class, 'indexNews'])->name('news.index');
+        Route::post('news', [AdminController::class, 'deleteNews'])->name('news.delete');
+        // お知らせ：編集
+        Route::get('news/edit/{id}', [AdminController::class, 'editNews'])->name('news.edit');
+        Route::post('news/update/{id}', [AdminController::class, 'updateNews'])->name('news.update');
         // お知らせ：新規作成
         Route::get('news/add', [AdminController::class, 'createNews'])->name('news.create');
+        Route::post('news/add', [AdminController::class, 'postNews'])->name('news.post');
+
+        // クーポン：一覧
+        Route::get('coupons', [AdminController::class, 'indexCoupons'])->name('coupons.index');
+        // クーポン：編集
+        Route::get('coupons/edit/', [AdminController::class, 'editCoupons'])->name('coupons.edit');
+        // クーポン：新規作成
+        Route::get('coupons/add', [AdminController::class, 'createCoupons'])->name('coupons.create');
     });
 });
 
@@ -142,8 +167,9 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
         Route::get('courses/create', [TeacherController::class, 'createCourse'])->name('courses.create');
         Route::post('courses/store', [TeacherController::class, 'storeCourse'])->name('courses.store');
         // // レッスン作成
-        // Route::get('lessons/create/{courses_id}', [TeacherController::class, 'createLessons'])->name('lessons.create');
-        // Route::post('lessons/store', [TeacherController::class, 'storeLessons'])->name('lessons.store');
+        Route::get('lessons/create', [TeacherController::class, 'createLessons'])->name('lessons.create');
+        Route::post('lessons/store', [TeacherController::class, 'storeLessons'])->name('lessons.store');
+
         // レッスン編集
         Route::get('lessons/edit/{lesson_id}', [TeacherController::class, 'editLessons'])->name('lessons.edit');
         Route::post('lessons/update', [TeacherController::class, 'updateLessons'])->name('lessons.update');
@@ -172,9 +198,10 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
 
         // 入出金
         Route::get('trade', [StudentController::class, 'trade'])->name('trade');
-        Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
-        Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
-        Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
+        Route::post('csv/export', [WithdrawalController::class, 'csvExport'])->name('trade.csv.export');
+        Route::get('trade/withdrawal', [WithdrawalController::class, 'withdrawalRequest'])->name('payment.create');
+        Route::post('trade/withdrawal', [WithdrawalController::class, 'withdrawalRequestConfirmed'])->name('payment.store');
+        Route::get('trade/withdrawal/complete', [WithdrawalController::class, 'withdrawalRequestCompleted'])->name('payment.complete');
 
         // 銀行口座
         Route::get('bank', [BankController::class, 'show'])->name('bank.show');
@@ -212,9 +239,9 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
         Route::post('profile/password', [StudentController::class, 'updatePassword'])->name('profile.password.update');
 
         // 銀行口座
-        Route::get('bank', [BankController::class, 'show'])->name('bank.show');
-        Route::get('bank/edit', [BankController::class, 'edit'])->name('bank.edit');
-        Route::post('bank/update', [BankController::class, 'update'])->name('bank.update');
+        // Route::get('bank', [BankController::class, 'show'])->name('bank.show');
+        // Route::get('bank/edit', [BankController::class, 'edit'])->name('bank.edit');
+        // Route::post('bank/update', [BankController::class, 'update'])->name('bank.update');
 
         // クレジットカード
         // Route::get('creditcards', [StudentController::class, 'creditcards'])->name('creditcards');
@@ -224,10 +251,10 @@ Route::prefix('mypage/u')->name('mypage.u.')->group(function () {
         // Route::post('creditcards/update', [StudentController::class, 'updateCreditcards'])->name('creditcards.update');
 
         // 入出金
-        Route::get('trade', [StudentController::class, 'trade'])->name('trade');
-        Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
-        Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
-        Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
+        // Route::get('trade', [StudentController::class, 'trade'])->name('trade');
+        // Route::get('trade/withdrawal', [StudentController::class, 'createPayment'])->name('payment.create');
+        // Route::post('trade/withdrawal', [StudentController::class, 'storePayment'])->name('payment.store');
+        // Route::get('trade/withdrawal/complete', [StudentController::class, 'completePayment'])->name('payment.complete');
 
         // 退会
         Route::get('withdrawal', [StudentController::class, 'createWithdrawal'])->name('withdrawal.create');

@@ -83,7 +83,7 @@
             &:nth-child(2n) {
                 border-left: 1px solid #F0F0F0;
             }
-            a {
+            a, button {
                 position: relative;
                 display: block;
                 height: 40px;
@@ -116,13 +116,13 @@
     @include mq_down(md) {
         li {
             text-align: center;
-            a {
+            a, button {
                 font-weight: 700;
                 height: 50px;
                 line-height: 50px;
             }
             &.selected {
-                a {
+                a, button {
                     color: #3C3C3B;
                     &:before {
                         transform:rotate(90deg) translateX(-50%);
@@ -148,7 +148,7 @@
     li {
         margin-bottom: 0;
         border-bottom: 1px solid #eee;
-        a {
+        button, a {
             background: #fff;
             border-radius: 0;
             width: 100%;
@@ -158,7 +158,7 @@
 }
 .sidebar-change {
     margin-bottom: 20px;
-    a {
+    button, a {
         display: block;
         width: 100%;
         padding: 20px;

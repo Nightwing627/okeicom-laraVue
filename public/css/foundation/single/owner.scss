@@ -116,7 +116,6 @@ $colorBorderColor: #707070;
 }
 
 
-.l-wrap--owner--body {}
 .l-wrap--owner--body--inner {
 	background: #fff;
 	border-radius: 3px;
@@ -135,7 +134,6 @@ $colorBorderColor: #707070;
 		}
 		th, td {
 			padding: 10px;
-			
 		}
 		// ユーザーテーブル
 		&.user-table {

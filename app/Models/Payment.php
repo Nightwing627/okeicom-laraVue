@@ -77,14 +77,16 @@ class Payment extends Model
      */
     public function getHoldingAmount()
     {
-
         // ユーザーID
         $user_id = Auth::user()->id;
         // プラス金額を全て取得
-        $query_plus_amount = self::where('user_teacher_id', $user_id)->sum('amount');
+        $query_plus_amount = self::where('user_teacher_id', $user_id)
+            ->where('status', 1)
+            ->sum('amount');
 
         // マイナス金額を全て取得
-        $query_minus_amount = Withdrawal::where('user_id', $user_id)->sum('amount');
+        $query_minus_amount = Withdrawal::where('user_id', $user_id)
+            ->sum('amount');
 
         return intval($query_plus_amount) - intval($query_minus_amount);
 
@@ -165,8 +167,9 @@ class Payment extends Model
         //     ->where('payments.user_teacher_id', Auth::user()->id)
         //     ->orderBy('payments.created_at')
         //     ->get();
-
         $user_id = Auth::user()->id;
+
+        // 出金履歴一覧
         $withdraw = Withdrawal::query()
             ->select([
                 'withdrawals.amount AS amount',
@@ -176,7 +179,9 @@ class Payment extends Model
             ->where('withdrawals.user_id', '=', $user_id)
             // 受け取り履歴一覧と出金リクエスト一覧を結合させる
             ->orderBy('created_at', 'desc');
+
         // 受け取り履歴一覧（キャンセルされたもの以外）
+
         $details = self::query()
             ->select([
                 'payments.amount AS amount',
