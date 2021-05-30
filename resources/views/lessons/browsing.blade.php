@@ -100,8 +100,8 @@
         });
 
 		function prev_event(){
-			if(myState.pdf == null || myState.currentPage == 1)
-              return;
+            if(myState.pdf == null || myState.currentPage == 1)
+            return;
             myState.currentPage -= 1;
             document.getElementById("current_page").value = myState.currentPage;
             render();
@@ -171,7 +171,7 @@
 		}
 
         document.getElementById('zoom_out').addEventListener('click', (e) => {
-           zoom_out();
+            zoom_out();
         });
 ​
 		function zoom_out(){
@@ -180,5 +180,4 @@
             render();
 		}
     </script>
-<!-- 吉田豊が修正しました -->
 @endsection

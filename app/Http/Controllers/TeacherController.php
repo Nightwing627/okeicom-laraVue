@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
+
 use NcJoes\OfficeConverter\OfficeConverter;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -47,13 +48,13 @@ class TeacherController extends Controller
         User $teacher
     )
     {
-        $this->application = $application;
-        $this->course = $course;
-        $this->category = $category;
-        $this->cancel = $cancel;
-        $this->lesson = $lesson;
-        $this->user = $user;
-        $this->teacher = $teacher;
+        $this->application  = $application;
+        $this->course       = $course;
+        $this->category     = $category;
+        $this->cancel       = $cancel;
+        $this->lesson       = $lesson;
+        $this->user         = $user;
+        $this->teacher      = $teacher;
     }
 
     /**
@@ -320,19 +321,24 @@ class TeacherController extends Controller
         // レッスンに必要な情報を入れる
         foreach ($lessons as $index => $lesson) {
             // PDFの処理
-            $new_folder = time()."".rand();
-            Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
-            $base64_slide = explode(',',$lesson['slide']);
-            $real_slide = base64_decode($base64_slide[1]);
-            $new_filename = $lesson['title'];
-            Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
-            $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
-            $converter = new OfficeConverter($ppt_path);
-            $converter->convertTo($new_filename.'.pdf');
+            if($lesson['slide']) {
+                $new_folder = time()."".rand();
+                Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
+                $base64_slide = explode(',',$lesson['slide']);
+                $real_slide = base64_decode($base64_slide[1]);
+                $new_filename = $lesson['title'];
+                Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
+                $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
+                $converter = new OfficeConverter($ppt_path, null, '/Applications/LibreOffice.app/Contents/MacOS/soffice');
+                $converter->convertTo($new_filename.'.pdf');
+            }
+
 
             // ランダムな整数を配列に入れる
             $models[$index] = Lesson::make($lesson);
-            $models[$index]->slide = $new_filename;
+            if($lesson['slide']) {
+                $models[$index]->slide = $new_filename;
+            }
             $models[$index]->title = $lesson['title'];
             $models[$index]->public = $lesson['public'];
             $models[$index]->type = $lesson['type'];
@@ -448,7 +454,6 @@ class TeacherController extends Controller
             });
             return redirect(route('mypage.t.courses'));
         }
-
     }
 
     /**
@@ -502,6 +507,10 @@ class TeacherController extends Controller
     public function editLessons($id)
     {
         // 詳細取得
+        // $lesson = Lesson::find($id);
+        // $userids = Application::where('lesson_id', $id)->whereIn('status', [0,1])->pluck('user_id')->toArray();
+        // $users = User::whereIn('id', $userids)->get();
+        // return view('teachers.lesson-edit', compact('lesson', 'users'));
         // レッスン一覧
         $lesson = Lesson::find($id);
         // $applications = Application::where('lesson_id', $id)->whereIn('status', [0,1])->get();
