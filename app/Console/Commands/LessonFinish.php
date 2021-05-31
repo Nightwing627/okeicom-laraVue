@@ -20,7 +20,6 @@ class LessonFinish extends Command
      *
      * @var string
      */
-    //コマンドの名前を設定
     protected $signature = 'command:lessonFinish';
 
     /**
@@ -28,7 +27,6 @@ class LessonFinish extends Command
      *
      * @var string
      */
-    //バッチの説明をここに書く
     protected $description = 'レッスンの終了時間に合わせて、レッスンを終了させる';
 
     /**
