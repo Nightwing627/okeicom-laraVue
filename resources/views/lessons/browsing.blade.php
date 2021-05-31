@@ -1,11 +1,11 @@
 @extends('layouts.user-single')
 
-<!-- タイトル・メタディスクリプション -->
+{{--  タイトル・メタディスクリプション  --}}
 @section('title', 'レッスン閲覧画面') @section('description', 'レッスン閲覧画面')
 
-<!-- CSS -->
+{{--  CSS  --}}
 @push('css')
-<!-- 吉田豊が修正しました -->
+{{--  吉田豊が修正しました  --}}
 	<style>
         .all-body {
             width:100%;
@@ -140,7 +140,10 @@
     <div class="l-wrap--title">
         <h1 class="c-headline--screen">レッスン受講画面</h1>
     </div>
-    @if($lesson->type !== 2)
+    <div style="width:100%; height:80vh;">
+        <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{ asset('storage/lesson/'.$lesson->view.'/'.$lesson->slide)}}" width='100%' height='100%' frameborder='0'></iframe>
+    </div>
+    {{--  @if($lesson->type !== 2)
     <div class="l-wrap--body">
         <div class="l-wrap--main l-wrap--detail">
             <div class="l-content--detail">
@@ -151,8 +154,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    @else
+    </div>  --}}
+    {{--  @else
     <div id="my_pdf_viewer">
         <div id="canvas_container" class="canvas-content">
             <canvas id="pdf_renderer"></canvas>
@@ -171,11 +174,11 @@
 			</div> -->
     </div>
     <!-- 吉田豊が修正しました -->
-    @endif
+    @endif  --}}
 </div>
 @endsection @section('script')
 <!-- 吉田豊が修正しました -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js">
+{{--  <script src="http://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js">  --}}
 </script>
 <script>
     var myState = {

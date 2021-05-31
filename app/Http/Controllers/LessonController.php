@@ -663,14 +663,14 @@ class LessonController extends Controller
         // 評価の更新
         $evaluation->point   = $request['point'];
         $evaluation->comment = $request['comment'];
-        $evaluation->delete();
-        $evaluation->save();
+        // $evaluation->delete();
+        $evaluation->update();
 
         return redirect(route('lessons.evaluation.complete'));
     }
 
     /**
-     * 講師評価完了ページStoreEvaluation
+     * 講師評価完了ページ
      *
      * @param Request $request
      * @return Factory|View

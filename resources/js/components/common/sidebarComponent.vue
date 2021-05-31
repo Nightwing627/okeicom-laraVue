@@ -8,7 +8,7 @@
         name="is_target"
       >
       <div class="headline pc-only">
-        <p />カテゴリーを選択
+        <p>カテゴリーを選択</p>
       </div>
       <ul
         v-if="isActiveCategory"
@@ -33,7 +33,7 @@
           :class="[ category.id == nowCategory ? 'selected' : '' ]"
         >
           <button
-            name="categoriesId"
+            name="categories_id"
             :value="category.id"
           >
             {{ category.name }}
@@ -46,7 +46,9 @@
           <span
             v-else-if="isActiveCategory"
             class="close"
-          />閉じる
+          >
+            閉じる
+          </span>
         </a>
       </div>
     </form>

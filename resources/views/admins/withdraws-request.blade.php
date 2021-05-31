@@ -18,7 +18,6 @@
 					<p>出金リクエスト一覧</p>
 				</div>
             </div>
-            {{ Auth::id() }}
 			<div class="l-wrap--owner--body">
 				<div class="l-wrap--owner--body--inner">
                     <admin-withdrawal-list />

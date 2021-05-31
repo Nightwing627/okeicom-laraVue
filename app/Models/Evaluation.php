@@ -28,8 +28,6 @@ class Evaluation extends Model
         'comment',
     ];
 
-    /* CRUD
-    ------------------------------------------------------------------------------------------------------*/
     /**
      * 講師の評価一覧
      *
@@ -43,4 +41,5 @@ class Evaluation extends Model
             ->where('user_teacher_id', '=', $id)
             ->join('users', 'evaluations.user_student_id', '=', 'users.id');
     }
+
 }

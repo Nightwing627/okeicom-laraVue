@@ -181,17 +181,17 @@
       </ul>
       <p class="c-sp-headline nav--title">ログイン情報</p>
       <ul class="nav-global__list">
-                <li><a href="/mypage/u/attendance-lessons">受講予定レッスン</a></li>
-                <li><a href="/mypage/u/taken-lessons">受講済みレッスン</a></li>
-                <li><a href="/mypage/u/messages/">メッセージ</a></li>
-                <li><a href="/mypage/u/profile/">プロフィール</a></li>
-                <li><a href="/mypage/u/trade/">入出金管理</a></li>
-                <li>
-                    <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
-                    <form id="logout-form" action="/logout" method="POST" style="display: none;">
-                        <input type="hidden" name="_token" v-bind:value="csrf">
-                    </form>
-                </li>
+        <li><a href="/mypage/u/attendance-lessons">受講予定レッスン</a></li>
+        <li><a href="/mypage/u/taken-lessons">受講済みレッスン</a></li>
+        <li><a href="/mypage/u/messages/">メッセージ</a></li>
+        <li><a href="/mypage/u/profile/">プロフィール</a></li>
+        <li><a href="/mypage/u/trade/">入出金管理</a></li>
+        <li>
+          <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
+          <form id="logout-form" action="/logout" method="POST" style="display: none;">
+              <input type="hidden" name="_token" v-bind:value="csrf">
+          </form>
+        </li>
       </ul>
       <p class="c-sp-headline nav--title">会社情報</p>
       <ul class="nav-global__list">

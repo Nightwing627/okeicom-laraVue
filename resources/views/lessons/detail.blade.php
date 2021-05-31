@@ -34,14 +34,10 @@
                         @if($lesson->type == 2)
                             @if($checkPurchase->status == 0)
                             <a href="{{ route('lessons.browsing', $lesson->id) }}" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
-                            @else
-                            <a href="javascript:;" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
                             @endif
                         @else
                             @if($checkPurchase->status == 0)
                             <a href="{{ $lesson->url }}" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
-                            @else
-                            <a href="javascript:;" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
                             @endif
                         @endif
                     @else
@@ -83,10 +79,10 @@
                                 </div>
                                 @endif
                             @else
-                                @if($currentDate <= $basicDate)
-                                <div class="other_reserve">
-                                    <a href="{{ route('lessons.application') }}">予約する</a>
-                                </div>
+                                @if($currentDate <= $finishDate)
+                                    <div class="other_reserve">
+                                        <a href="{{ route('lessons.application') }}">予約する</a>
+                                    </div>
                                 @else
                                 @endif
                             @endif

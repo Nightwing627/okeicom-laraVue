@@ -83,9 +83,9 @@
                                         <div class="c-text--evaluation">
                                             <div class="star">
                                                 <img src="/img/common/icon-star.png">
-                                                <span class="evaluation">{{ $teacher->round_avg_point }}</span>
+                                                <span class="evaluation">{{ $teacher->round_avg_point ? $teacher->round_avg_point : 0 }}</span>
                                             </div>
-                                            <p class="review">レビュー {{ $teacher->count }}件</p>
+                                            <p class="review">レビュー {{ $teacher->count ? $teacher->count : 0 }}件</p>
                                         </div>
                                         <ul class="c-text--category u-mt10">
                                             @if ($teacher->category1_name)

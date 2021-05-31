@@ -129,6 +129,7 @@ class User extends Authenticatable
             ->select([
                 'users.*',
                 'evaluations.avg_point as evaluations_avg_point',
+                'evaluations.count as count',
             ]);
     }
 
@@ -231,15 +232,15 @@ class User extends Authenticatable
             ->groupBy('evaluations.user_teacher_id');
 
         return self::query()
-                    ->select([
-                        'users.*',
-                        'evaluations.reviews as reviews',
-                        'evaluations.avg_point as evaluations_avg_point',
-                    ])
-                    ->leftJoinSub($teacher_number, 'evaluations', function ($join) {
-                        $join->on('users.id', '=', 'evaluations.user_teacher_id');
-                    })
-                    ->where('users.id', '=', $id);
+            ->select([
+                'users.*',
+                'evaluations.reviews as reviews',
+                'evaluations.avg_point as evaluations_avg_point',
+            ])
+            ->leftJoinSub($teacher_number, 'evaluations', function ($join) {
+                $join->on('users.id', '=', 'evaluations.user_teacher_id');
+            })
+            ->where('users.id', '=', $id);
     }
 
     /**
@@ -350,7 +351,8 @@ class User extends Authenticatable
         return Evaluation::query()
             ->select(
                 'evaluations.user_teacher_id',
-                DB::raw('avg(evaluations.point) as avg_point')
+                DB::raw('avg(evaluations.point) as avg_point'),
+                DB::raw('count(evaluations.user_teacher_id) as count')
             )
             ->groupBy('evaluations.user_teacher_id');
     }

@@ -18,7 +18,7 @@
             <div class="c-text--evaluation u-mb5">
               <div class="star">
                 <img src="/img/common/icon-star.png">
-                <span class="evaluation">{{ user.ave }}</span>
+                <span class="evaluation">{{ Math.floor(user.evaluations_avg_point) }}</span>
               </div>
               <p class="review">
                 レビュー {{ evalutions.length ? evalutions.length : 0 }}件

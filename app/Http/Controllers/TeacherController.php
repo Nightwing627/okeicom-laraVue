@@ -352,18 +352,39 @@ class TeacherController extends Controller
         foreach ((array)$lessons as $index => $lesson) {
             // if($lesson['slide']){
             $models[$index] = Lesson::make($lesson);
+            // if(!empty($lesson['slide'])){
+            //     // スライドの処理
+            //     $new_folder = time()."".rand();
+            //     Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
+            //     $base64_slide = explode(',',$lesson['slide']);
+            //     $real_slide = base64_decode($base64_slide[1]);
+            //     $new_filename = $lesson['title'];
+            //     Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
+            //     $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
+            //     $converter = new OfficeConverter($ppt_path, null, '/Applications/LibreOffice.app/Contents/MacOS/soffice', true);
+            //     $converter->convertTo($new_filename.'.pdf');
+            //     $models[$index]->slide = $new_filename;
+            //     $models[$index]->view = $new_folder;
+            // } else {
+            //     // $models[$index]->view = $randams[$index];
+            //     $models[$index]->view = '';
+            // }
             if(!empty($lesson['slide'])){
                 // スライドの処理
+                $extension = explode('/', explode(':', substr($lesson['slide'], 0, strpos($lesson['slide'], ';')))[1])[1];
+                if($extension == "vnd.ms-powerpoint"){
+                    $real_extension = "ppt";
+                }else{
+                    $real_extension = "pptx";
+                }
                 $new_folder = time()."".rand();
                 Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
                 $base64_slide = explode(',',$lesson['slide']);
                 $real_slide = base64_decode($base64_slide[1]);
                 $new_filename = $lesson['title'];
-                Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
-                $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
-                $converter = new OfficeConverter($ppt_path, null, '/Applications/LibreOffice.app/Contents/MacOS/soffice', true);
-                $converter->convertTo($new_filename.'.pdf');
-                $models[$index]->slide = $new_filename;
+                Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".".$real_extension, $real_slide);
+
+                $models[$index]->slide = $new_filename.".".$real_extension;
                 $models[$index]->view = $new_folder;
             } else {
                 // $models[$index]->view = $randams[$index];
@@ -442,18 +463,39 @@ class TeacherController extends Controller
         $lessonNew = new Lesson();
         DB::beginTransaction();
         try {
+            // if(!empty($request['slide'])){
+            //     // スライドの処理
+            //     $new_folder = time()."".rand();
+            //     Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
+            //     $base64_slide = explode(',',$request['slide']);
+            //     $real_slide = base64_decode($base64_slide[1]);
+            //     $new_filename = $request->title;
+            //     Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
+            //     $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
+            //     $converter = new OfficeConverter($ppt_path, null, '/Applications/LibreOffice.app/Contents/MacOS/soffice', true);
+            //     $converter->convertTo($new_filename.'.pdf');
+            //     $lessonNew->slide = $new_filename;
+            //     $lessonNew->view = $new_folder;
+            // } else {
+            //     // $models[$index]->view = $randams[$index];
+            //     $lessonNew->view = '';
+            // }
             if(!empty($request['slide'])){
                 // スライドの処理
+                $extension = explode('/', explode(':', substr($request['slide'], 0, strpos($request['slide'], ';')))[1])[1];
+                if($extension == "vnd.ms-powerpoint"){
+                    $real_extension = "ppt";
+                }else{
+                    $real_extension = "pptx";
+                }
                 $new_folder = time()."".rand();
                 Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
                 $base64_slide = explode(',',$request['slide']);
                 $real_slide = base64_decode($base64_slide[1]);
-                $new_filename = $request->title;
-                Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
-                $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
-                $converter = new OfficeConverter($ppt_path, null, '/Applications/LibreOffice.app/Contents/MacOS/soffice', true);
-                $converter->convertTo($new_filename.'.pdf');
-                $lessonNew->slide = $new_filename;
+                $new_filename = $request['title'];
+                Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".".$real_extension, $real_slide);
+
+                $lessonNew->slide = $new_filename.".".$real_extension;
                 $lessonNew->view = $new_folder;
             } else {
                 // $models[$index]->view = $randams[$index];
