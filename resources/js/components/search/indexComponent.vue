@@ -154,7 +154,8 @@
 	import SidebarComponent from './../../components/common/sidebarComponent.vue'
   import moment from "moment"
   import 'moment/locale/ja'
-  import VueDatepicker from 'vue2-datepicker'
+  // import VueDatepicker from 'vue2-datepicker'
+  import VueDatepicker from 'vuejs-datepicker'
 
 	export default {
 		components: {

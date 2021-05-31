@@ -29,8 +29,8 @@ class Kernel extends ConsoleKernel
         // レッスン削除のバッチ処理
         $schedule->command('lesson:finish --force')
                  ->withoutOverlapping() // 多重実行を防ぐ
-                 ->everyMinute();     // 1分ごとに実行
-                 // ->everyMinute();  // 5分ごとに実行
+                 // ->everyFiveMinutes();  // 5分ごとに実行
+                 ->everyMinute();  // 5分ごとに実行
     }
 
     /**

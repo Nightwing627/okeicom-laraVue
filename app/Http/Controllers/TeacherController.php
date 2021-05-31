@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
+
 use NcJoes\OfficeConverter\OfficeConverter;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -49,13 +50,13 @@ class TeacherController extends Controller
         User $teacher
     )
     {
-        $this->application = $application;
-        $this->course = $course;
-        $this->category = $category;
-        $this->cancel = $cancel;
-        $this->lesson = $lesson;
-        $this->user = $user;
-        $this->teacher = $teacher;
+        $this->application  = $application;
+        $this->course       = $course;
+        $this->category     = $category;
+        $this->cancel       = $cancel;
+        $this->lesson       = $lesson;
+        $this->user         = $user;
+        $this->teacher      = $teacher;
     }
 
     /**
@@ -316,9 +317,9 @@ class TeacherController extends Controller
      */
     public function createLessons(Request $request)
     {
-      $courses_id = $request->courses_id;
-      $types = $this->lesson->getArrayTypes();
-      return view('teachers.lesson-create', compact('courses_id', 'types'));
+        $courses_id = $request->courses_id;
+        $types = $this->lesson->getArrayTypes();
+        return view('teachers.lesson-create', compact('courses_id', 'types'));
     }
 
     /**
@@ -329,82 +330,71 @@ class TeacherController extends Controller
      */
     public function storeLessons(Request $request)
     {
-      // コースのクラス作成
-      $course = new Course();
-      $course->id = session('course_id');
-      $course->user_id = Auth::user()->id;
-      $lessons = json_decode($request->lessons, true);
+        // コースのクラス作成
+        $course = new Course();
+        $course->id = session('course_id');
+        $course->user_id = Auth::user()->id;
+        $lessons = json_decode($request->lessons, true);
 
-      // レッスンの閲覧用ランダムな整数を設定する
-      $urls[] = '';
-      foreach((array)$lessons as $index => $lesson) {
-        do {
-          // 12桁のランダムな整数を作成
-          $randams[$index] = substr(bin2hex(random_bytes(64)), 0, 64);
-          // DBに登録されているnumberと12桁のランダムな整数が合致するか
-          $key = in_array($randams[$index], $urls);
-          // ランダムな整数がDBと同じ場合は、再度ランダムな整数を発行する
-        } while ($key == true);
-      }
+        // レッスンの閲覧用ランダムな整数を設定する
+        $urls[] = '';
+        foreach((array)$lessons as $index => $lesson) {
+            do {
+                // 12桁のランダムな整数を作成
+                $randams[$index] = substr(bin2hex(random_bytes(64)), 0, 64);
+                // DBに登録されているnumberと12桁のランダムな整数が合致するか
+                $key = in_array($randams[$index], $urls);
+                // ランダムな整数がDBと同じ場合は、再度ランダムな整数を発行する
+            } while ($key == true);
+        }
 
-      // レッスンに必要な情報を入れる
-      $models[] = '';
+        // レッスンに必要な情報を入れる
+        $models[] = '';
 
       // レッスンのスライド処理
-      foreach ((array)$lessons as $index => $lesson) {
-        // if($lesson['slide']){
-        if(!empty($lesson['slide'])){
-          $new_folder = time()."".rand();
-          Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
-          $base64_slide = explode(',',$lesson['slide']);
-          $real_slide = base64_decode($base64_slide[1]);
-          $new_filename = $lesson['title'];
-          Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
-          $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
-          $converter = new OfficeConverter($ppt_path, null, '/Applications/LibreOffice.app/Contents/MacOS/soffice', true);
-          $converter->convertTo($new_filename.'.pdf');
-          // ランダムな整数を配列に入れる
-          $models[$index] = Lesson::make($lesson);
-          $models[$index]->slide = $new_filename;
-          $models[$index]->title = $lesson['title'];
-          $models[$index]->public = $lesson['public'];
-          $models[$index]->type = $lesson['type'];
-          $models[$index]->url = $lesson['url'];
-          $models[$index]->date = $lesson['date'];
-          $models[$index]->start = $lesson['start'];
-          $models[$index]->finish = $lesson['finish'];
-          $models[$index]->price = $lesson['price'];
-          $models[$index]->cancel_rate = $lesson['cancel_rate'];
-          $models[$index]->detail = $lesson['detail'];
-          $models[$index]->user_id = $course->user_id;
-          $models[$index]->status = 0;
-          // ランダムな整数を確認する
-          // ランダムな整数がBDと同じか確認する
-          // ランダムな整数が同じ
-          $models[$index]->view = $new_folder;
+        foreach ((array)$lessons as $index => $lesson) {
+            // if($lesson['slide']){
+            if(!empty($lesson['slide'])){
+                $new_folder = time()."".rand();
+                Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
+                $base64_slide = explode(',',$lesson['slide']);
+                $real_slide = base64_decode($base64_slide[1]);
+                $new_filename = $lesson['title'];
+                Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
+                $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
+                $converter = new OfficeConverter($ppt_path, null, '/Applications/LibreOffice.app/Contents/MacOS/soffice', true);
+                $converter->convertTo($new_filename.'.pdf');
+                // ランダムな整数を配列に入れる
+                $models[$index] = Lesson::make($lesson);
+                $models[$index]->slide = $new_filename;
+                $models[$index]->title = $lesson['title'];
+                $models[$index]->public = $lesson['public'];
+                $models[$index]->type = $lesson['type'];
+                $models[$index]->url = $lesson['url'];
+                $models[$index]->date = $lesson['date'];
+                $models[$index]->start = $lesson['start'];
+                $models[$index]->finish = $lesson['finish'];
+                $models[$index]->price = $lesson['price'];
+                $models[$index]->cancel_rate = $lesson['cancel_rate'];
+                $models[$index]->detail = $lesson['detail'];
+                $models[$index]->user_id = $course->user_id;
+                $models[$index]->status = 0;
+                // ランダムな整数を確認する
+                // ランダムな整数がBDと同じか確認する
+                // ランダムな整数が同じ
+                $models[$index]->view = $new_folder;
 
-        } else {
-          // ランダムな整数を配列に入れる
-          $models[$index] = Lesson::make($lesson);
-          $models[$index]->user_id = $course->user_id;
-          $models[$index]->status = 0;
-          // ランダムな整数を確認する
-          // ランダムな整数がBDと同じか確認する
-          // ランダムな整数が同じ
-          $models[$index]->view = $randams[$index];
+            } else {
+                // ランダムな整数を配列に入れる
+                $models[$index] = Lesson::make($lesson);
+                $models[$index]->user_id = $course->user_id;
+                $models[$index]->status = 0;
+                // ランダムな整数を確認する
+                // ランダムな整数がBDと同じか確認する
+                // ランダムな整数が同じ
+                $models[$index]->view = $randams[$index];
+            }
         }
-      }
-
-      // レッスンの登録処理
-      DB::transaction(function () use($course, $models) {
-        // レッスンの処理
-        $course->lessons()->saveMany($models);
-      });
-
-      // セッション削除
-      session()->forget('course_id');
-      return redirect(route('mypage.t.courses'));
-
     }
 
     /**
@@ -415,10 +405,10 @@ class TeacherController extends Controller
      */
     public function coursesDetail(Request $request)
     {
-      $course = Course::query()->find($request->courses_id);
-      $categories = $this->category->getAll();
-      $lessons = $this->lesson->findByCoursesId($request->courses_id, Auth::user()->id);
-      return view('teachers.course-detail', compact('course', 'categories', 'lessons'));
+        $course = Course::query()->find($request->courses_id);
+        $categories = $this->category->getAll();
+        $lessons = $this->lesson->findByCoursesId($request->courses_id, Auth::user()->id);
+        return view('teachers.course-detail', compact('course', 'categories', 'lessons'));
     }
 
     /**
@@ -429,25 +419,25 @@ class TeacherController extends Controller
      */
     public function updateCourses(CourseUpdateRequest $request)
     {
-      $target_id = $request->courses_id;
-      $course = Course::query()->find($request->courses_id);
-      if($request->has('save')) {
-        // 更新
-        $course->title = $request->title;
-        $course->detail = $request->detail;
-        $course->saveCategories($request);
-        $course->saveImgs($request);
-        $course->save();
-        return redirect('/mypage/t/courses/detail/' . $target_id);
-      } elseif ($request->has('delete')) {
-        // 削除
-        DB::transaction(function () use ($course) {
-            $course->deleteImgs();
-            $this->lesson->deleteByCoursesId($course->id);
-            $course->delete();
-        });
-        return redirect(route('mypage.t.courses'));
-      }
+        $target_id = $request->courses_id;
+        $course = Course::query()->find($request->courses_id);
+        if($request->has('save')) {
+            // 更新
+            $course->title = $request->title;
+            $course->detail = $request->detail;
+            $course->saveCategories($request);
+            $course->saveImgs($request);
+            $course->save();
+            return redirect('/mypage/t/courses/detail/' . $target_id);
+        } elseif ($request->has('delete')) {
+            // 削除
+            DB::transaction(function () use ($course) {
+                $course->deleteImgs();
+                $this->lesson->deleteByCoursesId($course->id);
+                $course->delete();
+            });
+            return redirect(route('mypage.t.courses'));
+        }
     }
 
     // /**
@@ -489,6 +479,10 @@ class TeacherController extends Controller
     public function editLessons($id)
     {
         // 詳細取得
+        // $lesson = Lesson::find($id);
+        // $userids = Application::where('lesson_id', $id)->whereIn('status', [0,1])->pluck('user_id')->toArray();
+        // $users = User::whereIn('id', $userids)->get();
+        // return view('teachers.lesson-edit', compact('lesson', 'users'));
         // レッスン一覧
         $lesson = Lesson::find($id);
         // $applications = Application::where('lesson_id', $id)->whereIn('status', [0,1])->get();

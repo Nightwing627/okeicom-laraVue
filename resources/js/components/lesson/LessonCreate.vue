@@ -27,7 +27,8 @@
             <a
               href="/mypage/t/courses"
               class="c-button--square__gray"
-            >コース一覧に戻る
+            >
+              コース一覧に戻る
             </a>
           </div>
           <div class="l-button--submit--two">

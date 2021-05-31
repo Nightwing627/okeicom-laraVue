@@ -7,127 +7,127 @@
 @push('css')
 <!-- 吉田豊が修正しました -->
 	<style>
-		.all-body {
-		    width:100%;
-		    margin:auto;
-		    max-width: 1200px;
-		}
-		.d_title {
-		    text-align:center;
-		}
-		.viewer_pdf {
-		    width:100%; 
-		    margin:auto;
-		}
-		.canvas-content {
-		    margin:auto; 
-		    width: 100%; 
-		    overflow: auto;  
-		    text-align: center; 
-		    border: solid 3px;
-		}
-		​
-		.prev-button {
-		    padding: 10px; 
-		    width:100px; 
-		    background: #373B50; 
-		    color: white; 
-		    border-radius: 10px;
-		}
-		.next-button {
-		    padding: 10px; 
-		    width:100px; 
-		    background: #373B50; 
-		    color: white; 
-		    border-radius: 10px;
-		}
-		.control-body {
-		    text-align:center; 
-		    margin-top:50px;
-		}
-		.zoom-body {
-		    text-align:center; 
-		    margin-top:10px;
-		}
-		.zoom-in {
-		    padding: 10px; 
-		    width:50px; 
-		    background: #373B50; 
-		    color: white; 
-		    border-radius: 10px;
-		}
-		.zoom-out {
-		    padding: 10px; 
-		    width:50px; 
-		    background: #373B50; 
-		    color: white; 
-		    border-radius: 10px; 
-		    margin-left:50px;
-		}
-		#pdf_renderer {
-		    width:100%;
-		}
-		@media(max-width:780px){
-		    .all-body{
-		        width:100%;
-		        margin:auto;
-		    }
-		    .viewer_pdf {
-		        width:100%; 
-		        margin:auto;
-		    }
-		    #pdf_renderer {
-		        width:100%;
-		    }
-		    .canvas-content {
-		        margin:auto; 
-		        width: 100%; 
-		        height: auto; 
-		        overflow: auto;  
-		        text-align: center; 
-		        border: solid 3px;
-		    }
-		    .prev-button {
-		        padding: 10px; 
-		        width:50px; 
-		        background: #373B50; 
-		        color: white; 
-		        border-radius: 10px;
-		    }
-		    .next-button {
-		        padding: 10px; 
-		        width:50px; 
-		        background: #373B50; 
-		        color: white; 
-		        border-radius: 10px;
-		    }
-		    .page {
-		        width:50px;
-		    }
-		    .control-body {
-		        text-align:center; 
-		        margin-top:50px;
-		    }
-		    .zoom-body {
-		        text-align:center; 
-		        margin-top:10px;
-		        display: none;
-		    }
-		    .zoom-in {
-		        padding: 10px; 
-		        width:50px; 
-		        background: #373B50; 
-		        color: white; 
-		        border-radius: 10px;
-		    }
-		    .zoom-out {
-		        padding: 10px; 
-		        width:50px; 
-		        background: #373B50; 
-		        color: white; 
-		        border-radius: 10px; 
-		        margin-left:50px;
-		    }
+        .all-body {
+            width:100%;
+            margin:auto;
+            max-width: 1200px;
+        }
+        .d_title {
+            text-align:center;
+        }
+        .viewer_pdf {
+            width:100%;
+            margin:auto;
+        }
+        .canvas-content {
+            margin:auto;
+            width: 100%;
+            overflow: auto;
+            text-align: center;
+            border: solid 3px;
+        }
+        ​
+        .prev-button {
+            padding: 10px;
+            width:100px;
+            background: #373B50;
+            color: white;
+            border-radius: 10px;
+        }
+        .next-button {
+            padding: 10px;
+            width:100px;
+            background: #373B50;
+            color: white;
+            border-radius: 10px;
+        }
+        .control-body {
+            text-align:center;
+            margin-top:50px;
+        }
+        .zoom-body {
+            text-align:center;
+            margin-top:10px;
+        }
+        .zoom-in {
+            padding: 10px;
+            width:50px;
+            background: #373B50;
+            color: white;
+            border-radius: 10px;
+        }
+        .zoom-out {
+            padding: 10px;
+            width:50px;
+            background: #373B50;
+            color: white;
+            border-radius: 10px;
+            margin-left:50px;
+        }
+        #pdf_renderer {
+            width:100%;
+        }
+        @media(max-width:780px){
+            .all-body{
+                width:100%;
+                margin:auto;
+            }
+            .viewer_pdf {
+                width:100%;
+                margin:auto;
+            }
+            #pdf_renderer {
+                width:100%;
+            }
+            .canvas-content {
+                margin:auto;
+                width: 100%;
+                height: auto;
+                overflow: auto;
+                text-align: center;
+                border: solid 3px;
+            }
+            .prev-button {
+                padding: 10px;
+                width:50px;
+                background: #373B50;
+                color: white;
+                border-radius: 10px;
+            }
+            .next-button {
+                padding: 10px;
+                width:50px;
+                background: #373B50;
+                color: white;
+                border-radius: 10px;
+            }
+            .page {
+                width:50px;
+            }
+            .control-body {
+                text-align:center;
+                margin-top:50px;
+            }
+            .zoom-body {
+                text-align:center;
+                margin-top:10px;
+                display: none;
+            }
+            .zoom-in {
+                padding: 10px;
+                width:50px;
+                background: #373B50;
+                color: white;
+                border-radius: 10px;
+            }
+            .zoom-out {
+                padding: 10px;
+                width:50px;
+                background: #373B50;
+                color: white;
+                border-radius: 10px;
+                margin-left:50px;
+            }
 		}
 	</style>
 @endpush
@@ -165,7 +165,7 @@
 
         </div>
 
-        <!-- <div id="zoom_controls" class="zoom-body">  
+        <!-- <div id="zoom_controls" class="zoom-body">
 				<button id="zoom_in" class="zoom-in">+</button>
 				<button id="zoom_out" class="zoom-out">-</button>
 			</div> -->
@@ -278,6 +278,17 @@
         zoom_in();
     });
 
+        document.getElementById('zoom_out').addEventListener('click', (e) => {
+            zoom_out();
+        });
+​
+		function zoom_out(){
+			if(myState.pdf == null) return;
+            myState.zoom -= 0.5;
+            render();
+		}
+    </script>
+<!-- @endsection
     function zoom_in() {
         if (myState.pdf == null) return;
         myState.zoom += 0.5;
@@ -293,6 +304,6 @@
         myState.zoom -= 0.5;
         render();
     }
-</script>
+</script> -->
 <!-- 吉田豊が修正しました -->
 @endsection
