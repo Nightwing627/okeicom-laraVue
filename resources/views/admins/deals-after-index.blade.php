@@ -1,21 +1,21 @@
 @extends('layouts.owner')
 
-<!-- タイトル・メタディスクリプション -->
+{{--  タイトル・メタディスクリプション  --}}
 @section('title', '取引一覧（確定後） | おけいcom')
 @section('description', '取引一覧（確定後）')
 
-<!-- CSS -->
+{{--  CSS  --}}
 @push('css')
 @endpush
 
-<!-- 本文 -->
+{{--  本文  --}}
 @section('content')
 	<div class="l-wrap--owner--main">
 		<div class="l-wrap--owner--header">
 			<div class="l-wrap--owner--header--title">
 				<p>取引一覧（確定後）</p>
 			</div>
-		</div>
+        </div>
 		<div class="l-wrap--owner--body">
 			<div class="l-wrap--owner--body--inner">
                 <admin-application-after-list />

@@ -33,7 +33,6 @@ class Student
         // 受講者ダッシュボード共通変数(未実装)
 //        $cancel_count = $this->cancel->getCancelPendingCount(Auth::user()->id);
 //        $this->viewFactory->share('common_cancel_count', $cancel_count);
-
         return $next($request);
     }
 }
