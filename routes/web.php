@@ -62,7 +62,7 @@ Route::prefix('owner-admin')->name('admins.')->group(function () {
         Route::post('login', [AdminLogin::class, 'login']);
     });
     Route::post('logout', [AdminLogin::class, 'logout'])->name('logout');
-    Route::middleware('auth:admin')->group(function () {
+    // Route::middleware('auth:admin')->group(function () {
         // 認証後ページ
         // 出金：リクエスト
         Route::get('withdraw/request', [AdminController::class, 'requestWithdraws'])->name('withdraws.request');
@@ -107,7 +107,7 @@ Route::prefix('owner-admin')->name('admins.')->group(function () {
         Route::get('coupons/edit/', [AdminController::class, 'editCoupons'])->name('coupons.edit');
         // クーポン：新規作成
         Route::get('coupons/add', [AdminController::class, 'createCoupons'])->name('coupons.create');
-    });
+    // });
 });
 
 // レッスン
