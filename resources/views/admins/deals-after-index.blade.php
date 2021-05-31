@@ -43,14 +43,14 @@
 					</tbody>
 				</table>  --}}
 			</div>
-			<div class="pagenation-list">
+			{{-- <div class="pagenation-list">
 				<ul>
 					<li class="now">１</li>
 					<?php for($i=2;$i<10;$i++): ?>
 						<li><a href=""><?php echo $i; ?></a></li>
 					<?php endfor; ?>
 				</ul>
-			</div>
+			</div> --}}
 		</div>
 	</div>
 @endsection

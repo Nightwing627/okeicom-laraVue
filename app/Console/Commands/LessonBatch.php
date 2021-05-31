@@ -38,6 +38,6 @@ class LessonBatch extends Command
      */
     public function handle()
     {
-        AutoController::lesson_finish();
+        // AutoController::lesson_finish();
     }
 }

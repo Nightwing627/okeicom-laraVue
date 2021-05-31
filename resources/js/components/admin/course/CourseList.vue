@@ -14,7 +14,12 @@
         :key="index"
       >
         <td>
-          {{ course.title ? course.title : '' }}
+          <a
+            :href="`/owner-admin/courses/detail/${course.id}`"
+            class="u-text--link"
+          >
+            {{ course.title ? course.title : '' }}
+          </a>
           <br>
           <span class="u-text--small u-color--grayNavy">
             {{ course.category1_name ? `${course.category1_name}` : '未設定' }}
