@@ -24,7 +24,7 @@
                         <div class="c-contentList__box__info">
                             <div class="number l-flex">
                                 <p class="other">
-                                    <span class="stage">全{{ $course->course_counts}}回</span>
+                                    <span class="stage">全{{ $course->course_counts ?? 0 }}回</span>
                                 </p>
                             </div>
                             <p class="title">{{ $course->title }}</p>

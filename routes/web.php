@@ -163,6 +163,10 @@ Route::prefix('mypage/t')->name('mypage.t.')->group(function () {
         Route::get('courses/detail/{courses_id}', [TeacherController::class, 'coursesDetail'])->name('courses.detail');
         // コース編集
         Route::post('courses/update', [TeacherController::class, 'updateCourses'])->name('courses.update');
+        // コース：レッスン作成
+        Route::post('courses/lesson/create', [TeacherController::class, 'createCourseLesson'])->name('courses.lesson.create');
+        // コース：レッスン編集
+        Route::post('courses/lesson/update', [TeacherController::class, 'updateCourseLesson'])->name('courses.lesson.update');
         // コース作成
         Route::get('courses/create', [TeacherController::class, 'createCourse'])->name('courses.create');
         Route::post('courses/store', [TeacherController::class, 'storeCourse'])->name('courses.store');

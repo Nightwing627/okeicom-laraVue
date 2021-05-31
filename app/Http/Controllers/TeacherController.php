@@ -331,30 +331,29 @@ class TeacherController extends Controller
     public function storeLessons(Request $request)
     {
         // コースのクラス作成
-        $course = new Course();
-        $course->id = session('course_id');
-        $course->user_id = Auth::user()->id;
         $lessons = json_decode($request->lessons, true);
 
         // レッスンの閲覧用ランダムな整数を設定する
-        $urls[] = '';
-        foreach((array)$lessons as $index => $lesson) {
-            do {
-                // 12桁のランダムな整数を作成
-                $randams[$index] = substr(bin2hex(random_bytes(64)), 0, 64);
-                // DBに登録されているnumberと12桁のランダムな整数が合致するか
-                $key = in_array($randams[$index], $urls);
-                // ランダムな整数がDBと同じ場合は、再度ランダムな整数を発行する
-            } while ($key == true);
-        }
+        // $urls[] = '';
+        // foreach((array)$lessons as $index => $lesson) {
+        //     do {
+        //         // 12桁のランダムな整数を作成
+        //         $randams[$index] = substr(bin2hex(random_bytes(64)), 0, 64);
+        //         // DBに登録されているnumberと12桁のランダムな整数が合致するか
+        //         $key = in_array($randams[$index], $urls);
+        //         // ランダムな整数がDBと同じ場合は、再度ランダムな整数を発行する
+        //     } while ($key == true);
+        // }
 
         // レッスンに必要な情報を入れる
         $models[] = '';
 
-      // レッスンのスライド処理
+        // レッスンのスライド処理
         foreach ((array)$lessons as $index => $lesson) {
             // if($lesson['slide']){
+            $models[$index] = Lesson::make($lesson);
             if(!empty($lesson['slide'])){
+                // スライドの処理
                 $new_folder = time()."".rand();
                 Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
                 $base64_slide = explode(',',$lesson['slide']);
@@ -364,37 +363,29 @@ class TeacherController extends Controller
                 $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
                 $converter = new OfficeConverter($ppt_path, null, '/Applications/LibreOffice.app/Contents/MacOS/soffice', true);
                 $converter->convertTo($new_filename.'.pdf');
-                // ランダムな整数を配列に入れる
-                $models[$index] = Lesson::make($lesson);
                 $models[$index]->slide = $new_filename;
-                $models[$index]->title = $lesson['title'];
-                $models[$index]->public = $lesson['public'];
-                $models[$index]->type = $lesson['type'];
-                $models[$index]->url = $lesson['url'];
-                $models[$index]->date = $lesson['date'];
-                $models[$index]->start = $lesson['start'];
-                $models[$index]->finish = $lesson['finish'];
-                $models[$index]->price = $lesson['price'];
-                $models[$index]->cancel_rate = $lesson['cancel_rate'];
-                $models[$index]->detail = $lesson['detail'];
-                $models[$index]->user_id = $course->user_id;
-                $models[$index]->status = 0;
-                // ランダムな整数を確認する
-                // ランダムな整数がBDと同じか確認する
-                // ランダムな整数が同じ
                 $models[$index]->view = $new_folder;
-
             } else {
-                // ランダムな整数を配列に入れる
-                $models[$index] = Lesson::make($lesson);
-                $models[$index]->user_id = $course->user_id;
-                $models[$index]->status = 0;
-                // ランダムな整数を確認する
-                // ランダムな整数がBDと同じか確認する
-                // ランダムな整数が同じ
-                $models[$index]->view = $randams[$index];
+                // $models[$index]->view = $randams[$index];
+                $models[$index]->view = '';
             }
+            // ランダムな整数を配列に入れる
+            $models[$index]->course_id = session('course_id');
+            $models[$index]->title = $lesson['title'];
+            $models[$index]->public = $lesson['public'];
+            $models[$index]->type = $lesson['type'];
+            $models[$index]->url = $lesson['url'] ?? '';
+            $models[$index]->date = $lesson['date'] ?? '';
+            $models[$index]->start = $lesson['start'] ?? '';
+            $models[$index]->finish = $lesson['finish'] ?? '';
+            $models[$index]->price = $lesson['price'] ?? '';
+            $models[$index]->cancel_rate = $lesson['cancel_rate'] ?? '';
+            $models[$index]->detail = $lesson['detail'] ?? '';
+            $models[$index]->user_id = Auth::user()->id;
+            $models[$index]->status = 0;
+            $models[$index]->save();
         }
+        return redirect(route('mypage.t.courses'));
     }
 
     /**
@@ -438,6 +429,67 @@ class TeacherController extends Controller
             });
             return redirect(route('mypage.t.courses'));
         }
+    }
+
+    /**
+     *
+     * コースのレッスン作成
+     *
+     *
+     */
+    public function createCourseLesson(request $request)
+    {
+        $lessonNew = new Lesson();
+        DB::beginTransaction();
+        try {
+            if(!empty($request['slide'])){
+                // スライドの処理
+                $new_folder = time()."".rand();
+                Storage::disk('lesson')->makeDirectory($new_folder, $mode= 0777, true, true);
+                $base64_slide = explode(',',$request['slide']);
+                $real_slide = base64_decode($base64_slide[1]);
+                $new_filename = $request->title;
+                Storage::disk('lesson')->put($new_folder.'/'.$new_filename.".pptx", $real_slide);
+                $ppt_path = $path = Storage::disk('lesson')->path($new_folder.'/'.$new_filename.".pptx");
+                $converter = new OfficeConverter($ppt_path, null, '/Applications/LibreOffice.app/Contents/MacOS/soffice', true);
+                $converter->convertTo($new_filename.'.pdf');
+                $lessonNew->slide = $new_filename;
+                $lessonNew->view = $new_folder;
+            } else {
+                // $models[$index]->view = $randams[$index];
+                $lessonNew->view = '';
+            }
+            // ランダムな整数を配列に入れる
+            $lessonNew->course_id = session('course_id');
+            $lessonNew->title = $request['title'];
+            $lessonNew->public = $request['public'];
+            $lessonNew->type = $request['type'];
+            $lessonNew->url = $request['url'] ?? '';
+            $lessonNew->date = $request['date'] ?? '';
+            $lessonNew->start = $request['start'] ?? '';
+            $lessonNew->finish = $request['finish'] ?? '';
+            $lessonNew->price = $request['price'] ?? '';
+            $lessonNew->cancel_rate = $request['cancel_rate'] ?? '';
+            $lessonNew->detail = $request['detail'] ?? '';
+            $lessonNew->user_id = Auth::user()->id;
+            $lessonNew->status = 0;
+            $lessonNew->save();
+            DB::commit();
+            return redirect(route('mypage.t.courses.detail', ['courses_id' => session('course_id')]));
+        } catch (\PDOException $e){
+            DB::rollBack();
+            return back()->withInput()->with('flash_message', 'コースの登録に失敗しました。');
+        }
+    }
+
+    /**
+     *
+     * コースのレッスン編集
+     *
+     */
+    public function updateCourseLesson(request $request)
+    {
+        dd('編集');
     }
 
     // /**
@@ -568,7 +620,6 @@ class TeacherController extends Controller
     public function lessonsParticipation(Request $request)
     {
         $lessons = $this->lesson->findByUsersIdGetApplicationCnt(Auth::user()->id);
-
         return view('teachers.lesson-participation', compact('lessons'));
     }
 

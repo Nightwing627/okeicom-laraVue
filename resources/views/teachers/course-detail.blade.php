@@ -53,7 +53,7 @@
         </div>
     @enderror
     @if (session('flash_message'))
-        <div class="flash_message">
+        <div class="l-alart errorAlart flash_message">
             {{ session('flash_message') }}
         </div>
     @endif

@@ -44,15 +44,15 @@ class Course extends Model
      */
     public function courseList()
     {
-      return Course::select([
-          'courses.*',
-          'categories1.name as category1_name',
-          'categories2.name as category2_name',
-          'categories3.name as category3_name',
-          'categories4.name as category4_name',
-          'categories5.name as category5_name',
-          'users.name as user_name',
-          'users.id as user_id',
+        return Course::select([
+            'courses.*',
+            'categories1.name as category1_name',
+            'categories2.name as category2_name',
+            'categories3.name as category3_name',
+            'categories4.name as category4_name',
+            'categories5.name as category5_name',
+            'users.name as user_name',
+            'users.id as user_id',
         ])
         ->join('users', 'courses.user_id', '=', 'users.id')
         ->leftJoin('categories as categories1', 'courses.category1_id', '=', 'categories1.id')
@@ -109,9 +109,14 @@ class Course extends Model
             ->leftJoin('categories as categories3', 'courses.category3_id', '=', 'categories3.id')
             ->leftJoin('categories as categories4', 'courses.category4_id', '=', 'categories4.id')
             ->leftJoin('categories as categories5', 'courses.category5_id', '=', 'categories5.id')
-            ->joinSub($lessonCounts, 'courses', function($join) {
+            // ->leftJoinSub($lessonCounts, 'lessons', 'courses.id', 'lessons.course_id')
+            ->leftJoinSub($lessonCounts, 'courses', function($join) {
                 $join->on('courses.course_id', '=', 'courses.id');
             })
+            // ->leftJoin($lessonCounts, 'courses.id', '=', 'course_id')
+            // ->lestJoin($lessonCounts, 'courses', function($join) {
+            //     $join->on('courses.course_id', '=', 'courses.id');
+            // })
             ->where('courses.user_id', $users_id)
             // ->where('lessons.status', $status)
             ->orderBy('courses.created_at', 'desc')
