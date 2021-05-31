@@ -21,7 +21,7 @@ class LessonFinish extends Command
      * @var string
      */
     //コマンドの名前を設定
-    protected $signature = 'lesson:finish';
+    protected $signature = 'command:lessonFinish';
 
     /**
      * The console command description.

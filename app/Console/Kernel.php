@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // レッスン削除のバッチ処理
-        $schedule->command('lesson:finish --force')
+        $schedule->command('lessonFinish --force')
                  ->withoutOverlapping() // 多重実行を防ぐ
                  // ->everyFiveMinutes();  // 5分ごとに実行
                  ->everyMinute();  // 5分ごとに実行
