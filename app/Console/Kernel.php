@@ -13,8 +13,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands =
-    [
+    protected $commands = [
         // レッスンを削除するコマンド
         \App\Console\Commands\LessonFinish::class,
     ];
@@ -28,9 +27,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // レッスン削除のバッチ処理
-        $schedule->command('lesson:finish')
+        $schedule->command('lesson:finish --force')
                  ->withoutOverlapping() // 多重実行を防ぐ
-                 ->everyMinute();  // 5分ごとに実行
+                 ->everyMinute();     // 1分ごとに実行
                  // ->everyMinute();  // 5分ごとに実行
     }
 
