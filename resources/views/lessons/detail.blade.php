@@ -61,7 +61,8 @@
                     </div>
                     <detail-img-list-component
                         :img-lists='@json($courseImgLists)'
-                    />
+                    >
+                    </detail-img-list-component>
 					<div class="c-lessonDetail__info">
 						<div class="other l-flex l-v__center @if($currentDate >= $basicDate) l-start @endif">
 							<div class="other__price">
