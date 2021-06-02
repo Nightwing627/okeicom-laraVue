@@ -1,6 +1,6 @@
 <template>
   <header id="header">
-    <modal-search
+    <!-- <modal-search
       v-show="searchShow"
       @from-child="closeSearch"
     >
@@ -12,7 +12,7 @@
           >
         </div>
       </form>
-    </modal-search>
+    </modal-search> -->
     <div
       class="menu-user"
       :class="{'open': isMenuUser}"
@@ -82,19 +82,25 @@
         <ul class="header__icon l-flex l-v__bottom sp-only">
           <li>
             <a @click="openSearch">
-              <img src="/img/common/icon-search-pink.png" alt="検索アイコン">
+              <img
+                src="/img/common/icon-search-pink.png"
+                alt="検索アイコン">
               <span>検索</span>
             </a>
           </li>
           <li>
             <a href="/mypage/u/messages/">
-              <img src="/img/common/icon-chat-pink.png" alt="チャットアイコン">
+              <img
+                src="/img/common/icon-chat-pink.png"
+                alt="チャットアイコン">
               <span>チャット</span>
             </a>
           </li>
           <li>
             <a @click="openDrawer">
-              <img src="/img/common/icon-header-menu-bold-pink.png" alt="ハンバーガーメニューアイコン">
+              <img
+                src="/img/common/icon-header-menu-bold-pink.png"
+                alt="ハンバーガーメニューアイコン">
               <span>メニュー</span>
             </a>
           </li>

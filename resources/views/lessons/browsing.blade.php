@@ -132,54 +132,7 @@
 	</style>
 @endpush
 
-<!-- 本文 -->
-@section('content')
-<!-- 吉田豊が修正しました -->
-
-<div class="l-wrap l-flex">
-    <div class="l-wrap--title">
-        <h1 class="c-headline--screen">レッスン受講画面</h1>
-    </div>
-    <div style="width:100%; height:80vh;">
-        <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{ asset('storage/lesson/'.$lesson->view.'/'.$lesson->slide)}}" width='100%' height='100%' frameborder='0'></iframe>
-    </div>
-    {{--  @if($lesson->type !== 2)
-    <div class="l-wrap--body">
-        <div class="l-wrap--main l-wrap--detail">
-            <div class="l-content--detail">
-                <div class="l-content--detail__inner">
-                    <div class="browsing-url">
-                        <a class="u-text--link" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=rOho8r3Y2_k">https://www.youtube.com/watch?v=rOho8r3Y2_k</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>  --}}
-    {{--  @else
-    <div id="my_pdf_viewer">
-        <div id="canvas_container" class="canvas-content">
-            <canvas id="pdf_renderer"></canvas>
-        </div>
-
-        <div id="navigation_controls" class="control-body">
-            <button class="prev-button" id="go_previous" type="button">前へ</button>
-            <input id="current_page" value="1" type="number" class="page" />
-            <button class="next-button" id="go_next" type="button">次へ</button>
-
-        </div>
-
-        <!-- <div id="zoom_controls" class="zoom-body">
-				<button id="zoom_in" class="zoom-in">+</button>
-				<button id="zoom_out" class="zoom-out">-</button>
-			</div> -->
-    </div>
-    <!-- 吉田豊が修正しました -->
-    @endif  --}}
-</div>
-@endsection @section('script')
-<!-- 吉田豊が修正しました -->
-{{--  <script src="http://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js">  --}}
-</script>
+@section('script')
 <script>
     var myState = {
         pdf: null,
@@ -281,32 +234,61 @@
         zoom_in();
     });
 
-        document.getElementById('zoom_out').addEventListener('click', (e) => {
-            zoom_out();
-        });
-​
-		function zoom_out(){
-			if(myState.pdf == null) return;
-            myState.zoom -= 0.5;
-            render();
-		}
-    </script>
-<!-- @endsection
-    function zoom_in() {
-        if (myState.pdf == null) return;
-        myState.zoom += 0.5;
-        render();
-    }
-
     document.getElementById('zoom_out').addEventListener('click', (e) => {
         zoom_out();
     });
-
-    function zoom_out() {
-        if (myState.pdf == null) return;
+​
+    function zoom_out(){
+        if(myState.pdf == null) return;
         myState.zoom -= 0.5;
         render();
     }
-</script> -->
+    </script>
+@endsection
+
+
+<!-- 本文 -->
+@section('content')
 <!-- 吉田豊が修正しました -->
+
+<div class="l-wrap l-flex">
+    <div class="l-wrap--title">
+        <h1 class="c-headline--screen">レッスン受講画面</h1>
+    </div>
+    <div style="width:100%; height:80vh;">
+        <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{ asset('storage/lesson/'.$lesson->view.'/'.$lesson->slide)}}" width='100%' height='100%' frameborder='0'></iframe>
+    </div>
+    {{--  @if($lesson->type !== 2)
+    <div class="l-wrap--body">
+        <div class="l-wrap--main l-wrap--detail">
+            <div class="l-content--detail">
+                <div class="l-content--detail__inner">
+                    <div class="browsing-url">
+                        <a class="u-text--link" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=rOho8r3Y2_k">https://www.youtube.com/watch?v=rOho8r3Y2_k</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  --}}
+    {{--  @else
+    <div id="my_pdf_viewer">
+        <div id="canvas_container" class="canvas-content">
+            <canvas id="pdf_renderer"></canvas>
+        </div>
+
+        <div id="navigation_controls" class="control-body">
+            <button class="prev-button" id="go_previous" type="button">前へ</button>
+            <input id="current_page" value="1" type="number" class="page" />
+            <button class="next-button" id="go_next" type="button">次へ</button>
+
+        </div>
+
+        <!-- <div id="zoom_controls" class="zoom-body">
+				<button id="zoom_in" class="zoom-in">+</button>
+				<button id="zoom_out" class="zoom-out">-</button>
+			</div> -->
+    </div>
+    <!-- 吉田豊が修正しました -->
+    @endif  --}}
+</div>
 @endsection

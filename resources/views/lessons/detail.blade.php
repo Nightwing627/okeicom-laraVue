@@ -33,7 +33,7 @@
                     @if($currentDate >= $basicDate)
                         @if($lesson->type == 2)
                             @if($checkPurchase->status == 0)
-                            <a href="{{ route('lessons.browsing', $lesson->id) }}" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
+                                <a href="{{ route('lessons.browsing', $lesson->id) }}" target="_blank" rel="noopener noreferrer">レッスンを見る</a>
                             @endif
                         @else
                             @if($checkPurchase->status == 0)
@@ -55,14 +55,13 @@
 					<div class="c-lessonDetail__headline">
 						<p class="title">{{ $lesson->title }}</p>
 						<div class="sub">
-							<span class="application">申込人数：{{ $lesson->applicants_number ?? '0'}}人</span>
+							<span class="application">申込人数：{{ $lesson->applicants_number ? $lesson->applicants_number : '0'}}人</span>
 							<span class="evaluation"><img src="/img/common/icon-star.png">{{ $lesson->round_avg_point }}</span>
 						</div>
                     </div>
                     <detail-img-list-component
-                        :imgLists='@json($courseImgLists)'
-                    >
-                    </detail-img-list-component>
+                        :img-lists='@json($courseImgLists)'
+                    />
 					<div class="c-lessonDetail__info">
 						<div class="other l-flex l-v__center @if($currentDate >= $basicDate) l-start @endif">
 							<div class="other__price">
@@ -74,9 +73,9 @@
                             </div>
                             @if($checkPurchase)
                                 @if($currentDate <= $basicDate)
-                                <div class="other_reserve">
-                                    <a href="{{ route('lessons.cancel') }}">キャンセルする</a>
-                                </div>
+                                    <div class="other_reserve">
+                                        <a href="{{ route('lessons.cancel') }}">キャンセルする</a>
+                                    </div>
                                 @endif
                             @else
                                 @if($currentDate <= $finishDate)

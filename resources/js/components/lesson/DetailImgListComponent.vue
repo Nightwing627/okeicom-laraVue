@@ -11,7 +11,7 @@
         @click="changeThumb"
       >
         <img
-          v-if="!(thumb.img==unll)"
+          v-if="!(thumb.img==null)"
           :src="'/storage/courses/' + thumb.img"
         >
       </li>
@@ -22,20 +22,20 @@
 	export default {
     components: {},
     props: {
-      imglists: {
-        type: Array,
+      imgLists: {
+        type: Object,
         required: true
       },
     },
 		data: function() {
 			return {
-        thumbImage: this.imglists['img1'],
+        thumbImage: this.imgLists['img1'],
         thumbLists: [
-          { id: 0, img: this.imglists['img1'] },
-          { id: 1, img: this.imglists['img2'] },
-          { id: 2, img: this.imglists['img3'] },
-          { id: 3, img: this.imglists['img4'] },
-          { id: 4, img: this.imglists['img5'] },
+          { id: 0, img: this.imgLists['img1'] },
+          { id: 1, img: this.imgLists['img2'] },
+          { id: 2, img: this.imgLists['img3'] },
+          { id: 3, img: this.imgLists['img4'] },
+          { id: 4, img: this.imgLists['img5'] },
         ]
       }
 		},

@@ -276,7 +276,6 @@
                 type="button"
                 :value="changeNumber"
                 class="c-button--square__pink"
-                :disabled="checkLessonSubmit"
                 @click="addLesson"
               >
                 レッスンを追加する
@@ -285,7 +284,6 @@
                 v-else-if="changeModalEdit"
                 type="button"
                 class="c-button--square__pink"
-                :disabled="checkLessonSubmit"
                 @click="updateLesson"
               >
                 編集内容を保存する
@@ -348,16 +346,6 @@
         },
       }
     },
-    computed: {
-      // レッスン追加のバリデーションチェック
-      checkLessonSubmit: function() {
-        if(this.lesson.title == '') {
-          return true
-        } else {
-          return false
-        }
-      }
-    },
     methods: {
       // 開始日のフォーマット
       customFormatter: function(date) {
@@ -406,49 +394,46 @@
       // レッスン：追加する
       addLesson: function() {
         // 連想配列を追加する
-        this.lessons.push(this.lesson)
+        if(this.lesson.title && this.lesson.price) {
 
-        // モーダルのトップに移動させる
-        this.$refs.lesson_add_modal.scrollTop = 0
-        // モーダルを閉じる
-        this.isLessonModal = false
+          this.lessons.push(this.lesson)
+          // モーダルのトップに移動させる
+          this.$refs.lesson_add_modal.scrollTop = 0
+          // モーダルを閉じる
+          this.isLessonModal = false
 
-        // lessons連想配列の中身を日付順に並び替える
-        this.lessons.sort((a, b) => {
-          // dateの昇順
-          if(a.date > b.date) return 1;
-          if(a.date < b.date) return -1;
-          // startの降順
-          if(a.start > b.start) return -1;
-          if(a.start < b.start) return 1;
-          // finishの降順
-          if(a.finish > b.finish) return 1;
-          if(a.finish < b.finish) return -1;
-          return 0;
-        });
+          // lessons連想配列の中身を日付順に並び替える
+          this.lessons.sort((a, b) => {
+            // dateの昇順
+            if(a.date > b.date) return 1;
+            if(a.date < b.date) return -1;
+            // startの降順
+            if(a.start > b.start) return -1;
+            if(a.start < b.start) return 1;
+            // finishの降順
+            if(a.finish > b.finish) return 1;
+            if(a.finish < b.finish) return -1;
+            return 0;
+          });
 
-        // レッスンを初期化
-        this.lesson = [],
-        this.lesson = {
-          public: 0,
-          type: 0,
-          date: moment(new Date).format('YYYY/MM/DD'),
-          start: '12:00',
-          finish: '12:00',
-          // start: {
-          //   HH: '12',
-          //   mm: '00'
-          // },
-          // finish: {
-          //   HH: '12',
-          //   mm: '00'
-          // },
-          price: 100,
-          cancel_rate: 20,
+          // レッスンを初期化
+          this.lesson = [],
+          this.lesson = {
+            public: 0,
+            type: 0,
+            date: moment(new Date).format('YYYY/MM/DD'),
+            start: '12:00',
+            finish: '12:00',
+            price: 100,
+            cancel_rate: 20,
+          }
+
+          // 親に値を送る
+          this.$emit('catch-lessons', this.lessons)
+        } else {
+          alert('タイトルと金額を設定してください。')
         }
 
-        // 親に値を送る
-        this.$emit('catch-lessons', this.lessons)
       },
       // レッスン：編集する
       editLesson: function(index) {
@@ -464,16 +449,8 @@
           url: this.lessons[index].url,
           slide: this.lessons[index].slide,
           date : moment(this.lessons[index].date).format('YYYY/MM/DD'),
-          start: '12:00',
-          finish: '12:00',
-          // start: {
-          //   HH: this.lessons[index].start['HH'],
-          //   mm: this.lessons[index].start['mm']
-          // },
-          // finish: {
-          //   HH: this.lessons[index].start['HH'],
-          //   mm: this.lessons[index].start['mm']
-          // },
+          start: this.lessons[index].start,
+          finish: this.lessons[index].finish,
           detail: this.lessons[index].detail,
           price: this.lessons[index].price,
           cancel_rate: this.lessons[index].cancel_rate,
@@ -482,73 +459,63 @@
         this.changeNumber = index
 
         // 親に値を送る
-        this.$emit('catch-lessons', this.lessons)
+        // this.$emit('catch-lessons', this.lessons)
       },
       // レッスン：更新する
       updateLesson: function() {
-        // 編集モードをオフにする
-        this.changeModalEdit = false
-        // モーダルを表示する
-        this.isLessonModal = false
+        if(this.lesson.title && this.lesson.price) {
+          // 編集モードをオフにする
+          this.changeModalEdit = false
+          // モーダルを表示する
+          this.isLessonModal = false
 
-        // レッスンを更新する
-        this.lessons[this.changeNumber] = {
-          title: this.lesson.title,
-          public: this.lesson.public,
-          type: this.lesson.type,
-          url: this.lesson.url,
-          slide: this.lesson.slide,
-          date : moment(this.lesson.date).format('YYYY/MM/DD'),
-          start: '12:00',
-          finish: '12:00',
-          // start: {
-          //   HH: this.lesson.start['HH'],
-          //   mm: this.lesson.start['mm']
-          // },
-          // finish: {
-          //   HH: this.lesson.start['HH'],
-          //   mm: this.lesson.start['mm']
-          // },
-          detail: this.lesson.detail,
-          price: this.lesson.price,
-          cancel_rate: this.lesson.cancel_rate,
+          // レッスンを更新する
+          this.lessons[this.changeNumber] = {
+            title: this.lesson.title,
+            public: this.lesson.public,
+            type: this.lesson.type,
+            url: this.lesson.url,
+            slide: this.lesson.slide,
+            date : moment(this.lesson.date).format('YYYY/MM/DD'),
+            start: this.lesson.start,
+            finish: this.lesson.finish,
+            detail: this.lesson.detail,
+            price: this.lesson.price,
+            cancel_rate: this.lesson.cancel_rate,
+          }
+
+          // lessons連想配列の中身を日付順に並び替える
+          this.lessons.sort((a, b) => {
+            // dateの昇順
+            if(a.date > b.date) return 1;
+            if(a.date < b.date) return -1;
+            // startの降順
+            if(a.start > b.start) return 1;
+            if(a.start < b.start) return -1;
+            // finishの降順
+            if(a.finish > b.finish) return 1;
+            if(a.finish < b.finish) return -1;
+            return 0;
+          });
+
+          // モーダルのトップに移動させる
+          this.$refs.lesson_add_modal.scrollTop = 0
+          // レッスンを初期化
+          this.changeNumber = ''
+          this.lesson = []
+          this.lesson = {
+            date: moment(new Date).format('YYYY/MM/DD'),
+            start: '12:00',
+            finish: '12:00',
+            price: 100,
+            cancel_rate: 20,
+          }
+
+          // 親に値を送る
+          this.$emit('catch-lessons', this.lessons)
+        } else {
+          alert('タイトルと金額を設定してください')
         }
-
-        // lessons連想配列の中身を日付順に並び替える
-        this.lessons.sort((a, b) => {
-          // dateの昇順
-          if(a.date > b.date) return 1;
-          if(a.date < b.date) return -1;
-          // startの降順
-          if(a.start > b.start) return 1;
-          if(a.start < b.start) return -1;
-          // finishの降順
-          if(a.finish > b.finish) return 1;
-          if(a.finish < b.finish) return -1;
-          return 0;
-        });
-
-        // レッスンを初期化
-        this.changeNumber = ''
-        this.lesson = []
-        this.lesson = {
-          date: moment(new Date).format('YYYY/MM/DD'),
-          start: '12:00',
-          finish: '12:00',
-          // start: {
-          //   HH: '12',
-          //   mm: '00'
-          // },
-          // finish: {
-          //   HH: '12',
-          //   mm: '00'
-          // },
-          price: 100,
-          cancel_rate: 20,
-        }
-
-        // 親に値を送る
-        this.$emit('catch-lessons', this.lessons)
       },
       // レッスン：削除する
       deleteLesson: function(index) {
