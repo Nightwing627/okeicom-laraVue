@@ -78,10 +78,11 @@
           checkArray.push(checkProp['category' + i + '_id'])
         }
       }
+      console.log(checkArray)
 
       // forEachから同じ値を設定する
       checkArray.forEach((id, value) => {
-          this.$refs.targetCheckbox[value]['checked'] = true
+          this.$refs.targetCheckbox[id - 1]['checked'] = true
       })
 
       // console.log(checkProp['category1_id']);

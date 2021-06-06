@@ -59,7 +59,7 @@
     export default {
       props: {
         categories: {
-          type: String,
+          type: Array,
           required: true
         },
         categoriesId: {
