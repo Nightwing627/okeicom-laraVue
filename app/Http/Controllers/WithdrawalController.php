@@ -73,28 +73,28 @@ class WithdrawalController extends Controller
         // 出金金額によって手数料率を算出する
         $fee = '';
         if(is_null($commitionRate)) {
-          switch(true) {
-            case $holding_amount > 300001:
-                $fee = 25;
-                break;
-            case $holding_amount > 250001:
-                $fee = 23;
-                break;
-            case $holding_amount > 200001:
-                $fee = 20;
-                break;
-            case $holding_amount > 150001:
-                $fee = 18;
-                break;
-            case $holding_amount > 100001:
-                $fee = 15;
-                break;
-            default:
-                $fee = 13;
-                break;
-          }
+            switch(true) {
+                case $holding_amount > 300001:
+                    $fee = 25;
+                    break;
+                case $holding_amount > 250001:
+                    $fee = 23;
+                    break;
+                case $holding_amount > 200001:
+                    $fee = 20;
+                    break;
+                case $holding_amount > 150001:
+                    $fee = 18;
+                    break;
+                case $holding_amount > 100001:
+                    $fee = 15;
+                    break;
+                default:
+                    $fee = 13;
+                    break;
+            }
         } else {
-          $fee = $commitionRate;
+            $fee = $commitionRate;
         }
 
         // 出金額と手数料を表示
@@ -148,34 +148,34 @@ class WithdrawalController extends Controller
         // 銀行情報と出金リクエスト登録
         DB::beginTransaction();
         try {
-          // １．銀行情報の登録
-          $bankNew = new Bank();
-          $res = $bankNew->storeBank($banks, $userId);
-          if(!is_numeric($res)) {
-              return back()->withInput()->withErrors($res);
-          }
+            // １．銀行情報の登録
+            $bankNew = new Bank();
+            $res = $bankNew->storeBank($banks, $userId);
+            if(!is_numeric($res)) {
+                return back()->withInput()->withErrors($res);
+            }
 
-          // ２．出金リクエストの登録
-          $withdrawalNew = new Withdrawal();
-          $withdrawalNew->store($res, $userId);
+            // ２．出金リクエストの登録
+            $withdrawalNew = new Withdrawal();
+            $withdrawalNew->store($res, $userId);
 
-          // ３．出金完了メール送信
-          $user = Auth::user();
-          $email = new WithdrawalRequest($user, $request);
-          Mail::to(Auth::user()->email)->send($email);
+            // ３．出金完了メール送信
+            $user = Auth::user();
+            $email = new WithdrawalRequest($user, $request);
+            Mail::to(Auth::user()->email)->send($email);
 
-          // ４．トランザクションを通過してDBにcommit
-          DB::commit();
+            // ４．トランザクションを通過してDBにcommit
+            DB::commit();
 
-          // ５．セッション削除
-          $request->session()->forget(['holding_amount', 'commission', 'withdrawal_amount', 'fee']);
+            // ５．セッション削除
+            $request->session()->forget(['holding_amount', 'commission', 'withdrawal_amount', 'fee']);
 
-          // ６．出金リクエスト完了ページへリダイレクト
-          return redirect(route('mypage.t.payment.complete'));
+            // ６．出金リクエスト完了ページへリダイレクト
+            return redirect(route('mypage.t.payment.complete'));
         } catch (\Exception $e) {
-          DB::rollback();
-          $error = '出金リクエストに失敗しました。再度登録を行ってください。';
-          return back()->withErrors($error);
+            DB::rollback();
+            $error = '出金リクエストに失敗しました。再度登録を行ってください。';
+            return back()->withErrors($error);
         }
         $error = '不明なエラーが発生しました。管理者へお問い合わせください。';
         return back()->withErrors($error);

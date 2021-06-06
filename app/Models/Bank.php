@@ -22,12 +22,30 @@ class Bank extends Model
         'name',
     ];
 
+    protected $with = ['bankOther', 'bankJapan'];
+
+    /**
+     * 銀行に関連しているその他銀行情報
+     */
+    public function bankOther()
+    {
+        return $this->hasOne(BankOther::class);
+    }
+
+    /**
+     * 銀行に関連しているその他銀行情報
+     */
+    public function bankJapan()
+    {
+        return $this->hasOne(BankJapan::class);
+    }
+
     /**
       * 銀行情報を取得する
       */
     public function showBank($id)
     {
-        return Bank::select([
+        return self::select([
                 'banks.*',
                 'bank_japans.mark as japan_mark',
                 'bank_others.financial_name as financial_name',

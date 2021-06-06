@@ -33,7 +33,7 @@
             </div>
             <user-profile-upload-img-component
                 img="{{ $user['img'] }}"
-            ></user-profile-upload-img-component>
+            />
         </div>
         <div class="c-list--tr">
             <div class="c-list--th">
@@ -134,7 +134,15 @@
                 <p class="sub">1000文字以内です。</p>
             </div>
             <div class="c-list--td">
-                <textarea id="profile" name="profile" class="form-control @error('profile') is-invalid @enderror" required cols="50" rows="10">{{ $user->profile }}</textarea>
+                <textarea
+                    id="profile"
+                    name="profile"
+                    class="form-control @error('profile') is-invalid @enderror"
+                    cols="50"
+                    rows="10"
+                >
+                    {{ $user->profile }}
+                </textarea>
                 @error('profile')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

@@ -31,14 +31,14 @@ class UpdateRequest extends FormRequest
             return [
                 'img'     => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
                 'name'    => ['required', 'string', 'max:255'],
-                'profile' => ['required', 'string', 'max:1000'],
+                'profile' => ['nullable', 'string', 'max:1000'],
             ];
         } else {
             return [
                 'img'     => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:2048'],
                 'name'    => ['required', 'string', 'max:255'],
                 'email'   => ['required', 'string', 'max:255', 'unique:users'],
-                'profile' => ['required', 'string', 'max:1000'],
+                'profile' => ['nullable', 'string', 'max:1000'],
             ];
         }
 

@@ -14,8 +14,8 @@ class AddColumnUserEmailAndUserTelToWithdrawsColumn extends Migration
     public function up()
     {
         Schema::table('withdraws', function (Blueprint $table) {
-            $table->string('user_email', 255)->after('reason')->comment('手数料率');
-            $table->string('user_tel', 11)->after('user_email')->comment('手数料率');
+            $table->string('user_email', 255)->after('reason')->comment('ユーザーメールアドレス');
+            $table->string('user_tel', 11)->after('user_email')->comment('ユーザー電話番号');
         });
     }
 

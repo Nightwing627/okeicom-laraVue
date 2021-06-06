@@ -16,14 +16,16 @@
         @click="categorySubmit('target' + index)"
       > -->
       <input
-        ref="targetCheckcbox"
+        ref="targetCheckbox"
         name="categories[]"
         type="checkbox"
         :checked="false"
-        :value="index"
-        @click="categorySubmit(index)"
+        :value="category.id"
+        @click="categorySubmit(category.id)"
       >
-      <label>{{ category.name }}</label>
+      <label>
+        {{ category.name }}
+      </label>
     </li>
   </ul>
 </template>
@@ -44,7 +46,6 @@
         type: Array,
         required: true,
       }
-      // 5/26 20:43 非表示
       // categories: {
       //   type: String,
       //   required: false,
@@ -79,8 +80,8 @@
       }
 
       // forEachから同じ値を設定する
-      checkArray.forEach((id) => {
-        this.$refs.targetCheckcbox[id]['checked'] = true
+      checkArray.forEach((id, value) => {
+          this.$refs.targetCheckbox[value]['checked'] = true
       })
 
       // console.log(checkProp['category1_id']);
@@ -115,12 +116,12 @@
         //   this.$emit("reduceCategory")
         //   this.checkbox -= 1
         // }
-        if(this.$refs.targetCheckcbox[id]['checked']) {
+        if(this.$refs.targetCheckbox[id]['checked']) {
           if (this.checkbox < 5) {
             this.checkbox += 1
             this.$emit("addCategory")
           } else {
-            this.$refs.targetCheckcbox[id]['checked'] = false
+            this.$refs.targetCheckbox[id]['checked'] = false
           }
         } else {
           this.$emit("reduceCategory")
