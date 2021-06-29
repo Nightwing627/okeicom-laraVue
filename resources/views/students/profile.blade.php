@@ -134,15 +134,7 @@
                 <p class="sub">1000文字以内です。</p>
             </div>
             <div class="c-list--td">
-                <textarea
-                    id="profile"
-                    name="profile"
-                    class="form-control @error('profile') is-invalid @enderror"
-                    cols="50"
-                    rows="10"
-                >
-                    {{ $user->profile }}
-                </textarea>
+                <textarea id="profile" name="profile" class="form-control @error('profile') is-invalid @enderror" cols="50" rows="10">{{ $user->profile }}</textarea>
                 @error('profile')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
