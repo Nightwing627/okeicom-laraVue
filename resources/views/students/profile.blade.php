@@ -123,8 +123,8 @@
             </div>
             <div class="c-list--td">
                 <select-list-category-component
-                    :user={{ json_encode($user) }}
-                    :category-list={{ json_encode($categories) }}
+                    :user="{{ json_encode($user) }}"
+                    :category-list={{ $categories }}
                 />
             </div>
         </div>

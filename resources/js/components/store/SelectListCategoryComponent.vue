@@ -4,7 +4,7 @@
     class="c-list--category"
   >
     <li
-      v-for="(category, index) in categories"
+      v-for="category in categories"
       :key="category.id"
     >
       <!-- <input
@@ -117,12 +117,12 @@
         //   this.$emit("reduceCategory")
         //   this.checkbox -= 1
         // }
-        if(this.$refs.targetCheckbox[id]['checked']) {
+        if(this.$refs.targetCheckbox[id - 1]['checked']) {
           if (this.checkbox < 5) {
             this.checkbox += 1
             this.$emit("addCategory")
           } else {
-            this.$refs.targetCheckbox[id]['checked'] = false
+            this.$refs.targetCheckbox[id - 1]['checked'] = false
           }
         } else {
           this.$emit("reduceCategory")
