@@ -53,4 +53,5 @@
 		<p class="copyright">@copyright おけい.com 2021</p>
 	</div>
 </footer>
+
 <script src="{{ mix('js/app.js') }}"></script>
