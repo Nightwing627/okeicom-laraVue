@@ -1,4 +1,17 @@
-@extends(($user_status == 0)?'layouts.user-single':'layouts.teacher-single') {{-- タイトル・メタディスクリプション --}} @section('title', '退会') @section('description', '退会') {{-- CSS --}} @push('css') @endpush {{-- 本文 --}} @section('content') {{-- エラーメッセージ --}} @if ($errors->any())
+@extends(($user_status == 0)?'layouts.user-single':'layouts.teacher-single')
+
+{{-- タイトル・メタディスクリプション --}} 
+@section('title', '退会') 
+@section('description', '退会') 
+
+{{-- CSS --}} 
+@push('css') 
+@endpush 
+
+{{-- 本文 --}} 
+@section('content') 
+{{-- エラーメッセージ --}} 
+@if ($errors->any())
 <div class="l-alart errorAlart" role="alert">
     @foreach ($errors->all() as $error)
     <p>{{ $error }}</p>
