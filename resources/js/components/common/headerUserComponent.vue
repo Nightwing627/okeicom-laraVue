@@ -220,7 +220,7 @@
         <li><a href="/terms-user.php">受講者よくある質問</a></li>
       </ul> -->
       <ul class="nav-global__list">
-        <li><a href="">講師向けメニューはこちら</a></li>
+        <li><a href="/mypage/u/change">講師向けメニューはこちら</a></li>
         <li><a href="/mypage/u/attendance-lessons">受講予定レッスン</a></li>
         <li><a href="/mypage/u/taken-lessons">受講済みレッスン</a></li>
         <li><a href="/mypage/u/messages/">メッセージ</a></li>
@@ -252,7 +252,7 @@
       </ul>
     </nav>
   </header>
-  
+
 </template>
 
 <script>
