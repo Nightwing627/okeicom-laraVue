@@ -217,7 +217,7 @@
       </ul> -->
       <ul class="nav-global__list">
         <li><a href="/mypage/t/change">受講者に切り替える</a></li>
-        <!-- <li><a href="/">講師マニュアル</a></li> -->
+        <li><a href="/manual_pdf/講師マニュアル.pdf" download="講師マニュアル.pdf">講師マニュアル</a></li>
         <li><a href="/mypage/t/courses/">コース一覧</a></li>
         <li><a href="/mypage/t/courses/create/">コース作成</a></li>
         <li><a href="/mypage/t/cancel-requests/">キャンセル依頼</a></li>
