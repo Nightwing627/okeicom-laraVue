@@ -34,7 +34,7 @@
 		レッスンを開催・受講するには、ビデオとマイクが必要です。Zoomのインストール後、環境が整っているか事前のテストをおすすめします。<br>
         <a href="./zoom" class="btn-flat-border">Zoomインストール方法</a><a href="https://zoom.us/test" class="btn-flat-border">Zoomテスト</a></p>
     </div>
-    <figure> <img src="./img/okeicom/youtube.jpg" alt="Zoomインストール方法"> </figure>
+    <figure> <img src="{{url('/img/okeicom/youtube.jpg')}}" alt="Zoomインストール方法"> </figure>
   </article>
   <article>
     <div class="text_content">
@@ -42,7 +42,7 @@
       <p>おけいcomでオンラインレッスンを始めるには会員登録が必要です。もちろん、登録料は一切かかりませんので、安心して始めていただけます。一つのアカウントで、受講者としてはもちろん、講師としての活動も可能になります。<br>
         <a href="https://okeicom.com/sign-up" class="btn-flat-border">会員登録はコチラ</a> </p>
     </div>
-    <figure> <img src="./img/okeicom/youtube.jpg" alt="無料会員登録"> </figure>
+    <figure> <img src="{{url('/img/okeicom/youtube.jpg')}}" alt="無料会員登録"> </figure>
   </article>
   <article>
     <div class="text_content">
@@ -50,7 +50,7 @@
       <p>会員登録が完了したら、さっそくレッスンや講師を探してみましょう。レッスン一覧や講師一覧からは、ジャンルの絞り込みや並び替えができるので、スムーズに希望のレッスンを見つけることができます。<br>
         <a href="https://okeicom.com/lessons" class="btn-flat-border">レッスン一覧</a><a href="https://okeicom.com/teachers" class="btn-flat-border">講師一覧</a></p>
     </div>
-    <figure> <img src="./img/okeicom/youtube.jpg" alt="講師検索・レッスン検索"> </figure>
+    <figure> <img src="{{url('/img/okeicom/youtube.jpg')}}" alt="講師検索・レッスン検索"> </figure>
   </article>
   <article>
     <div class="text_content">
@@ -60,21 +60,21 @@
         レッスンのキャンセルは開始時刻の24時間前までは無料です。それ以降は、各講師が設定したキャンセルポリシーに準じます。講師へ質問等がある場合は、直接メッセージのやり取りも可能です。<br>
         <a href="https://okeicom.com/cancel-user" class="btn-flat-border">キャンセルポリシー</a> </p>
     </div>
-    <figure> <img src="./img/okeicom/youtube.jpg" alt="レッスン購入"> </figure>
+    <figure> <img src="{{url('/img/okeicom/youtube.jpg')}}" alt="レッスン購入"> </figure>
   </article>
   <article>
     <div class="text_content">
       <div class="midashi03">５．レッスン受講</div>
       <p>レッスン開始時刻になると、レッスンページに「参加する」ボタンが現れます。（表示されていない場合は、一度ページを更新してください。）ボタンを押すと、zoomが自動的に立ち上がり、レッスンが始まります。 </p>
     </div>
-    <figure> <img src="./img/okeicom/youtube.jpg" alt="レッスン受講"> </figure>
+    <figure> <img src="{{url('/img/okeicom/youtube.jpg')}}" alt="レッスン受講"> </figure>
   </article>
   <article>
     <div class="text_content">
       <div class="midashi03">６．レビュー投稿</div>
       <p>レッスンが終了したら、ご登録いただいたメールアドレスにメールが届きます。こちらのメールからレビュー投稿が可能となります。皆さんのご意見や感想は、講師の方にとって学びや励みにもなります。ぜひご協力ください。</p>
     </div>
-    <figure> <img src="./img/okeicom/youtube.jpg" alt="レビュー投稿"> </figure>
+    <figure> <img src="{{url('/img/okeicom/youtube.jpg')}}" alt="レビュー投稿"> </figure>
   </article>
   <div class="midashi01">おけいcomの講師紹介</div>
   <p class="explain">おけいcomでは、様々なジャンルの講師の方が活躍中です。<br>
