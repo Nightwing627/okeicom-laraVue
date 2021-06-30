@@ -64,8 +64,8 @@
           <ul class="l-flex">
             <li><a href="/lessons/">レッスン一覧</a></li>
             <li><a href="/teachers/">講師一覧</a></li>
-            <!-- <li><a href="">初めての方へ</a></li>
-            <li><a href="">講師登録ご希望の方へ</a></li> -->
+            <li><a href="/for-first">初めての方へ</a></li>
+            <li><a href="/for-teacher">講師ご希望の方へ</a></li>
           </ul>
         </nav>
       </div>

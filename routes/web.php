@@ -294,3 +294,14 @@ Route::get('contact', [ContactController::class, 'index'])->name('contact');
 // 送信完了
 Route::post('contact', [ContactController::class, 'send'])->name('contact.send');
 Route::get('contact/complete', [ContactController::class, 'complete'])->name('contact.complete');
+
+//講師ご希望の方へ, 初めての方へ
+Route::get('/for-first', function () {
+    return view('okeicom.first');
+});
+Route::get('/for-teacher', function () {
+    return view('okeicom.teacher');
+});
+Route::get('/zoom', function () {
+    return view('okeicom.zoom');
+});
