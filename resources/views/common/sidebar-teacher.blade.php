@@ -1,6 +1,6 @@
 <div id="sidebar" class="pc-only">
 	<div class="sidebar-change">
-        <a href="" class="u-text--link">講師マニュアル</a>
+        <a href="{{asset('/manual_pdf/講師マニュアル.pdf')}}" class="u-text--link" download="講師マニュアル">講師マニュアル</a>
     </div>
 	<div class="sidebar-change">
 		<a href="{{ route('mypage.t.change') }}" class="u-text--link">受講者に切り替える</a>
