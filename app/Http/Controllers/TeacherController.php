@@ -614,7 +614,7 @@ class TeacherController extends Controller
     // public function updateLessons(LessonStoreRequest $request)
     public function updateLessons(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $lesson = Lesson::find($request['lesson_id']);
         // レッスン更新処理
         $lesson->update([
