@@ -136,6 +136,8 @@
           <li><a href="/">トップページ</a></li>
           <li><a href="/lessons/">レッスン一覧</a></li>
           <li><a href="/teachers/">講師一覧</a></li>
+          <li><a href="/for-first/">初めての方へ</a></li>
+          <li><a href="/for-teacher/">講師ご希望の方へ</a></li>
         </ul>
         <p class="c-sp-headline nav--title">
           受講者向け
@@ -164,7 +166,6 @@
         </ul>
       </nav>
     </header>
-    
   </div>
 </template>
 
