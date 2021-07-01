@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller,
     Session;
 use Carbon\Carbon;
+use SebastianBergmann\Environment\Console;
 
 class TeacherController extends Controller
 {
@@ -417,6 +418,10 @@ class TeacherController extends Controller
      */
     public function coursesDetail(Request $request)
     {
+        //registering course_id 
+        $course_id = $request->courses_id;
+        session(['course_id' => $course_id]);
+
         $course = Course::query()->find($request->courses_id);
         $categories = $this->category->getAll();
         $lessons = $this->lesson->findByCoursesId($request->courses_id, Auth::user()->id);
