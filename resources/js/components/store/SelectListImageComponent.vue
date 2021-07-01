@@ -54,14 +54,14 @@
 	export default {
     props: {
       course: {
-        type: Array,
+        type: Object,
         required: false,
-        default: () => []
+        default () {}
       },
-      old: {
+     old: {
         type: Array,
         required: false,
-        default: () => []
+        default () {}
       },
     },
     emits: ['remove', 'add'],

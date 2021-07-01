@@ -58,14 +58,14 @@
         </div>
     @endif
     <teacher-course-detail-component
-        :course={{ $course }}
+        :course="{{ json_encode($course) }}"
         :category-list={{ $categories }}
         :lessons={{ $lessons }}
         :csrf="{{json_encode(csrf_token())}}"
     >
     {{--
     <teacher-course-detail-component
-        :course={{ $course }}
+        :course="{{ json_encode($course) }}"
         :categories={{ $categories }}
         :lessons={{ $lessons }}
     >
