@@ -3,7 +3,7 @@
 <br>
 レッスンが購入が完了しました！<br>
 レッスン詳細ページ<br>
-<a href="https://okeicom.com/lessons/detail/lessons/{{ $lesson_id }}">https://okeicom.com/lessons/detail/lessons/{{ $lesson_id }}</a><br>
+<a href="https://okeicom.com/lessons/detail/{{ $lesson_id }}">https://okeicom.com/lessons/detail/{{ $lesson_id }}</a><br>
 <br>
 今後ともよろしくお願いいたします。<br>
 <br>
