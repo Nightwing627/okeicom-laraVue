@@ -22,11 +22,11 @@
           <a href="" class="u-text--link">講師に切り替える</a>
         </div> -->
         <ul class="menu-user--content">
+          <li><a href="/mypage/u/change">講師の方はこちら</a></li>
           <li><a href="/mypage/u/attendance-lessons">受講予定レッスン</a></li>
           <li><a href="/mypage/u/taken-lessons">受講済みレッスン</a></li>
           <li><a href="/mypage/u/messages/">メッセージ</a></li>
           <li><a href="/mypage/u/profile/">プロフィール</a></li>
-          <li><a href="/teachers/">講師の方はこちら</a></li>
           <!-- <li><a href="/mypage/u/">クレジットカード情報</a></li> -->
           <!-- <li><a href="/mypage/u/bank/">銀行口座情報</a></li>
           <li><a href="/mypage/u/trade/">入出金管理</a></li> -->
