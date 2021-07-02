@@ -108,46 +108,53 @@ class LessonController extends Controller
     public function detail(Request $request, $lesson_id)
     {
         // レッスン情報
-        $lesson         = $this->lesson->getShowLesson($lesson_id)->first();
-        // レッスンID情報をセッションに入れる
-        $request->session()->put("lesson_id", $lesson['id']);
-
-        // ログインユーザー情報
-        // $user_id = Auth::user()->id;
+        $lesson = $this->lesson->getShowLesson($lesson_id)->first();
+        $current_id = $lesson->user_id;
         $user_id = Auth::id();
-
-        // レッスンの講師情報
-        $user           = User::find($lesson->user_id);
-        // レッスンの講師の評価情報
-        $evaluations    = $this->evaluation->index($lesson->user_id)->get();
-        // 関連レッスン一覧
-        $relatedLessons = $this->lesson->findByCoursesId($lesson->course_id, $lesson->user_id);
-        // コース画像一覧を配列で取得
-        $courseImgLists = $this->course->courseImgLists($lesson->course_id);
-
-        // レッスンを購入しているか調べる
-        $lessonInstance = new Lesson;
-        $checkPurchase  = $lessonInstance->checkPurchaseLesson($lesson_id, $user_id);
-        if($checkPurchase) {
-            $request->session()->put("application_id", $checkPurchase['id']);
+        if($current_id == $user_id)
+        {
+            // レッスンID情報をセッションに入れる
+            $request->session()->put("lesson_id", $lesson['id']);
+            
+            // ログインユーザー情報
+            // $user_id = Auth::user()->id;
+            $user_id = Auth::id();
+    
+            // レッスンの講師情報
+            $user = User::find($lesson->user_id);
+            // レッスンの講師の評価情報
+            $evaluations = $this->evaluation->index($lesson->user_id)->get();
+            // 関連レッスン一覧
+            $relatedLessons = $this->lesson->findByCoursesId($lesson->course_id, $lesson->user_id);
+            // コース画像一覧を配列で取得
+            $courseImgLists = $this->course->courseImgLists($lesson->course_id);
+    
+            // レッスンを購入しているか調べる
+            $lessonInstance = new Lesson;
+            $checkPurchase  = $lessonInstance->checkPurchaseLesson($lesson_id, $user_id);
+            if($checkPurchase) {
+                $request->session()->put("application_id", $checkPurchase['id']);
+            }
+    
+            // レッスン開始日時を取得
+            $basicDate = $this->lesson->getBasicDate($lesson->date, $lesson->start);
+            // レッスン終了日時を取得
+            $finishDate = $this->lesson->getBasicDate($lesson->date, $lesson->finish);
+    
+            $currentDate = Carbon::create(
+                date("Y", strtotime(date("Y-m-d H:i:s"))),
+                date("m", strtotime(date("Y-m-d H:i:s"))),
+                date("d", strtotime(date("Y-m-d H:i:s"))),
+                date("H", strtotime(date("Y-m-d H:i:s"))),
+                date("i", strtotime(date("Y-m-d H:i:s"))),
+                date("s", strtotime(date("Y-m-d H:i:s")))
+            );
+    
+            // レッスンを登録する
+            return view('lessons.detail', compact('lesson_id', 'lesson', 'user', 'evaluations', 'relatedLessons', 'courseImgLists', 'checkPurchase', 'basicDate', 'finishDate', 'currentDate'));
+        } else {
+            return redirect('/');
         }
-
-        // レッスン開始日時を取得
-        $basicDate = $this->lesson->getBasicDate($lesson->date, $lesson->start);
-        // レッスン終了日時を取得
-        $finishDate = $this->lesson->getBasicDate($lesson->date, $lesson->finish);
-
-        $currentDate = Carbon::create(
-            date("Y", strtotime(date("Y-m-d H:i:s"))),
-            date("m", strtotime(date("Y-m-d H:i:s"))),
-            date("d", strtotime(date("Y-m-d H:i:s"))),
-            date("H", strtotime(date("Y-m-d H:i:s"))),
-            date("i", strtotime(date("Y-m-d H:i:s"))),
-            date("s", strtotime(date("Y-m-d H:i:s")))
-        );
-
-        // レッスンを登録する
-        return view('lessons.detail', compact('lesson_id', 'lesson', 'user', 'evaluations', 'relatedLessons', 'courseImgLists', 'checkPurchase', 'basicDate', 'finishDate', 'currentDate'));
     }
 
     /**
