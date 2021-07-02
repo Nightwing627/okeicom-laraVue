@@ -149,24 +149,29 @@ class TeacherController extends Controller
     {
         // ユーザー詳細情報
         $user = $this->user->getTeachersShow($id);
+        $current_id = Auth::id();
+        if($current_id !== $id)
+        {
+            return redirect('/');
+        } else{
+            // ユーザーのレッスン一覧を取得する
+            // $lessons = User::find($id)->lessons->sortBy('created_at');
+            $lessons = $this->lesson->findLessonOfTeacherId($id);
 
-        // ユーザーのレッスン一覧を取得する
-        // $lessons = User::find($id)->lessons->sortBy('created_at');
-        $lessons = $this->lesson->findLessonOfTeacherId($id);
-
-        $evalutions = Evaluation::where("user_teacher_id",$id)->orderBy("id","desc")->get();
-        foreach ($evalutions as $key => $evalution) {
-            $evalution_user = User::find($evalution->user_student_id);
-            if($evalution_user){
-                $evalution["user_name"] = $evalution_user["name"];
-                $evalution["user_img"]  = $evalution_user["img"];
+            $evalutions = Evaluation::where("user_teacher_id",$id)->orderBy("id","desc")->get();
+            foreach ($evalutions as $key => $evalution) {
+                $evalution_user = User::find($evalution->user_student_id);
+                if($evalution_user){
+                    $evalution["user_name"] = $evalution_user["name"];
+                    $evalution["user_img"]  = $evalution_user["img"];
+                }
+                $evalution["date"] = substr($evalution["created_at"], 0,10);
+                $evalutions[$key] = $evalution;
             }
-            $evalution["date"] = substr($evalution["created_at"], 0,10);
-            $evalutions[$key] = $evalution;
+    
+            // ビュー画面
+            return view('teachers.detail', compact('user', 'lessons', 'evalutions'));
         }
-
-        // ビュー画面
-        return view('teachers.detail', compact('user', 'lessons', 'evalutions'));
 
         //取得
         // $user=User::where("id",$id)->where('status',User::STATUS_TEACHER)->first();
