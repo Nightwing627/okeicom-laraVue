@@ -23,7 +23,8 @@
                     :categories="{{ $categories }}"
                     categories_id="{{ $params['categories_id'] ?? '' }}"
                     path="{{ '/lessons' }}"
-                />
+                >
+                </sidebar-component>
                 <div class="l-contentList__list">
                     <div class="l-contentList__list__headline l-flex">
                         <div class="headlineContent info">

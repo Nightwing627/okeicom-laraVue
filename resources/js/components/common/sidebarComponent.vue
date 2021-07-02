@@ -62,23 +62,24 @@
           type: Array,
           required: true
         },
-        categoriesId: {
-          type: String,
-          required: true
-        },
+        // categoriesId: {
+        //   type: String,
+        //   required: true
+        // },
         path: {
           type: String,
           required: true
         },
-        target: {
-          type: String,
-          required: true
-        },
+        // target: {
+        //   type: String,
+        //   required: true
+        // },
       },
 		data(){
 			return {
         isActiveCategory: false,
         nowCategory: this.categoriesId,
+        target: ''
 			}
 		},
 		// props: {
