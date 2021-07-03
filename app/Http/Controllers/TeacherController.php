@@ -149,11 +149,11 @@ class TeacherController extends Controller
     {
         // ユーザー詳細情報
         $user = $this->user->getTeachersShow($id);
-        $current_id = Auth::id();
-        if($current_id !== $id)
-        {
-            return redirect('/');
-        } else{
+        // $current_id = Auth::id();
+        // if($current_id !== $id)
+        // {
+        //     return redirect('/');
+        // } else{
             // ユーザーのレッスン一覧を取得する
             // $lessons = User::find($id)->lessons->sortBy('created_at');
             $lessons = $this->lesson->findLessonOfTeacherId($id);
@@ -171,7 +171,7 @@ class TeacherController extends Controller
     
             // ビュー画面
             return view('teachers.detail', compact('user', 'lessons', 'evalutions'));
-        }
+        // }
 
         //取得
         // $user=User::where("id",$id)->where('status',User::STATUS_TEACHER)->first();
