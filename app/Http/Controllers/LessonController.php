@@ -109,10 +109,10 @@ class LessonController extends Controller
     {
         // レッスン情報
         $lesson = $this->lesson->getShowLesson($lesson_id)->first();
-        $current_id = $lesson->user_id;
-        $user_id = Auth::id();
-        if($current_id == $user_id)
-        {
+        // $current_id = $lesson->user_id;
+        // $user_id = Auth::id();
+        // if($current_id == $user_id)
+        // {
             // レッスンID情報をセッションに入れる
             $request->session()->put("lesson_id", $lesson['id']);
             
@@ -152,9 +152,9 @@ class LessonController extends Controller
     
             // レッスンを登録する
             return view('lessons.detail', compact('lesson_id', 'lesson', 'user', 'evaluations', 'relatedLessons', 'courseImgLists', 'checkPurchase', 'basicDate', 'finishDate', 'currentDate'));
-        } else {
-            return redirect('/');
-        }
+        // } else {
+        //     return redirect('/');
+        // }
     }
 
     /**
