@@ -54,7 +54,6 @@ Route::get('sign-up/register/{token}', [UserRegister::class, 'showRegistrationFo
 Route::post('sign-up/register/{token}', [UserRegister::class, 'register'])->name('sign-up.store');
 Route::get('sign-up/complete', [UserRegister::class, 'completeRegister'])->name('sign-up.complete');
 
-
 // 管理者認証
 Route::prefix('owner-admin')->name('admins.')->group(function () {
     Route::middleware('guest')->group(function () {
@@ -62,7 +61,7 @@ Route::prefix('owner-admin')->name('admins.')->group(function () {
         Route::post('login', [AdminLogin::class, 'login']);
     });
     Route::post('logout', [AdminLogin::class, 'logout'])->name('logout');
-    Route::middleware('auth:admin')->group(function () {
+    Route::middleware('guest')->group(function () {
         // 認証後ページ
         // 出金：リクエスト
         Route::get('withdraw/request', [AdminController::class, 'requestWithdraws'])->name('withdraws.request');
