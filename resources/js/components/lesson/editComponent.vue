@@ -308,7 +308,6 @@
           <button
             type="submit"
             class="c-button--square__pink"
-            :disabled="checkLesson"
           >
             変更内容を保存する
           </button>
