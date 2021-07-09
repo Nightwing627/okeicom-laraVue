@@ -1,14 +1,14 @@
 <template>
   <div class="c-lessonDetail__img l-flex">
     <div class="c-lessonDetail__img__thumb c-img--cover">
-      <img :src="'/storage/courses/' + thumbImage">
+        <img class="fade-in-image" :src="'/storage/courses/' + thumbImage">
     </div>
     <ul class="c-lessonDetail__img__list">
       <!-- <li><img src="/storage/courses/'{{ thumbLists[0].img }}'"></li> -->
       <li
         v-for="(thumb, index) in thumbLists"
         :key="index"
-        @click="changeThumb"
+        @click="changeThumb(index)"
       >
         <img
           v-if="!(thumb.img==null)"
@@ -45,7 +45,8 @@
     mounted : function(){
     },
 		methods: {
-      changeThumb: function() {
+      changeThumb(index) {
+        this.thumbImage = this.thumbLists[index]['img'];
       }
     },
 	}
