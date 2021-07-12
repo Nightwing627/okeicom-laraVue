@@ -20,8 +20,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
         "mews/captcha": "^3.2",
-        "wildbit/swiftmailer-postmark": "^3.3",
-        "ncjoes/office-converter": "^1.0"
+        "ncjoes/office-converter": "^1.0",
+        "wildbit/swiftmailer-postmark": "^3.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
