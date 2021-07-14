@@ -25,14 +25,9 @@ class ManageSeeder extends Seeder
                 'password' => 'password',
             ],
             [
-                'name' => '管理者2',
-                'email' => 'test2@test.com',
-                'password' => 'password',
-            ],
-            [
-                'name' => '管理者3',
-                'email' => 'test3@test.com',
-                'password' => 'password',
+                'name' => '株式会社アイリック',
+                'email' => 'info@okeicom.com',
+                'password' => 'irick0615',
             ],
         ];
 
