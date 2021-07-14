@@ -7,7 +7,7 @@
 <br>
 {{ $start }}～{{ $finish }} {{ $title }}<br>
 <br>
-<a href="https://okeicom.com/mypage/t/lessons/edit/{{ $lesson_id }}?param=2">https://okeicom.com/mypage/t/lessons/edit/{{ $lesson_id }}</a><br>
+<a href="https://okeicom.com/lessons/detail/{{ $lesson_id }}">https://okeicom.com/lessons/detail/{{ $lesson_id }}</a><br>
 <br>
 今後ともよろしくお願いいたします。<br>
 <br>
