@@ -123,36 +123,39 @@ class StudentController extends Controller
     public function takenLessons(Request $request)
     {
         $lessons = $this->lesson->findByTakenLessonOfUsersId();
+        $user_id = Auth::id();
+        // var_dump($user_id);
 
-        // // 予約済み一覧を取得
-        // $applications = Application::where('user_id', $user_id)->where('status', 0)->get();
+        // 予約済み一覧を取得
+        $applications = Application::where('user_id', $user_id)->where('status', 0)->get();
 
-        // // 受講予定のレッスン一覧
-        // $lessons = [];
-        // // 対象のレッスン
-        // $number = count($applications);
-        // for($i = 0; $i < $number; $i++) {
-        //     // ステータスとデータが紐づくレッスン一覧を取得
-        //     $target = $this
-        //         ->lesson
-        //         ->getShowLesson($applications[$i]->lesson_id)
-        //         ->where('date', '<', $date)
-        //         // ->where('finish', '<', $time)
-        //         ->where('status', 0)
-        //         ->first();
-        //     $course_id = $target->course_id;
-        //     if($target) {
-        //         // コースIDの中での番号を取得し、連想配列に入れる
-        //         $keyIndex = $this->lesson->getLessonNumberOfCourse($course_id, $target->id);
+        // 受講予定のレッスン一覧
+        $lessons = [];
+        // 対象のレッスン
+        $number = count($applications);
+        for($i = 0; $i < $number; $i++) {
+            // ステータスとデータが紐づくレッスン一覧を取得
+            $date = Carbon::now()->format('Y-m-d');
+            $target = $this
+                ->lesson
+                ->getShowLesson($applications[$i]->lesson_id)
+                ->where('date', '<', $date)
+                // ->where('finish', '<', $time)
+                ->where('status', 0)
+                ->first();
+            $course_id = $target->course_id;
+            if($target) {
+                // コースIDの中での番号を取得し、連想配列に入れる
+                $keyIndex = $this->lesson->getLessonNumberOfCourse($course_id, $target->id);
 
-        //         // レッスン情報に数字を入れる
-        //         $target['number'] = $keyIndex;
+                // レッスン情報に数字を入れる
+                $target['number'] = $keyIndex;
 
-        //         // レッスン配列にレッスンを入れる
-        //         $lessons[] = $target;
-        //     }
-        // }
-        // array_search(3, array_column($lessons, 'id')) + 1
+                // レッスン配列にレッスンを入れる
+                $lessons[] = $target;
+            }
+        }
+        array_search(3, array_column($lessons, 'id')) + 1;
 
         return view('students.taken-lessons', compact('lessons'));
     }
